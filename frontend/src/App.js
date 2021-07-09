@@ -1,10 +1,17 @@
+import React from 'react'
+import Header from './composants/Header'
+import Footer from './composants/Footer'
+import Section from './composants/Section'
 
-
-function App() {
+const  App = () => {
   return (
-    <div className="App">
-      <h1>TakeAway Coeur Bleu</h1>
-    </div>
+    <> 
+      <Header />
+      <Section />
+      <Footer />
+    
+    </>
+      
   );
 }
 
