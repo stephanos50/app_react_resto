@@ -1,19 +1,20 @@
-import {Card, Image} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Card } from 'react-bootstrap'
 import Asses from './Assess';
 
 const Product = (props) => {
     return (
-        <Card className='my-3 text-center' border="info">
-            <a href={`/product/${props.product.id}`}>
-                <Image  className='my-3' style={{ width: '11rem' }} src= {`${props.product.image}` } roundedCircle  variant='' />
+        <Card className='my-3 p-2 text-center '>
+            <Link to={`/product/${props.product.id}`}>
+                <Card.Img  className='my-2 rounded-circle' style={{ width: '9rem' }} src= {props.product.image } />
                    
-            </a>
+            </Link>
             <Card.Body>
-                <a href={`/product/${props.product.id}`}>
+                <Link to={`/product/${props.product.id}`}>
                     <Card.Title as='div'>
                         <strong>{props.product.nom}</strong>
                     </Card.Title>
-                </a>
+                </Link>
                 <Card.Text as='div'>
                     <Asses 
                         value={props.product.evaluation}
@@ -23,9 +24,9 @@ const Product = (props) => {
                     />
                 </Card.Text>
                 <Card.Text as='h6'>
-                    <div className="my-3">
+                    
                         {props.product.prix} - Euro
-                    </div>
+                    
                 </Card.Text>
               
             </Card.Body>

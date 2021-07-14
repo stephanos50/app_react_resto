@@ -1,4 +1,4 @@
-const product = [
+const products = [
     {
         id:'1',
         nom:'Tarama',
@@ -53,4 +53,4 @@ const product = [
 
 ]
 
-export default product;
+module.exports =  products;

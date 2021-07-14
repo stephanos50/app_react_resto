@@ -1,0 +1,29 @@
+{
+  "name": "web_app_coeurbleu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stephanos50/web_app_coeurbleu.git"
+  },
+  "author": "Stefan Arvanitis",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/stephanos50/web_app_coeurbleu/issues"
+  },
+  "homepage": "https://github.com/stephanos50/web_app_coeurbleu#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "nodemon": "^2.0.12"
+  }
+}

@@ -1,5 +1,5 @@
 
-section {
+main {
     min-height: 80vh;
 }
 
@@ -10,3 +10,4 @@ h3 {
 .assess span {
     margin: 0.1rem;
 }
+

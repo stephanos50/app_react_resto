@@ -1,18 +1,28 @@
 import React from 'react'
 import Header from './composants/Header'
 import Footer from './composants/Footer'
-import Section from './composants/Section'
+import {Container} from 'react-bootstrap'
+import Home from './screens/HomeScreen'
+import Product from './screens/ProductScreen'
+import { BrowserRouter as Router, Route} from 'react-router-dom'
+
 
 const  App = () => {
   return (
-    <> 
+    <Router>  
       <Header />
-      <Section />
-      <Footer />
-    
-    </>
+        <main className="py-3">
+             <Container>
+                <Route path='/' component={Home} exact />
+                <Route path='/product/:id' component={Product} exact />
+            </Container>
+        
       
-  );
+      </main>
+      <Footer />
+    </Router>
+      
+  )
 }
 
 export default App;
