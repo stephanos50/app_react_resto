@@ -10,7 +10,7 @@ const Header = () => {
             <Container> 
               <LinkContainer to="/"> 
                 <Navbar.Brand>
-                <img src="images/logo.jpg" className="d-inline-block align-top" alt="Coeur Bleu Logo" /> 
+                <img src="/images/logo.jpg" className="d-inline-block align-top" alt="Coeur Bleu Logo" /> 
                 </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" className="toggle" />

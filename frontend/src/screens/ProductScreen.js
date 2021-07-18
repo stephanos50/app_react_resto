@@ -1,38 +1,42 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom' 
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
+import { Row, Col, ListGroup, Card, Button } from 'react-bootstrap'
 import Assess from '../composants/Assess'
 import axios from 'axios'
+import Picture from '../composants/Picture'
+import Allergene from '../composants/Allergene'
 
 
 const Product = ({match}) => {
     const [ product, setProduct] = useState({})
-
     useEffect( () => {
         const fetchProduct = async () => {
-            const { data } = await axios.get(`/api/products/${match.params.id}`)
-            setProduct(data)
+            const { data } = await axios.get(`/api/products/${match.params.id}`);
+            setProduct(data);
+
         }
-        fetchProduct()
-    }, [match])
-    
+       fetchProduct()
+    }, [match]);
     return (
         <div>
-            <Link className="btn" to='/'>
-                Retour
-            </Link>
-            <Row>
-                <Col md={3}>
-                    <Image src={product.image}  alt={product.name} width={200} />
-                </Col>
-                <Col md={4}>
+           <Link to='/' className='pb-4'>
+                <Button variant="primary">Retour</Button>
+           </Link>
+           <Row>
+                
+               
+                    <Picture picture={`${match.params.id}`} />
+                
+                <Col className="p-3" sm={12} md={6} lg={4} xl={4} className="p-3">
                     <ListGroup variant='flush'>
-                        <h5>{product.nom}</h5>
-                        <Assess value={product.evaluation} />
+                        <h5>{product.plat}</h5>
+                        <Assess 
+                            value={product.cote} 
+                        />
                         <p> Prix : {product.prix} euro</p>
                     </ListGroup>
                 </Col>
-                <Col md={3}>
+                <Col className="p-3" sm={12} md={6} lg={4} xl={3} className="p-3">
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
@@ -56,20 +60,20 @@ const Product = ({match}) => {
                     </Card>
                 </Col>
             </Row>
+
             <Row>
-                <Col md={6}>
-                    <h3>Déscription</h3>
+                <Col md={6} className="p-3">
+                    <h4>Déscription</h4>
                     <p>{product.description}</p>
                 </Col>
             </Row>
 
 
             <Row>
-            <Col  md={6}>
-                    <h3>Allergene</h3>
-                    <p>{product.allergennes}</p>
+                <Col md={6} className="p-3">
+                    <h4>Allergene</h4>
+                    <Allergene allergene={`${match.params.id}`} />
                 </Col>
-               
             </Row>
         </div>
     )

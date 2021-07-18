@@ -15,7 +15,7 @@ const  App = () => {
              <Container>
                 <Route path='/' component={Home} exact />
                 <Route path='/product/:id' component={Product} exact />
-            </Container>
+              </Container>
         
       
       </main>
