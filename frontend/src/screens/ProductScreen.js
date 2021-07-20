@@ -7,7 +7,9 @@ import Picture from '../composants/Picture'
 import Allergene from '../composants/Allergene'
 
 
+
 const Product = ({match}) => {
+   
     const [ product, setProduct] = useState({})
     useEffect( () => {
         const fetchProduct = async () => {
@@ -17,26 +19,27 @@ const Product = ({match}) => {
         }
        fetchProduct()
     }, [match]);
+
+    if (!product.Images) return null;
+    
+    
     return (
         <div>
-           <Link to='/' className='pb-4'>
+            <Link to='/' className='pb-4'>
                 <Button variant="primary">Retour</Button>
            </Link>
            <Row>
+              <Picture value={product.Images} />
                 
-               
-                    <Picture picture={`${match.params.id}`} />
-                
-                <Col className="p-3" sm={12} md={6} lg={4} xl={4} className="p-3">
+                <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
                     <ListGroup variant='flush'>
                         <h5>{product.plat}</h5>
-                        <Assess 
-                            value={product.cote} 
-                        />
+                        <Assess value={product.cote} />
                         <p> Prix : {product.prix} euro</p>
                     </ListGroup>
                 </Col>
-                <Col className="p-3" sm={12} md={6} lg={4} xl={3} className="p-3">
+
+                <Col className="p-3" sm={12} md={6} lg={4} xl={3}>
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
@@ -72,7 +75,8 @@ const Product = ({match}) => {
             <Row>
                 <Col md={6} className="p-3">
                     <h4>Allergene</h4>
-                    <Allergene allergene={`${match.params.id}`} />
+                    <Allergene value={product.Allergenes} />
+                    
                 </Col>
             </Row>
         </div>

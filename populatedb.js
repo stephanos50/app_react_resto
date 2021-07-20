@@ -152,28 +152,104 @@ async function createPlatAndAllergene(){
     { nom: 'Mollusques' },
     
   ]);
-  const [tarama, tzadziki] = await Plat.bulkCreate([
+  const [tarama, tzadziki, feta, chtipiti, fetapiquante, fava, fetagratinée,feuilles,gambas,calamars,meze ] = await Plat.bulkCreate([
     {
-      plat: 'tarama',
+      plat: 'Tarama',
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       prix:7.50,
       cote:1,
     }, 
     {
-      plat: 'tzadziki',
+      plat: 'Tzadziki',
       description: "Le tzadziki est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       prix:7.50,
       cote:2,
-    }
+    },
+    {
+      plat: 'Feta',
+      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
+      prix:8.00,
+      cote:1,
+    }, 
+    {
+      plat: 'Chtipiti',
+      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
+      prix:8.50,
+      cote:1,
+    }, 
+    {
+      plat: 'Feta piquante',
+      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
+      prix:8.50,
+      cote:1,
+    }, 
+    {
+      plat: 'Fava',
+      description: "Le Fava est une spécialité de cuisine grecque. Purée de pois cassésà ",
+      prix:8.50,
+      cote:1,
+    }, 
+    {
+      plat: 'Feta gratinée ',
+      description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
+      prix:8.50,
+      cote:1,
+    }, 
+    {
+      plat: 'Feuilles de vignes  ',
+      description: "La Feuilles de vignes maison est une spécialité de cuisine grecque. Elle est  préparée avec de la viande haché aromatisé et servi avec une  sauce citronnée  ",
+      prix:8.50,
+      cote:1,
+    }, 
+    {
+      plat: 'Gambas grillées  ',
+      description: "Le Gambas grillées  au four est une spécialité de cuisine grecque ",
+      prix:8.50,
+      cote:1,
+    }, 
+    {
+      plat: 'Calamars frits ',
+      description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
+      prix:8.50,
+      cote:1,
+    }, 
+    {
+      plat: 'Meze ',
+      description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
+      prix:8.50,
+      cote:1,
+    }, 
+
+    
   ]);
   await Promise.all([
     tarama.setCategorie([categories[0].id]),
-    tzadziki.setCategorie([categories[0].id])
+    tzadziki.setCategorie([categories[0].id]),
+    feta.setCategorie([categories[0].id]),
+    chtipiti.setCategorie([categories[0].id]),
+    fetapiquante.setCategorie([categories[0].id]), 
+    fava.setCategorie([categories[0].id]), 
+    fetagratinée.setCategorie([categories[0].id]),
+    feuilles.setCategorie([categories[0].id]),
+    gambas.setCategorie([categories[0].id]),
+    calamars.setCategorie([categories[0].id]),
+    meze.setCategorie([categories[0].id]) 
+    
+
   ]);
 
   await Promise.all([
     tarama.setAllergenes([gluten, oeufs, poissons]),
-    tzadziki.setAllergenes([arachides,lactose,celeris])
+    tzadziki.setAllergenes([arachides,lactose,celeris]),
+    feta.setAllergenes([arachides,lactose,celeris]),
+    fetapiquante.setAllergenes([arachides,lactose,celeris]),
+    fava.setAllergenes([arachides,lactose,celeris]),
+    fetagratinée.setAllergenes([arachides,lactose,celeris]),
+    feuilles.setAllergenes([arachides,lactose,celeris]),
+    gambas.setAllergenes([arachides,lactose,celeris]),
+    calamars.setAllergenes([fruits,lactose,celeris]),
+    meze.setAllergenes([fruits,lactose,celeris]),
+    
   ])
 }
 
@@ -223,6 +299,14 @@ async function createImage(){
   return Promise.all([
     imageCreate('/images/tarama.jpg',1),
     imageCreate('/images/tzatziki.jpg',2),
+    imageCreate('/images/feta.jpg',3),
+    imageCreate('/images/fetapiquante.jpg',4),
+    imageCreate('/images/fava.jpg',5),
+    imageCreate('/images/fetagratinée.jpg',6),
+    imageCreate('/images/feuilles.jpg',7),
+    imageCreate('/images/gambas.jpg',8),
+    imageCreate('/images/calamars.jpg',9),
+    imageCreate('/images/meze.jpg',10),
    
   ]);
 }

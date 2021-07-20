@@ -7,12 +7,13 @@ const Allergene = require('../models/Allergene');
 // @route GET /api/products
 // @access Public
 exports.getProducts = async function(req, res, next){
+    res.header("Access-Control-Allow-Origin", "*");
     try {
         const products = await Product.findAll({
             include: [
                  Picture,
                  Categorie,
-                 Allergene,
+                 
             ]
             
         });
@@ -26,11 +27,13 @@ exports.getProducts = async function(req, res, next){
 // @route GET /api/products/:id
 // @access Public
 exports.getProduct = async function(req, res, next){
+    res.header("Access-Control-Allow-Origin", "*");
     try {
         const product = await Product.findByPk(req.params.id, {
             include: [
                 Picture,
-                Categorie
+                Categorie,
+                Allergene
            ]
         });
         res.json(product);

@@ -3,7 +3,8 @@ import {Row, Col} from 'react-bootstrap'
 import Product from '../composants/Product'
 import axios from 'axios'
 
-const Home = () => {
+const HomeScreem = () => {
+
     const [products, setProducts] = useState([])
     useEffect(()=>{
         const fetchProducts = async () => {
@@ -15,21 +16,16 @@ const Home = () => {
     return (
         <>
             <h1 className='p-3'>Nos plats à emporté</h1>
-            
             <Row>
                 {products.map(product =>(
                     <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
-                        <Product 
-                            product={product}
-                            image={product.Images}
-                        />
+                        <Product product={product} />
                     </Col>
                     
                 ))}
             </Row>
-           
         </>
     )
 }
 
-export default Home;
+export default HomeScreem;
