@@ -8,7 +8,7 @@ const allergenController = require('../controller/allergenController');
 
 router.get('/products', productController.getProducts);
 
-router.get('/products/:id', productController.getProduct);
+router.get('/products/:id', productController.getProductById);
 
 router.get('/image/:id', pictureController.getPicture);
 
