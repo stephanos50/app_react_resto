@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom' 
 import { useDispatch, useSelector} from 'react-redux'
-import { Row, Col, ListGroup, Card, Button } from 'react-bootstrap'
+import { Row, Col, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Assess from '../composants/Assess'
 import Picture from '../composants/Picture'
 import Allergene from '../composants/Allergene'
@@ -11,17 +11,28 @@ import Message from '../composants/Message'
 
 
 
-const Product = ({match}) => {
+const Product = ({history, match}) => {
+
+    
+
+    const quantities = [0,1,2,3,4]
+   
+    const [qty, setQty] = useState(1)
 
     const dispatch = useDispatch()
 
     const productDetails = useSelector((state) => state.listProductDetails)
+
     const { loading, error, product} = productDetails
     useEffect(() => {
         dispatch(listProductDetails(match.params.id));
     }, [dispatch,match])
    
     if (!product.Images ) return null;
+
+    const addToCartHandler = () => {
+        history.push(`/panier/${match.params.id}?qty=${qty}`)
+    }
     
     
     return (
@@ -61,7 +72,34 @@ const Product = ({match}) => {
         
                                     </ListGroup.Item>
                                     <ListGroup.Item>
-                                        <Button className='btn'>
+                                        <Row>
+                                            <Col>Quantité</Col>
+                                            <Col>
+                                                <Form.Control 
+                                                    as='select' 
+                                                    value={qty} 
+                                                    onChange={(e) => setQty(e.target.value)}>
+                                                        {
+                                                            [ ...Array(quantities.length).keys()].map((x) =>(
+                                                                <option key={x + 1 } value={x + 1 }>
+                                                                    {x + 1 }
+                                                                </option>
+                                                            ))
+                                                        }
+                                                        
+
+                                                </Form.Control>
+                                            </Col>
+                                        </Row>
+
+                                    </ListGroup.Item>
+
+                                    <ListGroup.Item>
+                                        <Button 
+                                        onClick={addToCartHandler}
+                                            className='btn'
+                                            type='button'
+                                        >
                                             Ajouter au panier
                                         </Button>
                                     </ListGroup.Item>
