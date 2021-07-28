@@ -1,8 +1,8 @@
 
 import { Row,Col } from 'react-bootstrap' 
 
-const Allergene = (props) => {
-    const allergene = props.value.map((item) => ` ${item.nom}  `)
+const Allergen = (props) => {
+    const allergene = props.value.map((item) => ` ${item.name}  `)
         return(
             <Row>
                 <Col>
@@ -11,4 +11,4 @@ const Allergene = (props) => {
             </Row>
         )
 }
-export default Allergene;
+export default Allergen;

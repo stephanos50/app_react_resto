@@ -1,7 +1,7 @@
-const Categorie = require('../models/Categorie');
-const Product = require('../models/Plat');
-const Picture = require('../models/Image');
-const Allergene = require('../models/Allergene');
+const Category = require('../models/Category');
+const Product = require('../models/Product');
+const Picture = require('../models/Picture');
+const Allergen = require('../models/Allergen');
 const  asyncHandler = require ('express-async-handler')
 
 
@@ -14,7 +14,7 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
         const products = await Product.findAll({
             include: [
                  Picture,
-                 Categorie,
+                 Category,
             ]
         });
         
@@ -32,8 +32,8 @@ exports.getProductById = asyncHandler(async function(req, res){
     const product = await Product.findByPk(req.params.id, {
         include: [
             Picture,
-            Categorie,
-            Allergene
+            Category,
+            Allergen
         ]
     });
    

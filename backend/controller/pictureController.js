@@ -1,4 +1,4 @@
-const Image = require('../models/Image');
+const Image = require('../models/Picture');
 
 
 exports.getPicture = async function(req, res, next){ 

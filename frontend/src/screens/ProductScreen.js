@@ -4,7 +4,7 @@ import { useDispatch, useSelector} from 'react-redux'
 import { Row, Col, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Assess from '../composants/Assess'
 import Picture from '../composants/Picture'
-import Allergene from '../composants/Allergene'
+import Allergen from '../composants/Allergen'
 import { listProductDetails } from '../actions/productAction'
 import Loader from '../composants/Loader'
 import Message from '../composants/Message'
@@ -12,8 +12,6 @@ import Message from '../composants/Message'
 
 
 const Product = ({history, match}) => {
-
-    
 
     const quantities = [0,1,2,3,4]
    
@@ -28,12 +26,12 @@ const Product = ({history, match}) => {
         dispatch(listProductDetails(match.params.id));
     }, [dispatch,match])
    
-    if (!product.Images ) return null;
+    if (!product.pictures ) return null;
 
     const addToCartHandler = () => {
         history.push(`/panier/${match.params.id}?qty=${qty}`)
     }
-    
+    console.log(product)
     
     return (
         <>
@@ -47,11 +45,11 @@ const Product = ({history, match}) => {
             ) : (  
                 <>               
                     <Row>
-                        <Picture value={product.Images} />
+                        <Picture value={product.pictures} />
                     
                         <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
                             <ListGroup variant='flush'>
-                                <h5>{product.plat}</h5>
+                                <h5>{product.name}</h5>
                                 <Assess value={product.cote} />
                                 <p> Prix : {product.prix} euro</p>
                             </ListGroup>
@@ -120,7 +118,7 @@ const Product = ({history, match}) => {
                     <Row>
                         <Col md={6} className="p-3">
                             <h4>Allergene</h4>
-                            <Allergene value={product.Allergenes} />
+                            <Allergen value={product.Allergens} />
                             
                         </Col>
                     </Row>

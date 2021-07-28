@@ -3,23 +3,23 @@ const sequelize = require("./sequelize");
 
 
 
-class Categorie extends Model {
+class Category extends Model {
     get url() {
-        return `/categorie/${this.id}`;
+        return `/category/${this.id}`;
       }
 }
 
-Categorie.init(
+Category.init(
     {
-        categorie: { 
+        name: { 
             type: DataTypes.STRING,
             unique: true
         }
     },
     {
         sequelize,
-        modelName: 'Categorie'
+        modelName: 'category'
     }
 );
 
-module.exports = Categorie;
+module.exports = Category;

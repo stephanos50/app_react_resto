@@ -1,23 +1,22 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require('./sequelize');
-const Categorie= require('./Categorie');
+const Category = require('./Category');
 
 
-class Plat extends Model{
+class Product extends Model{
     get url() {
-        return `/plat/${this.id}` ;
+        return `/product/${this.id}` ;
     }
 }
 
-Plat.init(
+Product.init(
     {
-        plat: { 
+        name: { 
             type: DataTypes.STRING,
-        
-            
+            unique: true
         },
         description: { type: DataTypes.TEXT },
-        prix: {
+        price: {
             type: DataTypes.FLOAT,
             defaultValue: 0
         },
@@ -27,14 +26,14 @@ Plat.init(
         }
     }, {
         sequelize,
-        modelName: 'Plat'
+        modelName: 'product'
     }
 );
 
-Categorie.hasMany(Plat);
-Plat.belongsTo(Categorie);
+Category.hasMany(Product);
+Product.belongsTo(Category);
 
 
 
 
-module.exports = Plat;
+module.exports = Product;

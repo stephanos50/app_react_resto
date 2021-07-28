@@ -3,28 +3,28 @@ const sequelize = require("./sequelize");
 
 
 
-class Ville extends Model {
+class City extends Model {
     get url() {
-        return `/ville/${this.id}`;
+        return `/city/${this.id}`;
     }
 }
 
-Ville.init(
+City.init(
     {
-       nom: {
+       name: {
             type: DataTypes.STRING,
             unique: true,
         },
-        codepostal: {
+        zip: {
             type: DataTypes.INTEGER,
             allowNull:false
         },
     },
     {
         sequelize,
-        modelName:' Ville'
+        modelName:'city'
     },
 );
 
 
-module.exports = Ville;
+module.exports = City;

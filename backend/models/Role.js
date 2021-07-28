@@ -11,15 +11,14 @@ class Role extends Model{
 
 Role.init(
     {
-        role: {
+        name: {
             type: DataTypes.STRING,
-            primaryKey: true,
             unique: true,
           },
     },
     {
         sequelize,
-        modelName: 'Role',
+        modelName: 'role',
     }
 
 

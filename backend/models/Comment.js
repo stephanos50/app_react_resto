@@ -1,15 +1,15 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require('./sequelize');
-const Plat = require('./Plat');
-const Utilisateur = require('./Utilisateur');
+const Product = require('./Product');
+const User = require('./User');
 
-class Commentaire extends Model{
+class Comment extends Model{
     get url(){
         return ` /commentaire${this.id}`;
     }
 }
 
-Commentaire.init(
+Comment.init(
     {
        commentaire: {
             type: DataTypes.STRING,
@@ -25,11 +25,11 @@ Commentaire.init(
     }
 );
 
-Plat.hasMany(Commentaire);
-Commentaire.belongsTo(Plat);
+Product.hasMany(Comment);
+Comment.belongsTo(Product);
 
-Utilisateur.hasMany(Commentaire);
-Commentaire.belongsTo(Utilisateur);
+User.hasMany(Comment);
+Comment.belongsTo(User);
 
 
-module.exports = Commentaire;
+module.exports = Comment;

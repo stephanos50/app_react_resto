@@ -1,78 +1,79 @@
 const sequelize = require('./backend/models/sequelize');
-
-const Adresse = require('./backend/models/Adresse');
-const Ville = require('./backend//models/Ville');
-const Commande = require('./backend//models/Commande');
-const Role = require('./backend//models/Role');
-const Utilisateur = require('./backend//models/Utilisateur');
-const Categorie = require('./backend//models/Categorie');
-const Plat = require('./backend//models/Plat');
-const Commentaire = require('./backend//models/Commentaire');
-const LigneCommandePlat = require('./backend//models/LigneCommandePlat');
-const LigneCommandeSupplement = require('./backend//models/LigneCommandeSupplement');
-const Supplement = require('./backend//models/Supplement');
-const Allergene = require('./backend//models/Allergene');
-const Image = require('./backend/models/Image');
+const { v4: uuidv4 } = require('uuid');
+const Address = require('./backend/models/Address');
+const City = require('./backend/models/City');
+const Order = require('./backend/models/Order');
+const Role = require('./backend/models/Role');
+const User = require('./backend/models/User');
+const Category = require('./backend/models/Category');
+const Product = require('./backend/models/Product');
+const Comment = require('./backend/models/Comment');
+const ProductOrder = require('./backend/models/ProductOrdrer');
+const SupplementOrder = require('./backend/models/SupplementOrder');
+const Supplement = require('./backend/models/Supplement');
+const Allergen = require('./backend/models/Allergen');
+const Picture = require('./backend/models/Picture');
 
 
 let categories = [];
-let villes = [];
+let cities = [];
 let supplements = [];
-let commandes = [];
-let adresses = [];
+let orders = [];
+let addresses = [];
 
-let images = [];
+let pictures = [];
 
-async function imageCreate(url,id){
+async function pictureCreate(url){
   imageDetail = {
-    image: url
+    url: url
   }
-  const image = await Image.create(imageDetail);
-  console.log('Nouvelle image' + image.id);
-  await image.setDataValue('PlatId', image.id);
-  await image.save();
-  images.push(image);
-  return image;
+  const picture = await Picture.create(imageDetail);
+  console.log('Nouvelle image' + picture.id);
+  await picture.setDataValue('PlatId', picture.id);
+  await picture.save();
+  pictures.push(picture);
+  return picture;
 }
 
 
 
-async function adresseCreate(nom,numero,etage,ville){
+async function addressCreate(nom,numero,etage,ville){
   adresseDetail = {
-    nom: nom,
-    numero: numero,
-    etage: etage,
+    name: nom,
+    number: numero,
+    floor: etage,
   }
 
-  const adresse = await Adresse.create(adresseDetail);
-  console.log('Nouvelle Adresse' + adresse.id);
-  await adresse.setDataValue('VilleId', ville);
-  await adresse.save();
-  adresses.push(adresseDetail);
-  return adresse;
+  const address = await Address.create(adresseDetail);
+  console.log('Nouvelle Adresse' + address.id);
+  await address.setDataValue('VilleId', ville);
+  await address.save();
+  addresses.push(adresseDetail);
+  return address;
 };
 
 
-async function commendeCreate(total,status,date,adresse,mail){
+async function orderCreate(total,status,date,adresse,mail){
     commandeDetail = {
         total:total,
         status:status,
         date:date,
     }
-    const commande = await Commande.create(commandeDetail);
-    console.log('Nouvelle commande' + commande.id);
-    console.log(adresse);
-    await commande.setAdresse(adresse);
-    await commande.setUtilisateur(mail);
-    commandes.push(commandeDetail);
-    return commande;
+    const order = await Order.create(commandeDetail);
+    console.log('Nouvelle commande' + order.id);
+    
+    await order.setDataValue('addressId', adresse);
+    await order.setDataValue('userId',mail);
+    await order.save();
+    orders.push(commandeDetail);
+    return order;
 };
 
 
 async function supplementCreate(nom, prix){
   supplementDetail = {
-    nom: nom,
-    prix: prix,
+    name: nom,
+    price: prix,
   }
 
   const supplement = await Supplement.create(supplementDetail);
@@ -81,199 +82,184 @@ async function supplementCreate(nom, prix){
   return supplement;
 };
 
-async function villeCreate(nom, codepostal){
+async function cityCreate(nom, codepostal){
   villeDetail = {
-    nom: nom,
-    codepostal: codepostal
+    name: nom,
+    zip: codepostal
   }
-  const ville = await Ville.create(villeDetail);
-  console.log('Nouvelle ville' + ville.id);
-  villes.push(ville);
-  return ville;
+  const city = await City.create(villeDetail);
+  console.log('Nouvelle ville' + city.id);
+  cities.push(city);
+  return city;
 };
 
 
 
-async function categorieCreate(nom){
+async function categoryCreate(nom){
   categorieDetail = {
-    categorie : nom
+    name : nom
   }  
-  const categorie = await Categorie.create(categorieDetail);
-  console.log("Nouvelle categorie " + categorie.id);
-  categories.push(categorie);
-  return categorie;
+  const category = await Category.create(categorieDetail);
+  console.log("Nouvelle categorie " + category.id);
+  categories.push(category);
+  return category;
 };
 
-async function createUtilisateur(){
+async function createUsers(){
     const [administrateur, client] = await Role.bulkCreate([
-      { role: "administrateur" },
-      { role: "client" },
+      { name: "administrateur" },
+      { name: "client" },
       
     ]);
 
-    const [admin,arvanitis] =  await Utilisateur.bulkCreate([
+    const [stefan,nicolas] =  await User.bulkCreate([
       {
-        nom: 'admin',
-        prenom: 'stefan',
+        _uuid: uuidv4(),
+        username: 'stefan@exemple.be',
+        first_name: 'arvanitis',
+        family_name: 'stefan',
         email: 'stefan@exemple.be',
-        mot_de_passe: '123'
+        password: '123'
       },
       {
-        nom: 'arvanitis',
-        prenom: 'nico',
-        email: 'nico@exemple.be',
-        mot_de_passe: '123'
+        _uuid: uuidv4(),
+        username: 'nicola@exemple.be',
+        first_name: 'arvanitis',
+        family_name: 'nicolas',
+        email: 'nicola@exemple.be',
+        password: '123'
       }
     ]);
 
     await Promise.all([
-      admin.setRoles([administrateur]),
-      arvanitis.setRoles([client])
+      stefan.setRoles([administrateur]),
+      nicolas.setRoles([client])
       
     ]);
 };
 
-async function createPlatAndAllergene(){
+async function createProducts(){
 
-  const [gluten,crustaces,oeufs,poissons,arachides,soja,lactose,celeris,fruits,moutarde,graines,Anhydride,Lupin,Mollusques ] = await Allergene.bulkCreate([
-    { nom: 'Gluten' },
-    { nom: 'Crustacés' },
-    { nom: 'Oeufs' },
-    { nom: 'Poissons' },
-    { nom: 'Arachides' },
-    { nom: 'Soja' },
-    { nom: 'lactose' },
-    { nom: 'Celeris' },
-    { nom: "Fruits à coque" },
-    { nom: 'Moutarde' },
-    { nom: 'Graines grillées' },
-    { nom: ' Anhydride sulfureux' },
-    { nom: 'Lupin' },
-    { nom: 'Mollusques' },
+  const [gluten,crustaces,oeufs,poissons,arachides,soja,lactose,celeris,fruits,moutarde,graines,Anhydride,Lupin,Mollusques ] = await Allergen.bulkCreate([
+    { name: 'Gluten' },
+    { name: 'Crustacés' },
+    { name: 'Oeufs' },
+    { name: 'Poissons' },
+    { name: 'Arachides' },
+    { name: 'Soja' },
+    { name: 'lactose' },
+    { name: 'Celeris' },
+    { name: "Fruits à coque" },
+    { name: 'Moutarde' },
+    { name: 'Graines grillées' },
+    { name: ' Anhydride sulfureux' },
+    { name: 'Lupin' },
+    { name: 'Mollusques' },
     
   ]);
-  const [tarama, tzadziki, feta, chtipiti, fetapiquante, fava, fetagratinée,feuilles,gambas,calamars,meze ] = await Plat.bulkCreate([
+  const [tarama, tzadziki, feta,  fetapiquante, fava, fetagratinée,feuilles,gambas,calamars,meze ] = await Product.bulkCreate([
     {
-      plat: 'Tarama',
+      name: 'Tarama',
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
-      prix:7.50,
+      price:7.50,
       cote:1,
     }, 
     {
-      plat: 'Tzadziki',
+      name: 'Tzadziki',
       description: "Le tzadziki est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
-      prix:7.50,
+      price:7.50,
       cote:2,
     },
     {
-      plat: 'Feta',
+      name: 'Feta',
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
-      prix:8.00,
+      price:8.00,
+      cote:1,
+    }, 
+    
+    {
+      name: 'Feta piquante',
+      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
+      price:8.50,
       cote:1,
     }, 
     {
-      plat: 'Chtipiti',
-      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
-      prix:8.50,
-      cote:1,
-    }, 
-    {
-      plat: 'Feta piquante',
-      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
-      prix:8.50,
-      cote:1,
-    }, 
-    {
-      plat: 'Fava',
+      name: 'Fava',
       description: "Le Fava est une spécialité de cuisine grecque. Purée de pois cassésà ",
-      prix:8.50,
+      price:8.50,
       cote:1,
     }, 
     {
-      plat: 'Feta gratinée ',
+      name: 'Feta gratinée ',
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
-      prix:8.50,
+      price:8.50,
       cote:1,
     }, 
     {
-      plat: 'Feuilles de vignes  ',
+      name: 'Feuilles de vignes  ',
       description: "La Feuilles de vignes maison est une spécialité de cuisine grecque. Elle est  préparée avec de la viande haché aromatisé et servi avec une  sauce citronnée  ",
-      prix:8.50,
+      price:8.50,
       cote:1,
     }, 
     {
-      plat: 'Gambas grillées  ',
+      name: 'Gambas grillées  ',
       description: "Le Gambas grillées  au four est une spécialité de cuisine grecque ",
-      prix:8.50,
+      price:8.50,
       cote:1,
     }, 
     {
-      plat: 'Calamars frits ',
+      name: 'Calamars frits ',
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
-      prix:8.50,
+      price:8.50,
       cote:1,
     }, 
     {
-      plat: 'Meze ',
+      name: 'Meze ',
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
-      prix:8.50,
+      price:8.50,
       cote:1,
     }, 
 
     
   ]);
-  await Promise.all([
-    tarama.setCategorie([categories[0].id]),
-    tzadziki.setCategorie([categories[0].id]),
-    feta.setCategorie([categories[0].id]),
-    chtipiti.setCategorie([categories[0].id]),
-    fetapiquante.setCategorie([categories[0].id]), 
-    fava.setCategorie([categories[0].id]), 
-    fetagratinée.setCategorie([categories[0].id]),
-    feuilles.setCategorie([categories[0].id]),
-    gambas.setCategorie([categories[0].id]),
-    calamars.setCategorie([categories[0].id]),
-    meze.setCategorie([categories[0].id]) 
-    
 
-  ]);
 
   await Promise.all([
-    tarama.setAllergenes([gluten, oeufs, poissons]),
-    tzadziki.setAllergenes([arachides,lactose,celeris]),
-    feta.setAllergenes([arachides,lactose,celeris]),
-    fetapiquante.setAllergenes([arachides,lactose,celeris]),
-    fava.setAllergenes([arachides,lactose,celeris]),
-    fetagratinée.setAllergenes([arachides,lactose,celeris]),
-    feuilles.setAllergenes([arachides,lactose,celeris]),
-    gambas.setAllergenes([arachides,lactose,celeris]),
-    calamars.setAllergenes([fruits,lactose,celeris]),
-    meze.setAllergenes([fruits,lactose,celeris]),
+    tarama.setAllergens([gluten, oeufs, poissons]),
+    tzadziki.setAllergens([arachides,lactose,celeris]),
+    feta.setAllergens([arachides,lactose,celeris]),
+    fetapiquante.setAllergens([arachides,lactose,celeris]),
+    fava.setAllergens([arachides,lactose,celeris]),
+    fetagratinée.setAllergens([arachides,lactose,celeris]),
+    feuilles.setAllergens([arachides,lactose,celeris]),
+    gambas.setAllergens([arachides,lactose,celeris]),
+    calamars.setAllergens([fruits,lactose,celeris]),
+    meze.setAllergens([fruits,lactose,celeris]),
     
   ])
 }
 
-async function createCategorie(){
+async function createCategories(){
   return Promise.all([
-    categorieCreate('entrée'),
-    categorieCreate('scampis'),
-    categorieCreate('salade'),
-    categorieCreate('plat'),
-    categorieCreate('spécialité'),
+    categoryCreate('entrée'),
+    categoryCreate('scampis'),
+    categoryCreate('salade'),
+    categoryCreate('plat'),
+    categoryCreate('spécialité'),
   ]);
 };
 
 
-async function createVille(){
+async function createCities(){
   return Promise.all([
-    villeCreate('Bruxelles', 1000),
-    villeCreate('Ixelles', 1050),
-    villeCreate('Drogenbos', 1200),
-    villeCreate('Audergem', 1300),
+    cityCreate('Bruxelles', 1000),
+    cityCreate('Ixelles', 1050),
+    cityCreate('Drogenbos', 1200),
+    cityCreate('Audergem', 1300),
   ]);
 };
 
-async function createSupplement(){
+async function createSupplements(){
   return Promise.all([
     supplementCreate('frite', 5.0),
     supplementCreate('salade', 5.0),
@@ -282,33 +268,65 @@ async function createSupplement(){
   ]);
 };
 
-async function createCommande(){
+async function createOrdes(){
   return Promise.all([
-      commendeCreate(22,false,'2021-01-05',1,'nico@exemple.be')
+      orderCreate(22,false,'2021-01-05',1,1)
      
   ]);
 };
 
-async function createAdresse(){
+async function createAddresses(){
   return Promise.all([
-    adresseCreate("chaussée d'Anvers",154,5,1)
+    addressCreate("chaussée d'Anvers",154,5,1)
    ]);
 };
 
-async function createImage(){
+async function createPictures(){
   return Promise.all([
-    imageCreate('/images/tarama.jpg',1),
-    imageCreate('/images/tzatziki.jpg',2),
-    imageCreate('/images/feta.jpg',3),
-    imageCreate('/images/fetapiquante.jpg',4),
-    imageCreate('/images/fava.jpg',5),
-    imageCreate('/images/fetagratinée.jpg',6),
-    imageCreate('/images/feuilles.jpg',7),
-    imageCreate('/images/gambas.jpg',8),
-    imageCreate('/images/calamars.jpg',9),
-    imageCreate('/images/meze.jpg',10),
+    pictureCreate('/images/tarama.jpg',1),
+    pictureCreate('/images/tzatziki.jpg',2),
+    pictureCreate('/images/feta.jpg',3),
+    pictureCreate('/images/fetapiquante.jpg',4),
+    pictureCreate('/images/fava.jpg',5),
+    pictureCreate('/images/fetagratinée.jpg',6),
+    pictureCreate('/images/feuilles.jpg',7),
+    pictureCreate('/images/gambas.jpg',8),
+    pictureCreate('/images/calamars.jpg',9),
+    pictureCreate('/images/meze.jpg',10),
    
   ]);
+}
+
+async function addCategories(){
+    try {
+        const products = await Product.findAll();
+        products.forEach((element, index) =>{
+            if(element.categoryId === null){
+              element.setDataValue('categoryId', 1);
+              element.save()
+            } 
+        });
+       
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function addPictures(){
+  
+  try {
+    const pictures = await Picture.findAll();
+    
+    pictures.forEach((element, index) =>{
+      if(element.productId === null){
+        element.setDataValue('productId', index+1);
+        element.save();
+        } 
+      });
+    } catch (error) {
+      console.log(error)
+  } 
 }
 
 
@@ -318,15 +336,22 @@ async function createImage(){
 (async () => {
   try {
     await sequelize.sync({ force: true });
-    await createUtilisateur();
+    const pictures = await createPictures();
+    await createUsers();
     
-    const villes = await createVille();    
-    const categories = await createCategorie();
-    createPlatAndAllergene();
-    const supplements = await createSupplement();
-    const adresses = await createAdresse();
-    const commandes = await createCommande();
-    const images = await createImage();
+    const cities = await createCities();    
+    const categories = await createCategories();
+    await createProducts();
+    await addCategories();
+    await addPictures();
+    
+    const supplements = await createSupplements();
+    const addresses = await createAddresses();
+    const oreders = await createOrdes();
+    
+
+   
+   
 
     
     sequelize.close();

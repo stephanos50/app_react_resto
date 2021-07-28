@@ -10,12 +10,12 @@ class Supplement extends Model{
 
 Supplement.init(
     {
-        nom: {
+        name: {
             type: DataTypes.STRING,
             unique: true
             
         },
-        prix:{
+        price:{
             type: DataTypes.DOUBLE,
             defaultValue: 0,
             allowNull:false,
@@ -23,7 +23,7 @@ Supplement.init(
     }, 
     {
         sequelize,
-        modelName: 'Supplement'
+        modelName: 'supplement'
     }
 );
 

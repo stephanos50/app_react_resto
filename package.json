@@ -20,11 +20,13 @@
   },
   "homepage": "https://github.com/stephanos50/web_app_coeurbleu#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "uuidv4": "^6.2.11"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",

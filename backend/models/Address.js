@@ -1,40 +1,40 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("./sequelize");
-const Ville = require('./Ville');
+const City = require('./City');
 
 
-class Adresse extends Model{
+class Address extends Model{
     get url() {
-        return `/adresse/${this.id}`;
+        return `/address/${this.id}`;
     }
 }
 
-Adresse.init(
+Address.init(
     {
         
-        nom: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        numero: {
+        number: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        etage: {
+        floor: {
             type: DataTypes.INTEGER,
             allowNull:false
         } 
     },
     { 
         sequelize, 
-        modelName: 'Adresse'
+        modelName: 'address'
     }
 );
 
 
-Ville.hasMany(Adresse);
-Adresse.belongsTo(Ville);
+City.hasMany(Address);
+Address.belongsTo(City);
 
 
 
-module.exports = Adresse;
+module.exports = Address;

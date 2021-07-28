@@ -1,15 +1,15 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require('./sequelize');
-const Adresse = require('./Adresse');
-const Utilisateur = require('./Utilisateur');
+const Address = require('./Address');
+const User = require('./User');
 
-class Commande extends Model{
+class Order extends Model{
     get url(){
-        return `/commande/${this.id}`;
+        return `/order/${this.id}`;
     }
 }
 
-Commande.init(
+Order.init(
     {
         total: {
             type: DataTypes.FLOAT,
@@ -28,17 +28,17 @@ Commande.init(
     },
     {
         sequelize,
-        modelName:'Commande',
+        modelName:'order',
     },
 );
 
-Commande.belongsTo(Adresse);
-Adresse.hasMany(Commande);
+Order.belongsTo(Address);
+Address.hasMany(Order);
 
-Commande.belongsTo(Utilisateur);
-Utilisateur.hasMany(Commande);
+Order.belongsTo(User);
+User.hasMany(Order);
 
 
-module.exports = Commande;
+module.exports = Order;
 
 

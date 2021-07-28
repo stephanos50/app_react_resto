@@ -1,11 +1,11 @@
-const Allergen = require('../models/Allergene');
-const Plat = require('../models/Plat');
+const Allergen = require('../models/Allergen');
+const Product = require('../models/Product');
 
 
 exports.getAllergen = async function(req,res,next){
     
     try {
-        const allergen = await Plat.findOne({
+        const allergen = await Product.findOne({
             where: {id: req.params.id},
             include: [Allergen]
         
