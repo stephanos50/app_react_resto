@@ -13,7 +13,7 @@ const Product = (props) => {
                     props.product.pictures.map((item) => 
                     
                      <Col key={item.id} sm={12} md={12} lg={12} xl={12} >
-                        <Card.Img style={{ width: '8rem' }} src= {item.url } className='rounded-circle py-10' />
+                        <Card.Img style={{ width: '8rem' }} src= {item.path } className='rounded-circle py-10' />
                     </Col>
                     )
                 }

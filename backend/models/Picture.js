@@ -11,7 +11,7 @@ class Picture extends Model{
 
 Picture.init(
     {
-        url: {
+        path: {
             type: DataTypes.STRING
         }
     },

@@ -13,6 +13,8 @@ const SupplementOrder = require('./backend/models/SupplementOrder');
 const Supplement = require('./backend/models/Supplement');
 const Allergen = require('./backend/models/Allergen');
 const Picture = require('./backend/models/Picture');
+const bcrypt = require("bcrypt");
+
 
 
 let categories = [];
@@ -20,12 +22,12 @@ let cities = [];
 let supplements = [];
 let orders = [];
 let addresses = [];
-
 let pictures = [];
 
-async function pictureCreate(url){
+
+async function pictureCreate(path){
   imageDetail = {
-    url: url
+    path: path
   }
   const picture = await Picture.create(imageDetail);
   console.log('Nouvelle image' + picture.id);
@@ -37,16 +39,17 @@ async function pictureCreate(url){
 
 
 
-async function addressCreate(nom,numero,etage,ville){
+async function addressCreate(nom,numero,etage,ville,email){
   adresseDetail = {
     name: nom,
     number: numero,
     floor: etage,
+    userEmail: email
   }
 
   const address = await Address.create(adresseDetail);
   console.log('Nouvelle Adresse' + address.id);
-  await address.setDataValue('VilleId', ville);
+  await address.setDataValue('cityId', ville);
   await address.save();
   addresses.push(adresseDetail);
   return address;
@@ -106,6 +109,9 @@ async function categoryCreate(nom){
 };
 
 async function createUsers(){
+
+    const stefan_password = await bcrypt.hash('root',10)
+    const nicolas_password = await bcrypt.hash('root',10)
     const [administrateur, client] = await Role.bulkCreate([
       { name: "administrateur" },
       { name: "client" },
@@ -115,19 +121,17 @@ async function createUsers(){
     const [stefan,nicolas] =  await User.bulkCreate([
       {
         _uuid: uuidv4(),
-        username: 'stefan@exemple.be',
         first_name: 'arvanitis',
         family_name: 'stefan',
         email: 'stefan@exemple.be',
-        password: '123'
+        passwordHash: stefan_password
       },
       {
         _uuid: uuidv4(),
-        username: 'nicola@exemple.be',
         first_name: 'arvanitis',
         family_name: 'nicolas',
         email: 'nicola@exemple.be',
-        password: '123'
+        passwordHash: nicolas_password
       }
     ]);
 
@@ -157,7 +161,7 @@ async function createProducts(){
     { name: 'Mollusques' },
     
   ]);
-  const [tarama, tzadziki, feta,  fetapiquante, fava, fetagratinée,feuilles,gambas,calamars,meze ] = await Product.bulkCreate([
+  const [tarama, tzadziki, feta, gambas,calamars,meze ] = await Product.bulkCreate([
     {
       name: 'Tarama',
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
@@ -177,30 +181,7 @@ async function createProducts(){
       cote:1,
     }, 
     
-    {
-      name: 'Feta piquante',
-      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
-      price:8.50,
-      cote:1,
-    }, 
-    {
-      name: 'Fava',
-      description: "Le Fava est une spécialité de cuisine grecque. Purée de pois cassésà ",
-      price:8.50,
-      cote:1,
-    }, 
-    {
-      name: 'Feta gratinée ',
-      description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
-      price:8.50,
-      cote:1,
-    }, 
-    {
-      name: 'Feuilles de vignes  ',
-      description: "La Feuilles de vignes maison est une spécialité de cuisine grecque. Elle est  préparée avec de la viande haché aromatisé et servi avec une  sauce citronnée  ",
-      price:8.50,
-      cote:1,
-    }, 
+   
     {
       name: 'Gambas grillées  ',
       description: "Le Gambas grillées  au four est une spécialité de cuisine grecque ",
@@ -228,10 +209,6 @@ async function createProducts(){
     tarama.setAllergens([gluten, oeufs, poissons]),
     tzadziki.setAllergens([arachides,lactose,celeris]),
     feta.setAllergens([arachides,lactose,celeris]),
-    fetapiquante.setAllergens([arachides,lactose,celeris]),
-    fava.setAllergens([arachides,lactose,celeris]),
-    fetagratinée.setAllergens([arachides,lactose,celeris]),
-    feuilles.setAllergens([arachides,lactose,celeris]),
     gambas.setAllergens([arachides,lactose,celeris]),
     calamars.setAllergens([fruits,lactose,celeris]),
     meze.setAllergens([fruits,lactose,celeris]),
@@ -277,7 +254,8 @@ async function createOrdes(){
 
 async function createAddresses(){
   return Promise.all([
-    addressCreate("chaussée d'Anvers",154,5,1)
+    addressCreate("Boulevard d'Anvers",154,5,1, 'stefan@exemple.be'),
+    addressCreate("Rue de l'église Saint Anne",3,1,1, 'nicola@exemple.be')
    ]);
 };
 
@@ -286,10 +264,6 @@ async function createPictures(){
     pictureCreate('/images/tarama.jpg',1),
     pictureCreate('/images/tzatziki.jpg',2),
     pictureCreate('/images/feta.jpg',3),
-    pictureCreate('/images/fetapiquante.jpg',4),
-    pictureCreate('/images/fava.jpg',5),
-    pictureCreate('/images/fetagratinée.jpg',6),
-    pictureCreate('/images/feuilles.jpg',7),
     pictureCreate('/images/gambas.jpg',8),
     pictureCreate('/images/calamars.jpg',9),
     pictureCreate('/images/meze.jpg',10),
@@ -341,10 +315,9 @@ async function addPictures(){
     
     const cities = await createCities();    
     const categories = await createCategories();
-    await createProducts();
-    await addCategories();
-    await addPictures();
-    
+    const products = await createProducts();
+    const product_category = await addCategories();
+    const product_image = await addPictures();
     const supplements = await createSupplements();
     const addresses = await createAddresses();
     const oreders = await createOrdes();
