@@ -13,13 +13,14 @@ Order.init(
     {
         total: {
             type: DataTypes.FLOAT,
-            defaultValue:0,
+            
             allowNull: false,
+            
         },
         status:{
             type: DataTypes.BOOLEAN,
-            defaultValue:0,
             allowNull: false,
+            defaultValue: true
         },
         date:{
             type:DataTypes.DATEONLY,

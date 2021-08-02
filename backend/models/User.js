@@ -6,20 +6,20 @@ const Address = require('./Address');
 
 class User extends Model {
     get url() {
-        return `/user/${this.id}`;
+        return `/user/${this._uuid}`;
     }
 
     async validPassword(passwordToTest) {
-        return bcrypt.compare(passwordToTest, this.passwordHash);
+        return  await bcrypt.compare(passwordToTest, this.passwordHash);
       }
 }
 
 User.init(
     {
         _uuid: { type: UUID , isUUID: 4, unique: true},
-        first_name: { type: DataTypes.STRING, defaultValue: false},
-        family_name: { type: DataTypes.STRING, defaultValue: false},
-        email: { type: DataTypes.STRING, isEmail: true, primaryKey: true },
+        first_name: { type: DataTypes.STRING, allowNull: false},
+        last_name: { type: DataTypes.STRING, allowNull: false},
+        email: { type: DataTypes.STRING, primaryKey: true, isEmail: true },
         passwordHash: DataTypes.STRING,
        
     },

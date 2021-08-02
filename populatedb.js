@@ -121,15 +121,15 @@ async function createUsers(){
     const [stefan,nicolas] =  await User.bulkCreate([
       {
         _uuid: uuidv4(),
-        first_name: 'arvanitis',
-        family_name: 'stefan',
+        first_name: 'stefan',
+        last_name: 'arvanitis',
         email: 'stefan@exemple.be',
         passwordHash: stefan_password
       },
       {
         _uuid: uuidv4(),
-        first_name: 'arvanitis',
-        family_name: 'nicolas',
+        first_name: 'nicola',
+        last_name: 'arvanitis',
         email: 'nicola@exemple.be',
         passwordHash: nicolas_password
       }
@@ -247,7 +247,7 @@ async function createSupplements(){
 
 async function createOrdes(){
   return Promise.all([
-      orderCreate(22,false,'2021-01-05',1,1)
+      orderCreate(12,false,'2021-01-05',1,1)
      
   ]);
 };

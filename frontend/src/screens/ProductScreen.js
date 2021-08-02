@@ -29,9 +29,9 @@ const Product = ({history, match}) => {
     if (!product.pictures ) return null;
 
     const addToCartHandler = () => {
-        history.push(`/panier/${match.params.id}?qty=${qty}`)
+        history.push(`/cart/${match.params.id}?qty=${qty}`)
     }
-    console.log(product)
+    
     
     return (
         <>

@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Role = require('../models/Role');
 const Address = require('../models/Address');
+const City = require('../models/City')
 const  asyncHandler = require ('express-async-handler')
 
 const token = require('../utils/generateToken')
@@ -8,13 +9,37 @@ const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid');
 const saltRounds = 10;
 
+// @desc Autehtification user && get token
+// @route POST /api/users/login
+// @access Public
+exports.authUser = asyncHandler(async (req, res) => {
+    
+    const { email, password } = req.body
+    
+    const user = await User.findByPk(email, {include: Role})
+    
+    if(user && await user.validPassword(password)){
+        res.json({
+            _uuid: user._uuid,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            role: user.roles.map((role) => role.name),
+            token: token.generateToken(user._uuid)
+        })
+    } else {
+        res.status(401)
+        throw new Error('Invlid email or password')
+    }
+})
 
 // @desc Register a new User user && get token
 // @route POST /api/users
 // @access Public
 exports.registerUser = asyncHandler(async (req, res) => {
 
-    const { first_name,family_name, email,name, number, floor, password } = req.body;
+    const { first_name,last_name, email, password } = req.body
+    
     const userExists = await User.findOne({
         where: {
             email:email
@@ -27,93 +52,71 @@ exports.registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
         _uuid: uuidv4(),
         first_name: first_name,
-        family_name: family_name,
+        last_name: last_name,
         email: email,
-        passwordHash:  await bcrypt.hash(password,saltRounds)
+        passwordHash: await bcrypt.hash(password,saltRounds)
     })
-    await user.setRoles([1]);
-    
-    const address = await Address.create({
-        name: name,
-        number: number,
-        floor: floor,
-        userEmail: email
-    })
-    await user.save();
-    
-    
+    await user.setRoles([2]);
     if(user){
         res.status(201).json({
             _uuid: user._uuid,
             first_name: first_name,
-            family_name:family_name,
+            last_name:last_name,
             email: email,
-            name: name,
-            number: number,
-            floor: floor,
-            userEmail: email,
             token: token.generateToken(user._uuid)
         })
-       
-        
-       
-        
-    } else {
+        } else {
         res.status(400)
         throw new Error('Invalide user data')
     }
-
-    
 })
-
-
-
-// @desc Autehtification user && get token
-// @route POST /api/users/login
-// @access Public
-exports.authUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({where:{email:email}, include: Role})
-    const validated = await user.validPassword(password);
-    
-    if(user && validated){
-        res.json({
-            _uuid: user._uuid,
-            username: user.username,
-            email: user.email,
-            role: user.roles.map((role) => role.name),
-            token: token.generateToken(user._uuid)
-        })
-    } else {
-        res.status(401)
-        throw new Error('Invlid email or password')
-    }
-
-    
-})
-
-
 
 // @desc   Get user profile
 // @route  Get /api/users/profile
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
-    const uuid = req.user.id;
-    const user = await User.findOne( {uuid,include: Role})
-    console.log(user)
+    const uuid = req.body.id
+    const user = await User.findOne(uuid)
+    
     if (user) {
         res.json({
             _uuid: user._uuid,
-            username: user.username,
+            first_name : user.first_name,
+            last_name : user.last_name,
             email: user.email,
-            role: user.roles.map((role) => role.name)
-            
-           
         })
     } else {
-        res.status(401)
+        res.status(404)
         throw new Error('User not found ')
     }
+})
+
+// @desc   Update user profile
+// @route  PUT /api/users/profile
+// @access Private
+exports.updateUserProfile = asyncHandler(async (req, res) => {
     
+    const user = await User.findByPk(req.body.email)
     
+    if (user) {
+        user.first_name = req.body.first_name || user.first_name
+        user.last_name = req.body.last_name || user.last_name
+        user.email = req.body.email || user.email
+        
+        if(req.body.password){
+            user.password = req.body.password 
+        }
+        const updateUser = await user.save()
+        
+        res.json({
+            _uuid : updateUser.uuid,
+            first_name: updateUser.first_name,
+            last_name: updateUser.last_name,
+            email: updateUser.email,
+            token: token.generateToken(updateUser._uuid)
+        })
+    } else {
+        res.status(404)
+        throw new Error('User not found ')
+    }
 })
