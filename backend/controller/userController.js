@@ -16,15 +16,21 @@ exports.authUser = asyncHandler(async (req, res) => {
     
     const { email, password } = req.body
     
-    const user = await User.findByPk(email, {include: Role})
+    const user = await User.findOne({
+        where: {email:email }, 
+        include: Role
+    })
+
+    const city = await City.findAll()
     
-    if(user && await user.validPassword(password)){
+    if( user && await user.validPassword(password)){
         res.json({
-            _uuid: user._uuid,
+            
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
             role: user.roles.map((role) => role.name),
+            city:city,
             token: token.generateToken(user._uuid)
         })
     } else {
@@ -96,7 +102,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 // @access Private
 exports.updateUserProfile = asyncHandler(async (req, res) => {
     
-    const user = await User.findByPk(req.body.email)
+    const user = await User.findByPk(req.body.id)
     
     if (user) {
         user.first_name = req.body.first_name || user.first_name

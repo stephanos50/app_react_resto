@@ -2,6 +2,7 @@
 import { Row,Col } from 'react-bootstrap' 
 
 const Allergen = (props) => {
+   
     const allergene = props.value.map((item) => ` ${item.name}  `)
         return(
             <Row>

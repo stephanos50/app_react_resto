@@ -33,76 +33,63 @@ const Product = ({history, match}) => {
     }
     
     
-    return (
+    return ( 
         <>
-            <Link to='/' className='pb-4'>
-                <Button variant="primary">Retour</Button>
-           </Link>
-           {loading ? (
-                <Loader />
-            ) : error ? (
-                <Message variant='danger'>{error}</Message>
-            ) : (  
-                <>               
-                    <Row>
-                        <Picture value={product.pictures} />
-                    
-                        <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
-                            <ListGroup variant='flush'>
-                                <h5>{product.name}</h5>
-                                <Assess value={product.cote} />
-                                <p> Prix : {product.prix} euro</p>
-                            </ListGroup>
-                        </Col>
+        <Link to='/' className='pb-4'>
+            <Button variant="primary">Retour</Button>
+        </Link>
+        {loading ? (
+            <Loader />
+        ) : error ? (
+            <Message variant='danger'>{error}</Message>
+        ) : (
+            <>  
+            <Row>
+                <Picture value={product.pictures} />
+                    <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
+                        <ListGroup variant='flush'>
+                            <h5>{product.name}</h5>
+                            <Assess value={product.cote} />
+                            <p> Prix : {product.prix} euro</p>
+                        </ListGroup>
+                    </Col>
     
-                        <Col className="p-3" sm={12} md={6} lg={4} xl={3}>
-                            <Card>
-                                <ListGroup variant='flush'>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col>
-                                                Price:
-                                            </Col>
-                                            <Col>
-                                                <strong>{product.prix}</strong> euro
-                                            </Col>
-                                        </Row>
-        
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col>Quantité</Col>
-                                            <Col>
-                                                <Form.Control 
-                                                    as='select' 
-                                                    value={qty} 
-                                                    onChange={(e) => setQty(e.target.value)}>
-                                                        {
-                                                            [ ...Array(quantities.length).keys()].map((x) =>(
-                                                                <option key={x + 1 } value={x + 1 }>
-                                                                    {x + 1 }
-                                                                </option>
+                    <Col className="p-3" sm={12} md={6} lg={4} xl={3}>
+                        <Card>
+                            <ListGroup variant='flush'>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col> Price: </Col>
+                                        <Col> <strong>{product.prix}</strong> euro </Col>
+                                    </Row>
+                                </ListGroup.Item>
+
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Quantité</Col>
+                                        <Col>
+                                            <Form.Control 
+                                                as='select' 
+                                                value={qty} 
+                                                onChange={(e) => setQty(e.target.value)}>
+                                                    {
+                                                        [ ...Array(quantities.length).keys()].map((x) =>(
+                                                            <option key={x + 1 } value={x + 1 }> {x + 1 } </option>
                                                             ))
-                                                        }
-                                                        
+                                                    }
+                                            </Form.Control>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
 
-                                                </Form.Control>
-                                            </Col>
-                                        </Row>
-
-                                    </ListGroup.Item>
-
-                                    <ListGroup.Item>
-                                        <Button 
+                                <ListGroup.Item>
+                                    <Button 
                                         onClick={addToCartHandler}
                                             className='btn'
                                             type='button'
-                                        >
-                                            Ajouter au panier
-                                        </Button>
-                                    </ListGroup.Item>
-        
-                                </ListGroup>
+                                        >Ajouter au panier</Button>
+                                </ListGroup.Item>
+                            </ListGroup>
                             </Card>
                         </Col>
                     </Row>
@@ -114,20 +101,15 @@ const Product = ({history, match}) => {
                         </Col>
                     </Row>
 
-
                     <Row>
                         <Col md={6} className="p-3">
                             <h4>Allergene</h4>
-                            <Allergen value={product.Allergens} />
+                            <Allergen value={product.allergens} />
                             
                         </Col>
                     </Row>
                 </>
- 
-               
-           )}
-           
-           
+            )}
         </>
     )
 }

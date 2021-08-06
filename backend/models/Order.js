@@ -4,8 +4,13 @@ const Address = require('./Address');
 const User = require('./User');
 
 class Order extends Model{
+    total = 0
     get url(){
         return `/order/${this.id}`;
+    }
+
+    async calculTotal(price){
+        return (total += price)
     }
 }
 
@@ -13,7 +18,6 @@ Order.init(
     {
         total: {
             type: DataTypes.FLOAT,
-            
             allowNull: false,
             
         },

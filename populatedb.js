@@ -39,17 +39,18 @@ async function pictureCreate(path){
 
 
 
-async function addressCreate(nom,numero,etage,ville,email){
+async function addressCreate(nom,numero,etage,cityName,userUuid){
   adresseDetail = {
     name: nom,
     number: numero,
     floor: etage,
-    userEmail: email
+   
   }
 
   const address = await Address.create(adresseDetail);
   console.log('Nouvelle Adresse' + address.id);
-  await address.setDataValue('cityId', ville);
+  await address.setDataValue('cityName', cityName);
+  await address.setDataValue('userUuid', userUuid);
   await address.save();
   addresses.push(adresseDetail);
   return address;
@@ -91,19 +92,19 @@ async function cityCreate(nom, codepostal){
     zip: codepostal
   }
   const city = await City.create(villeDetail);
-  console.log('Nouvelle ville' + city.id);
+  console.log('Nouvelle ville ' + city.name);
   cities.push(city);
   return city;
 };
 
 
 
-async function categoryCreate(nom){
+async function categoryCreate(name){
   categorieDetail = {
-    name : nom
+    name : name
   }  
   const category = await Category.create(categorieDetail);
-  console.log("Nouvelle categorie " + category.id);
+  console.log("Nouvelle categorie " + category.name);
   categories.push(category);
   return category;
 };
@@ -128,7 +129,7 @@ async function createUsers(){
       },
       {
         _uuid: uuidv4(),
-        first_name: 'nicola',
+        first_name: 'nicolas',
         last_name: 'arvanitis',
         email: 'nicola@exemple.be',
         passwordHash: nicolas_password
@@ -253,9 +254,13 @@ async function createOrdes(){
 };
 
 async function createAddresses(){
+  const stefan = await User.findOne({where: {
+    first_name: 'stefan'
+  }})
+ 
   return Promise.all([
-    addressCreate("Boulevard d'Anvers",154,5,1, 'stefan@exemple.be'),
-    addressCreate("Rue de l'église Saint Anne",3,1,1, 'nicola@exemple.be')
+    addressCreate("Boulevard d'Anvers",154,1,'Bruxelles', stefan._uuid),
+    
    ]);
 };
 
@@ -275,8 +280,8 @@ async function addCategories(){
     try {
         const products = await Product.findAll();
         products.forEach((element, index) =>{
-            if(element.categoryId === null){
-              element.setDataValue('categoryId', 1);
+            if(element.name === null){
+              element.setDataValue('categoryName', 'entree');
               element.save()
             } 
         });

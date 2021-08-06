@@ -23,7 +23,7 @@ export const login = (email, password)=> async(dispatch) => {
         })
 
         const config = {
-            headres: {
+            headers: {
                 'Content-Type': 'application/json'
             }
         }
@@ -53,7 +53,6 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('userInfo')
     dispatch({type: USER_LOGOUT})
 }
-
 
 export const register = (first_name, last_name, email, password)=> async(dispatch) => {
     try {
@@ -152,6 +151,10 @@ export const updateUserProfile = (user) => async(dispatch, getState) => {
             payload: data
         })
         localStorage.setItem('userInfo', JSON.stringify(data))
+        setTimeout(function () {
+            window.location.reload(false);
+        }, 1000);
+        
 
     } catch (error) {
         dispatch({

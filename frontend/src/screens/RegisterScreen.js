@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector} from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
+import FormContainer from '../composants/FormContainer'
 import { register } from '../actions/userActions'
 import { Form, Button, Row, Col } from 'react-bootstrap'
-import FormContainer from '../composants/FormContainer'
+
+
 
 const RegisterScreem = ({location, history}) => {
 
@@ -40,6 +42,7 @@ const RegisterScreem = ({location, history}) => {
     }
     return ( 
         <FormContainer>
+            
                 <h1>Nouvelle inscription</h1>
                 {message && <Message variant="danger">{message}</Message>}
                 {error && <Message variant="danger">{error}</Message>}

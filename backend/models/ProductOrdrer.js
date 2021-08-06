@@ -10,6 +10,9 @@ class ProductOrdrer extends Model{
     get url() {
         return `/product_order/${this.id}`;
     }
+    async calculSubTotal(qty, price){
+        return (qty * price)
+    }
 }
 
 ProductOrdrer.init(

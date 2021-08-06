@@ -5,7 +5,7 @@ const sequelize = require("./sequelize");
 
 class Category extends Model {
     get url() {
-        return `/category/${this.id}`;
+        return `/category/${this.name}`;
       }
 }
 
@@ -13,7 +13,7 @@ Category.init(
     {
         name: { 
             type: DataTypes.STRING,
-            unique: true
+            primaryKey: true
         }
     },
     {

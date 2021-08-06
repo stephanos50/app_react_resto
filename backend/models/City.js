@@ -5,7 +5,7 @@ const sequelize = require("./sequelize");
 
 class City extends Model {
     get url() {
-        return `/city/${this.id}`;
+        return `/city/${this.name}`;
     }
 }
 
@@ -13,7 +13,8 @@ City.init(
     {
        name: {
             type: DataTypes.STRING,
-            unique: true,
+            primaryKey: true
+            
         },
         zip: {
             type: DataTypes.INTEGER,

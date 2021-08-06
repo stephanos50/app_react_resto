@@ -5,7 +5,7 @@ const Product = require('./Product');
 
 class Allergen extends Model {
     get url(){
-        return `/allergen/${this.id}`
+        return `/allergen/${this.name}`
     }
 }
 
@@ -13,12 +13,12 @@ Allergen.init(
     {
         name: {
             type: DataTypes.STRING,
-            unique: true
+            primaryKey: true
         }
     },
     {
         sequelize,
-        modelName: 'Allergen'
+        modelName: 'allergen'
     }
 );
 

@@ -16,10 +16,10 @@ class User extends Model {
 
 User.init(
     {
-        _uuid: { type: UUID , isUUID: 4, unique: true},
+        _uuid: { type: UUID , isUUID: 4, primaryKey: true},
         first_name: { type: DataTypes.STRING, allowNull: false},
         last_name: { type: DataTypes.STRING, allowNull: false},
-        email: { type: DataTypes.STRING, primaryKey: true, isEmail: true },
+        email: { type: DataTypes.STRING,  isEmail: true },
         passwordHash: DataTypes.STRING,
        
     },

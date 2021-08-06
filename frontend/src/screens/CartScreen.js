@@ -33,7 +33,7 @@ const CartScreem = ({match, location, history}) => {
     }
 
     const checkoutHandler = () => {
-        history.push('/login?redirect=commander')
+        history.push('/login?redirect=shipping')
     }
 
     return (
@@ -48,7 +48,10 @@ const CartScreem = ({match, location, history}) => {
                             <Row>
                                 <PictureCart value={item} />
                                 <Col md={3}>
-                                    <Link to={`/products/${item.product}`}>{item.name}</Link>
+                                    <Link to={`/products/${item.product}`}>
+                                        {item.name}
+                                        
+                                    </Link>
                                 </Col>
                                 <Col md={2}>${item.price}</Col>
                                 <Col md={2}>
@@ -92,12 +95,7 @@ const CartScreem = ({match, location, history}) => {
                                  
                                  disabled={Object.keys(cartItems).length === 0}
                                  onClick={checkoutHandler}
-                            >
-                                Valider votre commande
-                            </Button>
-                           
-                        
-
+                            >Valider votre commande</Button>
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>

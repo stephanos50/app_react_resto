@@ -1,15 +1,22 @@
 import React from 'react'
+import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Header from './composants/Header'
 import Footer from './composants/Footer'
 import {Container} from 'react-bootstrap'
 import Home from './screens/HomeScreen'
 import Product from './screens/ProductScreen'
-import Cart from './screens/CartScreem'
-import LoginScreem from './screens/LoginScreem'
-import RegisterScreem from './screens/RegisterScreem'
-import ProfileScreem from './screens/ProfileScreem'
+import Cart from './screens/CartScreen'
+import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
+import ProfileScreen from './screens/ProfileScreen'
+import ShippingScreen from './screens/ShippingScreen'
+import PaymentScrren from './screens/PaymentScreen'
+import PlaceOrderScreen from './screens/PlaceOrderScreen'
 
-import { BrowserRouter as Router, Route} from 'react-router-dom'
+
+
+
+
 
 
 const  App = () => {
@@ -21,9 +28,13 @@ const  App = () => {
                 <Route path='/' component={Home} exact />
                 <Route path='/products/:id' component={Product} exact />
                 <Route path='/cart/:id?' component={Cart} exact />
-                <Route path='/login' component={LoginScreem} exact />
-                <Route path='/register' component={RegisterScreem} />
-                <Route path='/profile' component={ProfileScreem} />
+                <Route path='/login' component={LoginScreen} exact />
+                <Route path='/register' component={RegisterScreen} />
+                <Route path='/profile' component={ProfileScreen} />
+                <Route path='/shipping' component={ShippingScreen} />
+                <Route path='/payment' component={PaymentScrren} />
+                <Route path='/placeorder' component={PlaceOrderScreen} />
+                
               </Container>
         
       
