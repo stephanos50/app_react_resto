@@ -20,12 +20,10 @@ exports.authUser = asyncHandler(async (req, res) => {
         where: {email:email }, 
         include: Role
     })
-
     const city = await City.findAll()
     
     if( user && await user.validPassword(password)){
         res.json({
-            
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
@@ -63,16 +61,15 @@ exports.registerUser = asyncHandler(async (req, res) => {
         first_name: first_name,
         last_name: last_name,
         email: email,
-        city: city,
         passwordHash: await bcrypt.hash(password,saltRounds)
     })
     await user.setRoles([2]);
     if(user){
         res.status(201).json({
-            _uuid: user._uuid,
             first_name: first_name,
             last_name:last_name,
             email: email,
+            city: city,
             token: token.generateToken(user._uuid)
         })
         } else {
@@ -90,7 +87,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
     
     if (user) {
         res.json({
-            _uuid: user._uuid,
+            
             first_name : user.first_name,
             last_name : user.last_name,
             email: user.email,

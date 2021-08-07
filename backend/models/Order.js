@@ -11,7 +11,10 @@ class Order extends Model{
     }
 
     async calculTotal(price){
-        return (total += price)
+        
+        this.total = this.total + price;
+        console.log(this.total)
+        return ( this.total)
     }
 }
 
@@ -20,16 +23,15 @@ Order.init(
         _uuid: { 
             type: UUID , 
             isUUID: 4,
-            defaultValue: uuidv4(),
+            
         },
         total: {
             type: DataTypes.FLOAT,
-            allowNull: false,
+            
         },
         status:{
             type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: true
+            defaultValue: false
         },
         date:{
             type:DataTypes.DATEONLY,

@@ -14,6 +14,8 @@ const Supplement = require('./backend/models/Supplement');
 const Allergen = require('./backend/models/Allergen');
 const Picture = require('./backend/models/Picture');
 const bcrypt = require("bcrypt");
+const ProductOrdrer = require('./backend/models/ProductOrdrer');
+const { findOne } = require('./backend/models/City');
 
 
 
@@ -23,6 +25,7 @@ let supplements = [];
 let orders = [];
 let addresses = [];
 let pictures = [];
+let products_orders = [];
 
 
 async function pictureCreate(path){
@@ -31,7 +34,7 @@ async function pictureCreate(path){
   }
   const picture = await Picture.create(imageDetail);
   console.log('Nouvelle image' + picture.id);
-  await picture.setDataValue('PlatId', picture.id);
+        picture.setDataValue('PlatId', picture.id);
   await picture.save();
   pictures.push(picture);
   return picture;
@@ -49,28 +52,84 @@ async function addressCreate(nom,numero,etage,cityName,userEmail){
 
   const address = await Address.create(adresseDetail);
   console.log('Nouvelle Adresse' + address.id);
-  await address.setDataValue('cityName', cityName);
-  await address.setDataValue('userEmail', userEmail);
+        address.setDataValue('cityName', cityName);
+        address.setDataValue('userEmail', userEmail);
   await address.save();
-  addresses.push(adresseDetail);
+  addresses.push(address);
   return address;
 };
 
+async function productOrderCreate(uuid, qty, prix, orderId,productId){
+  
+  detailProductOrder = {
+    quantity: qty,
+    prix: (prix*qty),
+  }
+  const product_order = await ProductOrder.create(detailProductOrder);
+  console.log('Nouvelle commande ' + product_order.id )
+        product_order.setDataValue('_uuid', uuid)
+        product_order.setDataValue('orderId', orderId)
+        product_order.setDataValue('productId', productId)
+  await product_order.save()
+ 
+  products_orders.push(product_order)
+  
+  return product_order;
+  
+};
 
-async function orderCreate(total,status,date,adresse,mail){
-    commandeDetail = {
-        total:total,
-        status:status,
-        date:date,
-    }
-    // const order = await Order.create(commandeDetail);
-    // console.log('Nouvelle commande' + order.id);
+
+
+
+
+async function createProductOrder01(){
+
+  const order = await Order.create({});
+  order.setDataValue('_uuid', uuidv4())
+  await order.save();
+  return Promise.all([
+    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 1),
+    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 2),
+    productOrderCreate( order._uuid, 2, (8.50) ,order.id, 5),
     
-    // await order.setDataValue('addressId', adresse);
-    // await order.setDataValue('userId',mail);
-    // await order.save();
-    // orders.push(commandeDetail);
-    // return order;
+  ]);
+};
+
+async function createProductOrder02(){
+
+  const order = await Order.create({});
+  order.setDataValue('_uuid', uuidv4())
+  await order.save();
+  return Promise.all([
+    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 1),
+    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 2),
+    productOrderCreate( order._uuid, 6, (8.50) ,order.id, 5),
+    
+  ]);
+};
+
+async function updateOrders(){
+    const order = await Order.findOne({
+      where: {
+        total: null
+      }
+    })
+
+    let subTotal = 0;
+    const order_product = await ProductOrdrer.findAll({
+        where: {
+          orderId: order.id,
+        }
+    });
+    order_product.map( (item) =>  {
+      subTotal = subTotal + item.prix
+    })
+    order.setDataValue('total', subTotal)
+    order.setDataValue('date', new Date())
+    order.setDataValue('addressId', 1)
+    order.setDataValue('userEmail', 'stefan@exemple.be')
+    await order.save()
+    
 };
 
 
@@ -168,18 +227,22 @@ async function createProducts(){
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
       cote:1,
+      categoryId: 1
+      
     }, 
     {
       name: 'Tzadziki',
       description: "Le tzadziki est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
       cote:2,
+      categoryId: 1
     },
     {
       name: 'Feta',
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:8.00,
       cote:1,
+      categoryId: 1
     }, 
     
    
@@ -188,23 +251,26 @@ async function createProducts(){
       description: "Le Gambas grillées  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
+      categoryId: 1
+      
     }, 
     {
       name: 'Calamars frits ',
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
+      categoryId: 1
     }, 
     {
       name: 'Meze ',
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
+      categoryId: 1
     }, 
 
     
   ]);
-
 
   await Promise.all([
     tarama.setAllergens([gluten, oeufs, poissons]),
@@ -215,7 +281,10 @@ async function createProducts(){
     meze.setAllergens([fruits,lactose,celeris]),
     
   ])
+  
 }
+
+
 
 async function createCategories(){
   return Promise.all([
@@ -246,12 +315,7 @@ async function createSupplements(){
   ]);
 };
 
-async function createOrdes(){
-  return Promise.all([
-      orderCreate(12,false,'2021-01-05',1,1)
-     
-  ]);
-};
+
 
 async function createAddresses(){
   const stefan = await User.findOne({where: {
@@ -325,7 +389,12 @@ async function addPictures(){
     const product_image = await addPictures();
     const supplements = await createSupplements();
     const addresses = await createAddresses();
-    const oreders = await createOrdes();
+   
+    const products_orders_01 = await createProductOrder01();
+    const orders_01 = await updateOrders();
+    // const totalOrder = await addTotal()
+    const products_orders_02 = await createProductOrder02();
+    const orders_02 = await updateOrders();
     
 
    

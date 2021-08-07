@@ -25,7 +25,7 @@ const ShippingScreem = ({ history, location }) => {
     const [address, setAddress] = useState(shippingAddress.address || '')
     const [number, setNumber] = useState(shippingAddress.number || '')
     const [floor, setFloor] = useState(shippingAddress.floor || '')
-    const [city, setCity] = useState(shippingAddress.city || '')
+    const [city, setCity] = useState(shippingAddress.city || 'Bruxelles')
     
     
 
