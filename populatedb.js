@@ -39,7 +39,7 @@ async function pictureCreate(path){
 
 
 
-async function addressCreate(nom,numero,etage,cityName,userUuid){
+async function addressCreate(nom,numero,etage,cityName,userEmail){
   adresseDetail = {
     name: nom,
     number: numero,
@@ -50,7 +50,7 @@ async function addressCreate(nom,numero,etage,cityName,userUuid){
   const address = await Address.create(adresseDetail);
   console.log('Nouvelle Adresse' + address.id);
   await address.setDataValue('cityName', cityName);
-  await address.setDataValue('userUuid', userUuid);
+  await address.setDataValue('userEmail', userEmail);
   await address.save();
   addresses.push(adresseDetail);
   return address;
@@ -63,14 +63,14 @@ async function orderCreate(total,status,date,adresse,mail){
         status:status,
         date:date,
     }
-    const order = await Order.create(commandeDetail);
-    console.log('Nouvelle commande' + order.id);
+    // const order = await Order.create(commandeDetail);
+    // console.log('Nouvelle commande' + order.id);
     
-    await order.setDataValue('addressId', adresse);
-    await order.setDataValue('userId',mail);
-    await order.save();
-    orders.push(commandeDetail);
-    return order;
+    // await order.setDataValue('addressId', adresse);
+    // await order.setDataValue('userId',mail);
+    // await order.save();
+    // orders.push(commandeDetail);
+    // return order;
 };
 
 
@@ -259,7 +259,7 @@ async function createAddresses(){
   }})
  
   return Promise.all([
-    addressCreate("Boulevard d'Anvers",154,1,'Bruxelles', stefan._uuid),
+    addressCreate("Boulevard d'Anvers",154,1,'Bruxelles', stefan.email),
     
    ]);
 };

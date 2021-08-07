@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require("sequelize");
+const { Model, DataTypes, UUID } = require("sequelize");
 const sequelize = require("./sequelize");
 
 const Order = require('./Order');
@@ -17,6 +17,10 @@ class ProductOrdrer extends Model{
 
 ProductOrdrer.init(
     {
+        _uuid: { 
+            type: UUID , 
+            isUUID: 4,
+        },
        quantity: {
             type: DataTypes.INTEGER,
             defaultValue: 0

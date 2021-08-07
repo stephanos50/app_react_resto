@@ -51,6 +51,9 @@ exports.registerUser = asyncHandler(async (req, res) => {
             email:email
         }
     })
+
+    const city = await City.findAll()
+
     if(userExists){
         res.status(400)
         throw new Error('User already exist')
@@ -60,6 +63,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
         first_name: first_name,
         last_name: last_name,
         email: email,
+        city: city,
         passwordHash: await bcrypt.hash(password,saltRounds)
     })
     await user.setRoles([2]);

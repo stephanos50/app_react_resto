@@ -4,7 +4,7 @@ import {
     ORDER_CREATE_FAIL,
 } from '../constants/orderConstants'
 
-export const orderCreateReducer = (state= {}, action) => {
+export const orderCreateReducer = (state = {}, action) => {
     switch(action.type) {
         case ORDER_CREATE_REQUEST:
             return { loading: true}

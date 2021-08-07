@@ -13,7 +13,6 @@ Supplement.init(
         name: {
             type: DataTypes.STRING,
             unique: true
-            
         },
         price:{
             type: DataTypes.DOUBLE,

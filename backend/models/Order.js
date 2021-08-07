@@ -1,4 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
+const { Model, DataTypes, UUID } = require("sequelize");
+const { v4: uuidv4 } = require('uuid');
 const sequelize = require('./sequelize');
 const Address = require('./Address');
 const User = require('./User');
@@ -16,10 +17,14 @@ class Order extends Model{
 
 Order.init(
     {
+        _uuid: { 
+            type: UUID , 
+            isUUID: 4,
+            defaultValue: uuidv4(),
+        },
         total: {
             type: DataTypes.FLOAT,
             allowNull: false,
-            
         },
         status:{
             type: DataTypes.BOOLEAN,

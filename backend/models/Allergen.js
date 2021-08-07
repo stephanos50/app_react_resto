@@ -5,7 +5,7 @@ const Product = require('./Product');
 
 class Allergen extends Model {
     get url(){
-        return `/allergen/${this.name}`
+        return `/allergen/${this.id}`
     }
 }
 
@@ -13,7 +13,7 @@ Allergen.init(
     {
         name: {
             type: DataTypes.STRING,
-            primaryKey: true
+            unique: true
         }
     },
     {

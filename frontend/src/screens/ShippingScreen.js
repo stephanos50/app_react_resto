@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Form, Button, Col , Row} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer  from '../composants/FormContainer'
@@ -12,13 +13,12 @@ const ShippingScreem = ({ history, location }) => {
 
     const {shippingAddress} = cart
    
-    
     let useInfo = JSON.parse(localStorage.getItem('userInfo'))
     
     let email = null
     if(useInfo){
         email = useInfo.email
-    }
+    } 
     
     
     
@@ -103,7 +103,7 @@ const ShippingScreem = ({ history, location }) => {
                                      </option>
                                  ))
                                    
-                             :  window.location.reload(false) }
+                             :  <Redirect to='/cart' /> }
                                 
                             </Form.Select>
                         </Form.Group>
