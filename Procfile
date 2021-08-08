@@ -1,2 +1,2 @@
-web: npm server start
-web: /frontends/ npm stat
+web: npm run server
+web: /frontend/ npm start
