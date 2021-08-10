@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom' 
 import { useDispatch, useSelector} from 'react-redux'
-import { Row, Col, ListGroup, Card, Button, Form } from 'react-bootstrap'
+import { Row, Col, ListGroup, Card, Button, Form, Image } from 'react-bootstrap'
 import Assess from '../composants/Assess'
-import Picture from '../composants/Picture'
 import Allergen from '../composants/Allergen'
 import { listProductDetails } from '../actions/productAction'
 import Loader from '../composants/Loader'
@@ -32,7 +31,11 @@ const Product = ({history, match}) => {
         history.push(`/cart/${match.params.id}?qty=${qty}`)
     }
     
-    
+    const picture = product.pictures.map((image) => image.path)
+    const allergen = product.allergens.map((item) => item.name)
+   
+    console.log(product)
+
     return ( 
         <>
         <Link to='/' className='pb-4'>
@@ -45,7 +48,10 @@ const Product = ({history, match}) => {
         ) : (
             <>  
             <Row>
-                <Picture value={product.pictures} />
+               
+                <Col key={picture} sm={12} md={6} lg={4} xl={3} className="p-3">
+                    <Image  style={{ width: '12rem' }} src={picture}  />
+                </Col>
                     <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
                         <ListGroup variant='flush'>
                             <h5>{product.name}</h5>
@@ -104,7 +110,7 @@ const Product = ({history, match}) => {
                     <Row>
                         <Col md={6} className="p-3">
                             <h4>Allergene</h4>
-                            <Allergen value={product.allergens} />
+                            <i> { allergen } </i>
                             
                         </Col>
                     </Row>

@@ -18,8 +18,6 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
     
     const { orderItems, shippingAddress, paymentMethode } = req.body
     
-    
-
     if(orderItems && orderItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')

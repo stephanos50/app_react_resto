@@ -35,7 +35,7 @@ const CartScreem = ({match, location, history}) => {
     const checkoutHandler = () => {
         history.push('/login?redirect=shipping')
     }
-
+   
     return (
         <Row>
             <Col md={8}>
@@ -44,9 +44,9 @@ const CartScreem = ({match, location, history}) => {
                 ) : (
                 <ListGroup variant='flush'>
                     {cartItems.map((item) =>(
-                        <ListGroup.Item key={item.product}>
+                        <ListGroup.Item key={Math.random()}>
                             <Row>
-                                <PictureCart value={item} />
+                                <PictureCart value={item.picture} />
                                 <Col md={3}>
                                     <Link to={`/products/${item.product}`}>
                                         {item.name}

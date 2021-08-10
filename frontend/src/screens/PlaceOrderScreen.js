@@ -4,7 +4,7 @@ import { Button, Row, Col, ListGroup, Card} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import CheckoutSteps from  '../composants/CheckoutSteps'
-import { Link } from 'react-router-dom'
+
 import { createOrder } from '../actions/orderAction'
 
 
@@ -47,19 +47,21 @@ const PlaceOrderScreen = ({history}) => {
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Shipping</h2>
-                            <p>
+                            <h6>
                                 <strong>Address : </strong> 
-                                {cart.shippingAddress.number} ,
-                                {cart.shippingAddress.address} ,
-                                étage {cart.shippingAddress.floor},
-                                {cart.shippingAddress.zip} ,
-                                {cart.shippingAddress.city} ,
-                            </p>
+                                { cart.shippingAddress.number },
+                                { cart.shippingAddress.address },
+                                étage { cart.shippingAddress.floor }
+                            </h6>
+                            <h6>
+                                { cart.shippingAddress.zip } 
+                                { cart.shippingAddress.city} 
+                            </h6>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Payment Method</h2>
-                            <strong>Methode: </strong>
-                            {cart.paymentMethod}
+                            <h6><strong>Methode: </strong>{cart.paymentMethod}</h6>
+                            
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Order Items</h2>
@@ -68,8 +70,8 @@ const PlaceOrderScreen = ({history}) => {
                                     {cart.cartItems.map((item, index) => (
                                         <ListGroup.Item key={index}>
                                             <Row>
-                                                <Col> <Link to={`/products/${item.product}`}>{item.name}</Link></Col>
-                                                <Col md={4}>{item.qty} x {item.price} € = {item.qty * item.price} €</Col>
+                                                <Col><h6>{item.name}</h6></Col>
+                                                <Col md={4}><h6>{item.qty} x {item.price} € = {item.qty * item.price} €</h6></Col>
                                             </Row>
                                         </ListGroup.Item>
                                     ))}
@@ -87,20 +89,20 @@ const PlaceOrderScreen = ({history}) => {
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Items</Col>
-                                    <Col>{cart.itemsPrice} €</Col>
+                                    <Col><h6>Items</h6></Col>
+                                    <Col><h6>{cart.itemsPrice} €</h6></Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Shipping</Col>
+                                    <Col><h6>Shipping</h6></Col>
                                     <Col>{cart.shippingPrice} €</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Total</Col>
-                                    <Col>{cart.totalPrice} €</Col>
+                                    <Col><h6>Total</h6></Col>
+                                    <Col><h6>{cart.totalPrice} €</h6></Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>

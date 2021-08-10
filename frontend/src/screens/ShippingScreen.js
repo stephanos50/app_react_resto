@@ -25,7 +25,7 @@ const ShippingScreem = ({ history, location }) => {
     const [address, setAddress] = useState(shippingAddress.address || '')
     const [number, setNumber] = useState(shippingAddress.number || '')
     const [floor, setFloor] = useState(shippingAddress.floor || '')
-    const [city, setCity] = useState(shippingAddress.city || 'Bruxelles')
+    const [city, setCity] = useState(shippingAddress.city || 'Audergem')
     
     
 
@@ -95,7 +95,6 @@ const ShippingScreem = ({ history, location }) => {
                             <Form.Label>Commune</Form.Label>
                             <Form.Select aria-label="" onChange={(e) => setCity(e.target.value)  }>
                                 { useInfo !== null ? 
-                                    
                                     useInfo.city.map((item) => (
                                     
                                      <option key={item.name}  value={item.name}>

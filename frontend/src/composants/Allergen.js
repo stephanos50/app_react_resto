@@ -2,12 +2,13 @@
 import { Row,Col } from 'react-bootstrap' 
 
 const Allergen = (props) => {
-   
-    const allergene = props.value.map((item) => ` ${item.name}  `)
+    
+    const allergen = props.value
+    const allergie = allergen.map((item) => ` ${item.name}  `)
         return(
             <Row>
                 <Col>
-                    <i> { allergene } </i>
+                    <i> { allergie } </i>
                 </Col>
             </Row>
         )
