@@ -17,7 +17,7 @@ const ProfileScreem = ({ location, history}) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState(null)
-    const [success, setSuccess] = useState(null)
+    const [messageUpdate, setmessageUpdate] = useState(null)
 
     const dispatch = useDispatch()
 
@@ -27,14 +27,14 @@ const ProfileScreem = ({ location, history}) => {
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
 
-    // const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
-    // const { success } = userUpdateProfile
+    const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
+    const { success } = userUpdateProfile
    
     useEffect(() => {
         if(!userInfo){
             history.push('/login')
         } else{
-            if( !user || !user.first_name ){
+            if( !user || !user.first_name || success ){
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
                 
@@ -44,16 +44,16 @@ const ProfileScreem = ({ location, history}) => {
                 setEmail(user.email)
             }
         }
-    }, [dispatch, history, userInfo, user])
+    }, [dispatch, history, userInfo, user, success])
 
     const submitHandler = (e) => { 
         e.preventDefault()
         if(password !== confirmPassword){
             setMessage('Votre mot de passe ne correspond pas')
-            setSuccess(null)
+            setmessageUpdate(null)
         }else {
             setMessage('')
-            setSuccess('Profile mit à jour')
+            setmessageUpdate('Profile mit à jour')
             dispatch(updateUserProfile({id: email, first_name, last_name,  password}))
         }
     }
@@ -63,7 +63,7 @@ const ProfileScreem = ({ location, history}) => {
                 <h2>Votre profile</h2>
                 {message && <Message variant="danger">{message}</Message>}
                 {}
-                {success && <Message variant='success'>{success}</Message>}
+                {messageUpdate && <Message variant='success'>{messageUpdate}</Message>}
                 {loading ? ( 
                     <Loader />
                 ) : error ? ( 

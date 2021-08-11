@@ -34,7 +34,7 @@ const Product = ({history, match}) => {
     const picture = product.pictures.map((image) => image.path)
     const allergen = product.allergens.map((item) => item.name)
    
-    console.log(product)
+   
 
     return ( 
         <>

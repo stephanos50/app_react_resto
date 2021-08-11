@@ -78,7 +78,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
 // @route  Get /api/users/profile
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
-    console.log(req.user.email)
+    
     const user = await User.findByPk(req.user.email)
    
     if (user) {
@@ -109,7 +109,7 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
             user.password = req.body.password 
         }
         const updateUser = await user.save()
-        console.log(updateUser)
+       
         res.json({
             _uuid : updateUser.uuid,
             first_name: updateUser.first_name,
