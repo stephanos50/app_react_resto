@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector} from 'react-redux'
 import { Row, Col, ListGroup, Card, Button, Form, Image } from 'react-bootstrap'
 import Assess from '../composants/Assess'
-import Allergen from '../composants/Allergen'
 import { listProductDetails } from '../actions/productAction'
 import Loader from '../composants/Loader'
 import Message from '../composants/Message'
@@ -11,7 +10,7 @@ import Message from '../composants/Message'
 
 
 const Product = ({history, match}) => {
-
+    
     const quantities = [0,1,2,3,4]
    
     const [qty, setQty] = useState(1)
@@ -21,21 +20,21 @@ const Product = ({history, match}) => {
     const productDetails = useSelector((state) => state.listProductDetails)
 
     const { loading, error, product} = productDetails
+    
+    
     useEffect(() => {
-        dispatch(listProductDetails(match.params.id));
+        dispatch(listProductDetails(match.params.uuid));
     }, [dispatch,match])
    
     if (!product.pictures ) return null;
 
     const addToCartHandler = () => {
-        history.push(`/cart/${match.params.id}?qty=${qty}`)
+        history.push(`/cart/${match.params.uuid}?qty=${qty}`)
     }
-    
+
     const picture = product.pictures.map((image) => image.path)
     const allergen = product.allergens.map((item) => item.name)
-   
-   
-
+    
     return ( 
         <>
         <Link to='/' className='pb-4'>

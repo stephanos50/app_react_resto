@@ -44,7 +44,6 @@ exports.registerUser = asyncHandler(async (req, res) => {
     const userExists = await User.findOne({
         where: { email:email }
     })
-    
     if(userExists){
         res.status(400)
         throw new Error('User already exist')
@@ -65,7 +64,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
             first_name: first_name,
             last_name:last_name,
             email: email,
-            city: city,
+            city: await City.findAll(),
             token: token.generateToken(user._uuid)
         })
         } else {
@@ -80,7 +79,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
 exports.getUserProfile = asyncHandler(async (req, res) => {
     
     const user = await User.findByPk(req.user.email)
-   
+    
     if (user) {
         res.json({
             _uuid : user._uuid,
@@ -100,6 +99,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 exports.updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findByPk(req.body.id)
    
+    
     if (user) {
         user.first_name = req.body.first_name || user.first_name
         user.last_name = req.body.last_name || user.last_name
@@ -115,6 +115,7 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
             first_name: updateUser.first_name,
             last_name: updateUser.last_name,
             email: updateUser.email,
+            city: await City.findAll(),
             token: token.generateToken(updateUser._uuid)
         })
     } else {

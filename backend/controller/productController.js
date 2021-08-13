@@ -25,18 +25,22 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 })
 
 // @desc Fetch single product
-// @route GET /api/products/:id
+// @route GET /api/products/:name
 // @access Public
-exports.getProductById = asyncHandler(async function(req, res){
+exports.getProductByName = asyncHandler(async function(req, res){
+    
     res.header("Access-Control-Allow-Origin", "*");
-    const product = await Product.findByPk(req.params.id, {
+    const product = await Product.findOne({
+        where: {
+            _uuid: req.params.uuid
+        },
         include: [
             Picture,
             Category,
             Allergen
         ]
     });
-   
+
     if(product !== null){
         res.json(product);
     } else {

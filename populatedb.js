@@ -8,13 +8,13 @@ const User = require('./backend/models/User');
 const Category = require('./backend/models/Category');
 const Product = require('./backend/models/Product');
 const Comment = require('./backend/models/Comment');
-const ProductOrder = require('./backend/models/ProductOrdrer');
+const ProductOrder = require('./backend/models/ProductOrder');
 const SupplementOrder = require('./backend/models/SupplementOrder');
 const Supplement = require('./backend/models/Supplement');
 const Allergen = require('./backend/models/Allergen');
 const Picture = require('./backend/models/Picture');
 const bcrypt = require("bcrypt");
-const ProductOrdrer = require('./backend/models/ProductOrdrer');
+
 const { findOne } = require('./backend/models/City');
 
 
@@ -28,13 +28,13 @@ let pictures = [];
 let products_orders = [];
 
 
-async function pictureCreate(path){
+async function pictureCreate(path, productName){
   imageDetail = {
     path: path
   }
   const picture = await Picture.create(imageDetail);
   console.log('Nouvelle image' + picture.id);
-        picture.setDataValue('PlatId', picture.id);
+        picture.setDataValue('productName', productName);
   await picture.save();
   pictures.push(picture);
   return picture;
@@ -59,7 +59,7 @@ async function addressCreate(nom,numero,etage,cityName,userEmail){
   return address;
 };
 
-async function productOrderCreate(uuid, qty, prix, orderId,productId){
+async function productOrderCreate(uuid, qty, prix, orderId,productName){
   
   detailProductOrder = {
     quantity: qty,
@@ -69,7 +69,7 @@ async function productOrderCreate(uuid, qty, prix, orderId,productId){
   console.log('Nouvelle commande ' + product_order.id )
         product_order.setDataValue('_uuid', uuid)
         product_order.setDataValue('orderId', orderId)
-        product_order.setDataValue('productId', productId)
+        product_order.setDataValue('productName', productName)
   await product_order.save()
  
   products_orders.push(product_order)
@@ -88,9 +88,9 @@ async function createProductOrder01(){
   order.setDataValue('_uuid', uuidv4())
   await order.save();
   return Promise.all([
-    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 1),
-    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 2),
-    productOrderCreate( order._uuid, 2, (8.50) ,order.id, 5),
+    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 'Tarama'),
+    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 'Tzadziki'),
+    productOrderCreate( order._uuid, 2, (8.50) ,order.id, 'Feta'),
     
   ]);
 };
@@ -101,9 +101,9 @@ async function createProductOrder02(){
   order.setDataValue('_uuid', uuidv4())
   await order.save();
   return Promise.all([
-    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 1),
-    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 2),
-    productOrderCreate( order._uuid, 6, (8.50) ,order.id, 5),
+    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 'Calamars frits'),
+    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 'Gambas grillés'),
+    productOrderCreate( order._uuid, 6, (8.50) ,order.id, 'Tarama'),
     
   ]);
 };
@@ -116,7 +116,7 @@ async function updateOrders(){
     })
 
     let subTotal = 0;
-    const order_product = await ProductOrdrer.findAll({
+    const order_product = await ProductOrder.findAll({
         where: {
           orderId: order.id,
         }
@@ -223,51 +223,86 @@ async function createProducts(){
   ]);
   const [tarama, tzadziki, feta, gambas,calamars,meze ] = await Product.bulkCreate([
     {
+     
       name: 'Tarama',
+      _uuid:uuidv4(),
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
       cote:1,
-      categoryId: 1
+      categoryName: 'Entrée'
       
     }, 
     {
+      
       name: 'Tzadziki',
+      _uuid:uuidv4(),
       description: "Le tzadziki est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
       cote:2,
-      categoryId: 1
+      categoryName: 'Entrée'
     },
     {
       name: 'Feta',
+      _uuid:uuidv4(),
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:8.00,
       cote:1,
-      categoryId: 1
+      categoryName: 'Entrée'
     }, 
     
    
     {
-      name: 'Gambas grillées  ',
-      description: "Le Gambas grillées  au four est une spécialité de cuisine grecque ",
+      name: 'Gambas grillés  ',
+      _uuid:uuidv4(),
+      description: "Le Gambas grillés  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
-      categoryId: 1
+      categoryName: 'Entrée'
       
     }, 
     {
       name: 'Calamars frits ',
+      _uuid:uuidv4(),
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
-      categoryId: 1
+      categoryName: 'Entrée'
     }, 
     {
       name: 'Meze ',
+      _uuid:uuidv4(),
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
-      categoryId: 1
+      categoryName: 'Entrée'
     }, 
+    {
+      name: "Brochette d Agneau",
+      _uuid:uuidv4(),
+      description: "La Brochette d'agneau  au four est une spécialité de cuisine grecque ",
+      price:14.50,
+      cote:1,
+      categoryName: 'Plats'
+    }, 
+    {
+      name: "Entre côte ",
+      _uuid:uuidv4(),
+      description: "L'Entre Côte gratinée  au four est une spécialité de cuisine grecque ",
+      price:15.50,
+      cote:1,
+      categoryName: 'Plats'
+    }, 
+    {
+      name: 'To Elliniko ',
+      _uuid:uuidv4(),
+      description: "To elliniko  gratinée  au four est une spécialité de cuisine grecque ",
+      price:12.50,
+      cote:1,
+      categoryName: 'Suggestions'
+    }, 
+
+
+
 
     
   ]);
@@ -288,11 +323,10 @@ async function createProducts(){
 
 async function createCategories(){
   return Promise.all([
-    categoryCreate('entrée'),
-    categoryCreate('scampis'),
-    categoryCreate('salade'),
-    categoryCreate('plat'),
-    categoryCreate('spécialité'),
+    categoryCreate('Entrée'),
+    categoryCreate('Plats'),
+    categoryCreate('Suggestions'),
+   
   ]);
 };
 
@@ -330,12 +364,15 @@ async function createAddresses(){
 
 async function createPictures(){
   return Promise.all([
-    pictureCreate('/images/tarama.jpg',1),
-    pictureCreate('/images/tzatziki.jpg',2),
-    pictureCreate('/images/feta.jpg',3),
-    pictureCreate('/images/gambas.jpg',8),
-    pictureCreate('/images/calamars.jpg',9),
-    pictureCreate('/images/meze.jpg',10),
+    pictureCreate('/images/0/tarama.jpg','Tarama'),
+    pictureCreate('/images/0/tzadziki.jpg','Tzadziki'),
+    pictureCreate('/images/0/feta.jpg','Feta'),
+    pictureCreate('/images/0/gambas.jpg','Gambas grillés'),
+    pictureCreate('/images/0/calamars.jpg','Calamars frits'),
+    pictureCreate('/images/0/meze.jpg','Meze'),
+    pictureCreate('/images/1/brochette-agneau.jpg','Brochette d Agneau'),
+    pictureCreate('/images/1/entrecote.jpg','Entre côte'),
+    pictureCreate('/images/2/to-elliniko.jpg','To Elliniko'),
    
   ]);
 }
@@ -379,13 +416,13 @@ async function addPictures(){
 (async () => {
   try {
     await sequelize.sync({ force: true });
-    const pictures = await createPictures();
     await createUsers();
     
     const cities = await createCities();    
     const categories = await createCategories();
     const products = await createProducts();
     const product_category = await addCategories();
+    const pictures = await createPictures();
     const product_image = await addPictures();
     const supplements = await createSupplements();
     const addresses = await createAddresses();

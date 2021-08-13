@@ -8,9 +8,9 @@ import PictureCart from '../composants/PictureCart'
 
 
 const CartScreem = ({match, location, history}) => {
-
+   
     const productId = match.params.id
-    
+
     const quantities = [0,1,2,3,4]
 
     const qty =  Number(location.search.split('=')[1])
@@ -28,8 +28,8 @@ const CartScreem = ({match, location, history}) => {
         }
     }, [dispatch, productId, qty])
 
-    const removeFromCartHandler = (id) => {
-       dispatch(removeFromCart(id))
+    const removeFromCartHandler = (uuid) => {
+        dispatch(removeFromCart(uuid))
     }
 
     const checkoutHandler = () => {
@@ -42,13 +42,15 @@ const CartScreem = ({match, location, history}) => {
                 <h1>Votre panier</h1>
                 {Object.keys(cartItems).length === 0 ? (<Message>Votre panier est vide<Link to='/'> Retour</Link></Message> 
                 ) : (
+                
                 <ListGroup variant='flush'>
                     {cartItems.map((item) =>(
                         <ListGroup.Item key={Math.random()}>
                             <Row>
+                                {console.log(match)}
                                 <PictureCart value={item.picture} />
                                 <Col md={3}>
-                                    <Link to={`/products/${item.product}`}>
+                                    <Link to={`/products/${item.uuid}`}>
                                         {item.name}
                                         
                                     </Link>
@@ -58,7 +60,7 @@ const CartScreem = ({match, location, history}) => {
                                     <Form.Control 
                                         as='select' 
                                         value={item.qty} 
-                                        onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}>
+                                        onChange={(e) => dispatch(addToCart(item.uuid, Number(e.target.value)))}>
                                        {
                                            [ ...Array(quantities.length).keys()].map((x) =>(
                                             <option key={x + 1 } value={x + 1 }>
@@ -69,7 +71,7 @@ const CartScreem = ({match, location, history}) => {
                                     </Form.Control>
                                 </Col>
                                 <Col md={2}>
-                                    <Button type='button' variant='delete' onClick={() =>removeFromCartHandler(item.product)} >
+                                    <Button type='button' variant='delete' onClick={() =>removeFromCartHandler(item.uuid)} >
                                         <li className='fas fa-trash'></li>
                                     </Button>
                                 </Col>

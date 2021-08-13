@@ -8,10 +8,11 @@ const updateUser = require('../controller/userController')
 
 const protect = require('../middleware/authMiddleware')
 
-router.route('/').post(registerUser.registerUser )
-router.post('/login',authentificaionUser.authUser)
-router
-    .route('/profile')
+router.route('/')
+    .post(registerUser.registerUser )
+router.route('/login')
+    .post(authentificaionUser.authUser)
+router.route('/profile')
     .get(protect,profileUser.getUserProfile)
     .put(protect, updateUser.updateUserProfile)
 

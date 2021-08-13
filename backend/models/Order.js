@@ -11,9 +11,7 @@ class Order extends Model{
     }
 
     async calculTotal(price){
-        
         this.total = this.total + price;
-        console.log(this.total)
         return ( this.total)
     }
 }

@@ -6,7 +6,7 @@ const Product = require('./Product');
 
 
 
-class ProductOrdrer extends Model{
+class ProductOrder extends Model{
     get url() {
         return `/product_order/${this.id}`;
     }
@@ -15,7 +15,7 @@ class ProductOrdrer extends Model{
     }
 }
 
-ProductOrdrer.init(
+ProductOrder.init(
     {
         _uuid: { 
             type: UUID , 
@@ -32,16 +32,16 @@ ProductOrdrer.init(
     },
     {
         sequelize,
-        modelName: 'product_ordrer'
+        modelName: 'product_order'
     } 
 
 );
 
-ProductOrdrer.belongsTo(Order);
-Order.hasMany(ProductOrdrer);
+ProductOrder.belongsTo(Order);
+Order.hasMany(ProductOrder);
 
-ProductOrdrer.belongsTo(Product);
-Product.hasMany(ProductOrdrer);
+ProductOrder.belongsTo(Product);
+Product.hasMany(ProductOrder);
 
 
-module.exports = ProductOrdrer;
+module.exports = ProductOrder;

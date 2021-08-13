@@ -6,6 +6,7 @@ const orderController = require('../controller/ordrerController');
 
 
 router.post('/', protect, orderController.addOrderItems)
+router.get('/:id', protect,  orderController.getOrderById)
 
 
 module.exports = router;
