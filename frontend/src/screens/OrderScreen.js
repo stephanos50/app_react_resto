@@ -22,11 +22,11 @@ const OrderScreen = ({match}) => {
         // eslint-disable-next-line
     },[])
 
+   console.log(order)
    
    
+
     
-
-
     return loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : <>
         <h1>Order {order.id}</h1>
         <Row>
@@ -34,26 +34,33 @@ const OrderScreen = ({match}) => {
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Shipping</h2>
-
-                            {order.address ===  undefined ? <Message>Your order is empty</Message> : (
+                           
+                            {order.user ===  undefined ? <Message>Not user found</Message> : (
+                                 <h6>  <strong> Name: </strong>   {`${order.user.first_name}`} </h6>
+                            )} 
+                            <h6>  <strong>Email: </strong> {order.userEmail} </h6>
+                           
+                            {order.address ===  undefined ? <Message>Your address is empty</Message> : (
                                 <ListGroup variant='flush'>
-                                    <h6>{order.address.name} - numéro: {order.address.number} - étage: {order.address.floor}</h6>
+                                    <h6> <strong>Address: </strong> {order.address.name} - numéro: {order.address.number} - étage: {order.address.floor}</h6>
                                     
-                                    <h6>{order.address.city.zip} - {order.address.cityName}</h6>
+                                    <h6> <strong>Commune: </strong> {order.address.city.zip} - {order.address.cityName}</h6>
                                 </ListGroup>
                             )}
+                            <br></br>
                           
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Payment Method</h2>
-                            <h6><strong>Methode: </strong>{order.paymentMethod}</h6>
+
+                            <h6><strong>Methode: </strong>{order.payment}</h6>
                             
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Order Items</h2>
-                            {order.product_orders ===  undefined ? <Message>Your order is empty</Message> : (
+                            {order.product0rders ===  undefined   ? <Message>Your order is empty</Message> : (
                                 <ListGroup variant='flush'>
-                                    {order.product_orders.map((item, index) => (
+                                    {order.product0rders.map((item, index) => (
                                         <ListGroup.Item key={index}>
                                             <Row>
                                                 <Col><h6>{item.productName}</h6></Col>

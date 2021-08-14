@@ -21,7 +21,7 @@ const CartScreem = ({match, location, history}) => {
 
     const { cartItems } = cart
 
-
+   
     useEffect(() => {
         if(productId){
             dispatch(addToCart(productId, qty))
@@ -40,23 +40,28 @@ const CartScreem = ({match, location, history}) => {
         <Row>
             <Col md={8}>
                 <h1>Votre panier</h1>
-                {Object.keys(cartItems).length === 0 ? (<Message>Votre panier est vide<Link to='/'> Retour</Link></Message> 
+                <Link to='/' className='p-4'>
+                    <Button variant="primary">Retour</Button>
+                 </Link>
+                {Object(cartItems) === undefined ? (<Message>Votre panier est vide<Link to='/'> Retour</Link></Message> 
                 ) : (
                 
                 <ListGroup variant='flush'>
                     {cartItems.map((item) =>(
-                        <ListGroup.Item key={Math.random()}>
+                        <ListGroup.Item key={item.uuid}>
                             <Row>
-                                {console.log(match)}
-                                <PictureCart value={item.picture} />
-                                <Col md={3}>
+                                <Col md={2} className='t-9'> <PictureCart value={item.picture} /></Col>
+                               
+                               
+                               
+                                <Col md={3}  className='mt-4'>
                                     <Link to={`/products/${item.uuid}`}>
-                                        {item.name}
+                                        <h6>{item.name}</h6>
                                         
                                     </Link>
                                 </Col>
-                                <Col md={2}>${item.price}</Col>
-                                <Col md={2}>
+                                <Col md={2} className='mt-4'> <h6>{item.price} €</h6></Col>
+                                <Col md={2} className='mt-3'>
                                     <Form.Control 
                                         as='select' 
                                         value={item.qty} 
@@ -70,7 +75,7 @@ const CartScreem = ({match, location, history}) => {
                                        }
                                     </Form.Control>
                                 </Col>
-                                <Col md={2}>
+                                <Col md={2} className='mt-3'>
                                     <Button type='button' variant='delete' onClick={() =>removeFromCartHandler(item.uuid)} >
                                         <li className='fas fa-trash'></li>
                                     </Button>

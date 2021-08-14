@@ -20,13 +20,13 @@ const Product = ({history, match}) => {
     const productDetails = useSelector((state) => state.listProductDetails)
 
     const { loading, error, product} = productDetails
-    
-    
+
     useEffect(() => {
         dispatch(listProductDetails(match.params.uuid));
     }, [dispatch,match])
    
     if (!product.pictures ) return null;
+    if (!product.price ) return null;
 
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.uuid}?qty=${qty}`)
@@ -37,6 +37,7 @@ const Product = ({history, match}) => {
     
     return ( 
         <>
+        <h1>{product.name}</h1>
         <Link to='/' className='pb-4'>
             <Button variant="primary">Retour</Button>
         </Link>
@@ -55,7 +56,7 @@ const Product = ({history, match}) => {
                         <ListGroup variant='flush'>
                             <h5>{product.name}</h5>
                             <Assess value={product.cote} />
-                            <p> Prix : {product.prix} euro</p>
+                            <p> Prix : {product.price} euro</p>
                         </ListGroup>
                     </Col>
     
@@ -65,7 +66,7 @@ const Product = ({history, match}) => {
                                 <ListGroup.Item>
                                     <Row>
                                         <Col> Price: </Col>
-                                        <Col> <strong>{product.prix}</strong> euro </Col>
+                                        <Col> <strong>{product.price}</strong> euro </Col>
                                     </Row>
                                 </ListGroup.Item>
 

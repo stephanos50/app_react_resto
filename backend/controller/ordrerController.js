@@ -17,9 +17,9 @@ const { v4: uuidv4 } = require('uuid');
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
     
-    const { orderItems, shippingAddress, paymentMethode } = req.body
-
-    if(orderItems && orderItems.lenght === 0){
+    const { cartItems, shippingAddress, paymentMethode } = req.body
+    console.log(req.body)
+    if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
         return 
@@ -50,7 +50,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         await order.save()
         
         const productOrder = new ProductOrder()
-        orderItems.map( async (element) => {
+        cartItems.map( async (element) => {
             let product =  await Product.findOne({where:{
                 _uuid: element.uuid
             }})
@@ -73,7 +73,9 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
            
         })
         
+        
         const createOrder = await order.save()
+       
         res.status(201).json(createOrder)
     }
 })
@@ -84,7 +86,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 exports.getOrderById = asyncHandler(async (req, res) => {
     
     const order = await Order.findByPk(req.params.id, {
-        include: [ProductOrder, {model:Address,include:[{model:City}]}] 
+        include: [ProductOrder, {model:Address,include:[{model:City}]}, User] 
     })
 
     if(order){

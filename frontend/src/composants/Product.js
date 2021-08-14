@@ -8,10 +8,10 @@ const Product = ({product}) => {
   
 
     return( 
-        
-        <Card className='my-3 p-3 rounded'>
+        <Card style={{ width: '18rem' }} className='my-2 p-2 rounded'>
             <Link to={`/products/${product._uuid}`}>
-                <Card.Img src={picture} variant='top' />
+                <Card.Img src={picture}  variant='top'  style={{ width: '17rem'  }} />
+                
             </Link>
 
             <Card.Body>
@@ -21,7 +21,7 @@ const Product = ({product}) => {
                 </Card.Title>
                 </Link>
 
-                <Card.Text as='h5'>${product.price}</Card.Text>
+                <Card.Text as='h6'>{product.price} €</Card.Text>
 
                 <Assess
                     value={product.cote}

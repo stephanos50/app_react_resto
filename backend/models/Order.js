@@ -31,6 +31,10 @@ Order.init(
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
+        payment: { 
+            type: DataTypes.STRING,  
+            defaultValue: 'PayPal'
+        },
         date:{
             type:DataTypes.DATEONLY,
         }

@@ -1,7 +1,48 @@
-.active {
-    font-weight: 700;
-}
+main {
+    min-height: 80vh;
+  }
+  
+  h3 {
+    padding: 1rem 0;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    color: #212B5C
+  }
 
-h6 {
-    font-weight: 700;
-}
+  h5 {
+    color: #212B5C
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+    padding: 0.5rem 0;
+  }
+  
+  .rating span {
+    margin: 0.1rem;
+  }
+  
+  .card {
+    padding: 0.5rem 0;
+    margin: auto;
+  }
+  
+  .ul {
+    text-decoration: none;
+  }
+  .il {
+    text-decoration: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: #212B5C
+  }
+  .navbar-collapse {
+    text-decoration: none;
+   
+  }
+  

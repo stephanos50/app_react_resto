@@ -32,7 +32,7 @@ ProductOrder.init(
     },
     {
         sequelize,
-        modelName: 'product_order'
+        modelName: 'product0rder'
     } 
 
 );

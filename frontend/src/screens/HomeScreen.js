@@ -15,6 +15,7 @@ const HomeScreem = () => {
     const { loading, error, products} = productList
     
     const [value, setValue] = useState("Entrée")
+
     useEffect(()=>{
         dispatch(listProducts())
     }, [dispatch]);
@@ -27,13 +28,13 @@ const HomeScreem = () => {
             <h3 className='p-3'>Nos plats à emporté</h3>
             <Nav as="ul">
                 <Nav.Item as="li">
-                    <Nav.Link onClick={()=> setValue('Entrée')} >Entrée</Nav.Link>
+                    <Nav.Link onClick={()=> setValue('Entrée')} ><h5>Nos entrées</h5></Nav.Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link  onClick={()=> setValue('Plats')} >Plats</Nav.Link>
+                    <Nav.Link  onClick={()=> setValue('Plats')} ><h5>Nos plats</h5></Nav.Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link onClick={()=>setValue('Suggestions')}>Suggestion</Nav.Link>
+                    <Nav.Link onClick={()=>setValue('Suggestions')}><h5>Nos suggestions</h5></Nav.Link>
                 </Nav.Item>
             </Nav>
           

@@ -23,7 +23,7 @@ SupplementOrder.init(
     },
     {
         sequelize,
-        modelName: 'supplement_order'
+        modelName: 'supplementOrder'
     } 
 
 );

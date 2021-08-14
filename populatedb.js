@@ -205,20 +205,20 @@ async function createUsers(){
 async function createProducts(){
 
   const [gluten,crustaces,oeufs,poissons,arachides,soja,lactose,celeris,fruits,moutarde,graines,Anhydride,Lupin,Mollusques ] = await Allergen.bulkCreate([
-    { name: 'Gluten' },
-    { name: 'Crustacés' },
-    { name: 'Oeufs' },
-    { name: 'Poissons' },
-    { name: 'Arachides' },
-    { name: 'Soja' },
-    { name: 'lactose' },
-    { name: 'Celeris' },
-    { name: "Fruits à coque" },
-    { name: 'Moutarde' },
-    { name: 'Graines grillées' },
-    { name: ' Anhydride sulfureux' },
-    { name: 'Lupin' },
-    { name: 'Mollusques' },
+    { name: 'Gluten ' },
+    { name: 'Crustacés ' },
+    { name: 'Oeufs ' },
+    { name: 'Poissons ' },
+    { name: 'Arachides ' },
+    { name: 'Soja ' },
+    { name: 'Lactose ' },
+    { name: 'Celeris ' },
+    { name: "Fruits à coque " },
+    { name: 'Moutarde ' },
+    { name: 'Graines grillées ' },
+    { name: 'Anhydride sulfureux ' },
+    { name: 'Lupin ' },
+    { name: 'Mollusques ' },
     
   ]);
   const [tarama, tzadziki, feta, gambas,calamars,meze ] = await Product.bulkCreate([
@@ -252,7 +252,7 @@ async function createProducts(){
     
    
     {
-      name: 'Gambas grillés  ',
+      name: 'Gambas grillés',
       _uuid:uuidv4(),
       description: "Le Gambas grillés  au four est une spécialité de cuisine grecque ",
       price:8.50,
@@ -261,7 +261,7 @@ async function createProducts(){
       
     }, 
     {
-      name: 'Calamars frits ',
+      name: 'Calamars frits',
       _uuid:uuidv4(),
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
@@ -285,7 +285,7 @@ async function createProducts(){
       categoryName: 'Plats'
     }, 
     {
-      name: "Entre côte ",
+      name: "Entre côte",
       _uuid:uuidv4(),
       description: "L'Entre Côte gratinée  au four est une spécialité de cuisine grecque ",
       price:15.50,
@@ -293,7 +293,7 @@ async function createProducts(){
       categoryName: 'Plats'
     }, 
     {
-      name: 'To Elliniko ',
+      name: 'To Elliniko',
       _uuid:uuidv4(),
       description: "To elliniko  gratinée  au four est une spécialité de cuisine grecque ",
       price:12.50,
