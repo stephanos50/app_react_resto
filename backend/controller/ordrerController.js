@@ -5,6 +5,7 @@ const Address = require('../models/Address')
 const Product = require('../models/Product')
 const City =require('../models/City')
 const User = require('../models/User')
+const Payment = require('../models/Payment')
 const sequelize = require('../models/sequelize');
 const { v4: uuidv4 } = require('uuid');
 
@@ -18,11 +19,14 @@ const { v4: uuidv4 } = require('uuid');
 exports.addOrderItems = asyncHandler(async (req, res) => {
     
     const { cartItems, shippingAddress, paymentMethode } = req.body
-    console.log(req.body)
+    
     if(cartItems && cartItems.lenght === 0){
         res.status(400)
+        console.log.log(' IF No order items')
         throw new Error('No order items')
-        return 
+       
+        
+       
     } else {
 
        const addressDetails = { 
@@ -66,13 +70,13 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
                 await productOrder.save()
             } else {
                 res.status(400)
+                console.log(' ELSE No order items')
                 throw new Error('No order items')
-                return 
+                
             }
             await order.save()
            
         })
-        
         
         const createOrder = await order.save()
        
@@ -95,6 +99,52 @@ exports.getOrderById = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Order not found')
     }
+})
+
+// @desc  Update order to paid
+// @route Get /api/orders/:id/pay
+// @access Private
+exports.updateOrderToPaid = asyncHandler(async (req, res) => {
+    
+    const order = await Order.findByPk(req.params.id)
+    if(order) {
+        order.isPaid = true,
+        order.paidAt = new Date(Date.UTC(2016, 0, 1))
+        await order.save()
+    } else {
+        res.status(404)
+        throw new Error('Order not found')
+    }
+
+    const payementDetal = {
+        status: req.body.status,
+        createdAt: req.body.create_time,
+        updatedAt: req.body.update_time,
+        email: req.body.payer.email_address,
+    }
+
+    const payment =  await  Payment.create(payementDetal)
+       await payment.save()
+    
+   
+    
+    res.json(order)
+     
+})
+
+// @desc  Get logged in user orders 
+// @route Get /api/orders/myorders
+// @access Private
+
+exports.getMyOrders = asyncHandler(async (req, res) => {
+
+    const orders = await Order.findAll({
+        where: {
+            addressId: req.user.id
+        }
+    })
+    res.json(orders)
+  
 })
 
 

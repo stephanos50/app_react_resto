@@ -13,6 +13,7 @@ const SupplementOrder = require('./backend/models/SupplementOrder');
 const Supplement = require('./backend/models/Supplement');
 const Allergen = require('./backend/models/Allergen');
 const Picture = require('./backend/models/Picture');
+const Payment = require('./backend/models/Payment');
 const bcrypt = require("bcrypt");
 
 const { findOne } = require('./backend/models/City');
@@ -333,10 +334,12 @@ async function createCategories(){
 
 async function createCities(){
   return Promise.all([
+    cityCreate('Audergem', 1160),
     cityCreate('Bruxelles', 1000),
+    cityCreate('Drogenbos', 1620),
     cityCreate('Ixelles', 1050),
-    cityCreate('Drogenbos', 1200),
-    cityCreate('Audergem', 1300),
+    
+   
   ]);
 };
 
@@ -344,8 +347,7 @@ async function createSupplements(){
   return Promise.all([
     supplementCreate('frite', 5.0),
     supplementCreate('salade', 5.0),
-    supplementCreate('riz', 5.0),
-    supplementCreate("pate grecque", 5.0),
+    supplementCreate("pâte grecque", 5.0),
   ]);
 };
 

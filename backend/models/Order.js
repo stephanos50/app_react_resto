@@ -24,20 +24,29 @@ Order.init(
             
         },
         total: {
-            type: DataTypes.FLOAT,
-            
+            type: DataTypes.DOUBLE,
+           
         },
-        status:{
+        isPaid:{
             type: DataTypes.BOOLEAN,
+            require: true,
             defaultValue: false
         },
-        payment: { 
+        isDelivered:{
+            type: DataTypes.BOOLEAN,
+            require: true,
+            defaultValue: false
+        },
+        paymentMethod: { 
             type: DataTypes.STRING,  
             defaultValue: 'PayPal'
         },
-        date:{
-            type:DataTypes.DATEONLY,
-        }
+        paidAt: {
+            type: DataTypes.DATE,
+        },
+        deliveredAt: {
+            type: DataTypes.DATE,
+        },
 
     },
     {

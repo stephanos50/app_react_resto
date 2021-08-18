@@ -95,7 +95,7 @@ const ShippingScreem = ({ history, location }) => {
                             <Form.Label>Commune</Form.Label>
                             <Form.Select aria-label="" onChange={(e) => setCity(e.target.value)  }>
                                 { useInfo !== null ? 
-                                    useInfo.city.map((item) => (
+                                    useInfo.cities.map((item) => (
                                     
                                      <option key={item.name}  value={item.name}>
                                           {item.name} 

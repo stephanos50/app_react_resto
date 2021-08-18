@@ -35,7 +35,7 @@ const PlaceOrderScreen = ({history}) => {
         dispatch(createOrder({
             cartItems: cart.cartItems,
             shippingAddress: cart.shippingAddress,
-            paymentMethod: cart.payment,
+            paymentMethod: cart.paymentMethod,
             
         }))
     }

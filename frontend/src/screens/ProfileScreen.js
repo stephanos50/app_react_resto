@@ -3,7 +3,9 @@ import { useDispatch, useSelector} from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+
+import { Table, Form, Button, Row, Col } from 'react-bootstrap'
+import { LinkContainer} from 'react-router-bootstrap'
 
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
@@ -29,6 +31,8 @@ const ProfileScreem = ({ location, history}) => {
 
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
     const { success } = userUpdateProfile
+
+    
    
     useEffect(() => {
         if(!userInfo){
@@ -38,6 +42,7 @@ const ProfileScreem = ({ location, history}) => {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
                 
+                
             } else {
                 setFirstName(user.first_name)
                 setLastName(user.last_name)
@@ -45,6 +50,8 @@ const ProfileScreem = ({ location, history}) => {
             }
         }
     }, [dispatch, history, userInfo, user, success])
+
+    console.log(user.orders)
 
     const submitHandler = (e) => { 
         e.preventDefault()
@@ -126,6 +133,38 @@ const ProfileScreem = ({ location, history}) => {
             </Col>
             <Col md={9}>
                 <h2>Mes commandes</h2>
+                {user.orders === undefined ? <Message variant='danger'>{}</Message> : (
+                    <Table striped bordered hover responsive className='table-sm'>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DATE</th>
+                                <th>TOTAL</th>
+                                <th>PAID</th>
+                                <th>DELIVERED</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {user.orders.map(order => (
+                                <tr key={order.id}>
+                                    <td>{order.id}</td>
+                                    <td>{order.createdAt}</td>
+                                    <td>{order.total}</td>
+                                    <td>{order.isPaid ? order.paidAt : ( <i className='fas fa-times' style={{color:'red'}}></i>)}</td>
+                                    <td>{order.isDelivered ? order.isDeliveredAt : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>)}</td>
+
+                                    
+                                    <td>
+                                        <LinkContainer to={`/order/${order.id}`}>
+                                            <Button class='btn-sm' variant='primary'>Details</Button>
+                                        </LinkContainer>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                )}
             </Col>
         </Row>
         )

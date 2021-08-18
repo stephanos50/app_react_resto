@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Role = require('../models/Role');
 const Address = require('../models/Address');
 const City = require('../models/City')
+const Order = require('../models/Order')
 const  asyncHandler = require ('express-async-handler')
 const token = require('../utils/generateToken')
 const bcrypt = require('bcrypt')
@@ -16,7 +17,7 @@ const saltRounds = 10;
 exports.authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     const user = await User.findByPk(email,{
-        include: [Role]
+        include: [Role,Address]
     })
     
     if( user && await user.validPassword(password)){
@@ -25,9 +26,16 @@ exports.authUser = asyncHandler(async (req, res) => {
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
-            city: await City.findAll(),
+
+            address: user.address.name,
+            number: user.address.number,
+            floor: user.address.floor,
+            city: user.cityName,
+
             role: user.roles.map((role) => role.name),
-            token: token.generateToken(user._uuid)
+            token: token.generateToken(user._uuid),
+
+            cities: await City.findAll()
         })
     } else {
         res.status(401)
@@ -42,9 +50,10 @@ exports.registerUser = asyncHandler(async (req, res) => {
     const { first_name,last_name, email, password } = req.body
     
     const userExists = await User.findOne({
-        where: { email:email }
+        where: { email:email },
     })
-    if(userExists){
+
+   if(userExists){
         res.status(400)
         throw new Error('User already exist')
     }
@@ -53,19 +62,18 @@ exports.registerUser = asyncHandler(async (req, res) => {
         first_name: first_name,
         last_name: last_name,
         email: email,
-        city:await City.findAll(),
-        passwordHash: await bcrypt.hash(password,saltRounds)
+        passwordHash: await bcrypt.hash(password,saltRounds),
     })
-    await user.setRoles([1])
-
+    user.setRoles([1])
+    await user.save()
     if(user){
         res.status(201).json({
             _uuid: user._uuid,
             first_name: first_name,
             last_name:last_name,
             email: email,
-            city: await City.findAll(),
-            token: token.generateToken(user._uuid)
+            token: token.generateToken(user._uuid),
+            cities: await City.findAll()
         })
         } else {
         res.status(400)
@@ -78,7 +86,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
     
-    const user = await User.findByPk(req.user.email)
+    const user = await User.findByPk(req.user.email,{include: Order})
     
     if (user) {
         res.json({
@@ -86,6 +94,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
             first_name : user.first_name,
             last_name : user.last_name,
             email: user.email,
+            orders: user.orders
         })
     } else {
         res.status(404)
@@ -115,8 +124,8 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
             first_name: updateUser.first_name,
             last_name: updateUser.last_name,
             email: updateUser.email,
-            city: await City.findAll(),
-            token: token.generateToken(updateUser._uuid)
+            token: token.generateToken(updateUser._uuid),
+            cities: await City.findAll()
         })
     } else {
         res.status(404)

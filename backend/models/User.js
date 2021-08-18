@@ -6,7 +6,7 @@ const Address = require('./Address');
 
 class User extends Model {
     get url() {
-        return `/user/${this.id}`;
+        return `/user/${this.email}`;
     }
 
     async validPassword(passwordToTest) {
@@ -16,24 +16,38 @@ class User extends Model {
 
 User.init(
     {
+        email: { 
+            type: DataTypes.STRING, 
+            primaryKey: true,
+            allowNull: false,
+            validate: {
+                isEmail: true,
+                notEmpty: true,     
+            }
+        },
         _uuid: { 
             type: UUID , 
             isUUID: 4
         },
         first_name: { 
             type: DataTypes.STRING, 
-            allowNull: false
+            allowNull: false,
+            validate: {
+                is: ['[a-z]','i'],
+                notEmpty: true,  
+            }
         },
         last_name: { 
             type: DataTypes.STRING, 
-            allowNull: false
+            allowNull: false,
+            validate: {
+                is: ['[a-z]','i'], 
+                notEmpty: true, 
+            }
         },
-        email: { 
-            type: DataTypes.STRING,  
-            primaryKey: true,
-            isEmail: true 
-        },
-        passwordHash: DataTypes.STRING,
+       
+        passwordHash: DataTypes.STRING,  
+        
        
     },
     {
