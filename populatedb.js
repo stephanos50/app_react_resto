@@ -171,34 +171,35 @@ async function categoryCreate(name){
 
 async function createUsers(){
 
+    const admin_password = await bcrypt.hash('root',10)
     const stefan_password = await bcrypt.hash('root',10)
-    const nicolas_password = await bcrypt.hash('root',10)
+
     const [administrateur, client] = await Role.bulkCreate([
       { name: "administrateur" },
       { name: "client" },
       
     ]);
 
-    const [stefan,nicolas] =  await User.bulkCreate([
+    const [admin,stefan] =  await User.bulkCreate([
+      {
+        _uuid: uuidv4(),
+        first_name: 'admin',
+        last_name: 'admin',
+        email: 'admin@exemple.be',
+        passwordHash: admin_password
+      },
       {
         _uuid: uuidv4(),
         first_name: 'stefan',
         last_name: 'arvanitis',
         email: 'stefan@exemple.be',
         passwordHash: stefan_password
-      },
-      {
-        _uuid: uuidv4(),
-        first_name: 'nicolas',
-        last_name: 'arvanitis',
-        email: 'nicola@exemple.be',
-        passwordHash: nicolas_password
       }
     ]);
 
     await Promise.all([
-      stefan.setRoles([administrateur]),
-      nicolas.setRoles([client])
+      admin.setRoles([administrateur]),
+      stefan.setRoles([client])
       
     ]);
 };
@@ -301,11 +302,6 @@ async function createProducts(){
       cote:1,
       categoryName: 'Suggestions'
     }, 
-
-
-
-
-    
   ]);
 
   await Promise.all([
@@ -338,8 +334,6 @@ async function createCities(){
     cityCreate('Bruxelles', 1000),
     cityCreate('Drogenbos', 1620),
     cityCreate('Ixelles', 1050),
-    
-   
   ]);
 };
 
@@ -431,7 +425,7 @@ async function addPictures(){
    
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();
-    // const totalOrder = await addTotal()
+    //const totalOrder = await addTotal()
     const products_orders_02 = await createProductOrder02();
     const orders_02 = await updateOrders();
     

@@ -15,26 +15,21 @@ const saltRounds = 10;
 // @route POST /api/users/login
 // @access Public
 exports.authUser = asyncHandler(async (req, res) => {
+    console.log(req.body)
     const { email, password } = req.body
     const user = await User.findByPk(email,{
         include: [Role,Address]
     })
+    console.log(user)
     
     if( user && await user.validPassword(password)){
         res.json({
+            email: user.email,
             _uuid: user._uuid,
             first_name: user.first_name,
             last_name: user.last_name,
-            email: user.email,
-
-            address: user.address.name,
-            number: user.address.number,
-            floor: user.address.floor,
-            city: user.cityName,
-
             role: user.roles.map((role) => role.name),
             token: token.generateToken(user._uuid),
-
             cities: await City.findAll()
         })
     } else {
@@ -58,20 +53,20 @@ exports.registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exist')
     }
     const user = await User.create({
+         email: email,
         _uuid: uuidv4(),
         first_name: first_name,
         last_name: last_name,
-        email: email,
         passwordHash: await bcrypt.hash(password,saltRounds),
     })
     user.setRoles([1])
     await user.save()
     if(user){
         res.status(201).json({
+            email: email,
             _uuid: user._uuid,
             first_name: first_name,
             last_name:last_name,
-            email: email,
             token: token.generateToken(user._uuid),
             cities: await City.findAll()
         })
@@ -90,10 +85,10 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
     
     if (user) {
         res.json({
+            email: user.email,
             _uuid : user._uuid,
             first_name : user.first_name,
             last_name : user.last_name,
-            email: user.email,
             orders: user.orders
         })
     } else {

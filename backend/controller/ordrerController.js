@@ -88,7 +88,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
-    
+    console.log(req.params.id)
     const order = await Order.findByPk(req.params.id, {
         include: [ProductOrder, {model:Address,include:[{model:City}]}, User] 
     })
