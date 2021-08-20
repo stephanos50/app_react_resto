@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const Role = require('../models/Role')
 const  asyncHandler = require ('express-async-handler')
 
 
@@ -12,7 +13,8 @@ const protect = asyncHandler(async function (req, res, next) {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
            
             req.user = await User.findOne({
-                where: { _uuid : decoded.id}
+                where: { _uuid : decoded.id},
+                include: Role
             })
             next()
         } catch (error) {
@@ -29,4 +31,14 @@ const protect = asyncHandler(async function (req, res, next) {
     
 })
 
-module.exports = protect;
+const admin = (req, res, next) =>{
+    
+   if (req.user && req.user.isAdmin && (req.user.roles[0].name === 'admin') ) {
+       next()
+    } else {
+        res.status(401)
+        throw new Error('Not authorize as an admin')
+    }
+}
+
+module.exports = {protect, admin}

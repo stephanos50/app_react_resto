@@ -45,6 +45,11 @@ User.init(
                 notEmpty: true, 
             }
         },
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            require: true,
+            defaultValue: false
+        },
        
         passwordHash: DataTypes.STRING,  
         

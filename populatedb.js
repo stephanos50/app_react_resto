@@ -171,35 +171,38 @@ async function categoryCreate(name){
 
 async function createUsers(){
 
-    const admin_password = await bcrypt.hash('root',10)
     const stefan_password = await bcrypt.hash('root',10)
+    const gabriella_password = await bcrypt.hash('root',10)
+    
 
-    const [administrateur, client] = await Role.bulkCreate([
-      { name: "administrateur" },
+    const [admin, client] = await Role.bulkCreate([
+      { name: "admin" },
       { name: "client" },
       
     ]);
 
-    const [admin,stefan] =  await User.bulkCreate([
+    const [stefan, gabriella] =  await User.bulkCreate([
       {
-        _uuid: uuidv4(),
-        first_name: 'admin',
-        last_name: 'admin',
-        email: 'admin@exemple.be',
-        passwordHash: admin_password
-      },
-      {
+        email: 'stefan@exemple.be',
         _uuid: uuidv4(),
         first_name: 'stefan',
         last_name: 'arvanitis',
-        email: 'stefan@exemple.be',
-        passwordHash: stefan_password
+        isAdmin: true,
+        passwordHash: stefan_password 
+      },
+      {
+        email: 'gabriella@exemple.be',
+        _uuid: uuidv4(),
+        first_name: 'gabriella',
+        last_name: 'arvanitis',
+        isAdmin: false,
+        passwordHash: gabriella_password
       }
     ]);
 
     await Promise.all([
-      admin.setRoles([administrateur]),
-      stefan.setRoles([client])
+      stefan.setRoles([admin]),
+      gabriella.setRoles([client])
       
     ]);
 };

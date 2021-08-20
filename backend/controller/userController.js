@@ -15,19 +15,17 @@ const saltRounds = 10;
 // @route POST /api/users/login
 // @access Public
 exports.authUser = asyncHandler(async (req, res) => {
-    console.log(req.body)
     const { email, password } = req.body
     const user = await User.findByPk(email,{
         include: [Role,Address]
     })
-    console.log(user)
-    
     if( user && await user.validPassword(password)){
         res.json({
             email: user.email,
             _uuid: user._uuid,
             first_name: user.first_name,
             last_name: user.last_name,
+            isAdmin: user.isAdmin,
             role: user.roles.map((role) => role.name),
             token: token.generateToken(user._uuid),
             cities: await City.findAll()
@@ -59,8 +57,9 @@ exports.registerUser = asyncHandler(async (req, res) => {
         last_name: last_name,
         passwordHash: await bcrypt.hash(password,saltRounds),
     })
-    user.setRoles([1])
     await user.save()
+    
+    
     if(user){
         res.status(201).json({
             email: email,
@@ -80,15 +79,15 @@ exports.registerUser = asyncHandler(async (req, res) => {
 // @route  Get /api/users/profile
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
-    
+    console.log(req.params)
     const user = await User.findByPk(req.user.email,{include: Order})
-    
     if (user) {
         res.json({
             email: user.email,
             _uuid : user._uuid,
             first_name : user.first_name,
             last_name : user.last_name,
+            isAdmin: user.isAdmin,
             orders: user.orders
         })
     } else {
@@ -102,8 +101,6 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 // @access Private
 exports.updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findByPk(req.body.id)
-   
-    
     if (user) {
         user.first_name = req.body.first_name || user.first_name
         user.last_name = req.body.last_name || user.last_name
@@ -115,10 +112,10 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
         const updateUser = await user.save()
        
         res.json({
+            email: updateUser.email,
             _uuid : updateUser.uuid,
             first_name: updateUser.first_name,
             last_name: updateUser.last_name,
-            email: updateUser.email,
             token: token.generateToken(updateUser._uuid),
             cities: await City.findAll()
         })
@@ -127,3 +124,5 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
         throw new Error('User not found ')
     }
 })
+
+
