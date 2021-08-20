@@ -40,20 +40,21 @@ export const orderDetailsReducer = (
             return {  
                 ...state,
                 loading: true,
-                
-            }
+            };
         case ORDER_DETAILS_SUCCESS:
             return { 
+                ...state,
                 loading: false,  
                 order: action.payload
-            }
+            };
         case ORDER_DETAILS_FAIL:
             return { 
+                ...state,
                 loading: false, 
                 error: action.payload
-            }
+            };
         default: 
-            return state
+            return state;
     }
 
 }

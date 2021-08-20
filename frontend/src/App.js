@@ -13,6 +13,9 @@ import ShippingScreen from './screens/ShippingScreen'
 import PaymentScrren from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
+import UserListScreem from './screens/UserListScreem'
+import UserEditScreem from './screens/UserEditScreem'
+import ProductListScreen from './screens/ProductListScreen'
 
 
 
@@ -27,15 +30,18 @@ const  App = () => {
         <main className="py-3">
              <Container>
                 <Route path='/' component={Home} exact />
-                <Route path='/products/:uuid' component={Product} exact />
-                <Route path='/cart/:id?' component={Cart} exact />
-                <Route path='/login' component={LoginScreen} exact />
-                <Route path='/register' component={RegisterScreen} />
-                <Route path='/profile' component={ProfileScreen} />
-                <Route path='/shipping' component={ShippingScreen} />
-                <Route path='/payment' component={PaymentScrren} />
-                <Route path='/placeorder' component={PlaceOrderScreen} />
-                <Route path='/order/:id' component={OrderScreen} />
+                <Route path='/admin/userlist' component={UserListScreem} exact  />
+                <Route path='/admin/productlist' component={ProductListScreen} exact  />
+                <Route path='/admin/:email/edit' component={UserEditScreem} exact  />
+                <Route path='/products/:uuid' component={Product} exact  />
+                <Route path='/cart/:id?' component={Cart} exact/>
+                <Route path='/login' component={LoginScreen} exact/>
+                <Route path='/register' component={RegisterScreen}exact />
+                <Route path='/profile' component={ProfileScreen}exact />
+                <Route path='/shipping' component={ShippingScreen} exact/>
+                <Route path='/payment' component={PaymentScrren}exact />
+                <Route path='/placeorder' component={PlaceOrderScreen}exact />
+                <Route path='/order/:id' component={OrderScreen}exact />
                 
                 
               </Container>

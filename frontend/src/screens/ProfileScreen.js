@@ -101,9 +101,8 @@ const ProfileScreem = ({ location, history}) => {
                             <Form.Label>Votre email</Form.Label>
                             <Form.Control 
                                 type='email'
-                                placeholder='Entrez votre email' 
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                readOnly
                             ></Form.Control>
                         </Form.Group>
 

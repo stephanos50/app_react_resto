@@ -51,5 +51,4 @@ export const listProductDetails = (uuid) => async (dispatch) => {
                     : error.message,
         })
     }
-
 }
