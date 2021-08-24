@@ -3,10 +3,7 @@ import React, { useState,useEffect } from 'react'
 import { Table, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 import { deleteUser } from '../actions/adminActions'
 
 

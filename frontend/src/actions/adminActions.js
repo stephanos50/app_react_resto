@@ -13,6 +13,7 @@ import {
     USER_UPDATE_FAIL,
     USER_DETAILS_RESET,
   
+  
 
 } from '../constants/adminConstants'
 
@@ -21,22 +22,18 @@ import axios from 'axios'
 
 export const listUsers = () => async (dispatch, getState) => {
     try {
-      dispatch({
-        type: USER_LIST_REQUEST,
-      })
+      dispatch({ type: USER_LIST_REQUEST })
       
-      const {
-        userLogin: { userInfo },
-      } = getState()
+      const { userLogin: { userInfo } } = getState()
   
-      const config = {
+      const config = { 
         headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-        },
+          Authorization: `Bearer ${userInfo.token}`
+        } 
       }
   
       const { data } = await axios.get(`/api/admin`, config)
-      console.log(data)
+      
       dispatch({
         type: USER_LIST_SUCCESS,
         payload: data,
@@ -57,13 +54,9 @@ export const listUsers = () => async (dispatch, getState) => {
 export const deleteUser = (email) => async (dispatch, getState) => {
  
   try {
-    dispatch({
-      type: USER_DELETE_REQUEST,
-    })
+    dispatch({ type: USER_DELETE_REQUEST })
     
-    const {
-      userLogin: { userInfo },
-    } = getState()
+    const { userLogin: { userInfo } } = getState()
 
     const config = {
       headers: {
@@ -74,9 +67,7 @@ export const deleteUser = (email) => async (dispatch, getState) => {
 
     await axios.delete(`/api/admin/${email}`, config)
     
-    dispatch({
-      type: USER_DELETE_SUCCESS,
-    })
+    dispatch({ type: USER_DELETE_SUCCESS })
     
   } catch (error) {
     dispatch({
@@ -167,3 +158,4 @@ export const updateUser = (user) => async (dispatch, getState) => {
     })
   }
 }
+

@@ -17,7 +17,7 @@ const Product = ({history, match}) => {
 
     const dispatch = useDispatch()
 
-    const productDetails = useSelector((state) => state.listProductDetails)
+    const productDetails = useSelector((state) => state.productDetails)
 
     const { loading, error, product} = productDetails
 
@@ -33,7 +33,7 @@ const Product = ({history, match}) => {
     }
 
     const picture = product.pictures.map((image) => image.path)
-    const allergen = product.allergens.map((item) => item.name)
+    
     
     return ( 
         <>
@@ -110,7 +110,10 @@ const Product = ({history, match}) => {
                     <Row>
                         <Col md={6} className="p-3">
                             <h4>Allergene</h4>
-                            <i> { allergen } </i>
+                            {
+                                product.allergens.map((item) => <i key={item.name}>{item.name}</i>)
+                            }
+                           
                             
                         </Col>
                     </Row>

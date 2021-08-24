@@ -22,14 +22,10 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
     
     if(cartItems && cartItems.lenght === 0){
         res.status(400)
-        console.log.log(' IF No order items')
         throw new Error('No order items')
        
-        
-       
     } else {
-
-       const addressDetails = { 
+        const addressDetails = { 
             name: shippingAddress.address,
             number: shippingAddress.number,
             floor: shippingAddress.floor,

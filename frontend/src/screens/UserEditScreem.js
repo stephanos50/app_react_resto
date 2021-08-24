@@ -47,7 +47,7 @@ const UserEditScreem = ({match, history}) => {
 
     const submitHandler = (e) => { 
         e.preventDefault()
-        dispatch(updateUser({email:userId, email,first_name, last_name, isAdmin}))
+        dispatch(updateUser({email:userId,first_name, last_name, isAdmin}))
         
     }
     return ( 
@@ -102,6 +102,8 @@ const UserEditScreem = ({match, history}) => {
                         </Form.Check>
                     
                     </Form.Group>
+
+                   
                     <Button type='submit' variant='primary'>Update</Button>
             </Form>
             )}

@@ -20,6 +20,7 @@ exports.getUsers = asyncHandler(async (req, res) => {
 // @route  DELETE /api/admin/:email
 // @access Private/Admin
 exports.deleteUsers = asyncHandler(async (req, res) => {
+    console.log('deleteUsers')
     const user = await User.findByPk(req.params.email)
     if (user) {
        await user.destroy()
@@ -70,6 +71,9 @@ exports.updateUserById = asyncHandler(async (req, res) => {
         throw new Error('User not found ')
     }
 })
+
+
+
 
 
 

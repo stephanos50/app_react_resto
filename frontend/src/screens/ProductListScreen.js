@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 
-import { listProducts } from '../actions/productAction'
+import { listProducts, deleteProduct, createProduct } from '../actions/productAction'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+
 
 const ProductListScreen = ({ history, match }) => {
  
@@ -17,23 +19,34 @@ const ProductListScreen = ({ history, match }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  useEffect(() => {
-    if (userInfo || userInfo.isAdmin) {
-        dispatch(listProducts())
-        console.log('dispatch')
-    } else {
-        history.push('/login')
-    }
-  },[])
+  const productDelete = useSelector((state) => state.productDelete)
+  const { loading:loadingDelete, error:errorDelete, success:successDelete } = productDelete
 
-  const deleteHandler = (id) => {
+  const productCreate = useSelector((state) => state.productCreate)
+  const { loading: loadingCreate, error: errorCreate, success: successCreate, product: createdProduct} = productCreate
+
+  useEffect(() => {
+    dispatch({type: PRODUCT_CREATE_RESET})
+    if (!userInfo || !userInfo.isAdmin) {
+      history.push('/login')
+    } 
+    if(successCreate) {
+      history.push(`/admin/product/${createdProduct._uuid}/edit`)
+    } else {
+      dispatch(listProducts())
+    }
+  },[dispatch, history, userInfo, successDelete , successCreate, createdProduct])
+
+  const deleteHandler = (name) => {
+    console.log('delete')
     if (window.confirm('Are you sure')) {
-      console.log('delete')
+      dispatch(deleteProduct(name))
+      
     }
   }
 
-  const createProductHandler = (product) => {
-    //CREATE PRODUCT
+  const createProductHandler = () => {
+      dispatch(createProduct())
   }
 
   return (
@@ -48,6 +61,10 @@ const ProductListScreen = ({ history, match }) => {
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='dander'>{errorDelete}</Message>}
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant='dander'>{errorCreate}</Message>}
       {loading && <Loader />}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
@@ -78,7 +95,7 @@ const ProductListScreen = ({ history, match }) => {
                   <td>{product.categoryName}</td>
                   
                   <td>
-                    <LinkContainer to={`/admin/productlist/${product._id}/edit`}>
+                    <LinkContainer to={`/admin/product/${product._uuid}/edit`}>
                       <Button variant='light' className='btn-sm'>
                         <i className='fas fa-edit'></i>
                       </Button>
@@ -86,7 +103,7 @@ const ProductListScreen = ({ history, match }) => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => deleteHandler(product.id)}
+                      onClick={() => deleteHandler(product.name)}
                     >
                       <i className='fas fa-trash'></i>
                     </Button>

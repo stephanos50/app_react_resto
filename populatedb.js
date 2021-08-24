@@ -210,20 +210,20 @@ async function createUsers(){
 async function createProducts(){
 
   const [gluten,crustaces,oeufs,poissons,arachides,soja,lactose,celeris,fruits,moutarde,graines,Anhydride,Lupin,Mollusques ] = await Allergen.bulkCreate([
-    { name: 'Gluten ' },
-    { name: 'Crustacés ' },
-    { name: 'Oeufs ' },
-    { name: 'Poissons ' },
-    { name: 'Arachides ' },
-    { name: 'Soja ' },
-    { name: 'Lactose ' },
-    { name: 'Celeris ' },
-    { name: "Fruits à coque " },
-    { name: 'Moutarde ' },
-    { name: 'Graines grillées ' },
-    { name: 'Anhydride sulfureux ' },
-    { name: 'Lupin ' },
-    { name: 'Mollusques ' },
+    { name: "Gluten"},
+    { name: "Crustacés"},
+    { name: "Oeufs"},
+    { name: "Poissons"},
+    { name: "Arachides"},
+    { name: "Soja"},
+    { name: "Lactose"},
+    { name: "Celeris"},
+    { name: "Fruits à coque" },
+    { name: "Moutarde" },
+    { name: "Graines grillées"},
+    { name: "Anhydride sulfureux"},
+    { name: "Lupin"},
+    { name: "Mollusques"},
     
   ]);
   const [tarama, tzadziki, feta, gambas,calamars,meze ] = await Product.bulkCreate([

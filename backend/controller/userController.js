@@ -79,7 +79,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
 // @route  Get /api/users/profile
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
-    console.log(req.params)
+    
     const user = await User.findByPk(req.user.email,{include: Order})
     if (user) {
         res.json({
