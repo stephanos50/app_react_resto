@@ -21,6 +21,7 @@ export const createOrder = (order) =>  async (dispatch, getSate) => {
     
    try {
         dispatch({ type:ORDER_CREATE_REQUEST })
+
         const {
             userLogin: {userInfo},
         } = getSate()
@@ -38,6 +39,8 @@ export const createOrder = (order) =>  async (dispatch, getSate) => {
             type: ORDER_CREATE_SUCCESS,
             payload: data,
         })
+
+        localStorage.removeItem('cartItems')
 
    } catch (error) {
         dispatch({
@@ -87,7 +90,9 @@ export const getOrderDetails = (id) =>  async (dispatch, getSate) => {
             type: ORDER_PAY_REQUEST
         })
 
-        const { userLogin: {userInfo} } = getSate()
+        const { 
+            userLogin: {userInfo},
+        } = getSate()
 
         const config = {
             headers: {
@@ -113,7 +118,7 @@ export const getOrderDetails = (id) =>  async (dispatch, getSate) => {
     }
  }
 
- export const listMyOrders = (order) => async(dispatch, getState) => {
+ export const listMyOrders = () => async(dispatch, getState) => {
      try {
         dispatch({
              type: ORDER_LIST_MY_REQUEST,

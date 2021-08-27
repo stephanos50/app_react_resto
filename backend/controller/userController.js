@@ -28,7 +28,6 @@ exports.authUser = asyncHandler(async (req, res) => {
             isAdmin: user.isAdmin,
             role: user.roles.map((role) => role.name),
             token: token.generateToken(user._uuid),
-            cities: await City.findAll()
         })
     } else {
         res.status(401)
@@ -67,7 +66,6 @@ exports.registerUser = asyncHandler(async (req, res) => {
             first_name: first_name,
             last_name:last_name,
             token: token.generateToken(user._uuid),
-            cities: await City.findAll()
         })
         } else {
         res.status(400)
@@ -79,8 +77,9 @@ exports.registerUser = asyncHandler(async (req, res) => {
 // @route  Get /api/users/profile
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
-    
+   
     const user = await User.findByPk(req.user.email,{include: Order})
+    console.log(user)
     if (user) {
         res.json({
             email: user.email,
@@ -117,7 +116,6 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
             first_name: updateUser.first_name,
             last_name: updateUser.last_name,
             token: token.generateToken(updateUser._uuid),
-            cities: await City.findAll()
         })
     } else {
         res.status(404)

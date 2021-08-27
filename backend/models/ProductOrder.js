@@ -11,23 +11,20 @@ class ProductOrder extends Model{
         return `/product_order/${this.id}`;
     }
     async calculSubTotal(qty, price){
-        return (qty * price)
+        let total = (qty*price)
+        return total
     }
 }
 
 ProductOrder.init(
     {
-        _uuid: { 
-            type: UUID , 
-            isUUID: 4,
-        },
-       quantity: {
+        quantity: {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
-        prix: {
+        price: {
             type: DataTypes.DOUBLE,
-            allowNull: false
+            
         }
     },
     {

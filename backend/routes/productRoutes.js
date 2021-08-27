@@ -5,9 +5,11 @@ const {protect, admin} = require('../middleware/authMiddleware')
 const productController = require('../controller/productController');
 
 router.route('/').get(productController.getProducts).post(protect,admin,productController.createProduct);
-router.get('/:uuid', productController.getProductByName);
-router.route('/:name').delete(protect,admin,productController.deleteProduct)
-router.route('/:uuid').put(protect,admin,productController.updateProduct)
+
+
+router.route('/:id').get(productController.getProductById);
+router.route('/:id').delete(protect,admin,productController.deleteProduct)
+router.route('/:id').put(protect,admin,productController.updateProduct)
 
 
 

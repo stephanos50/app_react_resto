@@ -5,26 +5,25 @@ import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import FormContainer from '../composants/FormContainer'
 import { listProductDetails, updateProduct} from '../actions/productAction'
+import { listCategory } from '../actions/categoryAction'
 import { Form, Button} from 'react-bootstrap'
-import axios from 'axios'
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import context from 'react-bootstrap/esm/AccordionContext'
 
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import axios from 'axios'
 
 
 const ProductEditScreem = ({match, history}) => {
     
-    const productId = match.params.uuid
-   
+    const productId = match.params.id
+    
     const [image, setImage] = useState('')
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState(0)
     const [cote, setCote] = useState(0)
     const [category, setCategory] = useState('')
-    const [allergen, setAllergen] = useState([])
-    const [allergens, setAllergens] = useState([])
-    const [categories, setCategories] = useState([])
+    const [allergensList, setAllergensList] = useState([]) // AXIOS
+    const [allergens, setAllergens] = useState({}) // PRODUCT
     const [isChecked, setIsChecked] = useState(false)
     
     const dispatch = useDispatch()
@@ -35,6 +34,9 @@ const ProductEditScreem = ({match, history}) => {
     const productUpdate = useSelector((state) => state.productUpdate)
     const { loading:loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate
 
+    const categoryList = useSelector((state) => state.categoryList)
+    const { categories } = categoryList
+
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
 
@@ -43,112 +45,94 @@ const ProductEditScreem = ({match, history}) => {
             Authorization: `Bearer ${userInfo.token}`,
         },
       }
-     
 
-    useEffect(()=> {
-        if(successUpdate){
-            dispatch({type: PRODUCT_UPDATE_RESET})
-            history.push('/admin/productList')
+    const fetchLisAllergen = async () => {
+        const { data } = await axios.get('/api/allergens', config)
+        setAllergensList(data)
+    }
+
+    useEffect(() => {
+        dispatch(listCategory())
+        if (successUpdate) {
+            dispatch({ type: PRODUCT_UPDATE_RESET })
+            history.push('/admin/productlist')
+        } 
+        if (!product.name || product.id !== Number(productId) ) {
+            dispatch(listProductDetails(productId))
         } else {
-            if(!product.name || product._uuid !== productId  ){
-                dispatch(listProductDetails(productId))
-                
-                
-            }else {
-                setName(product.name)
-                setDescription(product.description)
-                setPrice(product.price)
-                setCote(product.cote)
-                setCategory(product.categoryName)
-                setAllergen(product.allergens)
-    
-                const fetchLisCategory = async () => {
-                    const { data } = await axios.get(`/api/categories`, config)
-                    setCategories(data)
-                }
-                fetchLisCategory()
-    
-                const fetchLisAllergen = async () => {
-                    const { data } = await axios.get(`/api/allergens/${product.name}`, config)
-                    setAllergens(data)
-                }
-                fetchLisAllergen()
-            }
-
+            setName(product.name)
+            setDescription(product.description)
+            setPrice(product.price)
+            setCote(product.cote)
+            setCategory(product.categoryId)
+            setAllergens(product.allergens)
+            fetchLisAllergen()
         }
        
-    }, [dispatch,history, productId, product, successUpdate])
-   
-   
+      }, [dispatch, history, productId, product, successUpdate])
+      
     const submitHandler = (e) => { 
         e.preventDefault()
         dispatch(updateProduct({
-            _uuid: productId,
-            name,
+            id:productId,
+            name:name,
             description:description,
             price:price,
             cote:cote,
             category:category,
-            allergen: allergen,
-
+            allergen: allergens,
         }))
-        
-    }
+    };
 
     const chekedHandler = (name) => {
-        
-    const selectedPermission = allergen.map(item => item.name);
-      for (let i = 0; i < selectedPermission.length; i++) {
-        const allergen = selectedPermission[i];
-        if ( selectedPermission[i] === name) {
-            return true
-        } 
-      }
-    }
-
+        const allergen = allergens.map(item => item.name);
+        for (let i = 0; i < allergen.length; i++) {
+            if ( allergen[i] === name) {
+                return true
+            } 
+        }
+    };
     const changeChekedHandler = (value) => {
+       const allergenes = allergens.map((item) => item.name )
         
-        const allergenes = allergen.map((item, index) =>  item.name)
-       
         if(allergenes.includes(value) && isChecked === true){
-            
             for(let i = 0; i < allergenes.length; ++i){
                 if(allergenes[i] === value){
-                    allergen.splice(i,1)
+                    allergens.splice(i,1)
                 }
-                setAllergen(allergen)
+                setAllergens(allergens)
                 setIsChecked(false)
-                
             }
         } else if (!allergenes.includes(value)){
-            const details = {
-                name: value,
-                createdAt: "2021-08-23T20:05:52.000Z",
-            }
-            setIsChecked(true)
-            allergen.push(details)
-            setAllergen(allergen)
-           
+            allergensList.forEach(element => {
+                if(value === element.name){
+                    const details = {
+                        id: element.id,
+                        name: element.name,
+                        createdAt: "2021-08-23T20:05:52.000Z",
+                    }
+                    console.log(details)
+                    setIsChecked(true)
+                    allergens.push(details)
+                    setAllergens(allergens)
+                }
+            })
         } else {
             setIsChecked(true)
-            setAllergen(allergen)
+            setAllergens(allergens)
         }
-        console.log(allergen)
-      }
-    
-
-   
+    };
+  
     return ( 
         <>
-            <Link to='/admin/productList' className='btn btn-light my-3'>Go Back</Link>
+            <Link to='/admin/productList' className='btn btn-light my-3'>
+            Go Back
+            </Link>
             <FormContainer>
-            
             <h1>Edit PRODUCT</h1>
             {loadingUpdate && <Loader />}
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
-            {loading && <Loader />} 
-            {error && <Message variant='danger'>{error}</Message>}
-            {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (
+            {loading ? ( <Loader /> ) : error ? ( <Message variant="danger">{error}</Message> ) : (
                 <Form onSubmit={submitHandler}>
 
                    <Form.Group className="mb-3" controlId='image'>
@@ -158,16 +142,17 @@ const ProductEditScreem = ({match, history}) => {
                             placeholder='Entrez image url' 
                             value={image}
                             onChange={(e) => setImage(e.target.value)}
-                            readOnly
                         ></Form.Control>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='name'>
                         <Form.Label>Nom</Form.Label>
                         <Form.Control 
-                            type='text'
+                            type='name'
+                            placeholder='Entrez image url' 
                             value={name}
-                            readOnly
+                            onChange={(e) => setName(e.target.value)}
+                            
                         ></Form.Control>
                     </Form.Group>
 
@@ -176,8 +161,7 @@ const ProductEditScreem = ({match, history}) => {
                        
                         <Form.Control as="textarea" rows={3}
                             type='text'
-                            name='description'
-                            placeholder='Description' 
+                            placeholder='Entrez une description' 
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                            
@@ -188,8 +172,7 @@ const ProductEditScreem = ({match, history}) => {
                         <Form.Label>Prix</Form.Label>
                         <Form.Control 
                             type='number'
-                            name='price'
-                            placeholder='Entrer votre prix' 
+                            placeholder='Entrez votre prix' 
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                         ></Form.Control>
@@ -199,20 +182,21 @@ const ProductEditScreem = ({match, history}) => {
                         <Form.Label>Votre nom</Form.Label>
                         <Form.Control 
                             type='number'
-                            name='cote'
-                            placeholder='Cote' 
+                            placeholder='Entrez une cote' 
                             value={cote}
                             onChange={(e) => setCote(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='category'> 
-                        <Form.Label> <h5>Category :  {category} </h5></Form.Label> 
+                        
+                        <Form.Label> <h5>Category : {category} </h5></Form.Label> 
                         <Form.Select aria-label=""  name='category' onChange={(e) => setCategory(e.target.value)  }>
                         { 
                             categories.map((item) => (
-                                <option key={item.name}  value={item.name}>
-                                    {item.name} 
+                                <option key={item.id}  value={item.id}>
+                                    {item.id}  {item.name} 
+                                    
                                 </option>
                             ))
                         }
@@ -223,7 +207,7 @@ const ProductEditScreem = ({match, history}) => {
                         <Form.Label><h5>Allergenes :</h5>
                         
                         </Form.Label>
-                            {allergens.map((item) => 
+                            {allergensList.map((item) => 
                             <Form.Check
                                 
                                 key={item.name}
@@ -235,9 +219,9 @@ const ProductEditScreem = ({match, history}) => {
                                 onChange={(e) => changeChekedHandler(item.name)}
                             >
 
-                            </Form.Check>)}
-                            
+                        </Form.Check>)}
                     </Form.Group>
+
                     <Button type='submit' variant='primary'>Update</Button>
                 </Form>
                

@@ -6,11 +6,13 @@ const Product = require('../models/Product')
 // @route Get /api/categories
 // @access Public
 exports.getCategory =  asyncHandler(async (req,res) => {
+
+    console.log('getCategory')
     const categories = await Category.findAll()
     if (categories) {
         return res.json(categories)
     } else {
-        res.status(404)
+        res.status(401)
         throw new Error('Nothing found')
     }
     

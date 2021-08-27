@@ -22,14 +22,14 @@ const Product = ({history, match}) => {
     const { loading, error, product} = productDetails
 
     useEffect(() => {
-        dispatch(listProductDetails(match.params.uuid));
+        dispatch(listProductDetails(match.params.id));
     }, [dispatch,match])
    
     if (!product.pictures ) return null;
     if (!product.price ) return null;
 
     const addToCartHandler = () => {
-        history.push(`/cart/${match.params.uuid}?qty=${qty}`)
+        history.push(`/cart/${match.params.id}?qty=${qty}`)
     }
 
     const picture = product.pictures.map((image) => image.path)
@@ -111,7 +111,7 @@ const Product = ({history, match}) => {
                         <Col md={6} className="p-3">
                             <h4>Allergene</h4>
                             {
-                                product.allergens.map((item) => <i key={item.name}>{item.name}</i>)
+                                product.allergens.map((item) => <i key={item.id}> {item.name} </i>)
                             }
                            
                             

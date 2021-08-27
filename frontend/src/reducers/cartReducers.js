@@ -11,12 +11,12 @@ export const cartReducer =
         switch(action.type) {
             case CART_ADD_ITEM:
                 const item = action.payload
-                const existItem = state.cartItems.find((x) => x.uuid === item.uuid)
+                const existItem = state.cartItems.find((x) => x.id === item.id)
                 if (existItem) {
                   return {
                     ...state,
                     cartItems: state.cartItems.map((x) =>
-                      x.uuid === existItem.uuid ? item : x
+                      x.id === existItem.id ? item : x
                     ),
                   }
                 } else {
@@ -28,7 +28,7 @@ export const cartReducer =
             case CART_REMOVE_ITEM:
               return {
                 ...state,
-                cartItems: state.cartItems.filter((x) => x.uuid !== action.payload )
+                cartItems: state.cartItems.filter((x) => x.id !== action.payload )
               }
             case CART_SAVE_SHIPPING_ADDRESS:
               return {

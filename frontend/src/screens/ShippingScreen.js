@@ -1,41 +1,57 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Form, Button, Col , Row} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer  from '../composants/FormContainer'
 import { saveShippingAddress} from '../actions/cartAction'
 import CheckoutSteps  from '../composants/CheckoutSteps'
+import {listCities } from '../actions/cityAction'
 
 
-const ShippingScreem = ({ history, location }) => {
+const ShippingScreem = ({ history }) => {
 
     const cart = useSelector((state) => state.cart)
+    const cityList = useSelector(state => state.cityList)
+    // eslint-disable-next-line
+    const { loading, error, cities} = cityList
 
     const {shippingAddress} = cart
    
-    let useInfo = JSON.parse(localStorage.getItem('userInfo'))
-    
-    let email = null
-    if(useInfo){
-        email = useInfo.email
-    } 
-    
-    
-    
     const [address, setAddress] = useState(shippingAddress.address || '')
     const [number, setNumber] = useState(shippingAddress.number || '')
     const [floor, setFloor] = useState(shippingAddress.floor || '')
-    const [city, setCity] = useState(shippingAddress.city || 'Audergem')
-    
+    const [city, setCity] = useState(shippingAddress.city || {})
     
 
-    
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(listCities())
+        
+        setCity({
+            id:1,
+            name:'Audergem',
+            zip:'1160',
+        })
+       
+    }, [dispatch])
+
+    
+   
     const sumbitHandler = (e) => {
         e.preventDefault()
-        dispatch(saveShippingAddress({address, number, floor, city,email }))
+        dispatch(saveShippingAddress({address, number, floor, city }))
         history.push('/payment')
+    }
+
+    const setCityName = (city) => {
+        cities.map((item) => item.name === city &&  setCity(
+           {
+               id: item.id,
+               name: item.name,
+               zip: item.zip,
+           }
+       ))
     }
 
     return <FormContainer>
@@ -93,12 +109,13 @@ const ShippingScreem = ({ history, location }) => {
                     <Col md={4}>
                         <Form.Group className="mb-3" controlId='city'> 
                             <Form.Label>Commune</Form.Label>
-                            <Form.Select aria-label="" onChange={(e) => setCity(e.target.value)  }>
-                                { useInfo !== null ? 
-                                    useInfo.cities.map((item) => (
+                            <Form.Select aria-label="" onChange={(e) => setCityName(e.target.value)  }>
+                                { cities !== undefined ? 
                                     
-                                     <option key={item.name}  value={item.name}>
-                                          {item.name} 
+                                    cities.map((item) => (
+                                        
+                                     <option key={item.id}  value={item.name}>
+                                         {item.name}
                                      </option>
                                  ))
                                    

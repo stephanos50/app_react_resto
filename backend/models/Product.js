@@ -1,12 +1,12 @@
 const { Model, DataTypes, UUID } = require("sequelize");
 const sequelize = require('./sequelize');
 const Category = require('./Category');
-const { v4: uuidv4 } = require('uuid');
+
 
 
 class Product extends Model{
     get url() {
-        return `/product/${this.name}` ;
+        return `/product/${this.id}` ;
     }
 }
 
@@ -14,12 +14,8 @@ Product.init(
     {
         name: { 
             type: DataTypes.STRING,
-            primaryKey: true
-        },
-        _uuid: { 
-            type: UUID , 
-            isUUID: 4,
-           
+            allowNull:false,
+            unique:true,
         },
         description: { type: DataTypes.TEXT },
         price: {

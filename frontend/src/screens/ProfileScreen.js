@@ -32,7 +32,7 @@ const ProfileScreem = ({ location, history}) => {
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
     const { success } = userUpdateProfile
 
-    
+   
    
     useEffect(() => {
         if(!userInfo){
@@ -51,7 +51,7 @@ const ProfileScreem = ({ location, history}) => {
         }
     }, [dispatch, history, userInfo, user, success])
 
-    console.log(user.orders)
+    
 
     const submitHandler = (e) => { 
         e.preventDefault()
@@ -64,6 +64,7 @@ const ProfileScreem = ({ location, history}) => {
             dispatch(updateUserProfile({id: email, first_name, last_name,  password}))
         }
     }
+    
     return ( 
         <Row>
             <Col md={3}>
@@ -136,19 +137,21 @@ const ProfileScreem = ({ location, history}) => {
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>DATE</th>
-                                <th>TOTAL</th>
-                                <th>PAID</th>
-                                <th>DELIVERED</th>
+                                <th>Numéro</th>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Total</th>
+                                <th>Pay</th>
+                                <th>Délivrer</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {user.orders.map(order => (
                                 <tr key={order.id}>
-                                    <td>{order.id}</td>
-                                    <td>{order.createdAt}</td>
+                                    <td>{order.number}</td>
+                                    <td>{order.createAt}</td>
+                                    <td>{order.time}</td>
                                     <td>{order.total}</td>
                                     <td>{order.isPaid ? order.paidAt : ( <i className='fas fa-times' style={{color:'red'}}></i>)}</td>
                                     <td>{order.isDelivered ? order.isDeliveredAt : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>)}</td>

@@ -9,13 +9,13 @@ const Product = ({product}) => {
 
     return( 
         <Card style={{ width: '18rem' }} className='my-2 p-2 rounded'>
-            <Link to={`/products/${product._uuid}`}>
+            <Link to={`/products/${product.id}`}>
                 <Card.Img src={picture}  variant='top'  style={{ width: '17rem'  }} />
                 
             </Link>
 
             <Card.Body>
-                <Link to={`/products/${product._uuid}`}>
+                <Link to={`/products/${product.id}`}>
                 <Card.Title as='div'>
                     <strong>{product.name}</strong>
                 </Card.Title>

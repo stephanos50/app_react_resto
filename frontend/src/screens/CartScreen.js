@@ -28,8 +28,8 @@ const CartScreem = ({match, location, history}) => {
         }
     }, [dispatch, productId, qty])
 
-    const removeFromCartHandler = (uuid) => {
-        dispatch(removeFromCart(uuid))
+    const removeFromCartHandler = (id) => {
+        dispatch(removeFromCart(id))
     }
 
     const checkoutHandler = () => {
@@ -48,14 +48,14 @@ const CartScreem = ({match, location, history}) => {
                 
                 <ListGroup variant='flush'>
                     {cartItems.map((item) =>(
-                        <ListGroup.Item key={item.uuid}>
+                        <ListGroup.Item key={item.id}>
                             <Row>
                                 <Col md={2} className='t-9'> <PictureCart value={item.picture} /></Col>
                                
                                
                                
                                 <Col md={3}  className='mt-4'>
-                                    <Link to={`/products/${item.uuid}`}>
+                                    <Link to={`/products/${item.id}`}>
                                         <h6>{item.name}</h6>
                                         
                                     </Link>
@@ -65,7 +65,7 @@ const CartScreem = ({match, location, history}) => {
                                     <Form.Control 
                                         as='select' 
                                         value={item.qty} 
-                                        onChange={(e) => dispatch(addToCart(item.uuid, Number(e.target.value)))}>
+                                        onChange={(e) => dispatch(addToCart(item.id, Number(e.target.value)))}>
                                        {
                                            [ ...Array(quantities.length).keys()].map((x) =>(
                                             <option key={x + 1 } value={x + 1 }>
@@ -76,7 +76,7 @@ const CartScreem = ({match, location, history}) => {
                                     </Form.Control>
                                 </Col>
                                 <Col md={2} className='mt-3'>
-                                    <Button type='button' variant='delete' onClick={() =>removeFromCartHandler(item.uuid)} >
+                                    <Button type='button' variant='delete' onClick={() =>removeFromCartHandler(item.id)} >
                                         <li className='fas fa-trash'></li>
                                     </Button>
                                 </Col>

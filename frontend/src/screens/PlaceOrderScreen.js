@@ -9,19 +9,23 @@ import { createOrder } from '../actions/orderAction'
 
 
 const PlaceOrderScreen = ({history}) => {
+
     const dispatch = useDispatch()
 
     const cart = useSelector((state) => state.cart)
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
     
     const addDecimals = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
     cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0))
+    
     cart.totalPrice = cart.itemsPrice
 
     const orderCreate = useSelector((state) => state.orderCreate) 
-    
     const { order, success, error } = orderCreate
    
     
@@ -36,9 +40,10 @@ const PlaceOrderScreen = ({history}) => {
             cartItems: cart.cartItems,
             shippingAddress: cart.shippingAddress,
             paymentMethod: cart.paymentMethod,
-            
+            user: userInfo.email
         }))
     }
+   
     return (
         <>
             <CheckoutSteps step1 step2 step3 step4 />
@@ -46,17 +51,17 @@ const PlaceOrderScreen = ({history}) => {
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Shipping</h2>
+                            <h2>Adresse de livraison</h2>
                             <h6>
-                                <strong>Address : </strong> 
-                                { cart.shippingAddress.number },
-                                { cart.shippingAddress.address },
-                                étage { cart.shippingAddress.floor }
+                               { cart.shippingAddress.address } ,
+                                numéro: { cart.shippingAddress.number } ,
+                                étage:  { cart.shippingAddress.floor }
                             </h6>
                             <h6>
-                                { cart.shippingAddress.zip } 
-                                { cart.shippingAddress.city} 
+                               <p>{cart.shippingAddress.city.zip} {cart.shippingAddress.city.name} </p>
+                               
                             </h6>
+                            <h6>{userInfo.email}</h6>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Payment Method</h2>

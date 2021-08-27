@@ -1,11 +1,13 @@
-const { Model, DataTypes, UUID } = require("sequelize");
-const { v4: uuidv4 } = require('uuid');
+const { Model, DataTypes } = require("sequelize");
+
 const sequelize = require('./sequelize');
 const Address = require('./Address');
 const User = require('./User');
+const {DateTime} = require("luxon");
 
 class Order extends Model{
     total = 0
+    
     get url(){
         return `/order/${this.id}`;
     }
@@ -18,14 +20,19 @@ class Order extends Model{
 
 Order.init(
     {
-        _uuid: { 
-            type: UUID , 
-            isUUID: 4,
-            
+        number: {
+            type: DataTypes.STRING,
+        },
+        time: {
+            type: DataTypes.STRING,
+        },
+        createAt: {
+            type: DataTypes.STRING,
+           
         },
         total: {
             type: DataTypes.DOUBLE,
-           
+            
         },
         isPaid:{
             type: DataTypes.BOOLEAN,
@@ -47,6 +54,12 @@ Order.init(
         deliveredAt: {
             type: DataTypes.DATE,
         },
+        date_formated: {
+            type: DataTypes.VIRTUAL,
+              get() {
+                return DateTime.fromISO(this.date).toLocaleString(DateTime.DATE_HUGE);
+              },
+          },
 
     },
     {

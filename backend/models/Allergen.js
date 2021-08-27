@@ -1,11 +1,11 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require('./sequelize');
 const Product = require('./Product');
-
+var validator = require('validator');
 
 class Allergen extends Model {
     get url(){
-        return `/allergen/${this.name}`
+        return `/allergen/${this.id}`
     }
 }
 
@@ -13,8 +13,8 @@ Allergen.init(
     {
         name: {
             type: DataTypes.STRING,
-            primaryKey: true,
-          
+            allowNull:false,
+            unique:true,
         }
     },
     {

@@ -7,6 +7,7 @@ const orderRoutes = require('./routes/orderRoutes')
 const adminRoutes = require('./routes/adminRoutes')
 const categoryRoutes = require('./routes/categoryRoutes')
 const allergenRoutes = require('./routes/allergenRoutes')
+const cityRoutes = require('./routes/cityRoutes')
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/allergens', allergenRoutes);
+app.use('/api/cities',cityRoutes)
 
 
 

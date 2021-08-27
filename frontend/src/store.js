@@ -18,6 +18,10 @@ import {
   
 } from './reducers/adminReducers'
 
+import { categoryListReducer} from './reducers/categoryReducers'
+
+import { cityListReducer} from './reducers/cityReducer'
+
 const reducer = combineReducers({
     productList: productListReducer,
     productDelete:productDeleteReducer,
@@ -37,7 +41,8 @@ const reducer = combineReducers({
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
     orderListMy: orderListMyReducer,
-    
+    cityList:cityListReducer,
+    categoryList:categoryListReducer,
 })
 
 

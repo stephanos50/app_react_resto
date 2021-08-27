@@ -26,7 +26,7 @@ export const listProducts = () => async (dispatch) => {
         
         dispatch({ 
             type: PRODUCT_LIST_SUCCESS,
-            payload: data
+            payload: data,
         })
        
     } catch (error) {
@@ -41,15 +41,12 @@ export const listProducts = () => async (dispatch) => {
 }
 
 
-export const listProductDetails = (uuid) => async (dispatch) => {
-    console.log(uuid)
+export const listProductDetails = (id) => async (dispatch) => {
     try {
-        
         dispatch({type: PRODUCT_DETAILS_REQUEST})
 
-        const { data } = await axios.get(`/api/products/${uuid}`)
-        console.log(data)
-        
+        const { data } = await axios.get(`/api/products/${id}`)
+       
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS, 
             payload: data,
@@ -65,16 +62,16 @@ export const listProductDetails = (uuid) => async (dispatch) => {
     }
 }
 
-export const deleteProduct = (name) => async (dispatch, getSate) => {
+export const deleteProduct = (id) => async (dispatch, getState) => {
     
     try {
       dispatch({
           type: PRODUCT_DELETE_REQUEST,
         })
   
-        const   { 
+        const  { 
           userLogin : {userInfo}, 
-        } = getSate()
+        } = getState()
   
         const config = {
           headers: {
@@ -83,7 +80,7 @@ export const deleteProduct = (name) => async (dispatch, getSate) => {
           },
         }
   
-        await axios.delete(`/api/products/${name}`,config)
+        await axios.delete(`/api/products/${id}`,config)
   
         dispatch({
           type: PRODUCT_DELETE_SUCCESS,
@@ -145,12 +142,12 @@ export const deleteProduct = (name) => async (dispatch, getSate) => {
 
         const config = {
             headers: {
-                'COntent-Type': 'application/json',
-              Authorization: `Bearer ${userInfo.token}`,
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
             },
         }
 
-        const { data } = await axios.put(`/api/products/${product._uuid}`, product, config)
+        const { data } = await axios.put(`/api/products/${product.id}`, product, config)
 
         dispatch({
             type: PRODUCT_UPDATE_SUCCESS,

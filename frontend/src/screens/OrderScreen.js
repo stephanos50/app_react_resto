@@ -39,7 +39,7 @@ const OrderScreen = ({match}) => {
             }
             document.body.appendChild(script)
         }
-        if(!order || successPay ){
+        if(!order || successPay || order.id !== Number(orderId) ){
             dispatch({ type: ORDER_PAY_RESET })
             dispatch(getOrderDetails(orderId))
         }else if(!order.isPaid){
@@ -52,40 +52,39 @@ const OrderScreen = ({match}) => {
      },[dispatch, orderId, successPay, order])
 
     const successPaymentHandler = (paymentResult) => {
-        console.log(paymentResult)
         dispatch(payOrder(orderId, paymentResult))
       }
     
 
-    let useInfo = JSON.parse(localStorage.getItem('userInfo'))
-   
-
+     
+      
 
     return loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : <>
-        <h1>Order {order.id}</h1>
+        <h1>Order {order.number}</h1>
+        <h5>Commande du {order.createAt} à {order.time}</h5>
         <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Shipping</h2>
-                                <h6> <strong> Name: </strong>   {`${useInfo.first_name}`} </h6>
+                            <h2>Adresse de livraison</h2>
+                                <h6> <strong> Name: </strong>   {`${order.user.first_name}`} </h6>
                             
                             
-                            <h6>  <strong>Email: </strong> <a href={`mailto:${useInfo.email}`}>{useInfo.email} </a></h6>
+                            <h6>  <strong>Email: </strong> <a href={`mailto:${order.user.email}`}>{order.user.email} </a></h6>
                            
-                            {order.address ===  undefined ? <Message>Your address is empty</Message> : (
+                           
                                 <ListGroup variant='flush'>
                                     <h6> <strong>Address: </strong> 
                                         {order.address.name} 
                                         - numéro: {order.address.number} 
                                         - étage: {order.address.floor}</h6>
                                     
-                                    <h6> <strong>Commune: </strong> {order.address.city.zip} - {order.address.cityName}</h6>
+                                    <h6> <strong>Commune: </strong> {order.address.city.zip} - {order.address.city.name}</h6>
 
                                     {order.isDelivered ? <Message variant='success'> Delivered </Message> : <Message variant='danger'>Not Delivered </Message>}
 
                                 </ListGroup>
-                            )}
+                            
                             <br></br>
                           
                         </ListGroup.Item>
@@ -98,7 +97,7 @@ const OrderScreen = ({match}) => {
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Order Items</h2>
-                            {order.product0rders ===  undefined   ? <Message>Your order is empty</Message> : (
+                            {Object.keys(order.product0rders).length === 0   ? window.location.reload(false) : (
                                 <ListGroup variant='flush'>
                                     {order.product0rders.map((item, index) => (
                                         <ListGroup.Item key={index}>

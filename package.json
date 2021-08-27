@@ -25,13 +25,15 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
+    "luxon": "^2.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5",
     "uuid-by-string": "^3.0.4",
-    "uuidv4": "^6.2.11"
+    "uuidv4": "^6.2.11",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",

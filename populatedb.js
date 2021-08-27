@@ -9,14 +9,14 @@ const Category = require('./backend/models/Category');
 const Product = require('./backend/models/Product');
 const Comment = require('./backend/models/Comment');
 const ProductOrder = require('./backend/models/ProductOrder');
-const SupplementOrder = require('./backend/models/SupplementOrder');
-const Supplement = require('./backend/models/Supplement');
+
+
 const Allergen = require('./backend/models/Allergen');
 const Picture = require('./backend/models/Picture');
 const Payment = require('./backend/models/Payment');
 const bcrypt = require("bcrypt");
 
-const { findOne } = require('./backend/models/City');
+const {DateTime} = require("luxon");
 
 
 
@@ -43,7 +43,7 @@ async function pictureCreate(path, productName){
 
 
 
-async function addressCreate(nom,numero,etage,cityName,userEmail){
+async function addressCreate(nom,numero,etage,cityId,userEmail){
   adresseDetail = {
     name: nom,
     number: numero,
@@ -53,24 +53,23 @@ async function addressCreate(nom,numero,etage,cityName,userEmail){
 
   const address = await Address.create(adresseDetail);
   console.log('Nouvelle Adresse' + address.id);
-        address.setDataValue('cityName', cityName);
+        address.setDataValue('cityId', cityId);
         address.setDataValue('userEmail', userEmail);
   await address.save();
   addresses.push(address);
   return address;
 };
 
-async function productOrderCreate(uuid, qty, prix, orderId,productName){
+async function productOrderCreate(qty, price, orderId,productId){
   
   detailProductOrder = {
     quantity: qty,
-    prix: (prix*qty),
+    price: (price*qty),
   }
   const product_order = await ProductOrder.create(detailProductOrder);
   console.log('Nouvelle commande ' + product_order.id )
-        product_order.setDataValue('_uuid', uuid)
         product_order.setDataValue('orderId', orderId)
-        product_order.setDataValue('productName', productName)
+        product_order.setDataValue('productId', productId)
   await product_order.save()
  
   products_orders.push(product_order)
@@ -84,27 +83,59 @@ async function productOrderCreate(uuid, qty, prix, orderId,productName){
 
 
 async function createProductOrder01(){
+  
+  const date = new Date()
 
-  const order = await Order.create({});
-  order.setDataValue('_uuid', uuidv4())
+  const order = await Order.create();
+  order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
+  order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE))
+  order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
+  order.setDataValue('isPaid', true);
+
+
+
   await order.save();
   return Promise.all([
-    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 'Tarama'),
-    productOrderCreate( order._uuid, 2, (7.50) ,order.id, 'Tzadziki'),
-    productOrderCreate( order._uuid, 2, (8.50) ,order.id, 'Feta'),
+    productOrderCreate( 2, (7.50) ,order.id, 1),
+    productOrderCreate( 2, (7.50) ,order.id, 2),
+    productOrderCreate( 2, (8.50) ,order.id, 3),
     
   ]);
 };
 
 async function createProductOrder02(){
+  const order = await Order.create();
+  order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
+  order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE	))
+  order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
+  order.setDataValue('isPaid', true);
 
-  const order = await Order.create({});
-  order.setDataValue('_uuid', uuidv4())
   await order.save();
   return Promise.all([
-    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 'Calamars frits'),
-    productOrderCreate( order._uuid, 1, (7.50) ,order.id, 'Gambas grillés'),
-    productOrderCreate( order._uuid, 6, (8.50) ,order.id, 'Tarama'),
+    productOrderCreate( 1, (7.50) ,order.id, 5),
+    productOrderCreate( 1, (7.50) ,order.id, 4),
+    productOrderCreate( 6, (8.50) ,order.id, 1),
+    
+  ]);
+};
+
+async function createProductOrder03(){
+  
+  const date = new Date()
+
+  const order = await Order.create();
+  order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
+  order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE))
+  order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
+  order.setDataValue('isPaid', true);
+
+
+
+  await order.save();
+  return Promise.all([
+    productOrderCreate( 2, (12.50) ,order.id, 3),
+    productOrderCreate( 2, (12.50) ,order.id, 4),
+    productOrderCreate( 2, (8.50) ,order.id, 5),
     
   ]);
 };
@@ -123,7 +154,7 @@ async function updateOrders(){
         }
     });
     order_product.map( (item) =>  {
-      subTotal = subTotal + item.prix
+      subTotal = subTotal + item.price
     })
     order.setDataValue('total', subTotal)
     order.setDataValue('date', new Date())
@@ -133,18 +164,31 @@ async function updateOrders(){
     
 };
 
+async function updateOrdersRoot(){
+  const order = await Order.findOne({
+    where: {
+      total: null
+    }
+  })
 
-async function supplementCreate(nom, prix){
-  supplementDetail = {
-    name: nom,
-    price: prix,
-  }
-
-  const supplement = await Supplement.create(supplementDetail);
-  console.log('Nouveau supplement' + supplement.id);
-  supplements.push(supplement);
-  return supplement;
+  let subTotal = 0;
+  const order_product = await ProductOrder.findAll({
+      where: {
+        orderId: order.id,
+      }
+  });
+  order_product.map( (item) =>  {
+    subTotal = subTotal + item.price
+  })
+  order.setDataValue('total', subTotal)
+  order.setDataValue('date', new Date())
+  order.setDataValue('addressId', 2)
+  order.setDataValue('userEmail', 'root@exemple.be')
+  await order.save()
+  
 };
+
+
 
 async function cityCreate(nom, codepostal){
   villeDetail = {
@@ -171,8 +215,8 @@ async function categoryCreate(name){
 
 async function createUsers(){
 
+    const root_password = await bcrypt.hash('root',10)
     const stefan_password = await bcrypt.hash('root',10)
-    const gabriella_password = await bcrypt.hash('root',10)
     
 
     const [admin, client] = await Role.bulkCreate([
@@ -181,28 +225,28 @@ async function createUsers(){
       
     ]);
 
-    const [stefan, gabriella] =  await User.bulkCreate([
+    const [root, stefan] =  await User.bulkCreate([
+      {
+        email: 'root@exemple.be',
+        _uuid: uuidv4(),
+        first_name: 'root',
+        last_name: 'root',
+        isAdmin: true,
+        passwordHash: root_password 
+      },
       {
         email: 'stefan@exemple.be',
         _uuid: uuidv4(),
         first_name: 'stefan',
-        last_name: 'arvanitis',
-        isAdmin: true,
-        passwordHash: stefan_password 
-      },
-      {
-        email: 'gabriella@exemple.be',
-        _uuid: uuidv4(),
-        first_name: 'gabriella',
-        last_name: 'arvanitis',
+        last_name: 'stefan',
         isAdmin: false,
-        passwordHash: gabriella_password
+        passwordHash: stefan_password
       }
     ]);
 
     await Promise.all([
-      stefan.setRoles([admin]),
-      gabriella.setRoles([client])
+      root.setRoles([admin]),
+      stefan.setRoles([client])
       
     ]);
 };
@@ -230,80 +274,71 @@ async function createProducts(){
     {
      
       name: 'Tarama',
-      _uuid:uuidv4(),
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
       cote:1,
-      categoryName: 'Entrée'
+      categoryId: 1
       
     }, 
     {
       
       name: 'Tzadziki',
-      _uuid:uuidv4(),
       description: "Le tzadziki est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
       cote:2,
-      categoryName: 'Entrée'
+      categoryId: 1
     },
     {
       name: 'Feta',
-      _uuid:uuidv4(),
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:8.00,
       cote:1,
-      categoryName: 'Entrée'
+      categoryId: 1
     }, 
     
    
     {
       name: 'Gambas grillés',
-      _uuid:uuidv4(),
       description: "Le Gambas grillés  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
-      categoryName: 'Entrée'
+      categoryId: 1
       
     }, 
     {
       name: 'Calamars frits',
-      _uuid:uuidv4(),
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
-      categoryName: 'Entrée'
+      categoryId: 1
     }, 
     {
       name: 'Meze ',
-      _uuid:uuidv4(),
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
       cote:1,
-      categoryName: 'Entrée'
+      categoryId: 1
     }, 
     {
       name: "Brochette d Agneau",
-      _uuid:uuidv4(),
       description: "La Brochette d'agneau  au four est une spécialité de cuisine grecque ",
       price:14.50,
       cote:1,
-      categoryName: 'Plats'
+      categoryId: 2
     }, 
     {
       name: "Entre côte",
-      _uuid:uuidv4(),
       description: "L'Entre Côte gratinée  au four est une spécialité de cuisine grecque ",
       price:15.50,
       cote:1,
-      categoryName: 'Plats'
+      categoryId: 2
     }, 
     {
       name: 'To Elliniko',
-      _uuid:uuidv4(),
       description: "To elliniko  gratinée  au four est une spécialité de cuisine grecque ",
       price:12.50,
       cote:1,
-      categoryName: 'Suggestions'
+      categoryId: 3
     }, 
   ]);
 
@@ -340,23 +375,29 @@ async function createCities(){
   ]);
 };
 
-async function createSupplements(){
-  return Promise.all([
-    supplementCreate('frite', 5.0),
-    supplementCreate('salade', 5.0),
-    supplementCreate("pâte grecque", 5.0),
-  ]);
-};
 
 
 
-async function createAddresses(){
+
+async function createAddressesStefan(){
   const stefan = await User.findOne({where: {
     first_name: 'stefan'
   }})
  
   return Promise.all([
-    addressCreate("Boulevard d'Anvers",154,1,'Bruxelles', stefan.email),
+    addressCreate("Boulevard d'Anvers",154,1,2, stefan.email),
+    
+   ]);
+};
+
+
+async function createAddressesRoot(){
+  const root = await User.findOne({where: {
+    first_name: 'root'
+  }})
+ 
+  return Promise.all([
+    addressCreate("Rue d'Anvers",154,1,2, root.email),
     
    ]);
 };
@@ -423,14 +464,18 @@ async function addPictures(){
     const product_category = await addCategories();
     const pictures = await createPictures();
     const product_image = await addPictures();
-    const supplements = await createSupplements();
-    const addresses = await createAddresses();
+ 
+    const userAddresses = await createAddressesStefan();
+    const rootAddresses = await createAddressesRoot();
    
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();
     //const totalOrder = await addTotal()
     const products_orders_02 = await createProductOrder02();
     const orders_02 = await updateOrders();
+
+    const products_orders_03 = await createProductOrder03();
+    const orders_03 = await updateOrdersRoot();
     
 
    
