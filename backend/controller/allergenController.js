@@ -7,8 +7,8 @@ const  asyncHandler = require ('express-async-handler')
 // @route  GET /admin/allergen
 // @access Private/Admin
 exports.getAllergen = asyncHandler(async (req,res) => {
-    console.log('getAllergen')
-    const allergens = await Allergen.findAll()
+    
+const allergens = await Allergen.findAll()
     if(allergens){
         return res.json(allergens)
     } else {

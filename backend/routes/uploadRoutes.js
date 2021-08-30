@@ -40,13 +40,13 @@ const storage = multer.diskStorage({
     },
   })
   
-  router.post('/', upload.single('image'), (req, res) => {
-    pictureController.addPicture(req)
-    res.send(`/${req.file.path}`)
-  })
-
- 
-
- 
+  router.post('/', upload.single('image'), (req, res, next) => {
+    try {
+      pictureController.addPicture(req)
+      res.send(`/${req.file.path}`)
+    } catch (error) {
+        next(error)
+    }
+   })
 
   module.exports = router;

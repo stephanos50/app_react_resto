@@ -18,7 +18,7 @@ import {
     USER_LIST_FAIL,
     USER_LIST_RESET,
 } from '../constants/userConstants'
-import { ORDER_LIST_MY_RESSET } from '../constants/orderConstants'
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 import axios from 'axios'
 
 
@@ -64,7 +64,7 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('__belter_experiment_storage__')
     dispatch({type: USER_LOGOUT})
     dispatch({type: USER_DETAILS_RESET})
-    dispatch({type: ORDER_LIST_MY_RESSET})
+    dispatch({type: ORDER_LIST_MY_RESET})
     dispatch({ type: USER_LIST_RESET })
     window.localStorage.clear()
     document.location.href = '/login'

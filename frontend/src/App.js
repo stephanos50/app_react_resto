@@ -17,6 +17,7 @@ import UserListScreem from './views/UserListScreem'
 import UserEditScreem from './views/UserEditScreem'
 import ProductListScreen from './views/ProductListScreen'
 import ProductEditScreen from './views/ProductEditScreen'
+import OrderListView from './views/OrderListView'
 
 
 
@@ -32,6 +33,7 @@ const  App = () => {
         <main className="py-3">
              <Container>
                 <Route path='/' component={Home} exact />
+                <Route path='/admin/orderList' component={OrderListView} exact  />
                 <Route path='/admin/userlist' component={UserListScreem} exact  />
                 <Route path='/admin/productlist' component={ProductListScreen} exact  />
                 <Route path='/admin/product/:id/edit' component={ProductEditScreen} exact  />

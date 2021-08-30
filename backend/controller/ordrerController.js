@@ -26,15 +26,28 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         throw new Error('No order items')
        
     } else {
-        
-        const address = await Address.findOne({ where: { userEmail: user } })
-        address.name = shippingAddress.address,
-        address.number = shippingAddress.number,
-        address.floor = shippingAddress.floor,
-        address.setDataValue('cityId',shippingAddress.city.id )
-        await address.save()
-        
+      
+        let address = await Address.findOne({ where: { userEmail: user } })
+        if(address){
+            address.name = shippingAddress.address,
+            address.number = shippingAddress.number,
+            address.floor = shippingAddress.floor,
+            address.setDataValue('cityId',shippingAddress.city.id )
+            await address.save()
+        } else {
+            const details_address = {
+                name: shippingAddress.address,
+                number: shippingAddress.number,
+                floor: shippingAddress.floor,
+            }
+            address = await Address.create(details_address)
+            address.setDataValue('cityId',shippingAddress.city.id )
+            await address.save()
+        }
+          
+      
         const order = await Order.create({})
+        
         order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
         order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE	))
         order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
@@ -43,7 +56,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         order.setDataValue('userEmail', user);
         await order.save()
         
-        
+      
         
         cartItems.map( async (element) => {
             let product =  await Product.findByPk(element.id)
@@ -60,7 +73,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
                 await productOrder.save()
             } else {
                 res.status(400)
-                console.log(' ELSE No order items')
+               
                 throw new Error('No order items')
                 
             }
@@ -82,13 +95,28 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
-    console.log(req.params.id)
     const order = await Order.findByPk(req.params.id, {
         include: [ProductOrder, {model:Address,include:[{model:City}]}, User] 
     })
 
     if(order){
         res.json(order)
+    } else {
+        res.status(404)
+        throw new Error('Order not found')
+    }
+})
+
+// @desc  Get all orders
+// @route Get /api/orders/:id
+// @access Private/Admin
+exports.getOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.findAll({
+        include: User
+    })
+
+    if(orders){
+        res.json(orders)
     } else {
         res.status(404)
         throw new Error('Order not found')
@@ -141,6 +169,26 @@ exports.getMyOrders = asyncHandler(async (req, res) => {
   
 })
 
+
+// @desc    Update order to delivered
+// @route   GET /api/orders/:id/deliver
+// @access  Private/Admin
+exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
+    console.log('updateOrderToDelivered')
+    const order = await Order.findByPk(req.params.id)
+  
+    if (order) {
+      order.isDelivered = true
+      order.deliveredAt = Date.now()
+  
+      const updatedOrder = await order.save()
+  
+      res.json(updatedOrder)
+    } else {
+      res.status(404)
+      throw new Error('Order not found')
+    }
+  })
 
 
 

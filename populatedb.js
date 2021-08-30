@@ -29,13 +29,13 @@ let pictures = [];
 let products_orders = [];
 
 
-async function pictureCreate(path, productName){
+async function pictureCreate(path, productId){
   imageDetail = {
     path: path
   }
   const picture = await Picture.create(imageDetail);
   console.log('Nouvelle image' + picture.id);
-        picture.setDataValue('productName', productName);
+        picture.setDataValue('productId', productId);
   await picture.save();
   pictures.push(picture);
   return picture;
@@ -404,15 +404,15 @@ async function createAddressesRoot(){
 
 async function createPictures(){
   return Promise.all([
-    pictureCreate('http://localhost:5000/uploads/tarama.jpg','Tarama'),
-    pictureCreate('http://localhost:5000/uploads/tzadziki.jpg','Tzadziki'),
-    pictureCreate('http://localhost:5000/uploads/feta.jpg','Feta'),
-    pictureCreate('http://localhost:5000/uploads/gambas.jpg','Gambas grillés'),
-    pictureCreate('http://localhost:5000/uploads/calamars.jpg','Calamars frits'),
-    pictureCreate('http://localhost:5000/uploads/meze.jpg','Meze'),
-    pictureCreate('http://localhost:5000/uploads/brochette-agneau.jpg','Brochette d Agneau'),
-    pictureCreate('http://localhost:5000/uploads/entrecote.jpg','Entre côte'),
-    pictureCreate('http://localhost:5000/uploads/to-eliniko.jpg','To Elliniko'),
+    pictureCreate('http://localhost:5000/uploads/tarama.jpg',1),
+    pictureCreate('http://localhost:5000/uploads/tzadziki.jpg',2),
+    pictureCreate('http://localhost:5000/uploads/feta.jpg',3),
+    pictureCreate('http://localhost:5000/uploads/gambas.jpg',4),
+    pictureCreate('http://localhost:5000/uploads/calamars.jpg',5),
+    pictureCreate('http://localhost:5000/uploads/meze.jpg',6),
+    pictureCreate('http://localhost:5000/uploads/brochette-agneau.jpg',7),
+    pictureCreate('http://localhost:5000/uploads/entrecote.jpg',8),
+    pictureCreate('http://localhost:5000/uploads/to-eliniko.jpg',9),
    
   ]);
 }
