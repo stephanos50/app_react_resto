@@ -1,15 +1,15 @@
+import axios from 'axios'
 import {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
+import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector} from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import FormContainer from '../composants/FormContainer'
 import { listProductDetails, updateProduct} from '../actions/productAction'
 import { listCategory } from '../actions/categoryAction'
-import { Form, Button} from 'react-bootstrap'
-
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import axios from 'axios'
+
 
 
 const ProductEditScreem = ({match, history}) => {
@@ -25,6 +25,7 @@ const ProductEditScreem = ({match, history}) => {
     const [allergensList, setAllergensList] = useState([]) // AXIOS
     const [allergens, setAllergens] = useState({}) // PRODUCT
     const [isChecked, setIsChecked] = useState(false)
+    const [uploading, setUploading] = useState(false)
     
     const dispatch = useDispatch()
 
@@ -55,11 +56,14 @@ const ProductEditScreem = ({match, history}) => {
         dispatch(listCategory())
         if (successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
+            
             history.push('/admin/productlist')
+            
         } 
         if (!product.name || product.id !== Number(productId) ) {
             dispatch(listProductDetails(productId))
         } else {
+            setImage(product.id)
             setName(product.name)
             setDescription(product.description)
             setPrice(product.price)
@@ -70,6 +74,34 @@ const ProductEditScreem = ({match, history}) => {
         }
        
       }, [dispatch, history, productId, product, successUpdate])
+
+
+      const uploadFileHandler = async (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image',file)
+        formData.append('id',product.id)
+        formData.append('url',"http://localhost:5000/uploads/")
+        
+        
+        setUploading(true)
+    
+        try {
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+    
+          const { data } = await axios.post('/api/upload',formData , config)
+    
+          setImage(data)
+          setUploading(false)
+        } catch (error) {
+          console.error(error)
+          setUploading(false)
+        }
+      }
       
     const submitHandler = (e) => { 
         e.preventDefault()
@@ -145,7 +177,15 @@ const ProductEditScreem = ({match, history}) => {
                         ></Form.Control>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId='name'>
+                    <Form.Group controlId="form-file" className="mb-3">
+                        <Form.Label
+                            
+                            onChange={uploadFileHandler}
+                        
+                        >Default file input example</Form.Label>
+                        <Form.Control type="file" onChange={uploadFileHandler} />
+                    </Form.Group>
+                    <Form.Group>
                         <Form.Label>Nom</Form.Label>
                         <Form.Control 
                             type='name'

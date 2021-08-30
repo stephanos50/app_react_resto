@@ -404,15 +404,15 @@ async function createAddressesRoot(){
 
 async function createPictures(){
   return Promise.all([
-    pictureCreate('/images/0/tarama.jpg','Tarama'),
-    pictureCreate('/images/0/tzadziki.jpg','Tzadziki'),
-    pictureCreate('/images/0/feta.jpg','Feta'),
-    pictureCreate('/images/0/gambas.jpg','Gambas grillés'),
-    pictureCreate('/images/0/calamars.jpg','Calamars frits'),
-    pictureCreate('/images/0/meze.jpg','Meze'),
-    pictureCreate('/images/1/brochette-agneau.jpg','Brochette d Agneau'),
-    pictureCreate('/images/1/entrecote.jpg','Entre côte'),
-    pictureCreate('/images/2/to-elliniko.jpg','To Elliniko'),
+    pictureCreate('http://localhost:5000/uploads/tarama.jpg','Tarama'),
+    pictureCreate('http://localhost:5000/uploads/tzadziki.jpg','Tzadziki'),
+    pictureCreate('http://localhost:5000/uploads/feta.jpg','Feta'),
+    pictureCreate('http://localhost:5000/uploads/gambas.jpg','Gambas grillés'),
+    pictureCreate('http://localhost:5000/uploads/calamars.jpg','Calamars frits'),
+    pictureCreate('http://localhost:5000/uploads/meze.jpg','Meze'),
+    pictureCreate('http://localhost:5000/uploads/brochette-agneau.jpg','Brochette d Agneau'),
+    pictureCreate('http://localhost:5000/uploads/entrecote.jpg','Entre côte'),
+    pictureCreate('http://localhost:5000/uploads/to-eliniko.jpg','To Elliniko'),
    
   ]);
 }

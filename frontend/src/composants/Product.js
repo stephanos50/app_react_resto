@@ -5,7 +5,7 @@ import Assess from './Assess'
 
 const Product = ({product}) => {
     const picture = product.pictures.map((picture) => picture.path)
-  
+    console.log(picture)
 
     return( 
         <Card style={{ width: '18rem' }} className='my-2 p-2 rounded'>

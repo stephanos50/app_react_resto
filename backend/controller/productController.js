@@ -54,6 +54,7 @@ exports.createProduct = asyncHandler( async function (req,res){
             description: 'Sample description',
             price: 0,
             cote: 0,
+            categoryId:1
             
         })
         const createdProduct = await product.save()
