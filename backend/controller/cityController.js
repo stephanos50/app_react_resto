@@ -5,9 +5,9 @@ const  asyncHandler = require ('express-async-handler')
 
 
 exports.getCities = asyncHandler(async(req,res) => {
-    console.log('getCities')
+   
     const cities = await City.findAll()
-    console.log(cities)
+  
     if (cities) {
         res.status(200).json(cities)
     } else {

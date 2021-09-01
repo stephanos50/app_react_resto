@@ -20,13 +20,11 @@ const {DateTime} = require("luxon");
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
     const { cartItems, shippingAddress, paymentMethode, user } = req.body
-    
     if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
        
     } else {
-      
         let address = await Address.findOne({ where: { userEmail: user } })
         if(address){
             address.name = shippingAddress.address,
@@ -44,8 +42,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
             address.setDataValue('cityId',shippingAddress.city.id )
             await address.save()
         }
-          
-      
+        
         const order = await Order.create({})
         
         order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
@@ -56,11 +53,8 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         order.setDataValue('userEmail', user);
         await order.save()
         
-      
-        
         cartItems.map( async (element) => {
             let product =  await Product.findByPk(element.id)
-            
             if(product !== null){
                 const productOrder = await  ProductOrder.create({})
                 let sub_total = await productOrder.calculSubTotal(element.qty,element.price)
@@ -73,14 +67,10 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
                 await productOrder.save()
             } else {
                 res.status(400)
-               
                 throw new Error('No order items')
-                
             }
             await order.save()
-           
         })
-        
         await order.save()
 
         const orderCreate = await Order.findByPk(order.id, {
@@ -146,12 +136,8 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
     }
 
     const payment =  await  Payment.create(payementDetal)
-       await payment.save()
-    
-   
-    
+    await payment.save()
     res.json(order)
-     
 })
 
 // @desc  Get logged in user orders 
@@ -159,14 +145,12 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
 // @access Private
 
 exports.getMyOrders = asyncHandler(async (req, res) => {
-
     const orders = await Order.findAll({
         where: {
             addressId: req.user.id
         }
     })
     res.json(orders)
-  
 })
 
 
@@ -174,21 +158,18 @@ exports.getMyOrders = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
 exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
-    console.log('updateOrderToDelivered')
     const order = await Order.findByPk(req.params.id)
-  
+
     if (order) {
-      order.isDelivered = true
-      order.deliveredAt = Date.now()
-  
-      const updatedOrder = await order.save()
-  
-      res.json(updatedOrder)
+        order.isDelivered = true
+        order.deliveredAt = Date.now()
+        const updatedOrder = await order.save()
+        res.json(updatedOrder)
     } else {
-      res.status(404)
-      throw new Error('Order not found')
+        res.status(404)
+        throw new Error('Order not found')
     }
-  })
+})
 
 
 

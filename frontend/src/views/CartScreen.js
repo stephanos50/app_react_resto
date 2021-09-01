@@ -21,6 +21,7 @@ const CartScreem = ({match, location, history}) => {
 
     const { cartItems } = cart
 
+    
    
     useEffect(() => {
         if(productId){
@@ -50,15 +51,11 @@ const CartScreem = ({match, location, history}) => {
                     {cartItems.map((item) =>(
                         <ListGroup.Item key={item.id}>
                             <Row>
-                                <Col md={2} className='t-9'> <PictureCart value={item.picture} /></Col>
-                               
-                               
-                               
+                                <Col md={2} className='t-9 images'> <PictureCart value={item.picture}/></Col>
                                 <Col md={3}  className='mt-4'>
                                     <Link to={`/products/${item.id}`}>
                                         <h6>{item.name}</h6>
-                                        
-                                    </Link>
+                                </Link>
                                 </Col>
                                 <Col md={2} className='mt-4'> <h6>{item.price} €</h6></Col>
                                 <Col md={2} className='mt-3'>

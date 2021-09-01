@@ -1,0 +1,40 @@
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require('./sequelize');
+const Product = require('./Product');
+const User = require('./User');
+
+class Review extends Model{
+    get url(){
+        return ` /reviews/${this.id}`;
+    }
+}
+
+Review.init(
+    {
+        name: {
+            type: DataTypes.STRING, require:true
+        },
+        rating: {
+            type: DataTypes.INTEGER, 
+            require:true, 
+            defaultValue:0
+        },
+       comment: {
+            type: DataTypes.STRING,
+        },
+        
+
+    }, {
+        sequelize,
+        modelName: 'review'
+    }
+);
+
+Product.hasMany(Review);
+Review.belongsTo(Product);
+
+User.hasMany(Review);
+Review.belongsTo(User);
+
+
+module.exports = Review;

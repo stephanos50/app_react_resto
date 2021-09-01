@@ -25,7 +25,7 @@ const HomeScreem = () => {
 
     return (
         <>
-            <h3 className='p-3'>Nos plats à emporté</h3>
+            <h3 className='p-3'>Nos plats a emporter</h3>
             <Nav as="ul">
                 <Nav.Item as="li">
                     <Nav.Link onClick={()=> setValue(1)} ><h5>Nos entrées</h5></Nav.Link>

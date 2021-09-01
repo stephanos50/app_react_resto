@@ -7,8 +7,9 @@ const Role = require('./backend/models/Role');
 const User = require('./backend/models/User');
 const Category = require('./backend/models/Category');
 const Product = require('./backend/models/Product');
-const Comment = require('./backend/models/Comment');
+const Review = require('./backend/models/Review');
 const ProductOrder = require('./backend/models/ProductOrder');
+
 
 
 const Allergen = require('./backend/models/Allergen');
@@ -61,12 +62,13 @@ async function addressCreate(nom,numero,etage,cityId,userEmail){
 };
 
 async function productOrderCreate(qty, price, orderId,productId){
-  
+  productRate(productId)
   detailProductOrder = {
     quantity: qty,
     price: (price*qty),
   }
   const product_order = await ProductOrder.create(detailProductOrder);
+ 
   console.log('Nouvelle commande ' + product_order.id )
         product_order.setDataValue('orderId', orderId)
         product_order.setDataValue('productId', productId)
@@ -77,6 +79,12 @@ async function productOrderCreate(qty, price, orderId,productId){
   return product_order;
   
 };
+
+async function productRate(productId){
+  const product = await Product.findByPk(productId)
+  product.setDataValue('rate', await product.calculRate(5,4))
+  product.save()
+}
 
 
 
@@ -276,7 +284,7 @@ async function createProducts(){
       name: 'Tarama',
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
-      cote:1,
+      rate: 0,
       categoryId: 1
       
     }, 
@@ -285,14 +293,14 @@ async function createProducts(){
       name: 'Tzadziki',
       description: "Le tzadziki est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:7.50,
-      cote:2,
+      rate:0,
       categoryId: 1
     },
     {
       name: 'Feta',
       description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
       price:8.00,
-      cote:1,
+      rate:0,
       categoryId: 1
     }, 
     
@@ -301,7 +309,7 @@ async function createProducts(){
       name: 'Gambas grillés',
       description: "Le Gambas grillés  au four est une spécialité de cuisine grecque ",
       price:8.50,
-      cote:1,
+      rate:0,
       categoryId: 1
       
     }, 
@@ -309,35 +317,35 @@ async function createProducts(){
       name: 'Calamars frits',
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
-      cote:1,
+      rate:0,
       categoryId: 1
     }, 
     {
       name: 'Meze ',
       description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
       price:8.50,
-      cote:1,
+      rate:0,
       categoryId: 1
     }, 
     {
       name: "Brochette d Agneau",
       description: "La Brochette d'agneau  au four est une spécialité de cuisine grecque ",
       price:14.50,
-      cote:1,
+      rate:0,
       categoryId: 2
     }, 
     {
       name: "Entre côte",
       description: "L'Entre Côte gratinée  au four est une spécialité de cuisine grecque ",
       price:15.50,
-      cote:1,
+      rate:0,
       categoryId: 2
     }, 
     {
       name: 'To Elliniko',
       description: "To elliniko  gratinée  au four est une spécialité de cuisine grecque ",
       price:12.50,
-      cote:1,
+      rate:0,
       categoryId: 3
     }, 
   ]);
@@ -349,8 +357,10 @@ async function createProducts(){
     gambas.setAllergens([arachides,lactose,celeris]),
     calamars.setAllergens([fruits,lactose,celeris]),
     meze.setAllergens([fruits,lactose,celeris]),
-    
-  ])
+   
+ ])
+
+ 
   
 }
 

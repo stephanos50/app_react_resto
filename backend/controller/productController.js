@@ -2,7 +2,10 @@ const Category = require('../models/Category');
 const Product = require('../models/Product');
 const Picture = require('../models/Picture');
 const Allergen = require('../models/Allergen');
+const Review = require('../models/Review');
+const User = require('../models/User')
 const  asyncHandler = require ('express-async-handler')
+
 
 
 
@@ -30,10 +33,10 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products/:name
 // @access Public
 exports.getProductById = asyncHandler(async function(req, res){
-    console.log(req.body)
+   
     res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
-        include: [Picture,Category,Allergen]
+        include: [Picture,Category,Allergen,Review]
     });
 
     if(product){
@@ -68,8 +71,7 @@ exports.createProduct = asyncHandler( async function (req,res){
 exports.updateProduct = asyncHandler( async function (req,res){
     
     const {name,description,price,cote,category,allergen} = req.body
-    console.log(req.body)
-    console.log(category)
+   
     const product = await  Product.findByPk(req.body.id,{
       include: [Category, Allergen]
     })
@@ -94,7 +96,7 @@ exports.updateProduct = asyncHandler( async function (req,res){
 // @route DELETE /api/products/:name
 // @access Private/Admin
 exports.deleteProduct = asyncHandler(async function(req,res){
-    console.log('deleteProduct')
+    
     const product = await Product.findByPk(req.params.id, {
         include: [Allergen,Category]
     })
@@ -103,34 +105,42 @@ exports.deleteProduct = asyncHandler(async function(req,res){
         res.json({message: 'Product remove'})
     } else {
         res.status(400)
-        res.json('Product not found')
+        throw new Error('Product not found')
     }
 })
 
-// exports.updateProduct = asyncHandler( async function (req,res){
-//     console.log('updateProduct')
-//     const {id,name,description,price,cote, category,allergen} = req.body
+
+// @desc Create new review
+// @route PUT /api/products/:id/reviews
+// @access Private
+exports.createProductReviews = asyncHandler( async function (req,res){
     
-//     const product = await  Product.findByPk(id,{
-//       include: [Category, Allergen]
-//     })
-   
-//     if (product) {
-//         product.name = name,
-//         product.description = description,
-//         product.price = price,
-//         product.cote = cote
-//         product.categoryName = category
-//         await product.save()
-//         const allergie = allergen.map((item) =>  (item.name))
-//         await product.setAllergens(allergie)
-           
-//         res.status(201).json(product)
-//     } else {
-//         res.status(404)
-//         throw new Error('Product not found ')
-//     }
-// })
+    const {rating, comment} = req.body
+    const review = await Review.findAll( {
+        where: { 
+            productId: req.params.id,
+            userEmail: req.user.email
+        }
+    })
+    
+
+    if (!review || Object.keys(review).length === 0){
+        const reviewsDetails = {
+            name:req.user.first_name,
+            rating: rating,
+            comment:comment
+        }
+        const rewiew = await Review.create(reviewsDetails)
+        rewiew.setDataValue('productId', req.params.id)
+        rewiew.setDataValue('userEmail', req.user.email)
+        const createReviews = await rewiew.save()
+        res.status(201).json(createReviews)
+    } else  { 
+        res.status(404)
+        throw new Error('Product already reviewed ')
+       
+    }
+})
 
 
 

@@ -46,5 +46,54 @@ main {
    
   }
 
+  .images {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .card-body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  .card-title .card-text {
+    padding: 20px;
+    background: white;
+    display: flex;
+  }
+  .assess  {
+    margin: auto;
+    margin-bottom: -1.5em;
+   
+  }
+
+  .product_assess {
+     
+     padding: auto;
+  }
+  .price {
+    
+    padding-left: 14em;
+    color:chocolate;
+   
+  }
+
+  .alert {
+    color:white;
+    font-size: 1em;
+    width: 200px;
+    height: 40px;
+    
+    padding-top: 0.5em;
+  }
+
+  
+
   
   

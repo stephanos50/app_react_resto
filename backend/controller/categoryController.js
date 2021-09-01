@@ -7,7 +7,7 @@ const Product = require('../models/Product')
 // @access Public
 exports.getCategory =  asyncHandler(async (req,res) => {
 
-    console.log('getCategory')
+  
     const categories = await Category.findAll()
     if (categories) {
         return res.json(categories)

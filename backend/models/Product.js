@@ -5,9 +5,15 @@ const Category = require('./Category');
 
 
 class Product extends Model{
+    
     get url() {
         return `/product/${this.id}` ;
     }
+
+    async calculRate(last_rate, current_rate){
+        return ( ( (last_rate + current_rate) / 10) * 5)
+    }
+
 }
 
 Product.init(
@@ -20,11 +26,11 @@ Product.init(
         description: { type: DataTypes.TEXT },
         price: {
             type: DataTypes.FLOAT,
-            defaultValue: 0
+            defaultValue: 1
         },
-        cote: {
-            type: DataTypes.INTEGER,
-            defaultValue: 5
+        rate: {
+            type: DataTypes.DOUBLE,
+            defaultValue: 0
         }
     }, {
         sequelize,

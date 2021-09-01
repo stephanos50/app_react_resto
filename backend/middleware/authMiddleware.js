@@ -17,7 +17,7 @@ const protect = asyncHandler(async function (req, res, next) {
                 where: { _uuid : decoded.id},
                 include: Role
             })
-            console.log(req.user)
+           
             next()
         } catch (error) {
             res.status(401)
@@ -34,7 +34,7 @@ const protect = asyncHandler(async function (req, res, next) {
 })
 
 const admin = (req, res, next) =>{
-    console.log('admin')
+  
    if (req.user && req.user.isAdmin && (req.user.roles[0].name === 'admin') ) {
        next()
     } else {

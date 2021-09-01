@@ -19,6 +19,7 @@ exports.authUser = asyncHandler(async (req, res) => {
     const user = await User.findByPk(email,{
         include: [Role,Address]
     })
+   
     if( user && await user.validPassword(password)){
         res.json({
             email: user.email,
@@ -27,6 +28,7 @@ exports.authUser = asyncHandler(async (req, res) => {
             last_name: user.last_name,
             isAdmin: user.isAdmin,
             role: user.roles.map((role) => role.name),
+            address: user.address,
             token: token.generateToken(user._uuid),
         })
     } else {
@@ -79,7 +81,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
 exports.getUserProfile = asyncHandler(async (req, res) => {
    
     const user = await User.findByPk(req.user.email,{include: Order})
-    console.log(user)
+   
     if (user) {
         res.json({
             email: user.email,

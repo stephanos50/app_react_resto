@@ -8,7 +8,7 @@ const  asyncHandler = require ('express-async-handler')
 // @route  GET /api/users
 // @access Private/Admin
 exports.getUsers = asyncHandler(async (req, res) => {
-    console.log('getUsers')
+  
     const user = await User.findAll({
         include: Role
     })
@@ -20,7 +20,7 @@ exports.getUsers = asyncHandler(async (req, res) => {
 // @route  DELETE /api/admin/:email
 // @access Private/Admin
 exports.deleteUsers = asyncHandler(async (req, res) => {
-    console.log('deleteUsers')
+  
     const user = await User.findByPk(req.params.email)
     if (user) {
        await user.destroy()

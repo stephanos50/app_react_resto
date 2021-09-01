@@ -16,11 +16,16 @@ const ShippingScreem = ({ history }) => {
     const { loading, error, cities} = cityList
 
     const {shippingAddress} = cart
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
+
    
-    const [address, setAddress] = useState(shippingAddress.address || '')
-    const [number, setNumber] = useState(shippingAddress.number || '')
-    const [floor, setFloor] = useState(shippingAddress.floor || '')
-    const [city, setCity] = useState(shippingAddress.city || {})
+   
+    const [address, setAddress] = useState(userInfo.address.name|| '')
+    const [number, setNumber] = useState(userInfo.address.number || '')
+    const [floor, setFloor] = useState(userInfo.address.floor || '')
+    const [city, setCity] = useState(userInfo.address.cityId || {})
     
 
     const dispatch = useDispatch()
