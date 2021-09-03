@@ -102,7 +102,7 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 // @access Private/Admin
 exports.getOrders = asyncHandler(async (req, res) => {
     const orders = await Order.findAll({
-        include: User
+       include: User
     })
 
     if(orders){

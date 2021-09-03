@@ -14,6 +14,10 @@ Role.init(
         name: {
             type: DataTypes.STRING,
             unique: true,
+            validate: {
+                is: ['[a-z]','i'], 
+                notEmpty: true, 
+            }
           },
     },
     {

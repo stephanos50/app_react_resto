@@ -22,7 +22,8 @@ User.init(
             allowNull: false,
             validate: {
                 isEmail: true,
-                notEmpty: true,     
+                notEmpty: true,
+                 
             }
         },
         _uuid: { 

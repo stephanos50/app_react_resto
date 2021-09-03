@@ -67,7 +67,6 @@ export const listProductDetails = (id) => async (dispatch) => {
 }
 
 export const deleteProduct = (id) => async (dispatch, getState) => {
-    
     try {
       dispatch({
           type: PRODUCT_DELETE_REQUEST,
@@ -117,7 +116,6 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
           }
 
           const { data } = await axios.post(`/api/products`, {}, config)
-
           dispatch({
               type: PRODUCT_CREATE_SUCCESS,
               payload: data

@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan')
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
+
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes')
@@ -12,6 +13,7 @@ const categoryRoutes = require('./routes/categoryRoutes')
 const allergenRoutes = require('./routes/allergenRoutes')
 const cityRoutes = require('./routes/cityRoutes')
 const uploadRoutes = require('./routes/uploadRoutes')
+const rolesRoutes = require('./routes/roleRoutes')
 
 
 dotenv.config();
@@ -32,6 +34,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/allergens', allergenRoutes);
 app.use('/api/cities',cityRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/roles', rolesRoutes);
 
 
 app.get('/api/config/paypal', (req, res) =>

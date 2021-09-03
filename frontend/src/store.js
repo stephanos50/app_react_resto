@@ -11,12 +11,7 @@ import {
 
 } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
-import {
-    userLoginReducer, 
-    userRegisterReducer, 
-    userDetailsReducer, 
-    userUpdateProfileReducer, 
-} from './reducers/userReducers'
+import {userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer} from './reducers/userReducers'
 import {
     orderCreateReducer, 
     orderDetailsReducer, 
@@ -25,17 +20,17 @@ import {
     orderListReducer,
     orderDeliverReducer
 } from './reducers/orderReducers'
-import { 
-    userListReducer, 
-    userDeleteReducer, 
-    userAdminDetailsReducer, 
-    userUpdateReducer,
-  
-} from './reducers/adminReducers'
+import {userListReducer, userDeleteReducer, userAdminDetailsReducer, userUpdateReducer} from './reducers/adminReducers'
+import {
+    categoryListReducer,
+    categoryCreateReducer, 
+    categoryDeleteReducer,
+    
 
-import { categoryListReducer} from './reducers/categoryReducers'
-
-import { cityListReducer} from './reducers/cityReducer'
+} from './reducers/categoryReducers'
+import {allergenListReducer, allergenCreateReducer, allergenDeleteReducer} from './reducers/allergenReducer'
+import {cityListReducer} from './reducers/cityReducer'
+import {rolesListReducer, roleCreateReducer, roleDeleteReducer} from './reducers/roleReducers'
 
 const reducer = combineReducers({
     productList: productListReducer,
@@ -58,6 +53,14 @@ const reducer = combineReducers({
     orderListMy: orderListMyReducer,
     cityList:cityListReducer,
     categoryList:categoryListReducer,
+    categoryCreate:categoryCreateReducer,
+    categoryDelete:categoryDeleteReducer,
+    allergenCreate:allergenCreateReducer,
+    allergenList:allergenListReducer,
+    allergenDelete:allergenDeleteReducer,
+    rolesList:rolesListReducer,
+    roleCreate:roleCreateReducer,
+    roleDelete:roleDeleteReducer,
     orderList:orderListReducer,
     orderDeliver:orderDeliverReducer,
     productReviewCreate:productReviewCreateReducer,

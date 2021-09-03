@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
-
+import SearchProduct from '../composants/SearchProduct'
 import { listProducts, deleteProduct, createProduct } from '../actions/productAction'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 
 const ProductListScreen = ({ history }) => {
   const dispatch = useDispatch()
-  console.log()
+ 
   const productList = useSelector((state) => state.productList)
   const { loading, error, products } = productList
 
@@ -69,48 +68,10 @@ const ProductListScreen = ({ history }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-               
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-              
-                <tr key={product.id}>
-                  <td>{product.id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.price}€</td>
-                  <td>{product.category.name}</td>
-                  
-                  
-                  <td>
-                    <LinkContainer to={`/admin/product/${product.id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteHandler(product.id)}
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          
-        </>
+        <SearchProduct 
+          products={products}
+          deleteHandler={deleteHandler}
+        />
       )}
     </>
   )

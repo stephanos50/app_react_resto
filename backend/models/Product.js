@@ -22,8 +22,18 @@ Product.init(
             type: DataTypes.STRING,
             allowNull:false,
             unique:true,
+            validate: {
+                is: ['[a-z]','i'], 
+                notEmpty: true, 
+            }
         },
-        description: { type: DataTypes.TEXT },
+        description: { 
+            type: DataTypes.TEXT,
+            validate: {
+                is: ['[a-z]','i'], 
+                notEmpty: true, 
+            }
+        },
         price: {
             type: DataTypes.FLOAT,
             defaultValue: 1

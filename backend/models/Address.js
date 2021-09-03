@@ -14,15 +14,27 @@ Address.init(
         
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                is: ['[a-z]','i'], 
+                notEmpty: true, 
+            }
         },
         number: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            isInt: true,   
+            isInt: {
+                msg: "Must be an integer number "
+              }
         },
         floor: {
             type: DataTypes.INTEGER,
-            allowNull:false
+            allowNull:false,
+            isInt: true,   
+            isInt: {
+                msg: "Must be an integer number "
+            }
         } 
     },
     { 

@@ -12,9 +12,4 @@ router.route('/:id').delete(protect,admin,productController.deleteProduct)
 router.route('/:id').put(protect,admin,productController.updateProduct)
 router.route('/:id/reviews').post(protect,productController.createProductReviews)
 
-
-
-
-
-
 module.exports = router;

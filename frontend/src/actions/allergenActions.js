@@ -1,22 +1,20 @@
 import {
-    CATEGORY_LIST_REQUEST,
-    CATEGORY_LIST_SUCCESS,
-    CATEGORY_LIST_FAIL,
-    CATEGORY_CREATE_REQUEST,
-    CATEGORY_CREATE_SUCCESS,
-    CATEGORY_CREATE_FAIL,
-    CATEGORY_DELETE_REQUEST,
-    CATEGORY_DELETE_SUCCESS,
-    CATEGORY_DELETE_FAIL,
-  
-    
-} from '../constants/categoryConstants'
+    ALLERGEN_LIST_REQUEST,
+    ALLERGEN_LIST_SUCCESS,
+    ALLERGEN_LIST_FAIL,
+    ALLERGEN_CREATE_REQUEST,
+    ALLERGEN_CREATE_SUCCESS,
+    ALLERGEN_CREATE_FAIL,
+    ALLERGEN_DELETE_REQUEST,
+    ALLERGEN_DELETE_SUCCESS,
+    ALLERGEN_DELETE_FAIL,
+} from '../constants/allergenConstant'
 import axios from 'axios'
 
 
-export const listCategory = () => async(dispatch, getState) => {
+export const listAllergen = () => async(dispatch, getState) => {
     try {
-        dispatch({ type: CATEGORY_LIST_REQUEST})
+        dispatch({ type: ALLERGEN_LIST_REQUEST})
 
         const { userLogin: {userInfo} } = getState() 
     
@@ -26,16 +24,16 @@ export const listCategory = () => async(dispatch, getState) => {
             }
         }
     
-        const { data } = await axios.get('/api/categories', config)
+        const { data } = await axios.get('/api/allergens', config)
         console.log(data)
 
         dispatch({
-            type: CATEGORY_LIST_SUCCESS,
+            type: ALLERGEN_LIST_SUCCESS,
             payload: data
         })
     } catch (error) {
         dispatch({
-            type: CATEGORY_LIST_FAIL,
+            type: ALLERGEN_LIST_FAIL,
             payload: error.response  && error.response.data.message
                 ? error.response.data.message
                 : error.message,
@@ -43,9 +41,9 @@ export const listCategory = () => async(dispatch, getState) => {
     }
 }
 
-export const createCategory = (category) => async (dispatch, getState) => {
+export const createAllergen = (allergen) => async (dispatch, getState) => {
    try {    
-    dispatch({ type:CATEGORY_CREATE_REQUEST})
+    dispatch({ type:ALLERGEN_CREATE_REQUEST})
 
     const { 
         userLogin : { userInfo },
@@ -58,17 +56,17 @@ export const createCategory = (category) => async (dispatch, getState) => {
         },
     }
 
-    await axios.post(`/api/categories/${category}`,{}, config)
+    await axios.post(`/api/allergens/${allergen}`,{}, config)
     
    
     dispatch({ 
-        type: CATEGORY_CREATE_SUCCESS,
+        type: ALLERGEN_CREATE_SUCCESS,
         
     })
     
    } catch (error) {
         dispatch({ 
-            type: CATEGORY_CREATE_FAIL,
+            type: ALLERGEN_CREATE_FAIL,
             payload: error.response  && error.response.data.message
                 ? error.response.data.message
                 : error.message,
@@ -79,11 +77,11 @@ export const createCategory = (category) => async (dispatch, getState) => {
 
 
 
-export const deleteCategory = (id) => async(dispatch, getState) => {
+export const deleteAllergen = (id) => async(dispatch, getState) => {
     console.log(id)
     try {    
         dispatch({ 
-            type:CATEGORY_DELETE_REQUEST,
+            type:ALLERGEN_DELETE_REQUEST,
         })
     
         const { 
@@ -97,15 +95,15 @@ export const deleteCategory = (id) => async(dispatch, getState) => {
             },
         }
     
-        await axios.delete(`/api/categories/${id}`, config)
+        await axios.delete(`/api/allergens/${id}`, config)
     
         dispatch({ 
-            type: CATEGORY_DELETE_SUCCESS,
+            type: ALLERGEN_DELETE_SUCCESS,
         })
         
        } catch (error) {
             dispatch({ 
-                type: CATEGORY_DELETE_FAIL,
+                type: ALLERGEN_DELETE_FAIL,
                 payload: error.response  && error.response.data.message
                 ? error.response.data.message
                 : error.message,

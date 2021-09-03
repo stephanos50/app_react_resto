@@ -1,19 +1,16 @@
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 import Assess from './Assess'
+import  PropTypes from 'prop-types'
 
 
-const Product = ({product}) => {
+const Product = (props) => {
+    
+    const {product} = props
     const picture = product.pictures.map((picture) => picture.path)
-    console.log(picture)
-
+    
     return( 
         <Card style={{ width: '18rem' }} className='my-2 p-2 rounded'>
-            {/* <Link to={`/products/${product.id}`}>
-                <Card.Img src={picture}  variant='top'   className='images' />
-                
-            </Link> */}
-
             <Card.Body>
                 <Link to={`/products/${product.id}`}>
                 <Card.Title as='div'>
@@ -21,9 +18,6 @@ const Product = ({product}) => {
                     <strong>{product.name}</strong>
                 </Card.Title>
                 </Link>
-
-                
-
                 <Assess
                     value={product.cote}
                     text={`${product.cote}`}
@@ -36,8 +30,10 @@ const Product = ({product}) => {
         </Card>
     )
        
-           
-    
+}
+
+Product.propTypes = {
+    product: PropTypes.object.isRequired,
 }
 
 export default Product;

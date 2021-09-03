@@ -59,8 +59,7 @@ const Product = ({history, match}) => {
         }))
     }
     
-    console.log(Object.keys(product.reviews).length)
-    console.log(errorproductReview)
+   
     
     return ( 
         <>

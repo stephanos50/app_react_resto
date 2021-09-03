@@ -1,22 +1,20 @@
 import {
-    CATEGORY_LIST_REQUEST,
-    CATEGORY_LIST_SUCCESS,
-    CATEGORY_LIST_FAIL,
-    CATEGORY_CREATE_REQUEST,
-    CATEGORY_CREATE_SUCCESS,
-    CATEGORY_CREATE_FAIL,
-    CATEGORY_DELETE_REQUEST,
-    CATEGORY_DELETE_SUCCESS,
-    CATEGORY_DELETE_FAIL,
-  
-    
-} from '../constants/categoryConstants'
+    ROLE_LIST_REQUEST,
+    ROLE_LIST_SUCCESS,
+    ROLE_LIST_FAIL,
+    ROLE_CREATE_REQUEST,
+    ROLE_CREATE_SUCCESS,
+    ROLE_CREATE_FAIL,
+    ROLE_DELETE_REQUEST,
+    ROLE_DELETE_SUCCESS,
+    ROLE_DELETE_FAIL,
+} from '../constants/roleConstants'
 import axios from 'axios'
 
 
-export const listCategory = () => async(dispatch, getState) => {
+export const listRoles = () => async(dispatch, getState) => {
     try {
-        dispatch({ type: CATEGORY_LIST_REQUEST})
+        dispatch({ type: ROLE_LIST_REQUEST})
 
         const { userLogin: {userInfo} } = getState() 
     
@@ -26,16 +24,16 @@ export const listCategory = () => async(dispatch, getState) => {
             }
         }
     
-        const { data } = await axios.get('/api/categories', config)
+        const { data } = await axios.get('/api/roles', config)
+       
         console.log(data)
-
         dispatch({
-            type: CATEGORY_LIST_SUCCESS,
+            type: ROLE_LIST_SUCCESS,
             payload: data
         })
     } catch (error) {
         dispatch({
-            type: CATEGORY_LIST_FAIL,
+            type: ROLE_LIST_FAIL,
             payload: error.response  && error.response.data.message
                 ? error.response.data.message
                 : error.message,
@@ -43,9 +41,9 @@ export const listCategory = () => async(dispatch, getState) => {
     }
 }
 
-export const createCategory = (category) => async (dispatch, getState) => {
+export const createRole = (role) => async (dispatch, getState) => {
    try {    
-    dispatch({ type:CATEGORY_CREATE_REQUEST})
+    dispatch({ type:ROLE_CREATE_REQUEST})
 
     const { 
         userLogin : { userInfo },
@@ -58,17 +56,16 @@ export const createCategory = (category) => async (dispatch, getState) => {
         },
     }
 
-    await axios.post(`/api/categories/${category}`,{}, config)
+    await axios.post(`/api/roles/${role}`,{}, config)
     
-   
     dispatch({ 
-        type: CATEGORY_CREATE_SUCCESS,
+        type: ROLE_CREATE_SUCCESS,
         
     })
     
    } catch (error) {
         dispatch({ 
-            type: CATEGORY_CREATE_FAIL,
+            type: ROLE_CREATE_FAIL,
             payload: error.response  && error.response.data.message
                 ? error.response.data.message
                 : error.message,
@@ -79,11 +76,11 @@ export const createCategory = (category) => async (dispatch, getState) => {
 
 
 
-export const deleteCategory = (id) => async(dispatch, getState) => {
-    console.log(id)
+export const deleteRole = (id) => async(dispatch, getState) => {
+   
     try {    
         dispatch({ 
-            type:CATEGORY_DELETE_REQUEST,
+            type:ROLE_DELETE_REQUEST,
         })
     
         const { 
@@ -97,15 +94,15 @@ export const deleteCategory = (id) => async(dispatch, getState) => {
             },
         }
     
-        await axios.delete(`/api/categories/${id}`, config)
+        await axios.delete(`/api/roles/${id}`, config)
     
         dispatch({ 
-            type: CATEGORY_DELETE_SUCCESS,
+            type: ROLE_DELETE_SUCCESS,
         })
         
        } catch (error) {
             dispatch({ 
-                type: CATEGORY_DELETE_FAIL,
+                type: ROLE_DELETE_FAIL,
                 payload: error.response  && error.response.data.message
                 ? error.response.data.message
                 : error.message,

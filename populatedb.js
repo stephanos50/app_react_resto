@@ -82,13 +82,9 @@ async function productOrderCreate(qty, price, orderId,productId){
 
 async function productRate(productId){
   const product = await Product.findByPk(productId)
-  product.setDataValue('rate', await product.calculRate(5,4))
+  product.setDataValue('rate', await product.calculRate(5,5))
   product.save()
 }
-
-
-
-
 
 async function createProductOrder01(){
   
@@ -99,10 +95,8 @@ async function createProductOrder01(){
   order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE))
   order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
   order.setDataValue('isPaid', true);
-
-
-
   await order.save();
+  
   return Promise.all([
     productOrderCreate( 2, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
@@ -130,15 +124,13 @@ async function createProductOrder02(){
 async function createProductOrder03(){
   
   const date = new Date()
-
+  
   const order = await Order.create();
   order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
   order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE))
   order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
   order.setDataValue('isPaid', true);
-
-
-
+  
   await order.save();
   return Promise.all([
     productOrderCreate( 2, (12.50) ,order.id, 3),
@@ -225,6 +217,7 @@ async function createUsers(){
 
     const root_password = await bcrypt.hash('root',10)
     const stefan_password = await bcrypt.hash('root',10)
+    const alpha_password = await bcrypt.hash('root',10)
     
 
     const [admin, client] = await Role.bulkCreate([
@@ -233,7 +226,7 @@ async function createUsers(){
       
     ]);
 
-    const [root, stefan] =  await User.bulkCreate([
+    const [root, stefan, alpha] =  await User.bulkCreate([
       {
         email: 'root@exemple.be',
         _uuid: uuidv4(),
@@ -249,12 +242,21 @@ async function createUsers(){
         last_name: 'stefan',
         isAdmin: false,
         passwordHash: stefan_password
+      },
+      {
+        email: 'alpha@exemple.be',
+        _uuid: uuidv4(),
+        first_name: 'alpha',
+        last_name: 'alpha',
+        isAdmin: false,
+        passwordHash: alpha_password
       }
     ]);
 
     await Promise.all([
       root.setRoles([admin]),
-      stefan.setRoles([client])
+      stefan.setRoles([client]),
+      alpha.setRoles([client])
       
     ]);
 };
@@ -359,13 +361,7 @@ async function createProducts(){
     meze.setAllergens([fruits,lactose,celeris]),
    
  ])
-
- 
-  
 }
-
-
-
 async function createCategories(){
   return Promise.all([
     categoryCreate('Entrée'),
@@ -387,27 +383,11 @@ async function createCities(){
 
 
 
-
-
-async function createAddressesStefan(){
-  const stefan = await User.findOne({where: {
-    first_name: 'stefan'
-  }})
- 
+async function createAddresses(){
   return Promise.all([
-    addressCreate("Boulevard d'Anvers",154,1,2, stefan.email),
-    
-   ]);
-};
-
-
-async function createAddressesRoot(){
-  const root = await User.findOne({where: {
-    first_name: 'root'
-  }})
- 
-  return Promise.all([
-    addressCreate("Rue d'Anvers",154,1,2, root.email),
+    addressCreate("Rue d'Anvers",154,5,1, 'root@exemple.be'),
+    addressCreate("Chaussée de Louvain",8,2,2, 'stefan@exemple.be'),
+    addressCreate("Rue de la madelaine ",4,2,3, 'alpha@exemple.be'),
     
    ]);
 };
@@ -436,9 +416,7 @@ async function addCategories(){
               element.save()
             } 
         });
-       
-
-    } catch (error) {
+      } catch (error) {
         console.log(error)
     }
 }
@@ -459,25 +437,47 @@ async function addPictures(){
   } 
 }
 
+async function reviewCreate(name,rating,comment,productId, email){
+    const reviewDetails = {
+      name:name,
+      rating:rating,
+      comment:comment,
+    }
+    const review = await Review.create(reviewDetails);
+    console.log('Nouvelle review ' + review.id )
+    review.setDataValue('productId', productId)
+    review.setDataValue('userEmail', email)
+    review.save()
+    
+}
 
-
-
+async function createReviews(){
+  return Promise.all([
+    reviewCreate('stefan',4,'this food is delicious',1, 'stefan@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',2, 'stefan@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',3, 'stefan@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',4, 'stefan@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',5, 'stefan@exemple.be'),
+    reviewCreate('alpha',4,'this food is good',1, 'alpha@exemple.be'),
+    reviewCreate('alpha',4,'this food is good',2, 'alpha@exemple.be'),
+    reviewCreate('alpha',4,'this food is good',3, 'alpha@exemple.be'),
+    reviewCreate('alpha',4,'this food is good',4, 'alpha@exemple.be'),
+    reviewCreate('alpha',4,'this food is good',5, 'alpha@exemple.be'),
+  ]);
+}
 
 (async () => {
   try {
     await sequelize.sync({ force: true });
     await createUsers();
-    
     const cities = await createCities();    
+    await createAddresses();
     const categories = await createCategories();
     const products = await createProducts();
     const product_category = await addCategories();
     const pictures = await createPictures();
     const product_image = await addPictures();
- 
-    const userAddresses = await createAddressesStefan();
-    const rootAddresses = await createAddressesRoot();
-   
+    const reviewx = await createReviews();
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();
     //const totalOrder = await addTotal()
@@ -486,12 +486,7 @@ async function addPictures(){
 
     const products_orders_03 = await createProductOrder03();
     const orders_03 = await updateOrdersRoot();
-    
-
    
-   
-
-    
     sequelize.close();
   } catch (error) {
     console.error('Error while populating DB: ', error);

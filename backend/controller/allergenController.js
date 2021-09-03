@@ -3,10 +3,10 @@ const Product = require('../models/Product');
 const  asyncHandler = require ('express-async-handler')
 
 
-// @desc   get a allegen
-// @route  GET /admin/allergen
+// @desc   get a allegens
+// @route  GET /admin/allergens
 // @access Private/Admin
-exports.getAllergen = asyncHandler(async (req,res) => {
+exports.getAllergens = asyncHandler(async (req,res) => {
     
 const allergens = await Allergen.findAll()
     if(allergens){
@@ -20,15 +20,25 @@ const allergens = await Allergen.findAll()
 
 
 // @desc   create a allergen
-// @route  CREATE /api/allergen
+// @route  CREATE /api/allergen/:name
 // @access Private/Admin
 exports.createAllergen = asyncHandler( async(req,res) => {
-    const allergenDetails = {
-        name: req.body.allergen
+   
+    const allergen = await Allergen.findOne({
+        where: {
+            name:req.params.name
+        }
+    })
+    if(!allergen){
+        console.log(req.params)
+        const allergen = await  Allergen.create({name:req.params.name})
+        await allergen.save()
+        res.status(201).json({message: 'Allergen create'})
+    } else {
+        res.status(404)
+        throw new Error('Allergen  already exist')
     }
-    const allergen = new Allergen(allergenDetails)
-    await allergen.save()
-    res.status(201).json({message: 'Allergen create'})
+    
    
 })
 
@@ -36,7 +46,7 @@ exports.createAllergen = asyncHandler( async(req,res) => {
 // @route  DELETE /api/allergen/:name
 // @access Private/Admin
 exports.deleteAllergen = asyncHandler(async (req,res) => {
-    const allergen = await Allergen.findByPk(req.params.name)
+    const allergen = await Allergen.findByPk(req.params.id)
     await allergen.destroy()
     res.status(201).json('Allergen remove')
    
