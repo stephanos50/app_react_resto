@@ -8,14 +8,29 @@ const token = require('../utils/generateToken')
 const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid');
 const saltRounds = 10;
+const { body, validationResult } = require("express-validator");
 
 
 
 // @desc Autehtification user && get token
 // @route POST /api/users/login
 // @access Public
-exports.authUser = asyncHandler(async (req, res) => {
+exports.authUser = 
+[
+    body('email').isEmail(),
+    body('password').isLength({ min: 8 }),
+    
+    asyncHandler(
+    async (req, res) => {
+   
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400)
+        throw new Error('Invlid email or password')
+    }
+   
     const { email, password } = req.body
+    
     const user = await User.findByPk(email,{
         include: [Role,Address]
     })
@@ -33,53 +48,66 @@ exports.authUser = asyncHandler(async (req, res) => {
         })
     } else {
         res.status(401)
-        throw new Error('Invlid email or password')
+        throw new Error('Invalid email or password')
     }
-})
+})];
 
 // @desc Register a new User user && get token
 // @route POST /api/users
 // @access Public
-exports.registerUser = asyncHandler(async (req, res) => {
-    const { first_name,last_name, email, password } = req.body
+exports.registerUser = [ 
     
-    const userExists = await User.findOne({
-        where: { email:email },
-    })
-
-   if(userExists){
-        res.status(400)
-        throw new Error('User already exist')
-    }
-    const user = await User.create({
-         email: email,
-        _uuid: uuidv4(),
-        first_name: first_name,
-        last_name: last_name,
-        passwordHash: await bcrypt.hash(password,saltRounds),
-    })
-    await user.save()
+    body('first_name').not().isEmpty().trim(),
+    body('last_name').not().isEmpty().trim(),
+    body('email').isEmail(),
+    body('password').isLength({ min: 8 }),
     
-    
-    if(user){
-        res.status(201).json({
-            email: email,
-            _uuid: user._uuid,
-            first_name: first_name,
-            last_name:last_name,
-            token: token.generateToken(user._uuid),
+    asyncHandler(async (req, res) => {
+        
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400)
+            throw new Error('Invlide input')
+        }
+        const { first_name,last_name, email, password } = req.body
+        const userExists = await User.findOne({
+            where: { email:email },
         })
-        } else {
-        res.status(400)
-        throw new Error('Invalide user data')
-    }
-})
+    
+       if(userExists){
+            res.status(400)
+            throw new Error('User already exist')
+        }
+        const user = await User.create({
+             email: email,
+            _uuid: uuidv4(),
+            first_name: first_name,
+            last_name: last_name,
+            passwordHash: await bcrypt.hash(password,saltRounds),
+        })
+        await user.save()
+        
+        
+        if(user){
+            res.status(201).json({
+                email: email,
+                _uuid: user._uuid,
+                first_name: first_name,
+                last_name:last_name,
+                isAdmin: user.isAdmin,
+                token: token.generateToken(user._uuid),
+            })
+            } else {
+            res.status(400)
+            throw new Error('Invalide user data')
+        }
+    })
+]; 
 
 // @desc   Get user profile
 // @route  Get /api/users/profile
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
-   
     const user = await User.findByPk(req.user.email,{include: Order})
    
     if (user) {
@@ -100,29 +128,45 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 // @desc   Update user profile
 // @route  PUT /api/users/profile
 // @access Private
-exports.updateUserProfile = asyncHandler(async (req, res) => {
-    const user = await User.findByPk(req.body.id)
-    if (user) {
-        user.first_name = req.body.first_name || user.first_name
-        user.last_name = req.body.last_name || user.last_name
-        user.email = req.body.email || user.email
-        
-        if(req.body.password){
-            user.password = req.body.password 
-        }
-        const updateUser = await user.save()
+exports.updateUserProfile = [
+   
+    body('id').isEmail(),
+    body('first_name').not().isEmpty().trim(),
+    body('last_name').not().isEmpty().trim(),
+   
+    asyncHandler(async (req, res) => {
        
-        res.json({
-            email: updateUser.email,
-            _uuid : updateUser.uuid,
-            first_name: updateUser.first_name,
-            last_name: updateUser.last_name,
-            token: token.generateToken(updateUser._uuid),
-        })
-    } else {
-        res.status(404)
-        throw new Error('User not found ')
-    }
-})
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            res.status(400)
+            throw new Error('Invlide input')
+        }
+
+
+        const user = await User.findByPk(req.body.id)
+        if (user) {
+            user.first_name = req.body.first_name || user.first_name
+            user.last_name = req.body.last_name || user.last_name
+            user.email = req.body.email || user.email
+            
+            if(req.body.password){
+                user.password = req.body.password 
+            }
+            const updateUser = await user.save()
+           
+            res.json({
+                email: updateUser.email,
+                _uuid : updateUser.uuid,
+                first_name: updateUser.first_name,
+                last_name: updateUser.last_name,
+                token: token.generateToken(updateUser._uuid),
+            })
+        } else {
+            res.status(404)
+            throw new Error('User not found ')
+        }
+    })
+]
 
 

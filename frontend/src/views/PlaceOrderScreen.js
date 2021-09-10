@@ -4,7 +4,8 @@ import { Button, Row, Col, ListGroup, Card} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import CheckoutSteps from  '../composants/CheckoutSteps'
-
+import { ORDER_CREATE_RESET } from '../constants/orderConstants'
+import { USER_DETAILS_RESET } from '../constants/userConstants'
 import { createOrder } from '../actions/orderAction'
 
 
@@ -21,6 +22,7 @@ const PlaceOrderScreen = ({history}) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
+
     cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0))
     
     cart.totalPrice = cart.itemsPrice
@@ -30,8 +32,12 @@ const PlaceOrderScreen = ({history}) => {
    
     
     useEffect(() => {
+       
         if(success){
             history.push(`/order/${order.id}`)
+            dispatch({ type: USER_DETAILS_RESET })
+            dispatch({ type: ORDER_CREATE_RESET })
+            
         }// eslint-disable-next-line
     },[history, success])
 
@@ -53,7 +59,7 @@ const PlaceOrderScreen = ({history}) => {
                         <ListGroup.Item>
                             <h2>Adresse de livraison</h2>
                             <h6>
-                               { cart.shippingAddress.address } ,
+                               { cart.shippingAddress.name } ,
                                 numéro: { cart.shippingAddress.number } ,
                                 étage:  { cart.shippingAddress.floor }
                             </h6>

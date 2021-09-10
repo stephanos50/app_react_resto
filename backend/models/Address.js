@@ -16,25 +16,20 @@ Address.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                is: ['[a-z]','i'], 
-                notEmpty: true, 
-            }
+                is: /^[a-zA-Zéèà' ]+$/i, 
+            },
         },
         number: {
             type: DataTypes.INTEGER,
             allowNull: false,
             isInt: true,   
-            isInt: {
-                msg: "Must be an integer number "
-              }
+           
         },
         floor: {
             type: DataTypes.INTEGER,
             allowNull:false,
             isInt: true,   
-            isInt: {
-                msg: "Must be an integer number "
-            }
+            
         } 
     },
     { 

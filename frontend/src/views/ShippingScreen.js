@@ -13,26 +13,20 @@ const ShippingScreem = ({ history }) => {
     const cart = useSelector((state) => state.cart)
     const cityList = useSelector(state => state.cityList)
     // eslint-disable-next-line
-    const { loading, error, cities} = cityList
+    const { cities} = cityList
 
     const {shippingAddress} = cart
 
-    const userLogin = useSelector((state) => state.userLogin)
-    const { userInfo } = userLogin
-
-   
-   
-    const [address, setAddress] = useState(userInfo.address.name|| '')
-    const [number, setNumber] = useState(userInfo.address.number || '')
-    const [floor, setFloor] = useState(userInfo.address.floor || '')
-    const [city, setCity] = useState(userInfo.address.cityId || {})
+    const [name, setAddress] = useState( shippingAddress.name )
+    const [number, setNumber] = useState(shippingAddress.number)
+    const [floor, setFloor] = useState(shippingAddress.floor)
+    const [city, setCity] = useState(shippingAddress.city)
     
 
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(listCities())
-        
         setCity({
             id:1,
             name:'Audergem',
@@ -41,11 +35,9 @@ const ShippingScreem = ({ history }) => {
        
     }, [dispatch])
 
-    
-   
     const sumbitHandler = (e) => {
         e.preventDefault()
-        dispatch(saveShippingAddress({address, number, floor, city }))
+        dispatch(saveShippingAddress({name, number, floor, city }))
         history.push('/payment')
     }
 
@@ -65,12 +57,12 @@ const ShippingScreem = ({ history }) => {
            <Form onSubmit={sumbitHandler}>
                <Row>
                    <Col md={12}>
-                        <Form.Group className="mb-3" controlId='address'>
-                            <Form.Label>Adresse</Form.Label>
+                        <Form.Group className="mb-3" controlId='name'>
+                            <Form.Label>Name</Form.Label>
                             <Form.Control
                                 type='text'
                                 placeholder='Entrez votre adresse'
-                                value={address}
+                                value={name}
                                 required
                                 onChange={(e) => setAddress(e.target.value)}
                             ></Form.Control>

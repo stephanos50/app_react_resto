@@ -215,9 +215,9 @@ async function categoryCreate(name){
 
 async function createUsers(){
 
-    const root_password = await bcrypt.hash('root',10)
-    const stefan_password = await bcrypt.hash('root',10)
-    const alpha_password = await bcrypt.hash('root',10)
+    const root_password = await bcrypt.hash('password',10)
+    const stefan_password = await bcrypt.hash('password',10)
+    const alpha_password = await bcrypt.hash('password',10)
     
 
     const [admin, client] = await Role.bulkCreate([

@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const Role = require('../models/Role')
 const  asyncHandler = require ('express-async-handler')
+const { body, validationResult } = require("express-validator");
 
 
 
@@ -51,6 +52,7 @@ exports.getUserById = asyncHandler(async (req, res) => {
 // @route  PUT /api/admin/:email
 // @access Private/Admin
 exports.updateUserById = asyncHandler(async (req, res) => {
+    
     const user = await User.findByPk(req.params.email)
     if (user) {
         user.email = req.body.email || user.email

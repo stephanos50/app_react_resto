@@ -20,11 +20,6 @@ User.init(
             type: DataTypes.STRING, 
             primaryKey: true,
             allowNull: false,
-            validate: {
-                isEmail: true,
-                notEmpty: true,
-                 
-            }
         },
         _uuid: { 
             type: UUID , 
@@ -34,17 +29,15 @@ User.init(
             type: DataTypes.STRING, 
             allowNull: false,
             validate: {
-                is: ['[a-z]','i'],
-                notEmpty: true,  
-            }
+                is: /^[a-zA-Zéèà' ]+$/i, 
+            },
         },
         last_name: { 
             type: DataTypes.STRING, 
             allowNull: false,
             validate: {
-                is: ['[a-z]','i'], 
-                notEmpty: true, 
-            }
+                is: /^[a-zA-Zéèà' ]+$/i, 
+            },
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,

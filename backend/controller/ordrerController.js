@@ -6,8 +6,6 @@ const Product = require('../models/Product')
 const City =require('../models/City')
 const User = require('../models/User')
 const Payment = require('../models/Payment')
-const sequelize = require('../models/sequelize');
-const { v4: uuidv4 } = require('uuid');
 const {DateTime} = require("luxon");
 
 
@@ -20,6 +18,8 @@ const {DateTime} = require("luxon");
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
     const { cartItems, shippingAddress, paymentMethode, user } = req.body
+
+    console.log(user)
     if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
@@ -27,22 +27,24 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
     } else {
         let address = await Address.findOne({ where: { userEmail: user } })
         if(address){
-            address.name = shippingAddress.address,
+            address.name = shippingAddress.name,
             address.number = shippingAddress.number,
             address.floor = shippingAddress.floor,
             address.setDataValue('cityId',shippingAddress.city.id )
             await address.save()
         } else {
             const details_address = {
-                name: shippingAddress.address,
+                name: shippingAddress.name,
                 number: shippingAddress.number,
                 floor: shippingAddress.floor,
             }
             address = await Address.create(details_address)
             address.setDataValue('cityId',shippingAddress.city.id )
+            address.setDataValue('userEmail',user )
             await address.save()
         }
-        
+
+       
         const order = await Order.create({})
         
         order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
@@ -54,11 +56,10 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         await order.save()
         
         cartItems.map( async (element) => {
-            let product =  await Product.findByPk(element.id)
+            const product =  await Product.findByPk(element.id)
             if(product !== null){
                 const productOrder = await  ProductOrder.create({})
                 let sub_total = await productOrder.calculSubTotal(element.qty,element.price)
-               
                 productOrder.setDataValue('quantity', element.qty)
                 productOrder.setDataValue('price', sub_total )
                 productOrder.setDataValue('orderId', order.id)
@@ -75,6 +76,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 
         const orderCreate = await Order.findByPk(order.id, {
             include: [ProductOrder, {model:Address,include:[{model:City}]}, User] 
+
         })
        
         res.status(201).json(orderCreate)
@@ -86,9 +88,9 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
     const order = await Order.findByPk(req.params.id, {
-        include: [ProductOrder, {model:Address,include:[{model:City}]}, User] 
+        include: [User,{model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
+      
     })
-
     if(order){
         res.json(order)
     } else {

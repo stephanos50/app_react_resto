@@ -6,7 +6,6 @@ import {createCategory, deleteCategory, listCategory} from '../actions/categoryA
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import { CATEGORY_CREATE_RESET } from '../constants/categoryConstants'
-import { LinkContainer } from 'react-router-bootstrap'
 
 
 const CategoryListScreem = ({history}) => {

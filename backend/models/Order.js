@@ -4,14 +4,13 @@ const sequelize = require('./sequelize');
 const Address = require('./Address');
 const User = require('./User');
 const {DateTime} = require("luxon");
+const total = 0;
 
 class Order extends Model{
-    total = 0
     
     get url(){
         return `/order/${this.id}`;
     }
-
     async calculTotal(price){
         this.total = this.total + price;
         return ( this.total)

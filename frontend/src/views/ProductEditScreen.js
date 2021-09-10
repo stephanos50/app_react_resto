@@ -25,7 +25,9 @@ const ProductEditScreem = ({match, history}) => {
     const [allergensList, setAllergensList] = useState([]) // AXIOS
     const [allergens, setAllergens] = useState({}) // PRODUCT
     const [isChecked, setIsChecked] = useState(false)
+     // eslint-disable-next-line
     const [uploading, setUploading] = useState(false)
+    
     
     const dispatch = useDispatch()
 
@@ -56,7 +58,6 @@ const ProductEditScreem = ({match, history}) => {
         dispatch(listCategory())
         if (successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
-            
             history.push('/admin/productlist')
             
         } 
@@ -96,7 +97,7 @@ const ProductEditScreem = ({match, history}) => {
           setImage(data)
           setUploading(false)
         } catch (error) {
-          console.error(error)
+         
           setUploading(false)
         }
       }

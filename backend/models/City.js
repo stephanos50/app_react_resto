@@ -16,9 +16,8 @@ City.init(
             allowNull:false,
             unique:true,
             validate: {
-                is: ['[a-z]','i'], 
-                notEmpty: true, 
-            }
+                is: /^[a-zA-Z]+$/i, 
+            },
         },
         zip: {
             type: DataTypes.INTEGER,

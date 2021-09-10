@@ -4,15 +4,14 @@ import axios from 'axios'
 import { Row, Col, ListGroup, Card, Button} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
-import { PayPalButton}  from 'react-paypal-button-v2'
 import Loader from '../composants/Loader'
-
+import PayPal from '../composants/PayPal'
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderAction'
-
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../constants/orderConstants'
+import OrderItem from '../composants/OrderItem'
 
 
-const OrderScreen = ({match}) => {
+const OrderScreen = ({match, history}) => {
 
     const orderId  = match.params.id
 
@@ -32,9 +31,14 @@ const OrderScreen = ({match}) => {
     const userLogin = useSelector((state) => state.userLogin) 
     const { userInfo } = userLogin
 
-    console.log(userInfo.isAdmin)
+   
+   
+
   
     useEffect(() => {
+        if (!userInfo) {
+            history.push('/login')
+        }
        
         const addPayPalScript = async () => {
             const { data: clientId } = await axios.get('/api/config/paypal')
@@ -47,26 +51,30 @@ const OrderScreen = ({match}) => {
             }
             document.body.appendChild(script)
         }
-        if(!order || successPay || order.id !== Number(orderId) || successDeliver){
+        if(!order ||  successPay || order.id !== Number(orderId) || successDeliver){
             dispatch({ type: ORDER_PAY_RESET })
             dispatch({ type: ORDER_DELIVER_RESET })
             dispatch(getOrderDetails(orderId))
-        }else if(!order.isPaid){
+            
+            
+        } else if(!order.isPaid){
             if(!window.paypal){
                 addPayPalScript()
             }else {
                 setSdkReady(true)
             }
         }
-     },[dispatch, orderId, successPay, successDeliver,order])
+     },[dispatch, history, userInfo, orderId, successPay, successDeliver,order])
 
     const successPaymentHandler = (paymentResult) => {
+        console.log(paymentResult)
         dispatch(payOrder(orderId, paymentResult))
+       
       }
     
-      const deliverHandler = () => {
-          dispatch(deliverOrder(order))
-      }
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order))
+    }
      
       
 
@@ -78,47 +86,33 @@ const OrderScreen = ({match}) => {
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Adresse de livraison</h2>
-                                <h6> <strong> Name: </strong>   {`${order.user.first_name}`} </h6>
-                            
-                            
+                            <h6> <strong> Name: </strong>   {`${order.user.first_name}`} </h6>
                             <h6>  <strong>Email: </strong> <a href={`mailto:${order.user.email}`}>{order.user.email} </a></h6>
-                           
-                           
-                                <ListGroup variant='flush'>
-                                    <h6> <strong>Address: </strong> 
-                                        {order.address.name} 
+                            <ListGroup variant='flush'>
+                                <h6> 
+                                    <strong>Address: </strong> 
+                                    {order.address.name} 
                                         - numéro: {order.address.number} 
-                                        - étage: {order.address.floor}</h6>
-                                    
-                                    <h6> <strong>Commune: </strong> {order.address.city.zip} - {order.address.city.name}</h6>
-
-                                    {order.isDelivered ? <Message variant='success'> Delivered </Message> : <Message variant='danger'>Not Delivered </Message>}
-
-                                </ListGroup>
-                            
+                                        - étage: {order.address.floor}
+                                </h6>
+                                <h6> <strong>Commune: </strong> {order.address.city.zip} - {order.address.city.name}</h6>
+                                {order.isDelivered ? <Message variant='success'> Delivered </Message> : <Message variant='danger'>Not Delivered </Message>}
+                            </ListGroup>
                             <br></br>
-                          
                         </ListGroup.Item>
+                        
                         <ListGroup.Item>
                             <h2>Payment Method</h2>
-
                             <h6> <strong>Methode: </strong> {order.paymentMethod} </h6>
                             {order.isPaid ? <Message variant='success'>Paid on </Message> : <Message variant='danger'>Not Paid</Message>}
-                            
                         </ListGroup.Item>
+
                         <ListGroup.Item>
                             <h2>Order Items</h2>
                             {Object.keys(order.product0rders).length === 0   ? window.location.reload(false) : (
-                                <ListGroup variant='flush'>
-                                    {order.product0rders.map((item, index) => (
-                                        <ListGroup.Item key={index}>
-                                            <Row>
-                                                <Col><h6>{item.productName}</h6></Col>
-                                                <Col md={4}><h6>{item.quantity} x {item.prix} € = {item.quantity * item.prix} €</h6></Col>
-                                            </Row>
-                                        </ListGroup.Item>
-                                    ))}
-                                </ListGroup>
+                                <OrderItem 
+                                    order = {order.product0rders}
+                                />
                             )}
                         </ListGroup.Item>
 
@@ -150,17 +144,12 @@ const OrderScreen = ({match}) => {
                             </ListGroup.Item>
                            
                             {!order.isPaid && (
-                                <ListGroup.Item>
-                                {loadingPay && <Loader />}
-                                {!sdkReady ? (
-                                    <Loader />
-                                ) : (
-                                    <PayPalButton
-                                    amount={order.total}
-                                    onSuccess={successPaymentHandler}
-                                    />
-                                )}
-                                </ListGroup.Item>
+                               <PayPal 
+                                    loadingPay={loadingPay}
+                                    sdkReady={sdkReady}
+                                    order={order.total}
+                                    successPaymentHandler={successPaymentHandler}
+                               />
                             )}
                         {loadingDeliver && <Loader />}
 

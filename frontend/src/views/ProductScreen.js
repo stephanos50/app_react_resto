@@ -36,11 +36,11 @@ const Product = ({history, match}) => {
             
         }
         if (!product.id || product.id !== match.params.id) {
-            console.log('je suis reset')
             dispatch({ type: PRODUCT_CREATE_REVIEW_RESET})
             dispatch(listProductDetails(match.params.id))
         }
-    }, [dispatch,match, successProductReview])
+        // eslint-disable-next-line
+    }, [dispatch, match, successProductReview])
    
     if (!product.pictures ) return null;
     if (!product.price ) return null;

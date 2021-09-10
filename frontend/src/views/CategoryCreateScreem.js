@@ -12,7 +12,7 @@ const CategoryCreateScreem = ({history}) => {
     const dispatch = useDispatch()
 
     const categoryCreate = useSelector((state) => state.categoryCreate)
-    const { loading, error, success } = categoryCreate
+    const { success } = categoryCreate
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin

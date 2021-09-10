@@ -10,9 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 const RoleListScreen =({history}) => {
     const dispatch = useDispatch()
 
-    const [validated, setValidated] = useState(false)
     const [role, setRole] = useState('')
-
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin

@@ -11,6 +11,8 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 
 const RegisterScreem = ({location, history}) => {
 
+    const [validated, setValidated] = useState(false);
+
     const [first_name, setFirstName] = useState('')
     const [last_name, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -32,9 +34,23 @@ const RegisterScreem = ({location, history}) => {
         }
     }, [history, userInfo, redirect])
 
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false ) {
+          event.preventDefault();
+          event.stopPropagation();
+          setValidated(true);
+        } else {
+            submitHandler(event)
+        }
+        
+      };
+
     const submitHandler = (e) => { 
         e.preventDefault()
         if(password !== confirmPassword){
+            e.stopPropagation();
+            setValidated(true);
             setMessage('Votre mot de passe ne correspond pas')
         }else {
             dispatch(register(first_name,last_name,email, password))
@@ -44,58 +60,64 @@ const RegisterScreem = ({location, history}) => {
         <FormContainer>
             
                 <h1>Nouvelle inscription</h1>
-                {message && <Message variant="danger">{message}</Message>}
+                
                 {error && <Message variant="danger">{error}</Message>}
                 {loading && <Loader />} 
-                <Form onSubmit={submitHandler}>
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId='first_name'>
-                        <Form.Label>Votre prénom</Form.Label>
                         <Form.Control 
+                            required
                             type='first_name'
-                            placeholder='Entrer votre prénom' 
+                            placeholder='Insérer votre prénom' 
                             value={first_name}
                             onChange={(e) => setFirstName(e.target.value)}
-                        ></Form.Control>
+                        />
+                         <Form.Control.Feedback type='invalid' >Veuillez insérer votre prénom</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='last_name'>
-                        <Form.Label>Votre nom</Form.Label>
                         <Form.Control 
+                            required
                             type='last_name'
-                            placeholder='Entrer votre nom' 
+                            placeholder='Insérer votre nom' 
                             value={last_name}
                             onChange={(e) => setLastName(e.target.value)}
-                        ></Form.Control>
+                        />
+                         <Form.Control.Feedback type='invalid' >Veuillez insérer votre nom</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='email'>
-                        <Form.Label>Votre email</Form.Label>
                         <Form.Control 
+                            required
                             type='email'
-                            placeholder='Entrez votre email' 
+                            placeholder='Insérer votre email' 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                        ></Form.Control>
+                        />
+                        <Form.Control.Feedback type='invalid' >Veuillez insérer votre email</Form.Control.Feedback>
                     </Form.Group>
-
                     <Form.Group className="mb-3" controlId='password'>
-                        <Form.Label>Votre mot de passe</Form.Label>
                         <Form.Control 
+                            required
                             type='password'
-                            placeholder='Entrez votre mot de passe ' 
+                            placeholder='Insérer votre mot de passe ' 
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                        ></Form.Control>
+                        />
+                        <Form.Control.Feedback type='invalid' >Veuillez insérer votre mot de passe</Form.Control.Feedback>
+                        <Form.Control.Feedback >{message && <Message variant="danger">{message}</Message>}</Form.Control.Feedback>
+
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='confirmPassword'>
-                        <Form.Label>Confirmez votre mot de passe</Form.Label>
                         <Form.Control 
+                            required
                             type='password'
                             placeholder='Confirmez votre mot de passe ' 
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                        ></Form.Control>
+                        />
+                        <Form.Control.Feedback type='invalid' >Veuillez insérer votre mot de passe </Form.Control.Feedback>
                     </Form.Group>
 
 

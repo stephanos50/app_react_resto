@@ -15,9 +15,8 @@ Role.init(
             type: DataTypes.STRING,
             unique: true,
             validate: {
-                is: ['[a-z]','i'], 
-                notEmpty: true, 
-            }
+                is: /^[a-zA-Z]+$/i, 
+            },
           },
     },
     {

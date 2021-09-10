@@ -19,8 +19,8 @@ const Product = (props) => {
                 </Card.Title>
                 </Link>
                 <Assess
-                    value={product.cote}
-                    text={`${product.cote}`}
+                    value={product.rate}
+                    text={`${product.rate}`}
                     reviews='commentaires' 
                   
                 />

@@ -45,14 +45,7 @@ const PaymentScreem = ({ history }) => {
                         onChange={(e) => setpaymentMethod(e.target.value)}
                     ></Form.Check>
                
-                    <Form.Check className='mb-3'
-                        type='radio' 
-                        label='Stripe' 
-                        id='Stripe' 
-                        name='paymentMethod'
-                        value='Stripe'
-                        onChange={(e) => setpaymentMethod(e.target.value)}
-                    ></Form.Check>
+                    
                 </Col>
                 </Row>
           

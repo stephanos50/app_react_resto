@@ -18,29 +18,37 @@ class Product extends Model{
 
 Product.init(
     {
+        id: {
+            type: 
+                DataTypes.INTEGER, autoIncrement:true, primaryKey:true,
+            
+        },
         name: { 
             type: DataTypes.STRING,
-            allowNull:false,
-            unique:true,
+            unique: true,
             validate: {
-                is: ['[a-z]','i'], 
-                notEmpty: true, 
-            }
+                is: /^[a-zA-Zéè ']+$/i, 
+            },
         },
         description: { 
             type: DataTypes.TEXT,
             validate: {
-                is: ['[a-z]','i'], 
-                notEmpty: true, 
-            }
+                is: /^[a-zA-Zéè ']+$/i, 
+            },
         },
         price: {
             type: DataTypes.FLOAT,
-            defaultValue: 1
+            defaultValue: 1, 
+            validate: {
+                isDecimal: true,
+            }
         },
         rate: {
             type: DataTypes.DOUBLE,
-            defaultValue: 0
+            defaultValue: 0,
+            validate: {
+                isInt: true,
+            }
         }
     }, {
         sequelize,

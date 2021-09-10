@@ -46,9 +46,10 @@ export const createOrder = (order) =>  async (dispatch, getSate) => {
             payload: data,
         })
 
-        localStorage.removeItem('cartItems')
+        localStorage.removeItem('cartItems') 
 
-   } catch (error) {
+
+    } catch (error) {
         dispatch({
             type: ORDER_CREATE_FAIL,
             payload: error.response  && error.response.data.message
@@ -108,10 +109,14 @@ export const getOrderDetails = (id) =>  async (dispatch, getSate) => {
         }
 
         const { data } = await axios.put(`/api/orders/${orderId}/pay`,paymentResult, config)
+
         dispatch({
             type: ORDER_PAY_SUCCESS,
             payload: data,
         })
+        localStorage.removeItem('__paypal_storage__')
+        localStorage.removeItem('__belter_experiment_storage__')
+       
         
     } catch (error) {
         dispatch({
@@ -192,7 +197,7 @@ export const getOrderDetails = (id) =>  async (dispatch, getSate) => {
 }
 
 export const deliverOrder = (order) => async(dispatch, getSate) => {
-    console.log(order)
+    
     try {
         dispatch({
             type: ORDER_DELIVER_REQUEST
@@ -209,8 +214,8 @@ export const deliverOrder = (order) => async(dispatch, getSate) => {
             },
         }
        
-
         const { data } = await axios.put(`/api/orders/${order.id}/deliver`,{}, config)
+        
         dispatch({
             type: ORDER_DELIVER_SUCCESS,
             payload: data,

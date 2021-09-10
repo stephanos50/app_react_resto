@@ -35,7 +35,7 @@ export const login = (email, password)=> async(dispatch) => {
         }
 
         const { data } = await axios.post('api/users/login', {email, password}, config)
-
+       
         dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: data
@@ -44,6 +44,7 @@ export const login = (email, password)=> async(dispatch) => {
         localStorage.setItem('userInfo', JSON.stringify(data))
     
     } catch (error) {
+        
         dispatch({
             type: USER_LOGIN_FAIL,
             payload: 
@@ -60,13 +61,10 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('cartItems')
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
-    localStorage.removeItem('__paypal_storage__')
-    localStorage.removeItem('__belter_experiment_storage__')
     dispatch({type: USER_LOGOUT})
     dispatch({type: USER_DETAILS_RESET})
     dispatch({type: ORDER_LIST_MY_RESET})
     dispatch({ type: USER_LIST_RESET })
-    window.localStorage.clear()
     document.location.href = '/login'
 }
 

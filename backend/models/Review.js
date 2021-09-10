@@ -12,7 +12,7 @@ class Review extends Model{
 Review.init(
     {
         name: {
-            type: DataTypes.STRING, require:true
+            type: DataTypes.STRING, require:true,
         },
         rating: {
             type: DataTypes.INTEGER, 
@@ -21,6 +21,9 @@ Review.init(
         },
        comment: {
             type: DataTypes.STRING,
+            validate: {
+                is: /^[a-zA-Zéèà' ]+$/i, 
+            },
         },
         
 

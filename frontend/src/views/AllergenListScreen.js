@@ -1,10 +1,9 @@
 import React, {useEffect}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row,Button,Col,Table,Form } from 'react-bootstrap'
-import { deleteAllergen, listAllergen, createAllergen} from '../actions/allergenActions'
+import { Row, Button, Col, Table } from 'react-bootstrap'
+import { deleteAllergen, listAllergen} from '../actions/allergenActions'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
-import { ALLERGEN_CREATE_RESET } from '../constants/allergenConstant'
 import { LinkContainer } from 'react-router-bootstrap'
 
 const AllergenListScreen =({history}) => {
@@ -16,11 +15,6 @@ const AllergenListScreen =({history}) => {
     const allergenList = useSelector((state) => state.allergenList)
     const { loading, error, allergens } = allergenList
 
-    const allergenCreate = useSelector((state) => state.allergenCreate)
-    const { success} = allergenCreate
-
-   
-
     const allergenDelete = useSelector((state) => state.allergenDelete)
     const {loading: loadingDelete, error: errorDelete, success: successDelete } = allergenDelete
 
@@ -30,7 +24,7 @@ const AllergenListScreen =({history}) => {
             history.push('/login')
         }
         dispatch(listAllergen())
-    }, [dispatch,history,userInfo,successDelete ])
+    }, [dispatch, history, userInfo, successDelete ])
 
     const deleteAllergenHandler = (id) => {
         if (window.confirm('Are you sure')) {

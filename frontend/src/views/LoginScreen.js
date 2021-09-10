@@ -9,6 +9,9 @@ import FormContainer from '../composants/FormContainer'
 
 const LoginScreem = ({location, history}) => {
 
+    const [validated, setValidated] = useState(false);
+
+    
     const [email, setEmail] = useState('')
 
     const [password, setPassword] = useState('')
@@ -17,7 +20,8 @@ const LoginScreem = ({location, history}) => {
 
     const userLogin = useSelector(state => state.userLogin)
 
-    const { loading, error, userInfo } = userLogin
+    const { loading, error, userInfo  } = userLogin
+    
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
@@ -25,32 +29,49 @@ const LoginScreem = ({location, history}) => {
         
         if(userInfo){
             history.push(redirect)
+           
         }
     }, [history, userInfo, redirect])
 
-    const submitHandler = (event) => {
-        event.preventDefault()
-        dispatch(login(email, password))
-    }
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            setValidated(true);
+         
+        } else {
+            event.preventDefault()
+            dispatch(login(email, password))
+        }
+        
+        
+      };
+  
+
+   
+
     return ( 
         <FormContainer>
                 <h1>Connectez-vous</h1>
                 {error && <Message variant="danger">{error}</Message>}
                 {loading && <Loader />} 
-                <Form onSubmit={submitHandler}>
-                    <Form.Group className="mb-3" controlId='email'>
+                <Form noValidate validated={validated}  onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId='validationEmail'>
                         <Form.Label>Votre email</Form.Label>
-                        <Form.Control 
-                            type='email'
+                        <Form.Control
+                            required
+                            type="email"
                             placeholder='Entrez votre email' 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                        ></Form.Control>
+                        />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId='password'>
+                    <Form.Group className="mb-3" controlId='validationPassword'>
                         <Form.Label>Votre mot de passe</Form.Label>
                         <Form.Control 
+                            required
                             type='password'
                             placeholder='Entrez votre mot de passe ' 
                             value={password}

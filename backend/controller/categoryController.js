@@ -1,6 +1,7 @@
 const  asyncHandler = require ('express-async-handler')
 const Category = require('../models/Category')
 const Product = require('../models/Product')
+const { body, validationResult } = require("express-validator");
 
 // @descc Get caterogies
 // @route Get /api/categories
@@ -35,23 +36,35 @@ exports.deleteCategory = asyncHandler(async (req,res) =>{
 // @desc create a caterogy 
 // @route CREATE /api/categories
 // @access Private/Admin
-exports.createCategory = asyncHandler(async (req,res) => {
-    const category = await Category.findOne({
-        where: {
-            name:req.params.name
-        }
-    })
+exports.createCategory = [
 
-    if(!category){
-        const category = await Category.create({name:req.params.name})
-        await category.save()
-        res.json({message: 'Categogy created'})
-    } else {
-        res.status(404)
-        throw new Error('Category exist ')
-    }
+    body('name').not().isEmpty().trim(),
+
+    asyncHandler(async (req,res) => {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400)
+            throw new Error('Invlide input')
+        }
+
+        const category = await Category.findOne({
+            where: {
+                name:req.params.name
+            }
+        })
     
-});
+        if(!category){
+            const category = await Category.create({name:req.params.name})
+            await category.save()
+            res.json({message: 'Categogy created'})
+        } else {
+            res.status(404)
+            throw new Error('Category exist ')
+        }
+        
+    })
+] 
 
 // @desc Update a category
 // @route PUT /api/category/:id

@@ -152,8 +152,8 @@ const ProfileScreem = ({ location, history}) => {
                                     <td>{order.number}</td>
                                     <td>{order.createAt}</td>
                                     <td>{order.time}</td>
-                                    <td>{order.total}</td>
-                                    <td>{order.isPaid ? order.paidAt : ( <i className='fas fa-times' style={{color:'red'}}></i>)}</td>
+                                    <td>{order.total} €</td>
+                                    <td>{order.isPaid ? order.paidAt : ( <i className='' style={{color:'#B52036'}}>Not paid</i>)}</td>
                                     <td>{order.isDelivered ? order.isDeliveredAt : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>)}</td>
 
                                     
