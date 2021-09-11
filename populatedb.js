@@ -80,10 +80,11 @@ async function productOrderCreate(qty, price, orderId,productId){
   
 };
 
-async function productRate(productId){
-  const product = await Product.findByPk(productId)
-  product.setDataValue('rate', await product.calculRate(5,5))
-  product.save()
+async function productRate(productId, rate){
+  const product = await Product.findByPk(productId);
+  const rating = await product.calculRate(2);
+  product.setDataValue('rate',rating)
+  await product.save()
 }
 
 async function createProductOrder01(){
@@ -284,68 +285,74 @@ async function createProducts(){
     {
      
       name: 'Tarama',
-      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
       rate: 0,
+      comment:2,
       categoryId: 1
       
     }, 
     {
       
       name: 'Tzadziki',
-      description: "Le tzadziki est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
       rate:0,
+      comment:2,
       categoryId: 1
     },
     {
       name: 'Feta',
-      description: "Le tarama est une spécialité de cuisine grecque à base d'oeufs de piossons composée de lait, de jus de citron, d'huile d'olive et de mie de pain",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.00,
       rate:0,
+      comment:2,
       categoryId: 1
     }, 
     
    
     {
       name: 'Gambas grillés',
-      description: "Le Gambas grillés  au four est une spécialité de cuisine grecque ",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
       rate:0,
+      comment:2,
       categoryId: 1
       
     }, 
     {
       name: 'Calamars frits',
-      description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
       rate:0,
+      comment:2,
       categoryId: 1
     }, 
     {
       name: 'Meze ',
-      description: "Le feta gratinée  au four est une spécialité de cuisine grecque ",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
       rate:0,
       categoryId: 1
     }, 
     {
       name: "Brochette d Agneau",
-      description: "La Brochette d'agneau  au four est une spécialité de cuisine grecque ",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:14.50,
       rate:0,
+
       categoryId: 2
     }, 
     {
       name: "Entre côte",
-      description: "L'Entre Côte gratinée  au four est une spécialité de cuisine grecque ",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:15.50,
       rate:0,
       categoryId: 2
     }, 
     {
       name: 'To Elliniko',
-      description: "To elliniko  gratinée  au four est une spécialité de cuisine grecque ",
+      description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:12.50,
       rate:0,
       categoryId: 3
@@ -416,6 +423,7 @@ async function addCategories(){
               element.save()
             } 
         });
+        
       } catch (error) {
         console.log(error)
     }
@@ -432,12 +440,17 @@ async function addPictures(){
         element.save();
         } 
       });
+    
     } catch (error) {
       console.log(error)
   } 
 }
 
 async function reviewCreate(name,rating,comment,productId, email){
+  const product = await Product.findByPk(productId)
+  await product.setComment(1)
+  await product.save()
+  try {
     const reviewDetails = {
       name:name,
       rating:rating,
@@ -447,22 +460,29 @@ async function reviewCreate(name,rating,comment,productId, email){
     console.log('Nouvelle review ' + review.id )
     review.setDataValue('productId', productId)
     review.setDataValue('userEmail', email)
-    review.save()
+    await review.save()
+    
+  } catch (error) {
+    console.log(error)
+  }
+  
+    
+    
     
 }
 
 async function createReviews(){
   return Promise.all([
-    reviewCreate('stefan',4,'this food is delicious',1, 'stefan@exemple.be'),
-    reviewCreate('stefan',4,'this food is delicious',2, 'stefan@exemple.be'),
-    reviewCreate('stefan',4,'this food is delicious',3, 'stefan@exemple.be'),
-    reviewCreate('stefan',4,'this food is delicious',4, 'stefan@exemple.be'),
-    reviewCreate('stefan',4,'this food is delicious',5, 'stefan@exemple.be'),
-    reviewCreate('alpha',4,'this food is good',1, 'alpha@exemple.be'),
-    reviewCreate('alpha',4,'this food is good',2, 'alpha@exemple.be'),
-    reviewCreate('alpha',4,'this food is good',3, 'alpha@exemple.be'),
-    reviewCreate('alpha',4,'this food is good',4, 'alpha@exemple.be'),
-    reviewCreate('alpha',4,'this food is good',5, 'alpha@exemple.be'),
+    reviewCreate('stefan',3,'this food is delicious',1, 'stefan@exemple.be'),
+    reviewCreate('stefan',3,'this food is delicious',2, 'stefan@exemple.be'),
+    reviewCreate('stefan',3,'this food is delicious',3, 'stefan@exemple.be'),
+    reviewCreate('stefan',3,'this food is delicious',4, 'stefan@exemple.be'),
+    reviewCreate('stefan',3,'this food is delicious',5, 'stefan@exemple.be'),
+    reviewCreate('alpha',3,'this food is good',1, 'alpha@exemple.be'),
+    reviewCreate('alpha',3,'this food is good',2, 'alpha@exemple.be'),
+    reviewCreate('alpha',3,'this food is good',3, 'alpha@exemple.be'),
+    reviewCreate('alpha',3,'this food is good',4, 'alpha@exemple.be'),
+    reviewCreate('alpha',3,'this food is good',5, 'alpha@exemple.be'),
   ]);
 }
 
@@ -477,7 +497,7 @@ async function createReviews(){
     const product_category = await addCategories();
     const pictures = await createPictures();
     const product_image = await addPictures();
-    const reviewx = await createReviews();
+    const review = await createReviews();
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();
     //const totalOrder = await addTotal()
@@ -486,6 +506,7 @@ async function createReviews(){
 
     const products_orders_03 = await createProductOrder03();
     const orders_03 = await updateOrdersRoot();
+   
    
     sequelize.close();
   } catch (error) {

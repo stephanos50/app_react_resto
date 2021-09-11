@@ -1,36 +1,61 @@
 
 
 const Assess = (props) => {
-    
+    console.log(props)
     return (
         <div className="assess">
             <span>
                 <i style={{color : `${props.color}`}}
-                    className={props.value >= 1  ? 'fa fa-star' : 'far fa-star'}>
+                    className={props.value >= 1  
+                        ? 'fas fa-star'
+                        : props.value >= 0.5
+                        ? 'fas fa-star-half-alt'
+                        : 'far fa-star'
+                    }>
                 </i>
             </span>
             <span>
                 <i style={{color : `${props.color}`}}
-                    className={props.value >= 2  ? 'fa fa-star' : 'far fa-star'}>
+                    className={props.value >= 2 
+                        ? 'fas fa-star'
+                        : props.value >= 1.5
+                        ? 'fas fa-star-half-alt'
+                        : 'far fa-star'
+                    }>
                 </i>
             </span>
             <span>
                 <i style={{color : `${props.color}`}}
-                    className={props.value >= 3  ? 'fa fa-star' : 'far fa-star'}>
+                    className={props.value >= 3  
+                        ? 'fas fa-star'
+                        : props.value >= 2.5
+                        ? 'fas fa-star-half-alt'
+                        : 'far fa-star'
+                    }>
                 </i>
             </span>
             <span>
                 <i style={{color : `${props.color}`}}
-                    className={props.value >= 4  ? 'fa fa-star' : 'far fa-star'}>
+                    className={props.value >= 4  
+                        ? 'fas fa-star'
+                        : props.value >= 3.5
+                        ? 'fas fa-star-half-alt'
+                        : 'far fa-star'
+                    }>
                 </i>
             </span>
             <span>
                 <i style={{color : `${props.color}`}}
-                    className={props.value >= 5  ? 'fa fa-star' : 'far fa-star'}>
+                    className={props.value >= 5  
+                        ? 'fas fa-star'
+                        : props.value >= 4.5
+                        ? 'fas fa-star-half-alt'
+                        : 'far fa-star'
+                    }>
                 </i>
             </span>
             <div>
-            <span>{props.text > 0 ? `${props.text} ${props.reviews}` : ''}</span>
+            <span className='assess-rewiews'>{props.text > 0 ? `${props.text} ${props.reviews}` : ''}</span>
             </div>
            
            

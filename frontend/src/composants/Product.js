@@ -7,6 +7,7 @@ import  PropTypes from 'prop-types'
 const Product = (props) => {
     
     const {product} = props
+    console.log(product)
     const picture = product.pictures.map((picture) => picture.path)
     
     return( 
@@ -15,16 +16,16 @@ const Product = (props) => {
                 <Link to={`/products/${product.id}`}>
                 <Card.Title as='div'>
                     <Card.Img src={picture}  variant='top'   className='images' />
-                    <strong>{product.name}</strong>
+                    <strong className="title-product">{product.name}</strong>
                 </Card.Title>
                 </Link>
                 <Assess
                     value={product.rate}
-                    text={`${product.rate}`}
+                    text={`${product.comment}`}
                     reviews='commentaires' 
                   
                 />
-                 <strong className='price'>{product.price} €</strong>
+                 <strong className='price-product'>{product.price} €</strong>
                
             </Card.Body>
         </Card>

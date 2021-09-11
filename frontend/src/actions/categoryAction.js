@@ -18,15 +18,8 @@ export const listCategory = () => async(dispatch, getState) => {
     try {
         dispatch({ type: CATEGORY_LIST_REQUEST})
 
-        const { userLogin: {userInfo} } = getState() 
-    
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
-    
-        const { data } = await axios.get('/api/categories', config)
+        const { data } = await axios.get('/api/categories')
+
         console.log(data)
 
         dispatch({

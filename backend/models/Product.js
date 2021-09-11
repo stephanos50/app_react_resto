@@ -1,7 +1,8 @@
 const { Model, DataTypes, UUID } = require("sequelize");
 const sequelize = require('./sequelize');
 const Category = require('./Category');
-
+let comment = 0;
+let rate = 0;
 
 
 class Product extends Model{
@@ -10,8 +11,15 @@ class Product extends Model{
         return `/product/${this.id}` ;
     }
 
-    async calculRate(last_rate, current_rate){
-        return ( ( (last_rate + current_rate) / 10) * 5)
+    async calculRate( current){
+        return ( ( (this.rate + current) / 10) * 5)
+    }
+    async setComment(current){
+        (this.comment + current)
+    }
+
+    async getComment() {
+        return this.comment
     }
 
 }
@@ -44,12 +52,14 @@ Product.init(
             }
         },
         rate: {
-            type: DataTypes.DOUBLE,
-            defaultValue: 0,
-            validate: {
-                isInt: true,
-            }
-        }
+            type: DataTypes.FLOAT,
+            
+          
+        },
+        comment: {
+            type:DataTypes.INTEGER,
+            defaultValue:0,
+        },
     }, {
         sequelize,
         modelName: 'product'

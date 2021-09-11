@@ -79,8 +79,14 @@ const OrderScreen = ({match, history}) => {
       
 
     return loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : <>
-        <h1>Order {order.number}</h1>
-        <h5>Commande du {order.createAt} à {order.time}</h5>
+        <Row className='p-3'>
+            <Col>
+                <h3> Numéro: {order.number}</h3>
+                <h3>Commande :  {order.createAt} heure: {order.time}</h3>
+            </Col>
+      
+        </Row>
+        
         <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>

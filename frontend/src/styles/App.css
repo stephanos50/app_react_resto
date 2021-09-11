@@ -1,9 +1,15 @@
-main {
+
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
+  main {
     min-height: 80vh;
   }
   
   h3 {
-    padding: 1rem 0;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    font-weight:500;
+    
   }
   
   h1 {
@@ -13,12 +19,32 @@ main {
   }
 
   h5 {
-    color: #212B5C
+      font-size: 1.5rem;
+      padding: 0.5rem 0;
+      color: #212B5C;
+      font-family: 'Architects Daughter', cursive;
+      
+  }
+
+  .desctiprion-allergene {
+     font-size: 1.4rem;
+      padding: 0.5rem 0;
+      color: #AF1025;
+      font-family: 'Architects Daughter', cursive;
+  }
+
+  h4 {
+     font-size: 2rem;
+      padding: 0.5rem 0;
+      color: #212B5C;
+      font-family: 'Architects Daughter', cursive;
   }
   
   h2 {
     font-size: 1.4rem;
     padding: 0.5rem 0;
+    color: #AF1025;
+    font-weight:500;
   }
   
   .rating span {
@@ -69,18 +95,22 @@ main {
   }
   .assess  {
     margin: auto;
-    margin-bottom: -1.5em;
-   
+    margin-bottom: -2em;
   }
-
   .product_assess {
-     
      padding: auto;
   }
-  .price {
+  .assess-rewiews{
+    font-size: 1.1rem;
+    color: #212B5C;
+    font-family: 'Architects Daughter', cursive;
+  }
+  .price-product {
+    font-size: 1.1rem;
+    color: #212B5C;
+    font-family: 'Architects Daughter', cursive;
+    padding-left: 11em;
     
-    padding-left: 14em;
-    color:chocolate;
    
   }
 
@@ -90,6 +120,32 @@ main {
     padding-top: 0.5em;
   }
 
+  .title-product{
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+    color: #AF1025;
+    font-family: 'Architects Daughter', cursive;
+
+  }
+
+  .description {
+    font-size: 1.2rem;
+    color: #212B5C;
+    font-family: 'Architects Daughter', cursive;
+  }
+
+  .form-review {
+    font-size: 1.2rem;
+    color: #212B5C;
+    font-family: 'Architects Daughter', cursive;
+   
+  }
+
+  .form-title-input {
+    font-size: 1.2rem;
+    color: #212B5C;
+    font-family: 'Architects Daughter', cursive;
+  }
   
 
   

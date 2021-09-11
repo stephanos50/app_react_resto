@@ -22,7 +22,7 @@ Review.init(
        comment: {
             type: DataTypes.STRING,
             validate: {
-                is: /^[a-zA-Zéèà' ]+$/i, 
+                is: /^[a-zA-Zéèà'!,.? ]+$/i, 
             },
         },
         

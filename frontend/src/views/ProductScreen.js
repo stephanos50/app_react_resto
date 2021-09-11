@@ -64,7 +64,7 @@ const Product = ({history, match}) => {
     return ( 
         <>
        
-        <Link to='/' className='pb-4'>
+        <Link to='/' className='pb-4 form-review'>
             <Button variant="primary">Retour</Button>
         </Link>
         {loading ? (
@@ -74,17 +74,16 @@ const Product = ({history, match}) => {
         ) : (
             <>  
             <Row>
-               
-                <Col key={picture} sm={12} md={6} lg={4} xl={3} className="p-3">
+               <Col key={picture} sm={12} md={6} lg={4} xl={3} className="p-3">
                     <Image  style={{ width: '12rem' }} src={picture}  />
                 </Col>
                     <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
                         <ListGroup variant='flush'>
                             <h4>{product.name}</h4>
                             
-                            <h6> Prix : {product.price} euro</h6>
+                            <p className='price-product p-2'> Prix : {product.price} euro</p>
                         </ListGroup>
-                        <div className='product_assess'><Assess value={product.cote} /></div>
+                        <div className='product_assess'><Assess value={product.rate} /></div>
                     </Col>
                    
                     <Col className="p-3" sm={12} md={6} lg={4} xl={3}>
@@ -92,16 +91,17 @@ const Product = ({history, match}) => {
                             <ListGroup variant='flush'>
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col> Price: </Col>
-                                        <Col> <strong>{product.price}</strong> euro </Col>
+                                        <Col className='price-product p-2'> Price: </Col>
+                                        <Col className='price-product p-2'> <strong>{product.price}</strong> euro </Col>
                                     </Row>
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col>Quantité</Col>
+                                        <Col className='price-product p-2'>Quantité</Col>
                                         <Col>
                                             <Form.Control 
+                                            className='price-product p-2'
                                                 as='select' 
                                                 value={qty} 
                                                 onChange={(e) => setQty(e.target.value)}>
@@ -115,7 +115,7 @@ const Product = ({history, match}) => {
                                     </Row>
                                 </ListGroup.Item>
 
-                                <ListGroup.Item>
+                                <ListGroup.Item className="form-review">
                                     <Button 
                                         onClick={addToCartHandler}
                                             className='btn'
@@ -129,16 +129,16 @@ const Product = ({history, match}) => {
                 
                     <Row>
                         <Col md={6} className="p-3">
-                            <h4>Déscription</h4>
-                            <p>{product.description}</p>
+                            <h4 className='desctiprion-allergene'>Déscription</h4>
+                            <p className='description'>{product.description}</p>
                         </Col>
                     </Row>
 
                     <Row>
                         <Col md={6} className="p-3">
-                            <h4>Allergene</h4>
+                            <h4 className='desctiprion-allergene'>Allergene</h4>
                             {
-                                product.allergens.map((item) => <i key={item.id}> {item.name} </i>)
+                                product.allergens.map((item) => <i className='description'key={item.id}> {item.name} </i>)
                             }
                            
                             
@@ -146,13 +146,13 @@ const Product = ({history, match}) => {
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <h2>Reviews</h2>
-                            {Object.keys(product.reviews).length === 0 && <Message>No reviews</Message>}
-                            <ListGroup variant='flush'>
+                            <h4 className='desctiprion-allergene'>Commentaires</h4>
+                            {Object.keys(product.reviews).length === 0 && <Message><h4 className='desctiprion-allergene'>Aucun commentaires</h4></Message>}
+                            <ListGroup variant='flush' className='price-product p-2'>
                                 {product.reviews.map((review) => (
                                     <ListGroup.Item key={review.id}>
                                         <strong>{review.name}</strong>
-                                        <Assess value={review.rate}/>
+                                        <Assess value={review.rating}/>
                                         <p>{review.createdAt.substring(0, 10)}</p>
                                         <p>{review.comment}</p>
                                     </ListGroup.Item>    
@@ -161,7 +161,7 @@ const Product = ({history, match}) => {
                             <ListGroup>
                                 {successProductReview && (
                                     <Message variant='success'>
-                                    Review submitted successfully
+                                        Review submitted successfully
                                     </Message>
                                 )}
                                 {loadingProductReview && <Loader />}
@@ -169,23 +169,24 @@ const Product = ({history, match}) => {
                                 {errorproductReview && <Message variant='danger'>{errorproductReview}</Message>}
                                 { userInfo && ( 
                                    
-                                      <Form onSubmit= {submitHandler}>
+                                      <Form onSubmit= {submitHandler}  className='form-review'>
                                           <Form.Group controlId='rating'>
-                                              <Form.Label>Rating</Form.Label>
-                                              <Form.Control 
+                                              <Form.Label className='form-title-input'>Rating</Form.Label>
+                                              <Form.Control
+                                                className='form-review' 
                                                 as='select' 
                                                 value={rating}
                                                 onChange={(e) => setRating(e.target.value)}>
                                                     <option value=''>Select...</option>
-                                                    <option value='1'>1 - Poor</option>
-                                                    <option value='2'>2 - Fair</option>
-                                                    <option value='3'>3 - Good</option>
-                                                    <option value='4'>4 - Very Goog</option>
+                                                    <option value='1'>1 - Insuffisant</option>
+                                                    <option value='2'>2 - Acceptable</option>
+                                                    <option value='3'>3 - Bon</option>
+                                                    <option value='4'>4 - Délicieux</option>
                                                     <option value='5'>5 - Excellent</option>
                                                 </Form.Control>
                                           </Form.Group>
                                           <Form.Group>
-                                                <Form.Label>Comment</Form.Label>
+                                                <Form.Label className='form-title-input'>Commentaire</Form.Label>
                                                 <Form.Control 
                                                     as='textarea' 
                                                     row='3' 
@@ -193,6 +194,7 @@ const Product = ({history, match}) => {
                                                     onChange={(e) => setComment(e.target.value)}>
                                                 </Form.Control>
                                           </Form.Group>
+                                          <br></br>
                                           <Button type='submit' variant='primary' >Submit</Button>
                                       </Form>
                                  )}
