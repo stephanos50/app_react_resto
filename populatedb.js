@@ -62,7 +62,7 @@ async function addressCreate(nom,numero,etage,cityId,userEmail){
 };
 
 async function productOrderCreate(qty, price, orderId,productId){
-  productRate(productId)
+ 
   detailProductOrder = {
     quantity: qty,
     price: (price*qty),
@@ -80,12 +80,7 @@ async function productOrderCreate(qty, price, orderId,productId){
   
 };
 
-async function productRate(productId, rate){
-  const product = await Product.findByPk(productId);
-  const rating = await product.calculRate(2);
-  product.setDataValue('rate',rating)
-  await product.save()
-}
+
 
 async function createProductOrder01(){
   
@@ -288,7 +283,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
       rate: 0,
-      comment:2,
+      comment:0,
       categoryId: 1
       
     }, 
@@ -298,7 +293,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
       rate:0,
-      comment:2,
+      comment:0,
       categoryId: 1
     },
     {
@@ -306,7 +301,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.00,
       rate:0,
-      comment:2,
+      comment:0,
       categoryId: 1
     }, 
     
@@ -316,7 +311,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
       rate:0,
-      comment:2,
+      comment:0,
       categoryId: 1
       
     }, 
@@ -325,7 +320,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
       rate:0,
-      comment:2,
+      comment:0,
       categoryId: 1
     }, 
     {
@@ -333,6 +328,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
       rate:0,
+      comment:0,
       categoryId: 1
     }, 
     {
@@ -340,7 +336,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:14.50,
       rate:0,
-
+      comment:0,
       categoryId: 2
     }, 
     {
@@ -348,6 +344,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:15.50,
       rate:0,
+      comment:0,
       categoryId: 2
     }, 
     {
@@ -355,6 +352,7 @@ async function createProducts(){
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:12.50,
       rate:0,
+      comment:0,
       categoryId: 3
     }, 
   ]);
@@ -446,14 +444,21 @@ async function addPictures(){
   } 
 }
 
-async function reviewCreate(name,rating,comment,productId, email){
-  const product = await Product.findByPk(productId)
-  await product.setComment(1)
+async function productRate(productId, rate){
+  const product = await Product.findByPk(productId);
+  const rating = await product.calculRate(product.rate,rate);
+  product.setDataValue('rate',rating)
+  const comment = await product.setComment(product.comment, 1)
+  product.setDataValue('comment', comment)
   await product.save()
+}
+
+async function reviewCreate(name,rating,comment,productId, email){
+  console.log(name)
+  await productRate(productId,rating)
   try {
     const reviewDetails = {
       name:name,
-      rating:rating,
       comment:comment,
     }
     const review = await Review.create(reviewDetails);
@@ -465,25 +470,26 @@ async function reviewCreate(name,rating,comment,productId, email){
   } catch (error) {
     console.log(error)
   }
-  
-    
-    
-    
 }
 
 async function createReviews(){
   return Promise.all([
-    reviewCreate('stefan',3,'this food is delicious',1, 'stefan@exemple.be'),
-    reviewCreate('stefan',3,'this food is delicious',2, 'stefan@exemple.be'),
-    reviewCreate('stefan',3,'this food is delicious',3, 'stefan@exemple.be'),
-    reviewCreate('stefan',3,'this food is delicious',4, 'stefan@exemple.be'),
-    reviewCreate('stefan',3,'this food is delicious',5, 'stefan@exemple.be'),
-    reviewCreate('alpha',3,'this food is good',1, 'alpha@exemple.be'),
-    reviewCreate('alpha',3,'this food is good',2, 'alpha@exemple.be'),
-    reviewCreate('alpha',3,'this food is good',3, 'alpha@exemple.be'),
-    reviewCreate('alpha',3,'this food is good',4, 'alpha@exemple.be'),
-    reviewCreate('alpha',3,'this food is good',5, 'alpha@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',1, 'stefan@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',2, 'stefan@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',3, 'stefan@exemple.be'),
+    reviewCreate('stefan',4,'this food is delicious',4, 'stefan@exemple.be'),
+    reviewCreate('stefan',5,'this food is delicious',5, 'stefan@exemple.be'),
   ]);
+}
+
+async function createReviewsOther(){
+  return Promise.all([
+    reviewCreate('alpha',5,'this food is good',1, 'alpha@exemple.be'),
+    reviewCreate('alpha',4,'this food is good',2, 'alpha@exemple.be'),
+    reviewCreate('alpha',3,'this food is good',3, 'alpha@exemple.be'),
+    reviewCreate('alpha',2,'this food is good',4, 'alpha@exemple.be'),
+    reviewCreate('alpha',1,'this food is good',5, 'alpha@exemple.be'),
+  ])
 }
 
 (async () => {
@@ -497,7 +503,7 @@ async function createReviews(){
     const product_category = await addCategories();
     const pictures = await createPictures();
     const product_image = await addPictures();
-    const review = await createReviews();
+   
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();
     //const totalOrder = await addTotal()
@@ -506,7 +512,8 @@ async function createReviews(){
 
     const products_orders_03 = await createProductOrder03();
     const orders_03 = await updateOrdersRoot();
-   
+    const review = await createReviews();
+    const otehr = await createReviewsOther();
    
     sequelize.close();
   } catch (error) {
