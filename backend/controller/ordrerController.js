@@ -157,11 +157,12 @@ exports.getMyOrders = asyncHandler(async (req, res) => {
 
 
 // @desc    Update order to delivered
-// @route   GET /api/orders/:id/deliver
+// @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
+    console.log(req.params)
     const order = await Order.findByPk(req.params.id)
-
+    console.log(order)
     if (order) {
         order.isDelivered = true
         order.deliveredAt = Date.now()

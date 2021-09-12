@@ -162,7 +162,7 @@ const OrderScreen = ({match, history}) => {
                         {userInfo && 
                             userInfo.isAdmin && 
                             order.isPaid && 
-                            !order.isDelevered && (
+                            !order.isDelivered && (
                             <ListGroup.Item>
                             <Button  
                                 type='button'

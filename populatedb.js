@@ -454,11 +454,12 @@ async function productRate(productId, rate){
 }
 
 async function reviewCreate(name,rating,comment,productId, email){
-  console.log(name)
+  
   await productRate(productId,rating)
   try {
     const reviewDetails = {
       name:name,
+      rating:rating,
       comment:comment,
     }
     const review = await Review.create(reviewDetails);
