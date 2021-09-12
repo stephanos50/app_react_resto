@@ -20,8 +20,6 @@ export const listCategory = () => async(dispatch, getState) => {
 
         const { data } = await axios.get('/api/categories')
 
-        console.log(data)
-
         dispatch({
             type: CATEGORY_LIST_SUCCESS,
             payload: data
@@ -43,7 +41,7 @@ export const createCategory = (category) => async (dispatch, getState) => {
     const { 
         userLogin : { userInfo },
     } = getState()
-    console.log(userInfo)
+    
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +71,7 @@ export const createCategory = (category) => async (dispatch, getState) => {
 
 
 export const deleteCategory = (id) => async(dispatch, getState) => {
-    console.log(id)
+    
     try {    
         dispatch({ 
             type:CATEGORY_DELETE_REQUEST,

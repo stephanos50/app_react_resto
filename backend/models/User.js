@@ -29,7 +29,7 @@ User.init(
             type: DataTypes.STRING, 
             allowNull: false,
             validate: {
-                is: /^[a-zA-Zéèà' ]+$/i, 
+               is: /^[a-zA-Zéèà' ]+$/i, 
             },
         },
         last_name: { 

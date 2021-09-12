@@ -25,7 +25,7 @@ export const listAllergen = () => async(dispatch, getState) => {
         }
     
         const { data } = await axios.get('/api/allergens', config)
-        console.log(data)
+        
 
         dispatch({
             type: ALLERGEN_LIST_SUCCESS,
@@ -48,7 +48,7 @@ export const createAllergen = (allergen) => async (dispatch, getState) => {
     const { 
         userLogin : { userInfo },
     } = getState()
-    console.log(userInfo)
+    
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export const createAllergen = (allergen) => async (dispatch, getState) => {
 
 
 export const deleteAllergen = (id) => async(dispatch, getState) => {
-    console.log(id)
+    
     try {    
         dispatch({ 
             type:ALLERGEN_DELETE_REQUEST,

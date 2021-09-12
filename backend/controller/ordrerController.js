@@ -19,7 +19,6 @@ const {DateTime} = require("luxon");
 exports.addOrderItems = asyncHandler(async (req, res) => {
     const { cartItems, shippingAddress, paymentMethode, user } = req.body
 
-    console.log(user)
     if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
@@ -160,9 +159,9 @@ exports.getMyOrders = asyncHandler(async (req, res) => {
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
-    console.log(req.params)
+    
     const order = await Order.findByPk(req.params.id)
-    console.log(order)
+    
     if (order) {
         order.isDelivered = true
         order.deliveredAt = Date.now()

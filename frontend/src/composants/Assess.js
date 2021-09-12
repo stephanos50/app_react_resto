@@ -1,7 +1,7 @@
 
 
 const Assess = (props) => {
-    console.log(props)
+   
     return (
         <div className="assess">
             <span>

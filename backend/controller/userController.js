@@ -108,6 +108,7 @@ exports.registerUser = [
 // @route  Get /api/users/profile
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
+    
     const user = await User.findByPk(req.user.email,{include: Order})
    
     if (user) {
@@ -131,41 +132,38 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 exports.updateUserProfile = [
    
     body('id').isEmail(),
-    body('first_name').not().isEmpty().trim(),
-    body('last_name').not().isEmpty().trim(),
+    body('first_name').notEmpty(),
+    body('last_name').notEmpty(),
    
     asyncHandler(async (req, res) => {
-       
-        const errors = validationResult(req);
         
+        const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Invlide input')
-        }
-
-
-        const user = await User.findByPk(req.body.id)
-        if (user) {
-            user.first_name = req.body.first_name || user.first_name
-            user.last_name = req.body.last_name || user.last_name
-            user.email = req.body.email || user.email
-            
-            if(req.body.password){
-                user.password = req.body.password 
-            }
-            const updateUser = await user.save()
-           
-            res.json({
-                email: updateUser.email,
-                _uuid : updateUser.uuid,
-                first_name: updateUser.first_name,
-                last_name: updateUser.last_name,
-                token: token.generateToken(updateUser._uuid),
-            })
         } else {
-            res.status(404)
-            throw new Error('User not found ')
+            const user = await User.findByPk(req.body.id)
+       
+            if (user) {
+                user.first_name = req.body.first_name || user.first_name
+                user.last_name = req.body.last_name || user.last_name
+                if(req.body.password){
+                    user.password = req.body.password 
+                }
+                const updateUser = await user.save()
+                res.json({
+                    email: updateUser.email,
+                    _uuid : updateUser.uuid,
+                    first_name: updateUser.first_name,
+                    last_name: updateUser.last_name,
+                    token: token.generateToken(updateUser._uuid),
+                })
+            } else {
+                res.status(404)
+                throw new Error('User not found ')
+            }
         }
+        
     })
 ]
 

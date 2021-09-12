@@ -80,7 +80,7 @@ export const deleteUser = (email) => async (dispatch, getState) => {
 }
 
 export const getUserDetails = (email) => async (dispatch, getState) => {
-  console.log(email)
+  
     try {
       dispatch({
         type: USER_DETAILS_REQUEST,
@@ -97,8 +97,6 @@ export const getUserDetails = (email) => async (dispatch, getState) => {
       }
       const { data } = await axios.get(`/api/admin/${email}`, config)
 
-      console.log(data)
-
       dispatch({
         type: USER_DETAILS_SUCCESS,
         payload:data
@@ -106,8 +104,6 @@ export const getUserDetails = (email) => async (dispatch, getState) => {
 
       dispatch({ type: USER_DETAILS_RESET })
     
-    
-      
     } catch (error) {
       dispatch({
         type: USER_DETAILS_FAIL,
@@ -138,7 +134,6 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     }
     const { data } = await axios.put(`/api/admin/${user.email}`,user, config)
-    console.log(data)
     
     dispatch({
       type: USER_UPDATE_SUCCESS,

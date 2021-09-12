@@ -16,11 +16,9 @@ const ProductEditScreem = ({match, history}) => {
     
     const productId = match.params.id
     
-    const [image, setImage] = useState('')
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [price, setPrice] = useState(0)
-    const [cote, setCote] = useState(0)
+    const [price, setPrice] = useState()
     const [category, setCategory] = useState('')
     const [allergensList, setAllergensList] = useState([]) // AXIOS
     const [allergens, setAllergens] = useState({}) // PRODUCT
@@ -64,11 +62,10 @@ const ProductEditScreem = ({match, history}) => {
         if (!product.name || product.id !== Number(productId) ) {
             dispatch(listProductDetails(productId))
         } else {
-            setImage(product.id)
+            
             setName(product.name)
             setDescription(product.description)
             setPrice(product.price)
-            setCote(product.cote)
             setCategory(product.categoryId)
             setAllergens(product.allergens)
             fetchLisAllergen()
@@ -86,19 +83,16 @@ const ProductEditScreem = ({match, history}) => {
         setUploading(true)
     
         try {
-          const config = {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
+            const config = {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                },
+            }
     
-          const { data } = await axios.post('/api/upload',formData , config)
-    
-          setImage(data)
-          setUploading(false)
+            const { data } = await axios.post('/api/upload',formData , config)
+            setUploading(false)
         } catch (error) {
-         
-          setUploading(false)
+            setUploading(false)
         }
       }
       
@@ -109,7 +103,6 @@ const ProductEditScreem = ({match, history}) => {
             name:name,
             description:description,
             price:price,
-            cote:cote,
             category:category,
             allergen: allergens,
         }))
@@ -142,7 +135,7 @@ const ProductEditScreem = ({match, history}) => {
                         name: element.name,
                         createdAt: "2021-08-23T20:05:52.000Z",
                     }
-                    console.log(details)
+                   
                     setIsChecked(true)
                     allergens.push(details)
                     setAllergens(allergens)
@@ -165,23 +158,8 @@ const ProductEditScreem = ({match, history}) => {
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {loading ? ( <Loader /> ) : error ? ( <Message variant="danger">{error}</Message> ) : (
                 <Form onSubmit={submitHandler}>
-
-                   <Form.Group className="mb-3" controlId='image'>
-                        <Form.Label>Image</Form.Label>
-                        <Form.Control 
-                            type='text'
-                             v='Entrez image url' 
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                        ></Form.Control>
-                    </Form.Group>
-
                     <Form.Group controlId="form-file" className="mb-3">
-                        <Form.Label
-                            
-                            onChange={uploadFileHandler}
-                        
-                        >Default file input example</Form.Label>
+                        <Form.Label>Séléctionné une image</Form.Label>
                         <Form.Control type="file" onChange={uploadFileHandler} />
                     </Form.Group>
                     <Form.Group>
@@ -217,25 +195,13 @@ const ProductEditScreem = ({match, history}) => {
                         ></Form.Control>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId='cote'>
-                        <Form.Label>Votre nom</Form.Label>
-                        <Form.Control 
-                            type='number'
-                            placeholder='Entrez une cote' 
-                            value={cote}
-                            onChange={(e) => setCote(e.target.value)}
-                        ></Form.Control>
-                    </Form.Group>
-
                     <Form.Group className="mb-3" controlId='category'> 
-                        
                         <Form.Label> <h5>Category : {category} </h5></Form.Label> 
                         <Form.Select aria-label=""  name='category' onChange={(e) => setCategory(e.target.value)  }>
                         { 
                             categories.map((item) => (
                                 <option key={item.id}  value={item.id}>
                                     {item.id}  {item.name} 
-                                    
                                 </option>
                             ))
                         }
@@ -244,7 +210,6 @@ const ProductEditScreem = ({match, history}) => {
 
                     <Form.Group className="mb-3" controlId='allergen'>
                         <Form.Label><h5>Allergenes :</h5>
-                        
                         </Form.Label>
                             {allergensList.map((item) => 
                             <Form.Check
@@ -266,8 +231,6 @@ const ProductEditScreem = ({match, history}) => {
                
             )}
             </FormContainer>
-
-
         </>
     )
     

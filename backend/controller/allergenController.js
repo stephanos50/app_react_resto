@@ -40,7 +40,7 @@ exports.createAllergen = [
             }
         })
         if(!allergen){
-            console.log(req.params)
+            
             const allergen = await  Allergen.create({name:req.params.name})
             await allergen.save()
             res.status(201).json({message: 'Allergen create'})

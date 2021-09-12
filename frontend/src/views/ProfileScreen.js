@@ -30,19 +30,18 @@ const ProfileScreem = ({ location, history}) => {
     const { userInfo } = userLogin
 
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
-    const { success } = userUpdateProfile
+    const { error:errorUpdate, success } = userUpdateProfile
 
    
    
     useEffect(() => {
+      
         if(!userInfo){
             history.push('/login')
         } else{
             if( !user || !user.first_name || success ){
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
-                
-                
             } else {
                 setFirstName(user.first_name)
                 setLastName(user.last_name)
@@ -50,8 +49,6 @@ const ProfileScreem = ({ location, history}) => {
             }
         }
     }, [dispatch, history, userInfo, user, success])
-
-    
 
     const submitHandler = (e) => { 
         e.preventDefault()
@@ -62,6 +59,7 @@ const ProfileScreem = ({ location, history}) => {
             setMessage('')
             setmessageUpdate('Profile mit à jour')
             dispatch(updateUserProfile({id: email, first_name, last_name,  password}))
+           
         }
     }
     

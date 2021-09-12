@@ -56,8 +56,9 @@ exports.createProduct = asyncHandler( async function (req,res){
     const product = new Product({
             name: 'Sample name',
             description: 'Sample description',
-            price: 0,
-            cote: 0,
+            price: 1,
+            rate: 0,
+            comment:0,
             categoryId:1
             
         })
@@ -71,12 +72,9 @@ exports.createProduct = asyncHandler( async function (req,res){
 // @access Private/Admin
 exports.updateProduct =  [
 
-    body('name').not().isEmpty().trim(),
-    body('description').not().isEmpty().trim(),
-    body('price').not().isNumeric().isEmpty().trim(),
-    body('cote').not().isNumeric().isEmpty().trim(),
-    body('category').not().isEmpty().trim(),
-    body('allergen').not().isEmpty().trim(),
+    body('name').notEmpty(),
+    body('price').notEmpty().isNumeric(),
+    body('category').notEmpty().trim(),
     
     asyncHandler( async function (req,res){
 
@@ -86,9 +84,8 @@ exports.updateProduct =  [
             throw new Error('Invalid input')
         }
     
-        const {name,description,price,cote,category,allergen} = req.body
-       
-        const product = await  Product.findByPk(req.body.name,{
+        const {name,description,price,category,allergen} = req.body
+        const product = await  Product.findByPk(req.body.id,{
           include: [Category, Allergen]
         })
        
@@ -96,8 +93,7 @@ exports.updateProduct =  [
             product.name = name,
             product.description = description,
             product.price = price,
-            product.cote = cote
-            product.categoryId = category
+           product.categoryId = category,
             await product.save()
             const allergie = allergen.map((item) =>  (item.id))
             await product.setAllergens(allergie)
@@ -139,7 +135,7 @@ exports.createProductReviews = [
         
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log('error')
+            
             res.status(400)
             throw new Error('Invalid input')
         }

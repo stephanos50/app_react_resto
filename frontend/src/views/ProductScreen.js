@@ -30,7 +30,7 @@ const Product = ({history, match}) => {
 
     useEffect(() => {
         if(successProductReview){
-            console.log('successproductReview')
+            
             setRating(0)
             setComment('')
             

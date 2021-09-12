@@ -44,7 +44,7 @@ const UserListScreem = ({history}) => {
       }
       
   }
-  console.log(users)
+
 
     return (
       <>

@@ -26,7 +26,6 @@ export const listRoles = () => async(dispatch, getState) => {
     
         const { data } = await axios.get('/api/roles', config)
        
-        console.log(data)
         dispatch({
             type: ROLE_LIST_SUCCESS,
             payload: data
@@ -48,7 +47,7 @@ export const createRole = (role) => async (dispatch, getState) => {
     const { 
         userLogin : { userInfo },
     } = getState()
-    console.log(userInfo)
+    
     const config = {
         headers: {
             'Content-Type': 'application/json',

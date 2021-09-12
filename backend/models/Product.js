@@ -34,13 +34,13 @@ Product.init(
             type: DataTypes.STRING,
             unique: true,
             validate: {
-                is: /^[a-zA-Zéè ']+$/i, 
+                is: /^[a-zA-Zéèà ']+$/i, 
             },
         },
         description: { 
             type: DataTypes.TEXT,
             validate: {
-                is: /^[a-zA-Zéè ']+$/i, 
+                is: /^[a-zA-Zéèà, ']+$/i, 
             },
         },
         price: {

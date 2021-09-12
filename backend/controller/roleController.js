@@ -56,7 +56,7 @@ exports.createRole = [
 // @route  DELETE /api/roles/:name
 // @access Private/Admin
 exports.deleteRole = asyncHandler(async (req,res) => {
-    console.log(req.params)
+   
     const role = await Role.findByPk(req.params.id)
     await role.destroy()
     res.status(201).json('Role remove')
