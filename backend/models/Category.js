@@ -16,7 +16,7 @@ Category.init(
             allowNull:false,
             unique:true,
             validate: {
-                is: /^[a-zA-Zé]+$/i, 
+                is: /^[a-zA-Z éè]+$/i, 
             },
         }
     },

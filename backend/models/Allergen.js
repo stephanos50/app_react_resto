@@ -16,6 +16,7 @@ Allergen.init(
             allowNull:false,
             unique:true,
             validate: {
+                notEmpty: true, 
                 is: /^[a-zA-Z]+$/i, 
             },
         }

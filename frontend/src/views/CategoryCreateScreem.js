@@ -4,6 +4,7 @@ import { useDispatch, useSelector} from 'react-redux'
 import { createCategory} from '../actions/categoryAction'
 import { Form, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import Message from '../composants/Message'
 
 const CategoryCreateScreem = ({history}) => {
 
@@ -12,7 +13,9 @@ const CategoryCreateScreem = ({history}) => {
     const dispatch = useDispatch()
 
     const categoryCreate = useSelector((state) => state.categoryCreate)
-    const { success } = categoryCreate
+    const { error, success } = categoryCreate
+
+    console.log(error)
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -41,11 +44,12 @@ const CategoryCreateScreem = ({history}) => {
             Go Back
             </Link>
            <Form onSubmit={handleSubmit}>
+               {error && <Message>{error}</Message>}
                <Form.Label>Create New Category</Form.Label>
                <Form.Control 
                     type="text"
                     placeholder="create new category"
-                    value={category}
+                    name="category"
                     onChange={(event) => setCategory(event.target.value)}
                ></Form.Control>
                <br></br>

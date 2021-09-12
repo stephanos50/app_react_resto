@@ -23,6 +23,9 @@ const CategoryListScreem = ({history}) => {
     const categoryDelete = useSelector((state) => state.categoryDelete)
     const {loading: loadingDelete, error: errorDelete, success: successDelete } = categoryDelete
 
+    const categoryCreate = useSelector((state) => state.categoryCreate)
+    const { error:errorCreate, success:successCreate } = categoryCreate
+
     useEffect(() => {
         dispatch({type: CATEGORY_CREATE_RESET})
         if(!userInfo && !userInfo.isAdmin){
@@ -43,16 +46,17 @@ const CategoryListScreem = ({history}) => {
           event.preventDefault();
           event.stopPropagation();
         }
-    
         setValidated(true);
         dispatch(createCategory(category))       
       };
     
-    
-     
-    
-    return (
+      return (
         <>
+        <Row>
+            {successDelete && <p className="danger"> Deleted </p>}
+            {successCreate && <p className="primary"> Created </p>}
+            {errorCreate && <p className="danger"> Error </p>}
+        </Row>
         <Row className='align-items-center'>
             <Col>
                 <h1>Categories</h1>
@@ -62,13 +66,14 @@ const CategoryListScreem = ({history}) => {
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
                         <FloatingLabel
                             controlId="floatingInput"
-                            label="Create new allergen"
+                            label="Create new category"
                             className="mb-3"
+                            value={category}
                         >
                         <Form.Control
                             required
                             type="text"
-                            placeholder="Create new allergen"
+                            placeholder="Create new category"
                             value={category}
                             onChange={(event) => setCategory(event.target.value)}
                         />

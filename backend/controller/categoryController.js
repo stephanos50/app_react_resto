@@ -22,7 +22,7 @@ exports.getCategories =  asyncHandler(async (req,res) => {
 // @route DELETE /api/categories/:id
 // @access Private/Admin
 exports.deleteCategory = asyncHandler(async (req,res) =>{
-    
+   
     const category = await Category.findByPk(req.params.id, {include: Product})
     const deleteCategory = await category.destroy()
     if(deleteCategory){
@@ -35,27 +35,19 @@ exports.deleteCategory = asyncHandler(async (req,res) =>{
 
 
 // @desc create a caterogy 
-// @route CREATE /api/categories
+// @route CREATE /api/categories/:name
 // @access Private/Admin
 exports.createCategory = [
-
-    body('name').not().isEmpty().trim(),
-
     asyncHandler(async (req,res) => {
-
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            res.status(400)
-            throw new Error('Invlide input')
-        }
-
+       
         const category = await Category.findOne({
             where: {
                 name:req.params.name
             }
         })
-    
+
         if(!category){
+            
             const category = await Category.create({name:req.params.name})
             await category.save()
             res.json({message: 'Categogy created'})
@@ -71,7 +63,7 @@ exports.createCategory = [
 // @route PUT /api/category/:id
 // @access Private/Admin
 exports.updateCategory = asyncHandler( async function (req,res){
-    
+    consoel.log("createCategory")
     const {name} = req.body
     const category = await  Category.findByPk(req.body.id)
    

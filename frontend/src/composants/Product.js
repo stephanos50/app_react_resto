@@ -6,26 +6,32 @@ import  PropTypes from 'prop-types'
 
 const Product = (props) => {
     
-    const {product} = props
-    console.log(product)
-    const picture = product.pictures.map((picture) => picture.path)
+    const {id} = props
+    const {name} = props
+    const {price} = props
+    const {rate} = props
+    const {comment} = props
+    const {pictures} = props
+    
+    const picture = pictures.map((picture) => picture.path)
+   
     
     return( 
         <Card style={{ width: '18rem' }} className='my-2 p-2 rounded'>
             <Card.Body>
-                <Link to={`/products/${product.id}`}>
+                <Link to={`/products/${id}`}>
                 <Card.Title as='div'>
                     <Card.Img src={picture}  variant='top'   className='images' />
-                    <strong className="title-product">{product.name}</strong>
+                    <strong className="title-product">{name}</strong>
                 </Card.Title>
                 </Link>
                 <Assess
-                    value={product.rate}
-                    text={`${product.comment}`}
+                    value={rate}
+                    text={comment}
                     reviews='commentaires' 
                   
                 />
-                 <strong className='price-product'>{product.price} €</strong>
+                 <strong className='price-product'>{price} €</strong>
                
             </Card.Body>
         </Card>
@@ -34,7 +40,12 @@ const Product = (props) => {
 }
 
 Product.propTypes = {
-    product: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    rate: PropTypes.number.isRequired,
+    comment: PropTypes.number.isRequired,
+    pictures: PropTypes.array.isRequired,
 }
 
 export default Product;

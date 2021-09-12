@@ -1,7 +1,7 @@
 const Allergen = require('../models/Allergen');
 const Product = require('../models/Product');
 const  asyncHandler = require ('express-async-handler')
-const { body, validationResult } = require("express-validator");
+const { param,validationResult } = require("express-validator");
 
 
 // @desc   get a allegens
@@ -24,11 +24,12 @@ const allergens = await Allergen.findAll()
 // @route  CREATE /api/allergen/:name
 // @access Private/Admin
 exports.createAllergen = [
-    body('name').not().isEmpty().trim(),
+    
+    param('name').notEmpty(),
 
     asyncHandler( async(req,res) => {
-
-        const errors = validationResult(req);
+       const errors = validationResult(req);
+        
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Invlide input')
@@ -40,7 +41,6 @@ exports.createAllergen = [
             }
         })
         if(!allergen){
-            
             const allergen = await  Allergen.create({name:req.params.name})
             await allergen.save()
             res.status(201).json({message: 'Allergen create'})

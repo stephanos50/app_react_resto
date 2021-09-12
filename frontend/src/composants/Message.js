@@ -4,7 +4,7 @@ import React from 'react'
 const Message = ({variant, children}) => {
     
     return (
-        <p className={`text-${variant}`}>{children}</p>
+        <i className={`text-${variant}`}>{children}</i>
     )
 }
 Message.defaultProps = {

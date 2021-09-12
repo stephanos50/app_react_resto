@@ -80,9 +80,8 @@ const Product = ({history, match}) => {
                     <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
                         <ListGroup variant='flush'>
                             <h4>{product.name}</h4>
-                            
-                            <p className='price-product p-2'> Prix : {product.price} euro</p>
-                        </ListGroup>
+                            <i className='price-product p-2'> Prix : {product.price} euro</i>
+                            </ListGroup>
                         <div className='product_assess'><Assess value={product.rate} /></div>
                     </Col>
                    
@@ -130,7 +129,7 @@ const Product = ({history, match}) => {
                     <Row>
                         <Col md={6} className="p-3">
                             <h4 className='desctiprion-allergene'>Déscription</h4>
-                            <p className='description'>{product.description}</p>
+                            <i className='description'>{product.description}</i>
                         </Col>
                     </Row>
 
@@ -153,8 +152,9 @@ const Product = ({history, match}) => {
                                     <ListGroup.Item key={review.id}>
                                         <strong>{review.name}</strong>
                                         <Assess value={review.rating}/>
-                                        <p>{review.createdAt.substring(0, 10)}</p>
-                                        <p>{review.comment}</p>
+                                        {review.createdAt.substring(0, 10)}
+                                        <br></br>
+                                        {review.comment}
                                     </ListGroup.Item>    
                                 ))}
                             </ListGroup>

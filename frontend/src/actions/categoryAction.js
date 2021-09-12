@@ -35,6 +35,7 @@ export const listCategory = () => async(dispatch, getState) => {
 }
 
 export const createCategory = (category) => async (dispatch, getState) => {
+    console.log(category)
    try {    
     dispatch({ type:CATEGORY_CREATE_REQUEST})
 
