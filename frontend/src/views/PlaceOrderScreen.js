@@ -95,25 +95,11 @@ const PlaceOrderScreen = ({history}) => {
                 <Col md={4}>
                     <Card>
                         <ListGroup variant='flush'>
-                            <ListGroup.Item>
-                                <h2> Order Summary</h2>
-                            </ListGroup.Item>
+                            
                             <ListGroup.Item>
                                 <Row>
-                                    <Col><h6>Items</h6></Col>
-                                    <Col><h6>{cart.itemsPrice} €</h6></Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col><h6>Shipping</h6></Col>
-                                    <Col>{cart.shippingPrice} €</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col><h6>Total</h6></Col>
-                                    <Col><h6>{cart.totalPrice} €</h6></Col>
+                                    <Col><h2>Total</h2></Col>
+                                    <Col><h2>{cart.totalPrice} €</h2></Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
@@ -125,7 +111,7 @@ const PlaceOrderScreen = ({history}) => {
                                     className='btn-block' 
                                     disabled={cart.cartItems === 0} 
                                     onClick={placeOrderHandler}>
-                                    Valider le payement
+                                    Valider la commande
                                 </Button>
 
                             </ListGroup.Item>

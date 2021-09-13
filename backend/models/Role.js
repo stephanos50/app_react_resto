@@ -1,7 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
+const { Model, DataTypes, INTEGER } = require("sequelize");
 const sequelize = require('./sequelize');
-
-
 
 class Role extends Model{
     get url() {
@@ -11,6 +9,9 @@ class Role extends Model{
 
 Role.init(
     {
+        id:{
+            type: DataTypes.INTEGER, autoIncrement:true, primaryKey:true,
+        },
         name: {
             type: DataTypes.STRING,
             unique: true,
@@ -23,11 +24,5 @@ Role.init(
         sequelize,
         modelName: 'role',
     }
-
-
 );
-
-
-
-
 module.exports = Role;
