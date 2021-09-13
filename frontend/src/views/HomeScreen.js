@@ -46,14 +46,7 @@ const HomeScreem = () => {
                         product.categoryId === value ?
                             <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
                                 <Product
-                                    id={product.id} 
-                                    name={product.name} 
-                                    price={product.price}
-                                    rate={product.rate}
-                                    comment={product.comment}
-                                    pictures={product.pictures}
-                                  
-                                  
+                                    product={product} 
                                 /> 
                             </Col>
                          : ''
