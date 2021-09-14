@@ -7,6 +7,7 @@ import { listProductDetails, createProductReview } from '../actions/productActio
 import Loader from '../composants/Loader'
 import Message from '../composants/Message'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import Allergen from '../composants/Allergen'
 
 
 const Product = ({history, match}) => {
@@ -30,10 +31,8 @@ const Product = ({history, match}) => {
 
     useEffect(() => {
         if(successProductReview){
-            
             setRating(0)
             setComment('')
-            
         }
         if (!product.id || product.id !== match.params.id) {
             dispatch({ type: PRODUCT_CREATE_REVIEW_RESET})
@@ -48,9 +47,6 @@ const Product = ({history, match}) => {
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`)
     }
-
-    const picture = product.pictures.map((image) => image.path)
-
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(createProductReview(match.params.id, {
@@ -58,8 +54,6 @@ const Product = ({history, match}) => {
             comment,
         }))
     }
-    
-   
     
     return ( 
         <>
@@ -74,8 +68,8 @@ const Product = ({history, match}) => {
         ) : (
             <>  
             <Row>
-               <Col key={picture} sm={12} md={6} lg={4} xl={3} className="p-3">
-                    <Image  style={{ width: '12rem' }} src={picture}  />
+               <Col key={product.pictures[0].id} sm={12} md={6} lg={4} xl={3} className="p-3">
+                    <Image  style={{ width: '12rem' }} src={product.pictures[0].path}  />
                 </Col>
                     <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
                         <ListGroup variant='flush'>
@@ -134,14 +128,10 @@ const Product = ({history, match}) => {
                     </Row>
 
                     <Row>
-                        <Col md={6} className="p-3">
-                            <h4 className='desctiprion-allergene'>Allergene</h4>
-                            {
-                                product.allergens.map((item) => <i className='description'key={item.id}> {item.name} </i>)
-                            }
-                           
-                            
-                        </Col>
+                    <Row>
+                        <Allergen allergens = {product.allergens} />
+                    </Row>
+                        
                     </Row>
                     <Row>
                         <Col md={6}>

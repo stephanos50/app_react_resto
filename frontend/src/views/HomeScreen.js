@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
-import {Row, Col, Nav} from 'react-bootstrap'
-import Product from '../composants/Product'
+import {Row, Col, Nav, Card} from 'react-bootstrap'
 import Loader from '../composants/Loader'
 import Message from '../composants/Message'
 import { listProducts } from '../actions/productAction'
 import { listCategory } from '../actions/categoryAction'
+import { Link } from 'react-router-dom'
+import Assess from '../composants/Assess'
+
 
 
 const HomeScreem = () => {
@@ -17,6 +19,7 @@ const HomeScreem = () => {
     const categoryList = useSelector(state => state.categoryList)
     const { loading: loadingCategories, error: errorCategories, categories} = categoryList
 
+    products.map((product) => console.log(product.pictures[0].id))
     
     const [value, setValue] = useState(1)
 
@@ -43,11 +46,28 @@ const HomeScreem = () => {
              ) : ( 
                 <Row>
                     {products.map((product) => (
+                       
                         product.categoryId === value ?
                             <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
-                                <Product
-                                    product={product} 
-                                /> 
+                                 <Card style={{ width: '18rem' }} className='my-2 p-2 rounded'>
+                                    <Card.Body>
+                                        <Link to={`/products/${product.id}`}>
+                                        
+                                        <Card.Title as='div'>
+                                            <Card.Img src={product.pictures[0].path}  variant='top'   className='images' />
+                                                <strong className="title-product">{product.name}</strong>
+                                        </Card.Title>
+                                        </Link>
+                                        <Assess
+                                            value={product.rate}
+                                            text={product.comment}
+                                            reviews='commentaires' 
+                                        
+                                        />
+                                        <strong className='price-product'>{product.price} €</strong>
+                                    
+                                    </Card.Body>
+                                </Card>
                             </Col>
                          : ''
                 ))}
