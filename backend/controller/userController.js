@@ -32,9 +32,9 @@ exports.authUser =
     const { email, password } = req.body
     
     const user = await User.findByPk(email,{
-        include: [Role,Address]
+        include: [Role,Address,Order]
     })
-   
+    
     if( user && await user.validPassword(password)){
         res.json({
             email: user.email,
@@ -44,6 +44,7 @@ exports.authUser =
             isAdmin: user.isAdmin,
             role: user.roles.map((role) => role.name),
             address: user.address,
+            orders:user.orders,
             token: token.generateToken(user._uuid),
         })
     } else {
@@ -110,7 +111,7 @@ exports.registerUser = [
 exports.getUserProfile = asyncHandler(async (req, res) => {
     
     const user = await User.findByPk(req.user.email,{include: Order})
-   
+    console.log("getUserProfile")
     if (user) {
         res.json({
             email: user.email,
@@ -131,18 +132,23 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 // @access Private
 exports.updateUserProfile = [
    
-    body('id').isEmail(),
+    body('id').notEmpty(),
     body('first_name').notEmpty(),
     body('last_name').notEmpty(),
    
     asyncHandler(async (req, res) => {
-        
+        console.log(req.body)
         const errors = validationResult(req);
+        
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Invlide input')
         } else {
-            const user = await User.findByPk(req.body.id)
+            const user = await User.findByPk(req.body.id, {
+                include: Order
+            })
+
+            console.log(user)
        
             if (user) {
                 user.first_name = req.body.first_name || user.first_name
@@ -156,6 +162,7 @@ exports.updateUserProfile = [
                     _uuid : updateUser.uuid,
                     first_name: updateUser.first_name,
                     last_name: updateUser.last_name,
+                    orders:user.orders,
                     token: token.generateToken(updateUser._uuid),
                 })
             } else {

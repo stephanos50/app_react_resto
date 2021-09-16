@@ -34,7 +34,7 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products/:id
 // @access Public
 exports.getProductById = asyncHandler(async function(req, res){
-   
+    console.log(req)
     res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
         include: [Picture,Category,Allergen,Review]
@@ -61,9 +61,9 @@ exports.createProduct = asyncHandler( async function (req,res){
             comment:0,
             categoryId:1
             
-        })
-        const createdProduct = await product.save()
-        res.status(201).json(createdProduct)
+    })
+    const createdProduct = await product.save()
+    res.status(201).json(createdProduct)
     
 })
 

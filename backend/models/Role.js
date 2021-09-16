@@ -9,12 +9,10 @@ class Role extends Model{
 
 Role.init(
     {
-        id:{
-            type: DataTypes.INTEGER, autoIncrement:true, primaryKey:true,
-        },
-        name: {
+       name: {
             type: DataTypes.STRING,
             unique: true,
+            allowNull:false,
             validate: {
                 is: /^[a-zA-Z]+$/i, 
             },

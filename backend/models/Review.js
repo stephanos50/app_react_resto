@@ -5,7 +5,7 @@ const User = require('./User');
 
 class Review extends Model{
     get url(){
-        return ` /reviews/${this.id}`;
+        return ` /review/${this.id}`;
     }
 }
 

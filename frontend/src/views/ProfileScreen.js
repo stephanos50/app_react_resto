@@ -39,6 +39,7 @@ const ProfileScreem = ({ location, history}) => {
         if(!userInfo){
             history.push('/login')
         } else{
+            
             if( !user || !user.first_name || success ){
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
@@ -136,10 +137,9 @@ const ProfileScreem = ({ location, history}) => {
                         <thead>
                             <tr>
                                 <th>Numéro</th>
-                                <th>Date</th>
                                 <th>Heure</th>
+                                <th>Date</th>
                                 <th>Total</th>
-                                <th>Pay</th>
                                 <th>Délivrer</th>
                                 <th></th>
                             </tr>
@@ -147,14 +147,11 @@ const ProfileScreem = ({ location, history}) => {
                         <tbody>
                             {user.orders.map(order => (
                                 <tr key={order.id}>
-                                    <td>{order.number}</td>
-                                    <td>{order.createAt}</td>
-                                    <td>{order.time}</td>
+                                    <td>{order.date_number}</td>
+                                    <td>{order.date_time}</td>
+                                    <td>{order.date_deliveredAt}</td>
                                     <td>{order.total} €</td>
-                                    <td>{order.isPaid ? order.paidAt : ( <i className='' style={{color:'#B52036'}}>Not paid</i>)}</td>
                                     <td>{order.isDelivered ? order.isDeliveredAt : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>)}</td>
-
-                                    
                                     <td>
                                         <LinkContainer to={`/order/${order.id}`}>
                                             <Button className='btn-sm' variant='primary'>Details</Button>

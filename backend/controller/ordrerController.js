@@ -7,6 +7,7 @@ const City =require('../models/City')
 const User = require('../models/User')
 const Payment = require('../models/Payment')
 const {DateTime} = require("luxon");
+let numero = 0;
 
 
 
@@ -43,13 +44,14 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
             await address.save()
         }
 
-       
-        const order = await Order.create({})
+        const detailsOrder = {
+            number: DateTime.now(),
+            time: DateTime.now().toLocaleString(DateTime.DATE_HUGE),
+            createAt: DateTime.now(),
+            total: 0,
+        }
+        const order = await Order.create(detailsOrder)
         
-        order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
-        order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE	))
-        order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
-        order.setDataValue('total', 0);
         order.setDataValue('addressId', address.id);
         order.setDataValue('userEmail', user);
         await order.save()
@@ -86,6 +88,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
+    console.log("getOrderById")
     const order = await Order.findByPk(req.params.id, {
         include: [User,{model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
       
@@ -122,7 +125,7 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
     const order = await Order.findByPk(req.params.id)
     if(order) {
         order.isPaid = true,
-        order.paidAt = new Date(Date.UTC(2016, 0, 1))
+        order.paidAt = DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-dd`)
         await order.save()
     } else {
         res.status(404)
@@ -131,8 +134,7 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
 
     const payementDetal = {
         status: req.body.status,
-        createdAt: req.body.create_time,
-        updatedAt: req.body.update_time,
+        update_time: req.body.update_time,
         email: req.body.payer.email_address,
     }
 

@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Role = require('../models/Role')
+const Order = require('../models/Order')
 const  asyncHandler = require ('express-async-handler')
 const { body, validationResult } = require("express-validator");
 
@@ -9,9 +10,9 @@ const { body, validationResult } = require("express-validator");
 // @route  GET /api/users
 // @access Private/Admin
 exports.getUsers = asyncHandler(async (req, res) => {
-  
+    console.log("getUsers")
     const user = await User.findAll({
-        include: Role
+        include: [Role,Order]
     })
     res.json(user)
     
@@ -36,6 +37,7 @@ exports.deleteUsers = asyncHandler(async (req, res) => {
 // @route  GET /api/admin/:email
 // @access Private/Admin
 exports.getUserById = asyncHandler(async (req, res) => {
+    console.log("getUserById")
     const user = await User.findByPk(req.params.email,{
         include: Role
     })

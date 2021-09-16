@@ -26,13 +26,10 @@ class Product extends Model{
 
 Product.init(
     {
-        id: {
-            type: 
-                DataTypes.INTEGER, autoIncrement:true, primaryKey:true,
-        },
         name: { 
             type: DataTypes.STRING,
             unique: true,
+            allowNull:false,
             validate: {
                 is: /^[a-zA-Zéèà ']+$/i, 
             },
@@ -45,6 +42,7 @@ Product.init(
         },
         price: {
             type: DataTypes.FLOAT,
+            allowNull:false,
             defaultValue: 1, 
             validate: {
                 isDecimal: true,
@@ -52,11 +50,13 @@ Product.init(
         },
         rate: {
             type: DataTypes.FLOAT,
+            allowNull:false,
             defaultValue:0,
           
         },
         comment: {
             type:DataTypes.INTEGER,
+            allowNull:false,
             
         },
     }, {

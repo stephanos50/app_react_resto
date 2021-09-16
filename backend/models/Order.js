@@ -3,8 +3,9 @@ const { Model, DataTypes } = require("sequelize");
 const sequelize = require('./sequelize');
 const Address = require('./Address');
 const User = require('./User');
-const {DateTime} = require("luxon");
+const { DateTime } = require("luxon");
 const total = 0;
+let numero = 0;
 
 class Order extends Model{
     
@@ -20,43 +21,53 @@ class Order extends Model{
 Order.init(
     {
         number: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
+            allowNull:false,
         },
         time: {
             type: DataTypes.STRING,
+            allowNull:false,
+           
         },
         createAt: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
            
         },
         total: {
             type: DataTypes.DOUBLE,
-            
+            defaultValue:0,
+            allowNull:false,
         },
-        isPaid:{
-            type: DataTypes.BOOLEAN,
-            require: true,
-            defaultValue: false
-        },
+
         isDelivered:{
             type: DataTypes.BOOLEAN,
             require: true,
-            defaultValue: false
-        },
-        paymentMethod: { 
-            type: DataTypes.STRING,  
-            defaultValue: 'PayPal'
-        },
-        paidAt: {
-            type: DataTypes.DATE,
+            defaultValue: false,
+            allowNull:false,
         },
         deliveredAt: {
             type: DataTypes.DATE,
+            
         },
-        date_formated: {
+
+        date_number: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return  DateTime.now().toFormat('MM-dd-yyyy')
+            },
+        },
+        
+       
+        date_createAt: {
             type: DataTypes.VIRTUAL,
               get() {
-                return DateTime.fromISO(this.date).toLocaleString(DateTime.DATE_HUGE);
+                return DateTime.now()
+              },
+          },
+          date_deliveredAt: {
+            type: DataTypes.VIRTUAL,
+              get() {
+                return DateTime.now().toFormat('MM-dd-yyyy')
               },
           },
 

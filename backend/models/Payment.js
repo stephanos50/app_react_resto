@@ -14,12 +14,10 @@ Payment.init(
        status: { 
             type: DataTypes.STRING 
         },
-        update_time: { 
-            type: DataTypes.STRING 
+        Date: { 
+            type: DataTypes.DATEONLY 
         },
-        email: { 
-            type: DataTypes.STRING 
-        },
+      
     },
     {
         sequelize,
@@ -28,8 +26,8 @@ Payment.init(
       
 );
 
-Order.belongsTo(Payment);
-Payment.hasMany(Order);
+Order.hasOne(Payment);
+Payment.belongsTo(Order);
 
 module.exports = Payment;
 

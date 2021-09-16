@@ -9,15 +9,16 @@ const Category = require('./backend/models/Category');
 const Product = require('./backend/models/Product');
 const Review = require('./backend/models/Review');
 const ProductOrder = require('./backend/models/ProductOrder');
-
-
-
 const Allergen = require('./backend/models/Allergen');
 const Picture = require('./backend/models/Picture');
-const Payment = require('./backend/models/Payment');
+const Payment = require('./backend/models/Payment')
+const ProofPayment = require('./backend/models/ProofPayment')
+const PaymentMethod = require('./backend/models/PaymentMethode')
 const bcrypt = require("bcrypt");
 
 const {DateTime} = require("luxon");
+
+let number = 0;
 
 
 
@@ -85,12 +86,12 @@ async function productOrderCreate(qty, price, orderId,productId){
 async function createProductOrder01(){
   
   const date = new Date()
-
-  const order = await Order.create();
-  order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
-  order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE))
-  order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
-  order.setDataValue('isPaid', true);
+  const datailsOrder = {
+    number:  DateTime.now(),
+    time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
+    createAt: DateTime.now(),
+  }
+  const order = await Order.create(datailsOrder);
   await order.save();
   
   return Promise.all([
@@ -102,13 +103,15 @@ async function createProductOrder01(){
 };
 
 async function createProductOrder02(){
-  const order = await Order.create();
-  order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
-  order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE	))
-  order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
-  order.setDataValue('isPaid', true);
-
+  const datailsOrder = {
+    number: DateTime.now(),
+    time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
+    createAt:DateTime.now(),
+  }
+  const order = await Order.create(datailsOrder);
   await order.save();
+
+ 
   return Promise.all([
     productOrderCreate( 1, (7.50) ,order.id, 5),
     productOrderCreate( 1, (7.50) ,order.id, 4),
@@ -119,14 +122,12 @@ async function createProductOrder02(){
 
 async function createProductOrder03(){
   
-  const date = new Date()
-  
-  const order = await Order.create();
-  order.setDataValue('number', DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-00${order.id}-dd`))
-  order.setDataValue('time',DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE))
-  order.setDataValue('createAt', DateTime.now().toLocaleString(DateTime.DATE_HUGE))
-  order.setDataValue('isPaid', true);
-  
+  const datailsOrder = {
+    number:DateTime.now(),
+    time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
+    createAt:DateTime.now()
+  }
+  const order = await Order.create(datailsOrder);
   await order.save();
   return Promise.all([
     productOrderCreate( 2, (12.50) ,order.id, 3),
@@ -139,10 +140,10 @@ async function createProductOrder03(){
 async function updateOrders(){
     const order = await Order.findOne({
       where: {
-        total: null
+        total: 0
       }
     })
-
+   
     let subTotal = 0;
     const order_product = await ProductOrder.findAll({
         where: {
@@ -163,7 +164,7 @@ async function updateOrders(){
 async function updateOrdersRoot(){
   const order = await Order.findOne({
     where: {
-      total: null
+      total: 0
     }
   })
 
