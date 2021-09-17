@@ -1,7 +1,9 @@
+
 {
-    "host": "localhost",
+    "host": "ec2-3-219-111-26.compute-1.amazonaws.com",
     "port": 5432,
-    "database": "aucoeurbleu",
-    "username": "postgres",
-    "password": "root"
+    "database": "d71ubm5bv1ccs2",
+    "username": "bdcloyqoqwdrzv",
+    "password": "222388c14e43b8558f9a9f45b9fa18fdce73caee194c2533ddbbf45e7336ce25"
+    
 }
