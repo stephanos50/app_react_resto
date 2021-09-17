@@ -12,20 +12,25 @@ const ShippingScreem = ({ history }) => {
 
     const cart = useSelector((state) => state.cart)
     const cityList = useSelector(state => state.cityList)
+    const userLogin = useSelector((state) => state.userLogin) 
+    const { userInfo } = userLogin
     // eslint-disable-next-line
     const { cities} = cityList
 
     const {shippingAddress} = cart
-
-    const [name, setAddress] = useState( shippingAddress.name )
-    const [number, setNumber] = useState(shippingAddress.number)
-    const [floor, setFloor] = useState(shippingAddress.floor)
-    const [city, setCity] = useState(shippingAddress.city)
+   
+    const [name, setAddress] = useState( userInfo.address.name )
+    const [number, setNumber] = useState(userInfo.address.number)
+    const [floor, setFloor] = useState(userInfo.address.floor)
+    const [city, setCity] = useState(userInfo.address.city)
     
 
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if (!userInfo) {
+            history.push('/login')
+        }
         dispatch(listCities())
         setCity({
             id:1,

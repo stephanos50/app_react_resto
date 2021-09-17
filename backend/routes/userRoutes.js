@@ -1,12 +1,24 @@
 const express = require("express");
-const router = express.Router();
+const routes = express.Router();
+
+const bodyParser = require('body-parser')
+const cors = require('cors')
+routes.use(cors());
+
+//body-parser
+routes.use(bodyParser.urlencoded({extended: false}))
+routes.use(bodyParser.json())
+const jsonParser = bodyParser.json();
+
+
+
 const {protect} = require('../middleware/authMiddleware')
 
 const userController = require('../controller/userController')
 
-router.post('/',userController.registerUser)
-router.route('/login').post(userController.authUser)
-router.route('/profile').get(protect,userController.getUserProfile).put(protect, userController.updateUserProfile)
+routes.post('/',userController.registerUser)
+routes.route('/login').post(userController.authUser)
+routes.route('/profile').get(protect,userController.getUserProfile).put(protect, userController.updateUserProfile)
 
 
-module.exports = router;
+module.exports = routes;

@@ -34,7 +34,6 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products/:id
 // @access Public
 exports.getProductById = asyncHandler(async function(req, res){
-    console.log(req)
     res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
         include: [Picture,Category,Allergen,Review]
@@ -135,9 +134,8 @@ exports.createProductReviews = [
         
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            
             res.status(400)
-            throw new Error('Invalid input')
+            throw new Error('Le champ doit être complété')
         }
        
         const {rating, comment} = req.body
@@ -155,10 +153,18 @@ exports.createProductReviews = [
                 rating: rating,
                 comment:comment
             }
+            
             const rewiew = await Review.create(reviewsDetails)
             rewiew.setDataValue('productId', req.params.id)
             rewiew.setDataValue('userEmail', req.user.email)
             const createReviews = await rewiew.save()
+
+            const product = await Product.findByPk(req.params.id)
+            const rate = await product.calculRate(product.rate,rating)
+            const commentaire = await product.setComment(product.comment,1)
+            product.setDataValue('rate', rate)
+            product.setDataValue('comment', commentaire)
+            await product.save();
             res.status(201).json(createReviews)
         } else  { 
             res.status(404)

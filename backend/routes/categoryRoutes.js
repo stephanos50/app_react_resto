@@ -1,13 +1,21 @@
 const express = require("express");
-const router = express.Router();
+const routes = express.Router();
 const {protect, admin} = require('../middleware/authMiddleware')
+
+const bodyParser = require('body-parser')
+const cors = require('cors')
+routes.use(cors());
+//body-parser
+routes.use(bodyParser.urlencoded({extended: false}))
+routes.use(bodyParser.json())
+const jsonParser = bodyParser.json();
 
 
 const categoryController = require('../controller/categoryController')
 
-router.route('/').get(categoryController.getCategories)
-router.route('/:name').post(protect,admin,categoryController.createCategory)
-router.route('/:id').delete(protect,admin,categoryController.deleteCategory)
+routes.route('/').get(categoryController.getCategories)
+routes.route('/:name').post(protect,admin,categoryController.createCategory)
+routes.route('/:id').delete(protect,admin,categoryController.deleteCategory)
 
 
-module.exports = router;
+module.exports = routes;

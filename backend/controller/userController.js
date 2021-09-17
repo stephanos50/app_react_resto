@@ -111,7 +111,6 @@ exports.registerUser = [
 exports.getUserProfile = asyncHandler(async (req, res) => {
     
     const user = await User.findByPk(req.user.email,{include: Order})
-    console.log("getUserProfile")
     if (user) {
         res.json({
             email: user.email,
@@ -137,7 +136,6 @@ exports.updateUserProfile = [
     body('last_name').notEmpty(),
    
     asyncHandler(async (req, res) => {
-        console.log(req.body)
         const errors = validationResult(req);
         
         if (!errors.isEmpty()) {
@@ -148,7 +146,7 @@ exports.updateUserProfile = [
                 include: Order
             })
 
-            console.log(user)
+           
        
             if (user) {
                 user.first_name = req.body.first_name || user.first_name

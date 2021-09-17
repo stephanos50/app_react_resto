@@ -1,10 +1,19 @@
 const express = require("express");
-const router = express.Router();
+const routes = express.Router();
 const multer =require('multer')
 const path = require ('path')
 const pictureController = require('../controller/pictureController')
 const {protect} = require('../middleware/authMiddleware')
 const Picture = require('../models/Picture');
+
+const bodyParser = require('body-parser')
+const cors = require('cors')
+routes.use(cors());
+
+//body-parser
+routes.use(bodyParser.urlencoded({extended: false}))
+routes.use(bodyParser.json())
+const jsonParser = bodyParser.json();
 
 
 
@@ -40,7 +49,7 @@ const storage = multer.diskStorage({
     },
   })
   
-  router.post('/', upload.single('image'), (req, res, next) => {
+  routes.post('/', upload.single('image'), (req, res, next) => {
     try {
       pictureController.addPicture(req)
       res.send(`/${req.file.path}`)
@@ -49,4 +58,4 @@ const storage = multer.diskStorage({
     }
    })
 
-  module.exports = router;
+  module.exports = routes;

@@ -11,15 +11,12 @@ let numero = 0;
 
 
 
-
-
-
 // @desc  Create new order
 // @route POST /api/orders
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
     const { cartItems, shippingAddress, paymentMethode, user } = req.body
-
+    
     if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
@@ -88,7 +85,6 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
-    console.log("getOrderById")
     const order = await Order.findByPk(req.params.id, {
         include: [User,{model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
       
@@ -161,7 +157,7 @@ exports.getMyOrders = asyncHandler(async (req, res) => {
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
-    
+    console.log(req.params)
     const order = await Order.findByPk(req.params.id)
     
     if (order) {

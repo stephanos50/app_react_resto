@@ -1,12 +1,21 @@
 const express = require("express");
-const router = express.Router();
+const routes = express.Router();
 const {protect, admin} = require('../middleware/authMiddleware')
+
+const bodyParser = require('body-parser')
+const cors = require('cors')
+routes.use(cors());
+
+//body-parser
+routes.use(bodyParser.urlencoded({extended: false}))
+routes.use(bodyParser.json())
+const jsonParser = bodyParser.json();
 
 
 const roleController = require('../controller/roleController')
 
-router.route('/').get(protect,admin,roleController.getRoles)
-router.route('/:name').post(protect,admin,roleController.createRole)
-router.route('/:id').delete(protect,admin,roleController.deleteRole)
+routes.route('/').get(protect,admin,roleController.getRoles)
+routes.route('/:name').post(protect,admin,roleController.createRole)
+routes.route('/:id').delete(protect,admin,roleController.deleteRole)
 
-module.exports = router;
+module.exports = routes;

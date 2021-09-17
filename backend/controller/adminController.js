@@ -10,7 +10,6 @@ const { body, validationResult } = require("express-validator");
 // @route  GET /api/users
 // @access Private/Admin
 exports.getUsers = asyncHandler(async (req, res) => {
-    console.log("getUsers")
     const user = await User.findAll({
         include: [Role,Order]
     })
@@ -37,7 +36,6 @@ exports.deleteUsers = asyncHandler(async (req, res) => {
 // @route  GET /api/admin/:email
 // @access Private/Admin
 exports.getUserById = asyncHandler(async (req, res) => {
-    console.log("getUserById")
     const user = await User.findByPk(req.params.email,{
         include: Role
     })

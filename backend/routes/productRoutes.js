@@ -1,15 +1,26 @@
 
 const express = require("express");
-const router = express.Router();
+const routes = express.Router();
 const {protect, admin} = require('../middleware/authMiddleware')
 const productController = require('../controller/productController');
 
-router.route('/').get(productController.getProducts).post(protect,admin,productController.createProduct);
+const bodyParser = require('body-parser')
+const cors = require('cors')
+routes.use(cors());
+
+//body-parser
+routes.use(bodyParser.urlencoded({extended: false}))
+routes.use(bodyParser.json())
+const jsonParser = bodyParser.json();
 
 
-router.route('/:id').get(productController.getProductById);
-router.route('/:id').delete(protect,admin,productController.deleteProduct)
-router.route('/:id').put(protect,admin,productController.updateProduct)
-router.route('/:id/reviews').post(protect,productController.createProductReviews)
 
-module.exports = router;
+routes.route('/').get(productController.getProducts).post(protect,admin,productController.createProduct);
+
+
+routes.route('/:id').get(productController.getProductById);
+routes.route('/:id').delete(protect,admin,productController.deleteProduct)
+routes.route('/:id').put(protect,admin,productController.updateProduct)
+routes.route('/:id/reviews').post(protect,productController.createProductReviews)
+
+module.exports = routes;

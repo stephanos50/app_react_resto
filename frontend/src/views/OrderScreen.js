@@ -31,24 +31,24 @@ const OrderScreen = ({match, history}) => {
     const userLogin = useSelector((state) => state.userLogin) 
     const { userInfo } = userLogin
 
-   
-   
 
-  
+
     useEffect(() => {
         if (!userInfo) {
             history.push('/login')
         }
        
         const addPayPalScript = async () => {
+            const currency = 'EUR'
             const { data: clientId } = await axios.get('/api/config/paypal')
             const script = document.createElement('script')
             script.type = 'text/javascript'
-            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+            script.src = `https://www.paypal.com/sdk/js?currency=${currency}&client-id=${clientId}`
             script.async = true
             script.onload = () => {
               setSdkReady(true)
             }
+            console.log(script)
             document.body.appendChild(script)
         }
         if(!order ||  successPay || order.id !== Number(orderId) || successDeliver){
