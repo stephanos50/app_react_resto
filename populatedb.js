@@ -400,15 +400,15 @@ async function createAddresses(){
 
 async function createPictures(){
   return Promise.all([
-    pictureCreate('http://localhost:5000/uploads/tarama.jpg',1),
-    pictureCreate('http://localhost:5000/uploads/tzadziki.jpg',2),
-    pictureCreate('http://localhost:5000/uploads/feta.jpg',3),
-    pictureCreate('http://localhost:5000/uploads/gambas.jpg',4),
-    pictureCreate('http://localhost:5000/uploads/calamars.jpg',5),
-    pictureCreate('http://localhost:5000/uploads/meze.jpg',6),
-    pictureCreate('http://localhost:5000/uploads/brochette-agneau.jpg',7),
-    pictureCreate('http://localhost:5000/uploads/entrecote.jpg',8),
-    pictureCreate('http://localhost:5000/uploads/to-eliniko.jpg',9),
+    pictureCreate('/uploads/tarama.jpg',1),
+    pictureCreate('/uploads/tzadziki.jpg',2),
+    pictureCreate('/uploads/feta.jpg',3),
+    pictureCreate('/uploads/gambas.jpg',4),
+    pictureCreate('/uploads/calamars.jpg',5),
+    pictureCreate('/uploads/meze.jpg',6),
+    pictureCreate('/uploads/brochette-agneau.jpg',7),
+    pictureCreate('/uploads/entrecote.jpg',8),
+    pictureCreate('/uploads/to-eliniko.jpg',9),
    
   ]);
 }
