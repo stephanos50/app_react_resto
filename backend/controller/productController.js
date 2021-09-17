@@ -16,7 +16,8 @@ const { body, validationResult } = require("express-validator");
 // @route GET /api/products
 // @access Public
 exports.getProducts = asyncHandler(async (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
+    console.log('getProductById')
+    // res.header("Access-Control-Allow-Origin", "*");
     const products = await Product.findAll({
         include: [Picture,Category,Allergen]
     });
@@ -34,7 +35,8 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products/:id
 // @access Public
 exports.getProductById = asyncHandler(async function(req, res){
-    res.header("Access-Control-Allow-Origin", "*");
+    console.log('getProductById')
+    // res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
         include: [Picture,Category,Allergen,Review]
     });

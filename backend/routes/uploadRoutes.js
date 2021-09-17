@@ -6,14 +6,11 @@ const pictureController = require('../controller/pictureController')
 const {protect} = require('../middleware/authMiddleware')
 const Picture = require('../models/Picture');
 
-const bodyParser = require('body-parser')
+
 const cors = require('cors')
 routes.use(cors());
 
-//body-parser
-routes.use(bodyParser.urlencoded({extended: false}))
-routes.use(bodyParser.json())
-const jsonParser = bodyParser.json();
+
 
 
 

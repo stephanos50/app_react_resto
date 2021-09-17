@@ -41,15 +41,17 @@ app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 )
 
+const __dirna = path.resolve()
+app.use('/uploads', express.static(path.join(__dirna, '/uploads')))
 
-app.use('/uploads', express.static(path.resolve(__dirname, '../uploads')))
 
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')))
+  app.use(express.static(path.join(__dirna, '/frontend/build')));
+
 
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirna, 'frontend', 'build', 'index.html'))
   )
 } else {
   app.get('/', (req, res) => {

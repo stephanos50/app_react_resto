@@ -6,7 +6,7 @@ import  PropTypes from 'prop-types'
 
 const Allergen = (props) => {
     const {allergens} = props
-    console.log(allergens)
+   
    return(<>
         <Col md={6} className="p-3">
             <h4 className='desctiprion-allergene'>Allergene</h4>

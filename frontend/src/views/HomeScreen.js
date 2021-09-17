@@ -19,7 +19,6 @@ const HomeScreem = () => {
     const categoryList = useSelector(state => state.categoryList)
     const { loading: loadingCategories, error: errorCategories, categories} = categoryList
 
-    products.map((product) => console.log(product.pictures[0].id))
     
     const [value, setValue] = useState(1)
 
