@@ -11,15 +11,10 @@ const sequelize = new Sequelize(
   {
     logging: (msg) => debug(msg),
     dialect: "postgres",
-    protocol: 'postgres',
+    
     host: config.host,
     port: config.port,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false // 
-      }
-    }
+  
   }
 );
 
