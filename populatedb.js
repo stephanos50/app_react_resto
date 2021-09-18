@@ -446,10 +446,15 @@ async function addPictures(){
 }
 
 async function productRate(productId, rate){
+  const result = await Review.findAndCountAll({
+    where: {
+        productId:productId
+    },
+  })
   const product = await Product.findByPk(productId);
-  const rating = await product.calculRate(product.rate,rate);
+  const rating = await product.calculRate(product.rate, rate, result.count);
   product.setDataValue('rate',rating)
-  const comment = await product.setComment(product.comment, 1)
+  const comment = await product.setComment(product.comment)
   product.setDataValue('comment', comment)
   await product.save()
 }
@@ -476,7 +481,7 @@ async function reviewCreate(name,rating,comment,productId, email){
 
 async function createReviews(){
   return Promise.all([
-    reviewCreate('stefan',4,'this food is delicious',1, 'stefan@exemple.be'),
+    reviewCreate('stefan',1,'this food is delicious',1, 'stefan@exemple.be'),
     reviewCreate('stefan',4,'this food is delicious',2, 'stefan@exemple.be'),
     reviewCreate('stefan',4,'this food is delicious',3, 'stefan@exemple.be'),
     reviewCreate('stefan',4,'this food is delicious',4, 'stefan@exemple.be'),
@@ -486,13 +491,14 @@ async function createReviews(){
 
 async function createReviewsOther(){
   return Promise.all([
-    reviewCreate('alpha',5,'this food is good',1, 'alpha@exemple.be'),
+    reviewCreate('alpha',4,'this food is good',1, 'alpha@exemple.be'),
     reviewCreate('alpha',4,'this food is good',2, 'alpha@exemple.be'),
     reviewCreate('alpha',3,'this food is good',3, 'alpha@exemple.be'),
     reviewCreate('alpha',2,'this food is good',4, 'alpha@exemple.be'),
     reviewCreate('alpha',1,'this food is good',5, 'alpha@exemple.be'),
   ])
 }
+
 
 (async () => {
   try {
@@ -516,6 +522,7 @@ async function createReviewsOther(){
     const orders_03 = await updateOrdersRoot();
     const review = await createReviews();
     const otehr = await createReviewsOther();
+    
    
     sequelize.close();
   } catch (error) {

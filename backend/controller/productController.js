@@ -6,6 +6,8 @@ const Review = require('../models/Review');
 const User = require('../models/User')
 const  asyncHandler = require ('express-async-handler')
 const { body, validationResult } = require("express-validator");
+const sequelize = require('../models/sequelize');
+
 
 
 
@@ -129,8 +131,8 @@ exports.deleteProduct = asyncHandler(async function(req,res){
 // @access Private
 exports.createProductReviews = [ 
     
-    body('rating').not().isEmpty().trim(),
-    body('comment').not().isEmpty(),
+    body('rating').notEmpty(),
+    body('comment').notEmpty(),
 
     asyncHandler( async function (req,res){
         
@@ -141,6 +143,7 @@ exports.createProductReviews = [
         }
        
         const {rating, comment} = req.body
+        console.log(req.body)
         const review = await Review.findAll( {
             where: { 
                 productId: req.params.id,
@@ -150,23 +153,34 @@ exports.createProductReviews = [
         
     
         if (!review || Object.keys(review).length === 0){
+            const product = await Product.findByPk(req.params.id);
+            const result = await Review.findAndCountAll({
+                where: {
+                    productId:req.params.id
+                },
+              })
+              
+              const rates = await product.calculRate(product.rate, rating, result.count);
+              product.setDataValue('rate',rates)
+              const int_comment = await product.setComment(product.comment)
+              product.setDataValue('comment', int_comment)
+              await product.save()
+
+           
             const reviewsDetails = {
                 name:req.user.first_name,
                 rating: rating,
                 comment:comment
             }
-            
             const rewiew = await Review.create(reviewsDetails)
             rewiew.setDataValue('productId', req.params.id)
             rewiew.setDataValue('userEmail', req.user.email)
             const createReviews = await rewiew.save()
 
-            const product = await Product.findByPk(req.params.id)
-            const rate = await product.calculRate(product.rate,rating)
-            const commentaire = await product.setComment(product.comment,1)
-            product.setDataValue('rate', rate)
-            product.setDataValue('comment', commentaire)
-            await product.save();
+           
+           
+            
+            
             res.status(201).json(createReviews)
         } else  { 
             res.status(404)

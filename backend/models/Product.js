@@ -1,7 +1,7 @@
 const { Model, DataTypes, UUID } = require("sequelize");
 const sequelize = require('./sequelize');
 const Category = require('./Category');
-
+let cpt = 0;
 
 
 class Product extends Model{
@@ -10,17 +10,12 @@ class Product extends Model{
         return `/product/${this.id}` ;
     }
 
-    async calculRate(moyen, current){
-        if(moyen == 0){
-            return current;
-        } else if (moyen >= current) {
-            return ((moyen+current)/2);
-        } else {
-            return ((current+moyen)/2);
-        }
+    async calculRate(product_rate, rating, count ){
+       return product_rate == 0 ? rating :  (( (product_rate * count) + Number(rating) ) / ++count)
     }
-    async setComment(comment,current){
-       return  comment == 0 ? current : (comment += current);
+     
+    async setComment(comment){
+       return  comment == 0 ? 1 : (comment + 1);
     }
 }
 
@@ -49,7 +44,7 @@ Product.init(
             }
         },
         rate: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.DOUBLE,
             allowNull:false,
             defaultValue:0,
           
