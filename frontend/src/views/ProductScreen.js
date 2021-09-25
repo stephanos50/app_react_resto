@@ -29,6 +29,8 @@ const Product = ({history, match}) => {
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo} = userLogin
 
+    console.log(product)
+
     useEffect(() => {
         if(successProductReview){
             setRating(0)
@@ -140,7 +142,7 @@ const Product = ({history, match}) => {
                             <ListGroup variant='flush' className='price-product p-2'>
                                 {product.reviews.map((review) => (
                                     <ListGroup.Item key={review.id}>
-                                        <strong>{review.name}</strong>
+                                        <strong>{review.userEmail}</strong>
                                         <Assess value={review.rating}/>
                                         {review.createdAt.substring(0, 10)}
                                         <br></br>

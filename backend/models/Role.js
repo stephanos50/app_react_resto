@@ -14,7 +14,7 @@ Role.init(
             unique: true,
             allowNull:false,
             validate: {
-                is: /^[a-zA-Z]+$/i, 
+                is: /^[a-zA-Z ]+$/i, 
             },
           },
     },
@@ -23,4 +23,6 @@ Role.init(
         modelName: 'role',
     }
 );
+
+
 module.exports = Role;

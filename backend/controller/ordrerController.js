@@ -15,32 +15,15 @@ let numero = 0;
 // @route POST /api/orders
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
-    const { cartItems, shippingAddress, paymentMethode, user } = req.body
+    
+    const { cartItems,  user } = req.body
     
     if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
        
     } else {
-        let address = await Address.findOne({ where: { userEmail: user } })
-        if(address){
-            address.name = shippingAddress.name,
-            address.number = shippingAddress.number,
-            address.floor = shippingAddress.floor,
-            address.setDataValue('cityId',shippingAddress.city.id )
-            await address.save()
-        } else {
-            const details_address = {
-                name: shippingAddress.name,
-                number: shippingAddress.number,
-                floor: shippingAddress.floor,
-            }
-            address = await Address.create(details_address)
-            address.setDataValue('cityId',shippingAddress.city.id )
-            address.setDataValue('userEmail',user )
-            await address.save()
-        }
-
+        const address = await Address.findOne({ where: { userEmail: user } })
         const detailsOrder = {
             number: DateTime.now(),
             time: DateTime.now().toLocaleString(DateTime.DATE_HUGE),
@@ -48,7 +31,6 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
             total: 0,
         }
         const order = await Order.create(detailsOrder)
-        
         order.setDataValue('addressId', address.id);
         order.setDataValue('userEmail', user);
         await order.save()
@@ -85,8 +67,10 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
+    console.log('getOrderById')
+
     const order = await Order.findByPk(req.params.id, {
-        include: [User,{model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
+        include: [User,Payment, {model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
       
     })
     if(order){
@@ -102,7 +86,7 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 // @access Private/Admin
 exports.getOrders = asyncHandler(async (req, res) => {
     const orders = await Order.findAll({
-       include: User
+       include: [User, Payment]
     })
 
     if(orders){
@@ -117,8 +101,10 @@ exports.getOrders = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id/pay
 // @access Private
 exports.updateOrderToPaid = asyncHandler(async (req, res) => {
-    
-    const order = await Order.findByPk(req.params.id)
+   
+    const order = await Order.findByPk(req.params.id,{
+        include: [Payment]
+    })
     if(order) {
         order.isPaid = true,
         order.paidAt = DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-dd`)
@@ -135,6 +121,8 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
     }
 
     const payment =  await  Payment.create(payementDetal)
+    payment.setDataValue('orderId', order.id)
+    payment.setDataValue('paymentMethodeId', 1)
     await payment.save()
     res.json(order)
 })
@@ -144,10 +132,12 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
 // @access Private
 
 exports.getMyOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.findAll({
+    console.log('getMyOrders')
+    const orders = await Order.findOne({
         where: {
             addressId: req.user.id
-        }
+        },
+        include: [Payment],
     })
     res.json(orders)
 })

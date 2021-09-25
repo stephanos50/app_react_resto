@@ -131,15 +131,16 @@ exports.deleteProduct = asyncHandler(async function(req,res){
 // @access Private
 exports.createProductReviews = [ 
     
-    body('rating').notEmpty(),
-    body('comment').notEmpty(),
+    body('rating').not().notEmpty().matches(/[0-9]/),
+    body('comment').not().notEmpty().matches(/^[0-9a-zA-Z !?'éàéç ]/),
 
     asyncHandler( async function (req,res){
-        
+        console.log(req.body)
         const errors = validationResult(req);
+        console.log(errors)
         if (!errors.isEmpty()) {
             res.status(400)
-            throw new Error('Le champ doit être complété')
+            throw new Error('Le champ ne peut-être vide')
         }
        
         const {rating, comment} = req.body
@@ -176,15 +177,10 @@ exports.createProductReviews = [
             rewiew.setDataValue('productId', req.params.id)
             rewiew.setDataValue('userEmail', req.user.email)
             const createReviews = await rewiew.save()
-
-           
-           
-            
-            
             res.status(201).json(createReviews)
         } else  { 
             res.status(404)
-            throw new Error('Product already reviewed ')
+            throw new Error('Vous avez déja posté une annonce.')
            
         }
     })

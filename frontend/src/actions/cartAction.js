@@ -21,8 +21,8 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
         },
 
         })
-
         localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+
     
 }
 
@@ -36,16 +36,26 @@ export const removeFromCart = (id) =>  (dispatch, getState) => {
 }
 
 
-export const saveShippingAddress = (data) =>  (dispatch) => {
+export const saveShippingAddress = (data) =>  async (dispatch, getState) => {
     console.log(data)
     dispatch({
         type: CART_SAVE_SHIPPING_ADDRESS,
         payload: data
     })
-    
+    const {
+        userLogin: { userInfo },
+      } = getState()
+  
+      const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+    await axios.put(`/api/address/shipping`,data, config )
+
     localStorage.setItem('shippingAddress', JSON.stringify(data))
-    
-    
+   
 }
 
 export const savePaymentMethod = (payment) =>  (dispatch) => {

@@ -22,7 +22,7 @@ exports.authUser =
     
     asyncHandler(
     async (req, res) => {
-   
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         res.status(400)
@@ -32,7 +32,7 @@ exports.authUser =
     const { email, password } = req.body
     
     const user = await User.findByPk(email,{
-        include: [Role,Address,Order]
+        include: [Role,Order,{model:Address,include:{model:City}},]
     })
     
     if( user && await user.validPassword(password)){
@@ -45,6 +45,7 @@ exports.authUser =
             role: user.roles.map((role) => role.name),
             address: user.address,
             orders:user.orders,
+            city: user.city,
             token: token.generateToken(user._uuid),
         })
     } else {
@@ -58,8 +59,9 @@ exports.authUser =
 // @access Public
 exports.registerUser = [ 
     
-    body('first_name').not().isEmpty().trim(),
-    body('last_name').not().isEmpty().trim(),
+    
+    body('first_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/),
+    body('last_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/),
     body('email').isEmail(),
     body('password').isLength({ min: 8 }),
     
@@ -68,7 +70,7 @@ exports.registerUser = [
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(400)
-            throw new Error('Invlide input')
+            throw new Error('Vérifier votre nom, prénom et email')
         }
         const { first_name,last_name, email, password } = req.body
         const userExists = await User.findOne({
@@ -85,10 +87,21 @@ exports.registerUser = [
             first_name: first_name,
             last_name: last_name,
             passwordHash: await bcrypt.hash(password,saltRounds),
-        })
+        })  
         await user.save()
+       
+        const address = await Address.create({
+            name: 'rue, avenue, chaussée',
+            number: 0,
+            floor: 0,
+        }) 
+        address.setDataValue('cityId', 1)
+        address.setDataValue('userEmail', email)
+        await address.save()
         
-        
+        const city = await City.findOne({where: {
+            id: 1
+        }})
         if(user){
             res.status(201).json({
                 email: email,
@@ -96,6 +109,8 @@ exports.registerUser = [
                 first_name: first_name,
                 last_name:last_name,
                 isAdmin: user.isAdmin,
+                address: address,
+                city: city,
                 token: token.generateToken(user._uuid),
             })
             } else {

@@ -44,7 +44,7 @@ Product.init(
             }
         },
         rate: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.FLOAT,
             allowNull:false,
             defaultValue:0,
           

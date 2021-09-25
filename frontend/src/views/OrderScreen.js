@@ -21,7 +21,7 @@ const OrderScreen = ({match, history}) => {
 
     const orderDetails = useSelector((state) => state.orderDetails) 
     const { order, loading, error } = orderDetails
-
+    
     const orderPay = useSelector((state) => state.orderPay)
     const { loading: loadingPay, success: successPay } = orderPay
 
@@ -31,6 +31,9 @@ const OrderScreen = ({match, history}) => {
     const userLogin = useSelector((state) => state.userLogin) 
     const { userInfo } = userLogin
 
+    
+
+    console.log(order)
 
 
     useEffect(() => {
@@ -39,11 +42,10 @@ const OrderScreen = ({match, history}) => {
         }
        
         const addPayPalScript = async () => {
-            const currency = 'EUR'
             const { data: clientId } = await axios.get('/api/config/paypal')
             const script = document.createElement('script')
             script.type = 'text/javascript'
-            script.src = `https://www.paypal.com/sdk/js?currency=${currency}&client-id=${clientId}`
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
             script.async = true
             script.onload = () => {
               setSdkReady(true)
@@ -57,7 +59,7 @@ const OrderScreen = ({match, history}) => {
             dispatch(getOrderDetails(orderId))
             
             
-        } else if(!order.isPaid){
+        } else if(!order.payment){
             if(!window.paypal){
                 addPayPalScript()
             }else {
@@ -81,8 +83,8 @@ const OrderScreen = ({match, history}) => {
     return loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : <>
         <Row className='p-3'>
             <Col>
-                <h3> Numéro: {order.number}</h3>
-                <h3>Commande :  {order.createAt} heure: {order.time}</h3>
+                <h3> Numéro: {order.date_number}</h3>
+                <h3>Commande :  {order.date_createAt} heure: {order.date_time} </h3>
             </Col>
       
         </Row>
@@ -102,16 +104,17 @@ const OrderScreen = ({match, history}) => {
                                         - étage: {order.address.floor}
                                 </h6>
                                 <h6> <strong>Commune: </strong> {order.address.city.zip} - {order.address.city.name}</h6>
-                                {order.isDelivered ? <Message variant='success'> Delivered </Message> : <Message variant='danger'>Not Delivered </Message>}
                             </ListGroup>
                             <br></br>
                         </ListGroup.Item>
                         
-                        <ListGroup.Item>
-                            <h2>Payment Method</h2>
-                            <h6> <strong>Methode: </strong> {order.paymentMethod} </h6>
-                            {order.isPaid ? <Message variant='success'>Paid on </Message> : <Message variant='danger'>Not Paid</Message>}
-                        </ListGroup.Item>
+                        {order.payment != null && 
+                            <ListGroup.Item>
+                                <h2>Livraison</h2>
+                                {order.isDelivered ? <Message variant='success'> <h3>A été livrer</h3> </Message> : <Message variant='danger'><h3>N'est pas encore livrer</h3> </Message>}
+
+                            </ListGroup.Item>
+                        }
 
                         <ListGroup.Item>
                             <h2>Order Items</h2>
@@ -149,7 +152,7 @@ const OrderScreen = ({match, history}) => {
                                 </Row>
                             </ListGroup.Item>
                            
-                            {!order.isPaid && (
+                            { order.payment == null  && (
                                <PayPal 
                                     loadingPay={loadingPay}
                                     sdkReady={sdkReady}
@@ -161,7 +164,7 @@ const OrderScreen = ({match, history}) => {
 
                         {userInfo && 
                             userInfo.isAdmin && 
-                            order.isPaid && 
+                            order.payment && 
                             !order.isDelivered && (
                             <ListGroup.Item>
                             <Button  

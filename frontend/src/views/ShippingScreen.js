@@ -10,26 +10,33 @@ import {listCities } from '../actions/cityAction'
 
 const ShippingScreem = ({ history }) => {
 
+    const [validated, setValidated] = useState(false);
+
     const cart = useSelector((state) => state.cart)
     const cityList = useSelector(state => state.cityList)
     const userLogin = useSelector((state) => state.userLogin) 
     const { userInfo } = userLogin
     // eslint-disable-next-line
     const { cities} = cityList
-
-    const {shippingAddress} = cart
+  
+    const { shippingAddress} = cart
    
-    const [name, setAddress] = useState( userInfo.address.name )
-    const [number, setNumber] = useState(userInfo.address.number)
-    const [floor, setFloor] = useState(userInfo.address.floor)
-    const [city, setCity] = useState(userInfo.address.city)
-    
-
+    const [name, setAddress] = useState(shippingAddress.name )
+    const [number, setNumber] = useState(shippingAddress.number)
+    const [floor, setFloor] = useState(shippingAddress.floor)
+    const [city, setCity] = useState(shippingAddress.city)
+   
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (!userInfo) {
             history.push('/login')
+        } 
+        if(Object.values(shippingAddress).length === 0){
+                setAddress(userInfo.address.name )
+                setNumber(userInfo.address.number)
+                setFloor(userInfo.address.floor)
+                setCity(userInfo.address.city)
         }
         dispatch(listCities())
         setCity({
@@ -40,10 +47,25 @@ const ShippingScreem = ({ history }) => {
        
     }, [dispatch])
 
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+       
+        if (form.checkValidity() === false) {
+            
+          event.preventDefault();
+          event.stopPropagation();
+          setValidated(true);
+        } else {
+            sumbitHandler(event)
+        }
+       
+        
+      };
+
     const sumbitHandler = (e) => {
         e.preventDefault()
-        dispatch(saveShippingAddress({name, number, floor, city }))
-        history.push('/payment')
+        dispatch(saveShippingAddress({name, number, floor, city, email:userInfo.email }))
+        history.push('/placeorder')
     }
 
     const setCityName = (city) => {
@@ -59,40 +81,55 @@ const ShippingScreem = ({ history }) => {
     return <FormContainer>
         <CheckoutSteps step1 step2 />
            <h1>Shipping</h1>
-           <Form onSubmit={sumbitHandler}>
-               <Row>
-                   <Col md={12}>
-                        <Form.Group className="mb-3" controlId='name'>
-                            <Form.Label>Name</Form.Label>
+           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Row className="mb-3">
+                   
+                        <Form.Group as={Col} md="12" controlId='name'>
+                            <Form.Label>Adresse</Form.Label>
                             <Form.Control
                                 type='text'
-                                placeholder='Entrez votre adresse'
+                                placeholder='Adresse'
                                 value={name}
                                 required
-                                onChange={(e) => setAddress(e.target.value)}
-                            ></Form.Control>
+                                onChange={(e) =>  
+                                    {
+                                        if(e.target.value.match("^[a-zA-Z ]*$") != null){
+                                            setAddress(e.target.value)
+                                        }
+                                    }
+                                }
+                                   
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Champ vide 
+                            </Form.Control.Feedback>
                         </Form.Group>
-                    </Col>
                 </Row>
                 <Row>
-                    <Col md={4}>
-                        <Form.Group className="mb-3" controlId='number'>
+                   
+                        <Form.Group as={Col} md="4" controlId='number'>
                             <Form.Label>Numéro</Form.Label>
                             <Form.Control
-                                type='number'
-                                placeholder='Votre numéro'
+                                type='text'
                                 value={number}
                                 required
-                                onChange={(e) => setNumber(e.target.value)}
-                            ></Form.Control>
+                                onChange={ (e) => {
+                                        if(e.target.value >=0){
+                                            setNumber(e.target.value)
+                                        }
+                                    }
+                                }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                champ vide
+                            </Form.Control.Feedback>
                         </Form.Group>
-                    </Col>
-                    <Col md={4}>
-                        <Form.Group className="mb-3" controlId='floor'>
+                    
+                    
+                        <Form.Group as={Col} md="4" controlId='floor'>
                             <Form.Label>Etage</Form.Label>
                             <Form.Control
                                 type='text'
-                                placeholder='Votre étage'
                                 required
                                 value={floor}
                                 onChange= {
@@ -104,9 +141,12 @@ const ShippingScreem = ({ history }) => {
                                     }
                                        
                                 }
-                            ></Form.Control>
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                champ vide
+                            </Form.Control.Feedback>
                         </Form.Group>
-                    </Col>
+                   
                
                     <Col md={4}>
                         <Form.Group className="mb-3" controlId='city'> 

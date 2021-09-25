@@ -14,6 +14,7 @@ const allergenRoutes = require('./routes/allergenRoutes')
 const cityRoutes = require('./routes/cityRoutes')
 const uploadRoutes = require('./routes/uploadRoutes')
 const rolesRoutes = require('./routes/roleRoutes')
+const addressRoutes = require('./routes/addressRoutes')
 
 
 dotenv.config();
@@ -35,6 +36,7 @@ app.use('/api/allergens', allergenRoutes);
 app.use('/api/cities',cityRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/roles', rolesRoutes);
+app.use('/api/address', addressRoutes),
 
 
 app.get('/api/config/paypal', (req, res) =>

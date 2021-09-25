@@ -17,6 +17,7 @@ const SearchOrder = (props) => {
     const updateQuery = (query) => {
         setQuery(query.trim())
     }
+    console.log(orders)
    
     return (
       <>
@@ -47,12 +48,12 @@ const SearchOrder = (props) => {
             <tbody>
               {showingContacts.map((order) => (
                <tr key={order.id}>
-                 <td>{order.number}</td>
+                 <td>{order.date_number}</td>
                  <td>{order.user.first_name}</td>
-                 <td>{order.createAt}</td>
+                 <td>{order.date_createAt}</td>
                  <td>{order.total} €</td>
                  <td>
-                  {order.isPaid ? (
+                  {order.payment  ? (
                     <i className='fas fa-check' style={{ color: 'green' }}></i>
                     ) : (
                     <i className='fas fa-times' style={{ color: 'red' }}></i>

@@ -22,25 +22,22 @@ User.init(
             allowNull: false,
         },
         _uuid: { 
+            allowNull: false,
             type: UUID , 
             isUUID: 4
         },
         first_name: { 
             type: DataTypes.STRING, 
             allowNull: false,
-            validate: {
-               is: /^[a-zA-Zéèà' ]+$/i, 
-            },
+           
         },
         last_name: { 
             type: DataTypes.STRING, 
             allowNull: false,
-            validate: {
-                is: /^[a-zA-Zéèà' ]+$/i, 
-            },
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
             require: true,
             defaultValue: false
         },

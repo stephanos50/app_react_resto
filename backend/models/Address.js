@@ -15,9 +15,6 @@ Address.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                is: /^[a-zA-Zéèà' ]+$/i, 
-            },
         },
         number: {
             type: DataTypes.INTEGER,

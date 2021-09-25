@@ -55,10 +55,11 @@ const CartScreem = ({match, location, history}) => {
                                 <Col md={3}  className='mt-4'>
                                     <Link to={`/products/${item.id}`}>
                                         <h6>{item.name}</h6>
-                                </Link>
+                                    </Link>
+                                    
                                 </Col>
-                                <Col md={2} className='mt-4'> <h6>{item.price} €</h6></Col>
-                                <Col md={2} className='mt-3'>
+                                <Col sm={2} className='mt-4'> <h6>{item.price} €</h6></Col>
+                                <Col sm={2} className='mt-3'>
                                     <Form.Control 
                                         as='select' 
                                         value={item.qty} 
@@ -72,7 +73,7 @@ const CartScreem = ({match, location, history}) => {
                                        }
                                     </Form.Control>
                                 </Col>
-                                <Col md={2} className='mt-3'>
+                                <Col sm={2} className='mt-3'>
                                     <Button type='button' variant='delete' onClick={() =>removeFromCartHandler(item.id)} >
                                         <li className='fas fa-trash'></li>
                                     </Button>

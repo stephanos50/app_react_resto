@@ -4,7 +4,6 @@ import { useDispatch, useSelector} from 'react-redux'
 import { createAllergen} from '../actions/allergenActions'
 import { Form, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-import Message from '../composants/Message'
 
 const AllergenCreateScreen = ({history}) => {
     const [allergen, setAllergen] = useState('')

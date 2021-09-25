@@ -9,10 +9,7 @@ class PaymentMethod extends Model{
 }
 
 PaymentMethod.init({
-    number:{
-        type: DataTypes.STRING,
-        allowNull:false
-    },
+  
     name:{
         type: DataTypes.STRING,
         allowNull:false,

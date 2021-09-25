@@ -64,8 +64,18 @@ const LoginScreem = ({location, history}) => {
                             type="email"
                             placeholder='Entrez votre email' 
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            
+                            onChange={(e) =>  
+                                {
+                                    if(e.target.value.match("^[a-zA-Z@.]*$") != null){
+                                        setEmail(e.target.value)
+                                    }
+                                }
+                            }
                         />
+                        <Form.Control.Feedback type="invalid">
+                            Données incorrectes
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='validationPassword'>
@@ -77,6 +87,9 @@ const LoginScreem = ({location, history}) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></Form.Control>
+                        <Form.Control.Feedback type="invalid">
+                                Champ obligatoire 
+                        </Form.Control.Feedback>
                     </Form.Group>
                     <Button type='submit' variant='primary'>Valider</Button>
                 </Form>

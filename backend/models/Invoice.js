@@ -3,32 +3,33 @@ const sequelize = require("./sequelize");
 const Payment = require('./Payment')
 
 
-class ProofPayment extends Model {
+class Invoice extends Model {
     get url() {
         return  `/proofpayment/${this.id}`;
     }
 }
 
-ProofPayment.init ({
+Invoice.init ({
     number: {
-        type:DataTypes.INTEGER,
+        type:DataTypes.DATE,
         allowNull:false
     },
    
     name: {
         type:DataTypes.STRING,
+        allowNull:false
     },
     
    },
    {
     sequelize,
-    modelName:'proof_payment'
+    modelName:'invoice'
     },
 )
 
-Payment.hasOne(ProofPayment)
-ProofPayment.belongsTo(Payment)
+Payment.hasOne(Invoice)
+Invoice.belongsTo(Payment)
 
 
 
-module.exports  = ProofPayment
+module.exports  = Invoice

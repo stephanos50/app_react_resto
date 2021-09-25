@@ -29,13 +29,20 @@ const HomeScreem = () => {
 
     return (
         <>
-            <Nav as="ul">
+            {loadingCategories ? (
+                <Loader />
+            ) : errorCategories ? (
+                <Message variant='danger'>{errorCategories}</Message>
+            ) : (
+                <Nav as="ul">
                 {categories.map((category) => 
                     <Nav.Item as="li" key={category.id}>
                         <Nav.Link onClick={()=> setValue(category.id)} ><h5 className="p-2">{category.name}</h5></Nav.Link>
                     </Nav.Item>
                 )}
             </Nav>
+            )}
+          
           
            
             {loading ? (

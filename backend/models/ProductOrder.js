@@ -20,13 +20,16 @@ ProductOrder.init(
     {
         quantity: {
             type: DataTypes.INTEGER,
-            defaultValue: 0,
+            allowNull: false,
+            defaultValue: 1,
             validate: {
                 isDecimal: true,
             }
         },
         price: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.FLOAT,
+            allowNull: false,
+            defaultValue: 1,
             validate: {
                 isDecimal: true,
             }

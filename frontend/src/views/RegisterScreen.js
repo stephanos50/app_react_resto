@@ -70,9 +70,15 @@ const RegisterScreem = ({location, history}) => {
                             type='first_name'
                             placeholder='Insérer votre prénom' 
                             value={first_name}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            onChange={(e) =>  
+                                {
+                                    if(e.target.value.match("^[a-zA-Z éè'ç]*$") != null){
+                                        setFirstName(e.target.value)
+                                    }
+                                }
+                            }
                         />
-                         <Form.Control.Feedback type='invalid' >Veuillez insérer votre prénom</Form.Control.Feedback>
+                         <Form.Control.Feedback type='invalid'>Données incorrectes</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='last_name'>
@@ -81,9 +87,16 @@ const RegisterScreem = ({location, history}) => {
                             type='last_name'
                             placeholder='Insérer votre nom' 
                             value={last_name}
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={(e) =>  
+                                {
+                                    if(e.target.value.match("^[a-zA-Z éè'ç]*$") != null){
+                                        setLastName(e.target.value)
+                                    }
+                                }
+                            }
+                           
                         />
-                         <Form.Control.Feedback type='invalid' >Veuillez insérer votre nom</Form.Control.Feedback>
+                         <Form.Control.Feedback type='invalid'>Données incorrectes</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId='email'>
@@ -92,19 +105,26 @@ const RegisterScreem = ({location, history}) => {
                             type='email'
                             placeholder='Insérer votre email' 
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) =>  
+                                {
+                                    if(e.target.value.match("^[a-zA-Z@.]*$") != null){
+                                        setEmail(e.target.value)
+                                    }
+                                }
+                            }
+                           
                         />
-                        <Form.Control.Feedback type='invalid' >Veuillez insérer votre email</Form.Control.Feedback>
+                        <Form.Control.Feedback type='invalid'>Données incorrectes</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId='password'>
                         <Form.Control 
                             required
                             type='password'
-                            placeholder='Insérer votre mot de passe ' 
+                            placeholder='Mot de passe supérieur à 8 ' 
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <Form.Control.Feedback type='invalid' >Veuillez insérer votre mot de passe</Form.Control.Feedback>
+                        <Form.Control.Feedback type='invalid' >Longeur > 8</Form.Control.Feedback>
                         <Form.Control.Feedback >{message && <Message variant="danger">{message}</Message>}</Form.Control.Feedback>
 
                     </Form.Group>
@@ -117,7 +137,7 @@ const RegisterScreem = ({location, history}) => {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                        <Form.Control.Feedback type='invalid' >Veuillez insérer votre mot de passe </Form.Control.Feedback>
+                        <Form.Control.Feedback type='invalid' >Longeur > 8 </Form.Control.Feedback>
                     </Form.Group>
 
 

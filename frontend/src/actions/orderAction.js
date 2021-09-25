@@ -24,7 +24,7 @@ import axios from 'axios'
 
 
 export const createOrder = (order) =>  async (dispatch, getSate) => {
-    
+    console.log('createOrder')
    try {
         dispatch({ type:ORDER_CREATE_REQUEST })
 
@@ -46,7 +46,7 @@ export const createOrder = (order) =>  async (dispatch, getSate) => {
             payload: data,
         })
 
-        localStorage.removeItem('cartItems') 
+        // localStorage.removeItem('cartItems') 
 
 
     } catch (error) {
@@ -92,6 +92,7 @@ export const getOrderDetails = (id) =>  async (dispatch, getSate) => {
 
 
  export const payOrder = (orderId, paymentResult) => async(dispatch, getSate) => {
+     console.log('payOrder')
     try {
         dispatch({
             type: ORDER_PAY_REQUEST

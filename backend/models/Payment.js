@@ -14,8 +14,8 @@ Payment.init(
        status: { 
             type: DataTypes.STRING 
         },
-        Date: { 
-            type: DataTypes.DATEONLY 
+        date: { 
+            type: DataTypes.DATE 
         },
       
     },

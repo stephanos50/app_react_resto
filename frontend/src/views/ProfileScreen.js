@@ -149,7 +149,7 @@ const ProfileScreem = ({ location, history}) => {
                                 <tr key={order.id}>
                                     <td>{order.date_number}</td>
                                     <td>{order.date_time}</td>
-                                    <td>{order.date_deliveredAt}</td>
+                                    <td>{order.date_createAt}</td>
                                     <td>{order.total} €</td>
                                     <td>{order.isDelivered ? order.isDeliveredAt : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>)}</td>
                                     <td>

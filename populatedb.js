@@ -1,4 +1,7 @@
 const sequelize = require('./backend/models/sequelize');
+//const sequelize = require('./backend/models/sequelize_local');
+//const sequelize = require('./backend/models/sequelize_mysql');
+
 const { v4: uuidv4 } = require('uuid');
 const Address = require('./backend/models/Address');
 const City = require('./backend/models/City');
@@ -12,7 +15,7 @@ const ProductOrder = require('./backend/models/ProductOrder');
 const Allergen = require('./backend/models/Allergen');
 const Picture = require('./backend/models/Picture');
 const Payment = require('./backend/models/Payment')
-const ProofPayment = require('./backend/models/ProofPayment')
+const Invoice = require('./backend/models/Invoice')
 const PaymentMethod = require('./backend/models/PaymentMethode')
 const bcrypt = require("bcrypt");
 
@@ -88,7 +91,7 @@ async function createProductOrder01(){
   const date = new Date()
   const datailsOrder = {
     number:  DateTime.now(),
-    time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
+    time:DateTime.now(),
     createAt: DateTime.now(),
   }
   const order = await Order.create(datailsOrder);
@@ -105,7 +108,7 @@ async function createProductOrder01(){
 async function createProductOrder02(){
   const datailsOrder = {
     number: DateTime.now(),
-    time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
+    time:DateTime.now(),
     createAt:DateTime.now(),
   }
   const order = await Order.create(datailsOrder);
@@ -122,10 +125,16 @@ async function createProductOrder02(){
 
 async function createProductOrder03(){
   
+  // const datailsOrder = {
+  //   number:DateTime.now(),
+  //   time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
+  //   createAt:DateTime.now()
+  // }
+
   const datailsOrder = {
     number:DateTime.now(),
-    time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
-    createAt:DateTime.now()
+    time:DateTime.now(),
+    createAt:DateTime.now(),
   }
   const order = await Order.create(datailsOrder);
   await order.save();
@@ -193,6 +202,7 @@ async function cityCreate(nom, codepostal){
     zip: codepostal
   }
   const city = await City.create(villeDetail);
+  await city.save()
   console.log('Nouvelle ville ' + city.name);
   cities.push(city);
   return city;
@@ -205,6 +215,7 @@ async function categoryCreate(name){
     name : name
   }  
   const category = await Category.create(categorieDetail);
+  await category.save()
   console.log("Nouvelle categorie " + category.name);
   categories.push(category);
   return category;
@@ -505,7 +516,7 @@ async function createReviewsOther(){
     await sequelize.sync({ force: true });
     await createUsers();
     const cities = await createCities();    
-    await createAddresses();
+    const address = await createAddresses();
     const categories = await createCategories();
     const products = await createProducts();
     const product_category = await addCategories();

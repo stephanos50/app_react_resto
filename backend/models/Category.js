@@ -11,6 +11,7 @@ class Category extends Model {
 
 Category.init(
     {
+       
         name: { 
             type: DataTypes.STRING,
             allowNull:false,
