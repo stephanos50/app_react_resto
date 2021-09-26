@@ -15,14 +15,12 @@ exports.getCategories =  asyncHandler(async (req,res) => {
         res.status(401)
         throw new Error('Nothing found')
     }
-    
 });
 
 // @desc Delete a caterogy 
 // @route DELETE /api/categories/:id
 // @access Private/Admin
 exports.deleteCategory = asyncHandler(async (req,res) =>{
-   
     const category = await Category.findByPk(req.params.id, {include: Product})
     const deleteCategory = await category.destroy()
     if(deleteCategory){
@@ -37,43 +35,38 @@ exports.deleteCategory = asyncHandler(async (req,res) =>{
 // @desc create a caterogy 
 // @route CREATE /api/categories/:name
 // @access Private/Admin
-exports.createCategory = [
+exports.createCategory = [ 
+    body('name').notEmpty(),
+
     asyncHandler(async (req,res) => {
        
-        const category = await Category.findOne({
-            where: {
-                name:req.params.name
-            }
-        })
-
-        if(!category){
-            
-            const category = await Category.create({name:req.params.name})
-            await category.save()
-            res.json({message: 'Categogy created'})
-        } else {
-            res.status(404)
-            throw new Error('Category exist ')
+        const errors = validationResult(req);
+        console.log(errors)
+        if (!errors.isEmpty()) {
+            res.status(400)
+            throw new Error('Le champs est vide')
         }
-        
-    })
-] 
+         const category = await Category.findOne({
+             where: {
+                 name:req.body.name
+             }
+         })
+        if(!category){
+            const category = await Category.create({name:req.body.name})
+             await category.save()
+             res.status(202)
+             throw new Error('La categorie a été ajouté')
+           
+         } else {
+             res.status(404)
+             throw new Error('La categorie existe')
+         }
+         
+     })
 
-// @desc Update a category
-// @route PUT /api/category/:id
-// @access Private/Admin
-exports.updateCategory = asyncHandler( async function (req,res){
-    consoel.log("createCategory")
-    const {name} = req.body
-    const category = await  Category.findByPk(req.body.id)
+];
    
-    if (category) {
-        category.name = name,
-        await category.save()
-        res.status(201).json(category)
-    } else {
-        res.status(404)
-        throw new Error('Category not found ')
-    }
-})
+
+
+
 

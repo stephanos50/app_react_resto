@@ -22,11 +22,11 @@ const roles = await Role.findAll()
 // @route  CREATE /api/roles/:id
 // @access Private/Admin
 exports.createRole = [
-    body('name').not().isEmpty().trim(),
+    body('name').not().isEmpty(),
     
     asyncHandler( async(req,res) => {
-
         const errors = validationResult(req);
+       
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Invlide input')
@@ -34,17 +34,18 @@ exports.createRole = [
         
         const role = await Role.findOne({
             where: {
-                name:req.params.name
+                name:req.body.name
             }
         })
         
         if(!role){
-            const role = await  Role.create({name:req.params.name})
+            const role = await  Role.create({name:req.body.name})
             await role.save()
-            res.status(201).json({message: 'Role create'})
+            res.status(201).json({ message: 'Le rôle à été supprimé' })
+
         }
         if(role) {
-            res.status(404)
+            res.status(401)
             throw new Error('Role already exist')
         }
         
@@ -56,9 +57,15 @@ exports.createRole = [
 // @route  DELETE /api/roles/:name
 // @access Private/Admin
 exports.deleteRole = asyncHandler(async (req,res) => {
-   
     const role = await Role.findByPk(req.params.id)
-    await role.destroy()
-    res.status(201).json('Role remove')
+    if (role) {
+        await role.destroy()
+        res.status(201).json({ message: 'Le rôle à été supprimé' })
+        
+    } else {
+        res.status(401) 
+        throw new Error("Role don't exist")
+    }
+   
    
 })

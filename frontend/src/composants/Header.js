@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown,Row, Col } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector} from 'react-redux'
 import { logout } from '../actions/userActions'
@@ -15,12 +15,17 @@ const Header = () => {
       dispatch(logout())
     }
     return (
+      
         <header>
-          <Navbar bg="transparent" variant="light" expand="lg" collapseOnSelect>
+         <Navbar bg="transparent" variant="light" expand="lg" collapseOnSelect>
             <Container> 
-              <LinkContainer to="/"> 
+            <LinkContainer to="/"> 
                 <Navbar.Brand>
-                <img src="/images/logo/logo.jpg" className="d-inline-block align-top" alt="Coeur Bleu Logo" /> 
+                {/* <img src="/images/logo/logo.jpg" className="d-inline-block align-top" alt="Coeur Bleu Logo" />  */}
+                <h6> <strong>PayPal :</strong> sb-wxpdt7212645@personal.example.com</h6>
+              <h6><strong>Password :</strong> JwX6#rYs </h6>
+              <h6> <strong>Admin :</strong> root@exemple.be</h6>
+              <h6> <strong>Password :</strong> password </h6>
                 </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" className="toggle" />

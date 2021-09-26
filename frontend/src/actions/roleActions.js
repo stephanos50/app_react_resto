@@ -40,7 +40,7 @@ export const listRoles = () => async(dispatch, getState) => {
     }
 }
 
-export const createRole = (role) => async (dispatch, getState) => {
+export const createRole = (name) => async (dispatch, getState) => {
    try {    
     dispatch({ type:ROLE_CREATE_REQUEST})
 
@@ -55,11 +55,11 @@ export const createRole = (role) => async (dispatch, getState) => {
         },
     }
 
-    await axios.post(`/api/roles/${role}`,{}, config)
-    
+    const {data} = await axios.post(`/api/roles`,{name}, config)
+    console.log(data)
     dispatch({ 
         type: ROLE_CREATE_SUCCESS,
-        
+        payload: data,
     })
     
    } catch (error) {

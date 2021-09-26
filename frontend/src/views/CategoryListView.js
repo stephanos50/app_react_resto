@@ -1,18 +1,17 @@
 
-import React, {useEffect, useState}from 'react'
+import React, {useEffect}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row,Button,Col,Table,Form, FloatingLabel } from 'react-bootstrap'
-import {createCategory, deleteCategory, listCategory} from '../actions/categoryAction'
+import { Row,Button,Col,Table } from 'react-bootstrap'
+import { deleteCategory, listCategory} from '../actions/categoryAction'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import { CATEGORY_CREATE_RESET } from '../constants/categoryConstants'
+import { LinkContainer } from 'react-router-bootstrap'
+
 
 
 const CategoryListScreem = ({history}) => {
     const dispatch = useDispatch()
-
-    const [validated, setValidated] = useState(false)
-    const [category, setCategory] = useState('')
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -20,11 +19,11 @@ const CategoryListScreem = ({history}) => {
     const categoryList = useSelector((state) => state.categoryList)
     const { loading, error, categories } = categoryList
 
-    const categoryDelete = useSelector((state) => state.categoryDelete)
-    const {loading: loadingDelete, error: errorDelete, success: successDelete } = categoryDelete
-
     const categoryCreate = useSelector((state) => state.categoryCreate)
-    const { error:errorCreate, success:successCreate } = categoryCreate
+    const { loading: loadingCreate, error:errorCreate, success:successCreate} = categoryCreate
+
+   const categoryDelete = useSelector((state) => state.categoryDelete)
+    const {loading: loadingDelete, error: errorDelete, success: successDelete } = categoryDelete
 
     useEffect(() => {
         dispatch({type: CATEGORY_CREATE_RESET})
@@ -32,7 +31,7 @@ const CategoryListScreem = ({history}) => {
             history.push('/login')
         }
         dispatch(listCategory())
-    }, [dispatch,history,userInfo,successDelete])
+    }, [dispatch,history,userInfo,successDelete,successCreate])
 
     const deleteCategoryHandler = (id) => {
         if (window.confirm('Are you sure')) {
@@ -40,50 +39,32 @@ const CategoryListScreem = ({history}) => {
         }
     };
    
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        setValidated(true);
-        dispatch(createCategory(category))       
-      };
-    
-      return (
+    return (
         <>
         <Row>
-            {successDelete && <p className="danger"> Deleted </p>}
-            {successCreate && <p className="primary"> Created </p>}
-            {errorCreate && <p className="danger"> Error </p>}
+            {loadingCreate ? (
+                <Loader />
+            ) : errorCreate ? (
+                <Message>{errorCreate}</Message>
+            ) :( 
+                <Message>{successCreate}</Message>
+            ) 
+        }
+        </Row>
+        <Row>
+            
         </Row>
         <Row className='align-items-center'>
             <Col>
                 <h1>Categories</h1>
             </Col>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                    <Form.Group as={Col} md="4" controlId="validationCustom01">
-                        <FloatingLabel
-                            controlId="floatingInput"
-                            label="Create new category"
-                            className="mb-3"
-                            value={category}
-                        >
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder="Create new category"
-                            value={category}
-                            onChange={(event) => setCategory(event.target.value)}
-                        />
-                        </FloatingLabel>
-                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                    </Row>
-             </Form>
-            
-                    
+            <Col className='text-right'>
+                <LinkContainer to={`/admin/categorycreate`}>
+                    <Button className='my-3'>
+                        <i className='fas fa-plus'></i> Ajouter une categorie
+                    </Button>
+                </LinkContainer>
+            </Col>
         </Row>
         {loadingDelete && <Loader />}
         {errorDelete && <Message variant='dander'>{errorDelete}</Message>}

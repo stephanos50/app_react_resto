@@ -21,10 +21,10 @@ const ShippingScreem = ({ history }) => {
   
     const { shippingAddress} = cart
    
-    const [name, setAddress] = useState(shippingAddress.name )
-    const [number, setNumber] = useState(shippingAddress.number)
-    const [floor, setFloor] = useState(shippingAddress.floor)
-    const [city, setCity] = useState(shippingAddress.city)
+    const [name, setAddress] = useState(shippingAddress.name || '')
+    const [number, setNumber] = useState(shippingAddress.number || '')
+    const [floor, setFloor] = useState(shippingAddress.floor || '')
+    const [city, setCity] = useState(shippingAddress.city || '')
    
     const dispatch = useDispatch()
 
@@ -45,7 +45,7 @@ const ShippingScreem = ({ history }) => {
             zip:'1160',
         })
        
-    }, [dispatch])
+    }, [dispatch, history, shippingAddress, userInfo])
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;

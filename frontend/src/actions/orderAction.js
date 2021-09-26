@@ -185,7 +185,6 @@ export const getOrderDetails = (id) =>  async (dispatch, getSate) => {
            payload: data,
        })
 
-
     } catch (error) {
        dispatch({
            type: ORDER_LIST_FAIL,

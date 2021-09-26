@@ -7,10 +7,14 @@ import Loader from '../composants/Loader'
 import { LinkContainer } from 'react-router-bootstrap'
 
 const AllergenListScreen =({history}) => {
+
     const dispatch = useDispatch()
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
+
+    const allergenCreate = useSelector((state) => state.allergenCreate)
+    const { loading:loadingCreate,error:errorCreate,success: successCreate } = allergenCreate
 
     const allergenList = useSelector((state) => state.allergenList)
     const { loading, error, allergens } = allergenList
@@ -24,7 +28,7 @@ const AllergenListScreen =({history}) => {
             history.push('/login')
         }
         dispatch(listAllergen())
-    }, [dispatch, history, userInfo, successDelete ])
+    }, [dispatch, history, userInfo, successDelete,successCreate ])
 
     const deleteAllergenHandler = (id) => {
         if (window.confirm('Are you sure')) {
@@ -36,6 +40,16 @@ const AllergenListScreen =({history}) => {
     
     return (
         <>
+         <Row>
+            {loadingCreate ? (
+                <Loader />
+            ) : errorCreate ? (
+                <Message>{errorCreate}</Message>
+            ) :( 
+                <Message>{successCreate}</Message>
+            ) 
+        }
+        </Row>
         <Row className='align-items-center'>
             <Col>
                 <h1>Allergen</h1>

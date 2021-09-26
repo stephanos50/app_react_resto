@@ -82,12 +82,14 @@ exports.updateProduct =  [
     asyncHandler( async function (req,res){
 
         const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Invalid input')
         }
     
         const {name,description,price,category,allergen} = req.body
+
         const product = await  Product.findByPk(req.body.id,{
           include: [Category, Allergen]
         })
@@ -96,7 +98,7 @@ exports.updateProduct =  [
             product.name = name,
             product.description = description,
             product.price = price,
-           product.categoryId = category,
+            product.categoryId = category,
             await product.save()
             const allergie = allergen.map((item) =>  (item.id))
             await product.setAllergens(allergie)

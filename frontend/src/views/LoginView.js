@@ -11,7 +11,6 @@ const LoginScreem = ({location, history}) => {
 
     const [validated, setValidated] = useState(false);
 
-    
     const [email, setEmail] = useState('')
 
     const [password, setPassword] = useState('')
@@ -26,16 +25,15 @@ const LoginScreem = ({location, history}) => {
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
     useEffect(()=> {
-        
         if(userInfo){
             history.push(redirect)
-           
         }
     }, [history, userInfo, redirect])
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
+            console.log('error')
             event.preventDefault();
             event.stopPropagation();
             setValidated(true);

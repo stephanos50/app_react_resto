@@ -1,17 +1,18 @@
-import React, {useEffect, useState}from 'react'
+import React, {useEffect, useState }from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row,Button,Col,Table, Form } from 'react-bootstrap'
-import { deleteRole, listRoles, createRole} from '../actions/roleActions'
+import { Row,Button,Col,Table } from 'react-bootstrap'
+import { deleteRole, listRoles} from '../actions/roleActions'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 
 import { LinkContainer } from 'react-router-bootstrap'
 
 const RoleListScreen =({history}) => {
+
     const dispatch = useDispatch()
 
-    const [role, setRole] = useState('')
-
+    const [messageSuccess, setMessageSuccess] = useState('')
+    
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
 
@@ -19,32 +20,53 @@ const RoleListScreen =({history}) => {
     const { loading, error, roles } = rolesList
 
     const roleCreate = useSelector((state) => state.roleCreate)
-    const { loading: loadingRole, esuccess: successRole, error: errorRole} = roleCreate
+    const {loading:loadingCreate, error:errorCreate, success:successCreate} = roleCreate;
 
     const roleDelete = useSelector((state) => state.roleDelete)
     const {loading: loadingDelete, error: errorDelete, success: successDelete } = roleDelete
     
 
     useEffect(() => {
+        console.log('useEffect')
         if(!userInfo && !userInfo.isAdmin){
             history.push('/login')
         }
-        dispatch(listRoles())
+       dispatch(listRoles())
+       if (successCreate) {
+            setMessageSuccess('Review submitted successfully')
+       } 
+      
        
-    }, [dispatch,history,userInfo,successDelete, successRole ])
+       
+    }, [dispatch,history,userInfo,successDelete,successCreate ])
 
     const deleteRoleHandler = (id) => {
         if (window.confirm('Are you sure')) {
-          dispatch(deleteRole(id))
+            dispatch(deleteRole(id))
+            
         }
       }
 
-    const handleSubmit = () => {
-        dispatch(createRole(role))
-        history.push('/admin/rolelist')
-    };
     return (
         <>
+        <Row>
+            {loadingCreate ? (
+                <Loader />
+            ) : errorCreate ? (
+                <Message>{errorCreate}</Message>
+            ) :( 
+                
+                <Message variant='success'>
+                    {messageSuccess}
+              </Message>
+            ) 
+        }
+        </Row>
+        <Row>
+            {loadingDelete && <Loader />}
+            { errorDelete &&  <Message>{errorDelete}</Message>}
+          
+        </Row>
         <Row className='align-items-center'>
             <Col>
                 <h1>Roles</h1>
@@ -52,21 +74,14 @@ const RoleListScreen =({history}) => {
             <Col className='text-right'>
                 <LinkContainer to={`/admin/rolecreate`}>
                     <Button className='my-3'>
-                        <i className='fas fa-plus'></i> Create Role
+                        <i className='fas fa-plus'></i> Ajouté un rôle
                     </Button>
                 </LinkContainer>
             </Col>
             
                     
         </Row>
-        {loadingDelete && <Loader />}
-        {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-        {loadingRole && <Loader />}
-        {errorRole && <Message variant='danger'>{errorRole}</Message>}
-
-
-       
-
+      
         {loading ? (
         <Loader />
         ) : error ? (
@@ -102,23 +117,11 @@ const RoleListScreen =({history}) => {
             </Table>
         )}
       
-        <Form onSubmit={handleSubmit}>
-               <Form.Label>Create New Allergen</Form.Label>
-               <Form.Control 
-                    type="text"
-                    placeholder="create new category"
-                    value={role}
-                    onChange={(event) => setRole(event.target.value)}
-               ></Form.Control>
-               <br></br>
-                <Button type='submit' variant='primary'>Create</Button>
-           </Form>
+       
     
-    </>)
+   </> )
   
 }
-
-
 
 export default RoleListScreen
 

@@ -82,11 +82,12 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 })
 
 // @desc  Get all orders
-// @route Get /api/orders/:id
+// @route Get /api/orders/
 // @access Private/Admin
 exports.getOrders = asyncHandler(async (req, res) => {
     const orders = await Order.findAll({
-       include: [User, Payment]
+       include: [User, {model:Payment, where:{status:'COMPLETED'}}],
+    
     })
 
     if(orders){

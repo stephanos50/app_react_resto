@@ -215,7 +215,7 @@ async function categoryCreate(name){
     name : name
   }  
   const category = await Category.create(categorieDetail);
-  await category.save()
+  await category.save();
   console.log("Nouvelle categorie " + category.name);
   categories.push(category);
   return category;
