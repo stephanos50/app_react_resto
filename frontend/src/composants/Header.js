@@ -25,7 +25,8 @@ const Header = () => {
                 <h6> <strong>PayPal :</strong> sb-wxpdt7212645@personal.example.com</h6>
               <h6><strong>Password :</strong> JwX6#rYs </h6>
               <h6> <strong>Admin :</strong> root@exemple.be</h6>
-              <h6> <strong>Password :</strong> password </h6>
+              <h6> <strong>Client :</strong> stefan@exemple.be, alpha@exemple.be</h6>
+              <h6> <strong>Password identique:</strong> password </h6>
                 </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" className="toggle" />
