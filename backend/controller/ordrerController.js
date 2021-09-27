@@ -7,7 +7,7 @@ const City =require('../models/City')
 const User = require('../models/User')
 const Payment = require('../models/Payment')
 const {DateTime} = require("luxon");
-let numero = 0;
+let id = "000";
 
 
 
@@ -25,15 +25,18 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
     } else {
         const address = await Address.findOne({ where: { userEmail: user } })
         const detailsOrder = {
-            number: DateTime.now(),
-            time: DateTime.now().toLocaleString(DateTime.DATE_HUGE),
+            number: 'number',
+            time: 'time',
             createAt: DateTime.now(),
             total: 0,
         }
         const order = await Order.create(detailsOrder)
+        order.setDataValue('number', order.date_number)
+        order.setDataValue('time', order.date_time)
         order.setDataValue('addressId', address.id);
         order.setDataValue('userEmail', user);
         await order.save()
+        
         
         cartItems.map( async (element) => {
             const product =  await Product.findByPk(element.id)

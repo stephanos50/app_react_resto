@@ -23,11 +23,11 @@ class Order extends Model{
 Order.init(
     {
         number: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull:false,
         },
         time: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull:false,
            
         },
@@ -67,14 +67,14 @@ Order.init(
                         break;
                 }
                 
-                return DateTime.fromObject(this.time).toFormat(`yyyy-MM-${i}${this.id}`)
+                return DateTime.fromObject(this.createAt).toFormat(`yyyy-MM-${i}${this.id}`)
             },
         },
 
         date_time: {
             type: DataTypes.VIRTUAL,
             get() {
-                return DateTime.fromObject(this.time).toLocaleString(DateTime.TIME_24_SIMPLE)
+                return DateTime.fromObject(this.createAt).toLocaleString(DateTime.TIME_24_SIMPLE)
             },
         },
         
@@ -82,7 +82,7 @@ Order.init(
         date_createAt: {
             type: DataTypes.VIRTUAL,
               get() {
-                return DateTime.fromObject(this.time).toFormat('dd-MM-yyyy')
+                return DateTime.fromObject(this.createAt).toFormat('dd-MM-yyyy')
                 
               },
         },

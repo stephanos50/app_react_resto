@@ -88,15 +88,16 @@ async function productOrderCreate(qty, price, orderId,productId){
 
 async function createProductOrder01(){
   
-  const date = new Date()
   const datailsOrder = {
-    number:  DateTime.now(),
-    time:DateTime.now(),
+    number: 'number',
+    time: 'time',
     createAt: DateTime.now(),
   }
   const order = await Order.create(datailsOrder);
+  order.setDataValue('number', order.date_number);
+  order.setDataValue('time', order.date_time);
   await order.save();
-  
+ 
   return Promise.all([
     productOrderCreate( 2, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
@@ -107,11 +108,13 @@ async function createProductOrder01(){
 
 async function createProductOrder02(){
   const datailsOrder = {
-    number: DateTime.now(),
-    time:DateTime.now(),
-    createAt:DateTime.now(),
+    number: 'number',
+    time: 'time',
+    createAt: DateTime.now(),
   }
   const order = await Order.create(datailsOrder);
+  order.setDataValue('number', order.date_number);
+  order.setDataValue('time', order.date_time);
   await order.save();
 
  
@@ -124,19 +127,15 @@ async function createProductOrder02(){
 };
 
 async function createProductOrder03(){
-  
-  // const datailsOrder = {
-  //   number:DateTime.now(),
-  //   time:DateTime.now().toLocaleString(DateTime.TIME_24_SIMPLE),
-  //   createAt:DateTime.now()
-  // }
 
   const datailsOrder = {
-    number:DateTime.now(),
-    time:DateTime.now(),
-    createAt:DateTime.now(),
+    number: 'number',
+    time: 'time',
+    createAt: DateTime.now(),
   }
   const order = await Order.create(datailsOrder);
+  order.setDataValue('number', order.date_number);
+  order.setDataValue('time', order.date_time);
   await order.save();
   return Promise.all([
     productOrderCreate( 2, (12.50) ,order.id, 3),

@@ -34,8 +34,10 @@ const protect = asyncHandler(async function (req, res, next) {
 })
 
 const admin = (req, res, next) =>{
-   
-   if (req.user && ( (Object.values(req.user.roles).indexOf('admin') > -1) || (Object.values(req.user.roles).indexOf('livreur') > -1) ) ) {
+    console.log(req.user.roles)
+    
+   if (req.user &&  (req.user.roles[0].name === 'admin') )  {
+       
        next()
     } else {
         res.status(401)

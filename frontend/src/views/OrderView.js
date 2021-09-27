@@ -33,7 +33,7 @@ const OrderScreen = ({match, history}) => {
 
     
 
-
+    console.log(userInfo.role[0])
 
     useEffect(() => {
         if (!userInfo) {
@@ -162,7 +162,7 @@ const OrderScreen = ({match, history}) => {
                         {loadingDeliver && <Loader />}
 
                         {userInfo && 
-                            userInfo.isAdmin && 
+                            (userInfo.isAdmin || userInfo.role[0] === 'livreur') &&
                             order.payment && 
                             !order.isDelivered && (
                             <ListGroup.Item>
