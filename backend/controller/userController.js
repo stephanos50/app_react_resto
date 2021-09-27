@@ -125,7 +125,7 @@ exports.registerUser = [
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
     
-    const user = await User.findByPk(req.user.email,{include: Order})
+    const user = await User.findByPk(req.user.email,{include: [Order, Role]})
     if (user) {
         res.json({
             email: user.email,
@@ -133,7 +133,8 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
             first_name : user.first_name,
             last_name : user.last_name,
             isAdmin: user.isAdmin,
-            orders: user.orders
+            orders: user.orders,
+            role:user.roles.map((role) => role.name),
         })
     } else {
         res.status(404)
@@ -151,6 +152,10 @@ exports.updateUserProfile = [
     body('last_name').notEmpty(),
    
     asyncHandler(async (req, res) => {
+        let token
+        if(req.headers.authorization.startsWith('Bearer')){
+           token = req.headers.authorization.split(' ')[1]
+        }
         const errors = validationResult(req);
         
         if (!errors.isEmpty()) {
@@ -158,11 +163,8 @@ exports.updateUserProfile = [
             throw new Error('Invlide input')
         } else {
             const user = await User.findByPk(req.body.id, {
-                include: Order
+                include: [Order, Role]
             })
-
-           
-       
             if (user) {
                 user.first_name = req.body.first_name || user.first_name
                 user.last_name = req.body.last_name || user.last_name
@@ -176,7 +178,8 @@ exports.updateUserProfile = [
                     first_name: updateUser.first_name,
                     last_name: updateUser.last_name,
                     orders:user.orders,
-                    token: token.generateToken(updateUser._uuid),
+                    role:user.roles.map((role) => role.name),
+                    token: token
                 })
             } else {
                 res.status(404)

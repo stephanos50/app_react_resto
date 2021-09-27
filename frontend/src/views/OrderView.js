@@ -33,7 +33,7 @@ const OrderScreen = ({match, history}) => {
 
     
 
-    console.log(userInfo.role[0])
+   
 
     useEffect(() => {
         if (!userInfo) {

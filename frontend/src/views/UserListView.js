@@ -22,7 +22,6 @@ const UserListScreem = ({history}) => {
   
   useEffect(() => {
         if(userInfo &&  userInfo.isAdmin ){ 
-          console.log(userInfo)
             const config = {
               headers: {
                   Authorization: `Bearer ${userInfo.token}`,
