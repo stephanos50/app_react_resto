@@ -7,7 +7,7 @@ routes.use(cors());
 const {protect, admin} = require('../middleware/authMiddleware')
 const orderController = require('../controller/ordrerController');
 
-routes.route('/').post(protect, orderController.addOrderItems).get(protect, admin, orderController.getOrders)
+routes.route('/').post(protect, orderController.addOrderItems).get(protect,orderController.getOrders)
 routes.get('/:id', protect,  orderController.getOrderById)
 routes.get('/myorders',protect, orderController.getMyOrders)
 routes.put('/:id/pay', protect, orderController.updateOrderToPaid)

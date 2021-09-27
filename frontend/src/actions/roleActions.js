@@ -56,7 +56,6 @@ export const createRole = (name) => async (dispatch, getState) => {
     }
 
     const {data} = await axios.post(`/api/roles`,{name}, config)
-    console.log(data)
     dispatch({ 
         type: ROLE_CREATE_SUCCESS,
         payload: data,

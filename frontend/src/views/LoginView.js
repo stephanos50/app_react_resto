@@ -33,7 +33,7 @@ const LoginScreem = ({location, history}) => {
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-            console.log('error')
+            
             event.preventDefault();
             event.stopPropagation();
             setValidated(true);

@@ -18,7 +18,6 @@ const sequelize = require('../models/sequelize');
 // @route GET /api/products
 // @access Public
 exports.getProducts = asyncHandler(async (req, res) => {
-    console.log('getProductById')
     // res.header("Access-Control-Allow-Origin", "*");
     const products = await Product.findAll({
         include: [Picture,Category,Allergen]
@@ -37,7 +36,6 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products/:id
 // @access Public
 exports.getProductById = asyncHandler(async function(req, res){
-    console.log('getProductById')
     // res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
         include: [Picture,Category,Allergen,Review]
@@ -137,16 +135,13 @@ exports.createProductReviews = [
     body('comment').not().notEmpty().matches(/^[0-9a-zA-Z !?'éàéç ]/),
 
     asyncHandler( async function (req,res){
-        console.log(req.body)
         const errors = validationResult(req);
-        console.log(errors)
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Le champ ne peut-être vide')
         }
        
         const {rating, comment} = req.body
-        console.log(req.body)
         const review = await Review.findAll( {
             where: { 
                 productId: req.params.id,

@@ -41,7 +41,7 @@ exports.createCategory = [
     asyncHandler(async (req,res) => {
        
         const errors = validationResult(req);
-        console.log(errors)
+       
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Le champs est vide')

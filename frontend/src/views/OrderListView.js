@@ -16,9 +16,10 @@ const OrderListView = ({history}) => {
   
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-   
+
+  console.log(userInfo)
   useEffect(() => {
-        if(userInfo && userInfo.isAdmin ){ 
+        if(userInfo && ( (Object.values(userInfo.role).indexOf('admin') > -1) ||  (Object.values(userInfo.role).indexOf('livreur') > -1))){ 
             dispatch(listOrders())
         } else {
             history.push('/')

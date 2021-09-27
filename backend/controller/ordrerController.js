@@ -67,7 +67,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
-    console.log('getOrderById')
+   
 
     const order = await Order.findByPk(req.params.id, {
         include: [User,Payment, {model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
@@ -85,17 +85,24 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 // @route Get /api/orders/
 // @access Private/Admin
 exports.getOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.findAll({
-       include: [User, {model:Payment, where:{status:'COMPLETED'}}],
     
-    })
-
-    if(orders){
-        res.json(orders)
+    if(req.user.roles[0].name === 'admin' || req.user.roles[0].name === 'livreur'){
+        const orders = await Order.findAll({
+            include: [User, {model:Payment, where:{status:'COMPLETED'}}],
+         
+         })
+     
+         if(orders){
+             res.json(orders)
+         } else {
+             res.status(404)
+             throw new Error('Order not found')
+         }
     } else {
         res.status(404)
         throw new Error('Order not found')
     }
+   
 })
 
 // @desc  Update order to paid
@@ -133,7 +140,6 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
 // @access Private
 
 exports.getMyOrders = asyncHandler(async (req, res) => {
-    console.log('getMyOrders')
     const orders = await Order.findOne({
         where: {
             addressId: req.user.id
@@ -148,7 +154,6 @@ exports.getMyOrders = asyncHandler(async (req, res) => {
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
-    console.log(req.params)
     const order = await Order.findByPk(req.params.id)
     
     if (order) {

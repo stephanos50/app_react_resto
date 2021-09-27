@@ -29,7 +29,6 @@ const Product = ({history, match}) => {
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo} = userLogin
 
-    console.log(product)
 
     useEffect(() => {
         if(successProductReview){

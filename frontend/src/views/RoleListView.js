@@ -27,7 +27,7 @@ const RoleListScreen =({history}) => {
     
 
     useEffect(() => {
-        console.log('useEffect')
+        
         if(!userInfo && !userInfo.isAdmin){
             history.push('/login')
         }

@@ -228,9 +228,10 @@ async function createUsers(){
     const alpha_password = await bcrypt.hash('password',10)
     
 
-    const [admin, client] = await Role.bulkCreate([
+    const [admin, client, livreur] = await Role.bulkCreate([
       { name: "admin" },
       { name: "client" },
+      { name: "livreur" },
       
     ]);
 
@@ -264,7 +265,7 @@ async function createUsers(){
     await Promise.all([
       root.setRoles([admin]),
       stefan.setRoles([client]),
-      alpha.setRoles([client])
+      alpha.setRoles([livreur])
       
     ]);
 };

@@ -34,13 +34,15 @@ const protect = asyncHandler(async function (req, res, next) {
 })
 
 const admin = (req, res, next) =>{
-  
-   if (req.user && req.user.isAdmin && (req.user.roles[0].name === 'admin') ) {
+   
+   if (req.user && ( (Object.values(req.user.roles).indexOf('admin') > -1) || (Object.values(req.user.roles).indexOf('livreur') > -1) ) ) {
        next()
     } else {
         res.status(401)
         throw new Error('Not authorize as an admin')
     }
 }
+
+ 
 
 module.exports = {protect, admin}

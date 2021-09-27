@@ -33,7 +33,6 @@ const OrderScreen = ({match, history}) => {
 
     
 
-    console.log(order)
 
 
     useEffect(() => {
