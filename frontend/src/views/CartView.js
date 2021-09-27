@@ -51,7 +51,7 @@ const CartScreem = ({match, location, history}) => {
                     {cartItems.map((item) =>(
                         <ListGroup.Item key={item.id}>
                             <Row>
-                                <Col md={2} className='t-9 images'> <PictureCart value={item.picture}/></Col>
+                                <Col md={2} className='t-9 images'> <PictureCart value={item}/></Col>
                                 <Col md={3}  className='mt-4'>
                                     <Link to={`/products/${item.id}`}>
                                         <h6>{item.name}</h6>

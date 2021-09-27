@@ -21,6 +21,10 @@ class Product extends Model{
 
 Product.init(
     {
+        url: {
+            type:DataTypes.STRING,
+            unique:true,
+        },
         name: { 
             type: DataTypes.STRING,
             unique: true,

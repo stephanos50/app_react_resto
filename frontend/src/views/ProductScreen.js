@@ -42,7 +42,9 @@ const Product = ({history, match}) => {
         // eslint-disable-next-line
     }, [dispatch, match, successProductReview])
    
-    if (!product.pictures ) return null;
+    console.log(product)
+
+    
     if (!product.price ) return null;
 
     const addToCartHandler = () => {
@@ -69,8 +71,8 @@ const Product = ({history, match}) => {
         ) : (
             <>  
             <Row>
-               <Col key={product.pictures[0].id} sm={12} md={6} lg={4} xl={3} className="p-3">
-                    <Image  style={{ width: '12rem' }} src={product.pictures[0].path}  />
+               <Col key={product.id} sm={12} md={6} lg={4} xl={3} className="p-3">
+                    <Image  style={{ width: '12rem' }} src={product.url}  />
                 </Col>
                     <Col className="p-3" sm={12} md={6} lg={4} xl={4} >
                         <ListGroup variant='flush'>

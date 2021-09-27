@@ -1,6 +1,6 @@
 const Image = require('../models/Picture');
 const  asyncHandler = require ('express-async-handler')
-
+const Product = require('../models/Product')
 
 exports.getPicture = async function(req, res){ 
    try {
@@ -13,18 +13,12 @@ exports.getPicture = async function(req, res){
 
 exports.addPicture = asyncHandler(async function(req,res){
     
-    let image = await Image.findByPk(req.body.id)
-    if (image) {
-       image.path = `${req.body.url}/${req.file.filename}`,
-        image.save()
-    } else {
-        const imageDetails = {
-            path: `${req.body.url}/${req.file.filename}`,
-            productId: req.body.id,
-        }
-        image = await Image.create(imageDetails)
-        
-    }
-    image.save()
+    let product = await Product.findByPk(req.body.id)
+    
+    if (product) {
+        product.setDataValue('url', `${req.body.url}/${req.file.filename}`)
+        product.path = `${req.body.url}/${req.file.filename}`,
+        product.save()
+    } 
 })
 

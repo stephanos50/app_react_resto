@@ -13,7 +13,7 @@ const Product = require('./backend/models/Product');
 const Review = require('./backend/models/Review');
 const ProductOrder = require('./backend/models/ProductOrder');
 const Allergen = require('./backend/models/Allergen');
-const Picture = require('./backend/models/Picture');
+//const Picture = require('./backend/models/Picture');
 const Payment = require('./backend/models/Payment')
 const Invoice = require('./backend/models/Invoice')
 const PaymentMethod = require('./backend/models/PaymentMethode')
@@ -290,7 +290,7 @@ async function createProducts(){
   ]);
   const [tarama, tzadziki, feta, gambas,calamars,meze ] = await Product.bulkCreate([
     {
-     
+      url: '/uploads/tarama.jpg',
       name: 'Tarama',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
@@ -300,7 +300,7 @@ async function createProducts(){
       
     }, 
     {
-      
+      url: '/uploads/tzadziki.jpg',
       name: 'Tzadziki',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
@@ -309,6 +309,7 @@ async function createProducts(){
       categoryId: 1
     },
     {
+      url: '/uploads/feta.jpg',
       name: 'Feta',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.00,
@@ -319,6 +320,7 @@ async function createProducts(){
     
    
     {
+      url: '/uploads/gambas.jpg',
       name: 'Gambas grillés',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
@@ -328,6 +330,7 @@ async function createProducts(){
       
     }, 
     {
+      url: '/uploads/calamars.jpg',
       name: 'Calamars frits',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
@@ -336,6 +339,7 @@ async function createProducts(){
       categoryId: 1
     }, 
     {
+      url: '/uploads/meze.jpg',
       name: 'Meze ',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
@@ -344,6 +348,7 @@ async function createProducts(){
       categoryId: 1
     }, 
     {
+      url: '/uploads/brochette-agneau.jpg',
       name: "Brochette d Agneau",
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:14.50,
@@ -352,6 +357,7 @@ async function createProducts(){
       categoryId: 2
     }, 
     {
+      url: '/uploads/entrecote.jpg',
       name: "Entre côte",
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:15.50,
@@ -360,6 +366,7 @@ async function createProducts(){
       categoryId: 2
     }, 
     {
+      url: '/uploads/to-eliniko.jpg',
       name: 'To Elliniko',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:12.50,
@@ -520,8 +527,8 @@ async function createReviewsOther(){
     const categories = await createCategories();
     const products = await createProducts();
     const product_category = await addCategories();
-    const pictures = await createPictures();
-    const product_image = await addPictures();
+    //const pictures = await createPictures();
+    //const product_image = await addPictures();
    
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();

@@ -19,9 +19,9 @@ const HomeScreem = () => {
     const categoryList = useSelector(state => state.categoryList)
     const { loading: loadingCategories, error: errorCategories, categories} = categoryList
 
-    
+   
     const [value, setValue] = useState(1)
-
+    console.log(products)
     useEffect(()=>{
         dispatch(listProducts())
         dispatch(listCategory())
@@ -60,7 +60,7 @@ const HomeScreem = () => {
                                         <Link to={`/products/${product.id}`}>
                                         
                                         <Card.Title as='div'>
-                                            <Card.Img src={product.pictures[0].path}  variant='top'   className='images' />
+                                            <Card.Img src={product.url}  variant='top'   className='images' />
                                                 <strong className="title-product">{product.name}</strong>
                                         </Card.Title>
                                         </Link>
