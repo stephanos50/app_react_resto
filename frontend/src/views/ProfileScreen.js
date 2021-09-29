@@ -38,7 +38,7 @@ const ProfileScreem = ({ location, history}) => {
         if(!userInfo){
             history.push('/login')
         } else{
-            
+            console.log(Object.keys(userInfo.orders).length === 0)
             if( !user || !user.first_name || success ){
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
@@ -131,7 +131,7 @@ const ProfileScreem = ({ location, history}) => {
             </Col>
             <Col md={9}>
                 <h2>Mes commandes</h2>
-                {user.orders === undefined ? <Message variant='danger'>{}</Message> : (
+                { (Object.keys(userInfo.orders).length === 0) ? <Message variant='danger'>{}</Message> : (
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
@@ -144,7 +144,7 @@ const ProfileScreem = ({ location, history}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {user.orders.map(order => (
+                            {userInfo.orders.map(order => (
                                 <tr key={order.id}>
                                     <td>{order.date_number}</td>
                                     <td>{order.date_time}</td>

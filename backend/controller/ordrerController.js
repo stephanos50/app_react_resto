@@ -139,8 +139,8 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
 // @desc  Get logged in user orders 
 // @route Get /api/orders/myorders
 // @access Private
-
 exports.getMyOrders = asyncHandler(async (req, res) => {
+    console.log('getMyOrders')
     const orders = await Order.findOne({
         where: {
             addressId: req.user.id
