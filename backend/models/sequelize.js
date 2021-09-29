@@ -1,4 +1,3 @@
-
 const config = require("../config/postgres.json");
 const debug = require("debug")("projet-stephanos50:sequelize");
 const { Sequelize } = require("sequelize");
@@ -23,3 +22,10 @@ const sequelize = new Sequelize(
 );
 
 module.exports = sequelize;
+
+
+
+
+
+
+

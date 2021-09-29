@@ -28,10 +28,13 @@ const RoleListScreen =({history}) => {
 
     useEffect(() => {
         
-        if(!userInfo && !userInfo.isAdmin){
+        if(!userInfo && !userInfo.role == "admin"){
             history.push('/login')
+        } else {
+            console.log(userInfo)
+            dispatch(listRoles())
         }
-       dispatch(listRoles())
+           
        if (successCreate) {
             setMessageSuccess('Review submitted successfully')
        } 

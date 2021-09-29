@@ -17,7 +17,7 @@ const AllergenCreateScreen = ({history}) => {
     const { userInfo } = userLogin
 
     useEffect(() => {
-        if(!userInfo && !userInfo.isAdmin){
+        if(!userInfo && !userInfo.role === 'admin'){
             history.push('/login')
         } 
     }, [dispatch,history,userInfo])

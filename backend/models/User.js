@@ -82,8 +82,8 @@ User.init(
     }
 );
 
-User.belongsToMany(Role, { through: "users_roles" });
-Role.belongsToMany(User, { through: "users_roles" });
+Role.hasMany(User);
+User.belongsTo(Role);
 
 User.hasOne(Address)
 Address.belongsTo(User)

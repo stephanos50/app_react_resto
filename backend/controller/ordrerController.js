@@ -8,6 +8,8 @@ const User = require('../models/User')
 const Payment = require('../models/Payment')
 const {DateTime} = require("luxon");
 let id = "000";
+const admin = 'admin'
+const livreur = 'livreur'
 
 
 
@@ -15,7 +17,6 @@ let id = "000";
 // @route POST /api/orders
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
-    
     const { cartItems,  user } = req.body
     
     if(cartItems && cartItems.lenght === 0){
@@ -86,10 +87,8 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 // @route Get /api/orders/
 // @access Private/Admin
 exports.getOrders = asyncHandler(async (req, res) => {
-    const admin = req.user.roles.find(element => element.name === 'admin');
-    const livreur = req.user.roles.find(element => element.name === 'livreur');
-   
-    if( admin || livreur){
+
+    if( req.user.role.name == admin|| req.user.role.name == livreur ){
         const orders = await Order.findAll({
             include: [User, {model:Payment, where:{status:'COMPLETED'}}],
          

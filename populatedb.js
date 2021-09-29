@@ -32,6 +32,7 @@ let orders = [];
 let addresses = [];
 let pictures = [];
 let products_orders = [];
+let users = [];
 
 
 async function pictureCreate(path, productId){
@@ -220,53 +221,69 @@ async function categoryCreate(name){
   return category;
 };
 
-async function createUsers(){
-
-    const root_password = await bcrypt.hash('password',10)
-    const stefan_password = await bcrypt.hash('password',10)
-    const alpha_password = await bcrypt.hash('password',10)
+async function createRole(){
+  const [admin, client, livreur] = await Role.bulkCreate([
+    { name: "admin" },
+    { name: "client" },
+    { name: "livreur" },
     
+  ]);
+}
 
-    const [admin, client, livreur] = await Role.bulkCreate([
-      { name: "admin" },
-      { name: "client" },
-      { name: "livreur" },
-      
-    ]);
-
-    const [root, stefan, alpha] =  await User.bulkCreate([
-      {
+async function createUsersAdmin(){
+    const root_password = await bcrypt.hash('password',10)
+    const adminDetai = {
         email: 'root@exemple.be',
         _uuid: uuidv4(),
         first_name: 'root',
         last_name: 'root',
         isAdmin: true,
         passwordHash: root_password 
-      },
-      {
-        email: 'stefan@exemple.be',
-        _uuid: uuidv4(),
-        first_name: 'stefan',
-        last_name: 'stefan',
-        isAdmin: false,
-        passwordHash: stefan_password
-      },
-      {
-        email: 'alpha@exemple.be',
-        _uuid: uuidv4(),
-        first_name: 'alpha',
-        last_name: 'alpha',
-        isAdmin: false,
-        passwordHash: alpha_password
-      }
-    ]);
 
-    await Promise.all([
-      root.setRoles([admin]),
-      stefan.setRoles([client]),
-      alpha.setRoles([livreur])
-      
-    ]);
+    }
+    const user = await User.create(adminDetai);
+    user.setDataValue('roleId', 1)
+    await user.save();
+    console.log("Nouvelle utilisateur " + user.first_name);
+    users.push(user);
+    return user;
+};
+
+async function createUsersClient(){
+  const stefan_password = await bcrypt.hash('password',10)
+  const adminDetai = {
+    email: 'stefan@exemple.be',
+    _uuid: uuidv4(),
+    first_name: 'stefan',
+    last_name: 'stefan',
+    isAdmin: false,
+    passwordHash: stefan_password
+
+  }
+  const user = await User.create(adminDetai);
+  user.setDataValue('roleId', 2)
+  await user.save();
+  console.log("Nouvelle utilisateur " + user.first_name);
+  users.push(user);
+  return user;
+};
+
+async function createUsersLivreur(){
+  const alpha_password = await bcrypt.hash('password',10)
+  const adminDetai = {
+      email: 'alpha@exemple.be',
+      _uuid: uuidv4(),
+      first_name: 'alpha',
+      last_name: 'alpha',
+      isAdmin: false,
+      passwordHash: alpha_password
+  }
+  const user = await User.create(adminDetai);
+  user.setDataValue('roleId', 3)
+  await user.save();
+  console.log("Nouvelle utilisateur " + user.first_name);
+  users.push(user);
+  return user;
 };
 
 async function createProducts(){
@@ -497,6 +514,10 @@ async function reviewCreate(name,rating,comment,productId, email){
   }
 }
 
+async function addRole(){
+
+}
+
 async function createReviews(){
   return Promise.all([
     reviewCreate('stefan',1,'this food is delicious',1, 'stefan@exemple.be'),
@@ -521,7 +542,10 @@ async function createReviewsOther(){
 (async () => {
   try {
     await sequelize.sync({ force: true });
-    await createUsers();
+    await createRole();
+    await createUsersAdmin();
+    await createUsersClient();
+    await createUsersLivreur();
     const cities = await createCities();    
     const address = await createAddresses();
     const categories = await createCategories();

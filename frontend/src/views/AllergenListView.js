@@ -23,7 +23,7 @@ const AllergenListScreen =({history}) => {
     const {loading: loadingDelete, error: errorDelete, success: successDelete } = allergenDelete
 
     useEffect(() => {
-        if(!userInfo && !userInfo.isAdmin ){
+        if(!userInfo){
             history.push('/login')
         }
         dispatch(listAllergen())

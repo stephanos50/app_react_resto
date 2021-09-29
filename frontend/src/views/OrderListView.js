@@ -16,17 +16,13 @@ const OrderListView = ({history}) => {
   
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+  
 
   useEffect(() => {
-     
-        if(userInfo){ 
-            const admin = userInfo.roles.find(element => element.name === 'admin');
-            const livreur = userInfo.roles.find(element => element.name === 'livreur');
+       
+        if(userInfo) { 
             
-            if(admin || livreur ){
-                dispatch(listOrders())
-            }
-           
+            dispatch(listOrders())
         } else {
             history.push('/')
         }

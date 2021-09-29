@@ -21,7 +21,7 @@ const UserListScreem = ({history}) => {
   const { success: successDelete } = userDelete
   
   useEffect(() => {
-        if(userInfo &&  userInfo.isAdmin ){ 
+        if(userInfo){ 
             const config = {
               headers: {
                   Authorization: `Bearer ${userInfo.token}`,

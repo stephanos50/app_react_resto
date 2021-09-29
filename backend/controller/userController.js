@@ -36,6 +36,9 @@ exports.authUser =
     const user = await User.findByPk(email,{
         include: [Role,Order,{model:Address,include:{model:City}},]
     })
+
+    
+    
     
     if( user && await user.validPassword(password)){
         res.json({
@@ -44,7 +47,7 @@ exports.authUser =
             first_name: user.first_name,
             last_name: user.last_name,
             isAdmin: user.isAdmin,
-            roles: user.roles,
+            role: user.role.name,
             address: user.address,
             orders:user.orders,
             city: user.city,
@@ -91,6 +94,7 @@ exports.registerUser = [
             passwordHash: await bcrypt.hash(password,saltRounds),
             
         })  
+        user.setDataValue('roleId', 2)
         await user.save()
        
         new Promise((resolve, reject) =>{
@@ -110,10 +114,7 @@ exports.registerUser = [
         const city = await City.findOne({where: {
             id: 1
         }})
-        const roleUser = await User.findByPk(email,{
-            include :Role
-        })
-       
+      
         if(user){
            
             res.status(201).json({
@@ -122,7 +123,7 @@ exports.registerUser = [
                 first_name: first_name,
                 last_name:last_name,
                 isAdmin: user.isAdmin,
-                roles:roleUser.roles,
+                role :user.role.name,
                 address: address,
                 city: city,
                 token: token.generateToken(user._uuid),
@@ -148,7 +149,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
             last_name : user.last_name,
             isAdmin: user.isAdmin,
             orders: user.orders,
-            roles:user.roles,
+            role :user.role.name,
         })
     } else {
         res.status(404)
@@ -192,7 +193,7 @@ exports.updateUserProfile = [
                     first_name: updateUser.first_name,
                     last_name: updateUser.last_name,
                     orders:user.orders,
-                    role:user.roles,
+                    role :user.role.name,
                     token: token
                 })
             } else {

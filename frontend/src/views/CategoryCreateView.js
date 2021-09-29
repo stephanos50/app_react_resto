@@ -16,12 +16,14 @@ const CategoryCreateScreem = ({history}) => {
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
-
+    console.log(userInfo)
     
     useEffect(() => {
-        if(!userInfo && !userInfo.isAdmin){
+        if(!userInfo && !userInfo.role === 'admin'){
             history.push('/login')
-        } 
+        } else if (userInfo && userInfo.role !== 'admin'){
+            history.push('/login')
+        }
     }, [dispatch,history,userInfo]);
            
    

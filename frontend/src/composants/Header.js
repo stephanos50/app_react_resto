@@ -6,8 +6,7 @@ import { logout } from '../actions/userActions'
 
 
 const Header = () => {
-    let livreur = {};
-    let admin = {};
+    
     const dispatch = useDispatch()
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -15,12 +14,6 @@ const Header = () => {
     const logoutHandler = () => {
       dispatch(logout())
     }
-   
-    if(userInfo){
-       admin = userInfo.roles.find(element => element.name === 'admin');
-       livreur = userInfo.roles.find(element => element.name === 'livreur');
-    }
-   
     return (
       
         <header>
@@ -77,7 +70,7 @@ const Header = () => {
                     </Nav.Link>
                     </LinkContainer>
                   }
-                  {userInfo && admin  && (
+                  {userInfo   && (userInfo.role === 'admin') && (
                       <NavDropdown title='Admin' id='adminmenu'>
                         <LinkContainer to='/admin/userlist'>
                           <NavDropdown.Item>Users</NavDropdown.Item>
@@ -99,7 +92,7 @@ const Header = () => {
                         </LinkContainer>
                       </NavDropdown>
                   )}
-                   {userInfo && livreur  && (
+                   {userInfo   && (userInfo.role === 'livreur') && (
                        <NavDropdown title='Livreur' id='livreurmenu'>
                         <LinkContainer to='/admin/orderlist'>
                          <NavDropdown.Item>Orders</NavDropdown.Item>
