@@ -16,7 +16,7 @@ const CategoryCreateScreem = ({history}) => {
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
-    console.log(userInfo)
+   
     
     useEffect(() => {
         if(!userInfo && !userInfo.role === 'admin'){

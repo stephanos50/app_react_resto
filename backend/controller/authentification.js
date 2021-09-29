@@ -36,7 +36,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
         })
         res.status(200).json({ success: true, data: 'Email Sent'})
      } catch (error) {
-        console.log(err)
+        // console.log(err)
         user.resetPasswordToken = undefined;
         user.resetPasswordExpire= undefined;
         await user.save();
@@ -87,7 +87,6 @@ const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   
   const token = user.getSignedJwtToken();
-  console.log(token)
   const options = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),

@@ -37,9 +37,6 @@ exports.authUser =
         include: [Role,Order,{model:Address,include:{model:City}},]
     })
 
-    
-    
-    
     if( user && await user.validPassword(password)){
         res.json({
             email: user.email,
@@ -97,11 +94,6 @@ exports.registerUser = [
         user.setDataValue('roleId', 2)
         await user.save()
        
-        new Promise((resolve, reject) =>{
-            resolve(user.setRoles([2]));
-            reject(new Error("Oupss!"));
-        });
-       
         const address = await Address.create({
             name: 'rue, avenue, chaussée',
             number: 0,
@@ -114,7 +106,13 @@ exports.registerUser = [
         const city = await City.findOne({where: {
             id: 1
         }})
-      
+
+        const newUser = await User.findByPk(email, {
+            include:[Role,Order]
+        })
+
+        console.log()
+        
         if(user){
            
             res.status(201).json({
@@ -123,7 +121,8 @@ exports.registerUser = [
                 first_name: first_name,
                 last_name:last_name,
                 isAdmin: user.isAdmin,
-                role :user.role.name,
+                role:newUser.role.name,
+                orders: newUser.orders,
                 address: address,
                 city: city,
                 token: token.generateToken(user._uuid),

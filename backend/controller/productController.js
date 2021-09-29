@@ -18,7 +18,7 @@ const sequelize = require('../models/sequelize');
 // @route GET /api/products
 // @access Public
 exports.getProducts = asyncHandler(async (req, res) => {
-    // res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*");
     const products = await Product.findAll({
         include: [Category,Allergen,Review]
     });
@@ -36,7 +36,7 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products/:id
 // @access Public
 exports.getProductById = asyncHandler(async function(req, res){
-    // res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
         include: [Category,Allergen,Review]
     });

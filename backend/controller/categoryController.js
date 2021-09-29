@@ -8,7 +8,7 @@ const { body, validationResult } = require("express-validator");
 // @access Public
 exports.getCategories =  asyncHandler(async (req,res) => {
 
-    console.log(req)
+    
     const categories = await Category.findAll()
    
     if (categories) {

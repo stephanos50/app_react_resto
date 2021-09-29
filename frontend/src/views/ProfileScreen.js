@@ -38,7 +38,7 @@ const ProfileScreem = ({ location, history}) => {
         if(!userInfo){
             history.push('/login')
         } else{
-            console.log(Object.keys(userInfo.orders).length === 0)
+            
             if( !user || !user.first_name || success ){
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
@@ -49,6 +49,7 @@ const ProfileScreem = ({ location, history}) => {
             }
         }
     }, [dispatch, history, userInfo, user, success])
+    console.log( userInfo.orders.length)
 
     const submitHandler = (e) => { 
         e.preventDefault()
@@ -131,7 +132,7 @@ const ProfileScreem = ({ location, history}) => {
             </Col>
             <Col md={9}>
                 <h2>Mes commandes</h2>
-                { (Object.keys(userInfo.orders).length === 0) ? <Message variant='danger'>{}</Message> : (
+                { (userInfo.orders.length === 0) ? <Message variant='danger'>Auncune commande</Message> : (
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
