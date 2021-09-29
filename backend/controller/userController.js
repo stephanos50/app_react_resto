@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid');
 const saltRounds = 10;
 const { body, validationResult } = require("express-validator");
+const ErrorResponse = require('../utils/errorResponse');
+
 
 
 
@@ -42,7 +44,7 @@ exports.authUser =
             first_name: user.first_name,
             last_name: user.last_name,
             isAdmin: user.isAdmin,
-            role: user.roles.map((role) => role.name),
+            roles: user.roles,
             address: user.address,
             orders:user.orders,
             city: user.city,
@@ -66,7 +68,6 @@ exports.registerUser = [
     body('password').isLength({ min: 8 }),
     
     asyncHandler(async (req, res) => {
-        
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(400)
@@ -75,6 +76,7 @@ exports.registerUser = [
         const { first_name,last_name, email, password } = req.body
         const userExists = await User.findOne({
             where: { email:email },
+            include: Role
         })
     
        if(userExists){
@@ -87,8 +89,14 @@ exports.registerUser = [
             first_name: first_name,
             last_name: last_name,
             passwordHash: await bcrypt.hash(password,saltRounds),
+            
         })  
         await user.save()
+       
+        new Promise((resolve, reject) =>{
+            resolve(user.setRoles([2]));
+            reject(new Error("Oupss!"));
+        });
        
         const address = await Address.create({
             name: 'rue, avenue, chaussée',
@@ -102,13 +110,19 @@ exports.registerUser = [
         const city = await City.findOne({where: {
             id: 1
         }})
+        const roleUser = await User.findByPk(email,{
+            include :Role
+        })
+       
         if(user){
+           
             res.status(201).json({
                 email: email,
                 _uuid: user._uuid,
                 first_name: first_name,
                 last_name:last_name,
                 isAdmin: user.isAdmin,
+                roles:roleUser.roles,
                 address: address,
                 city: city,
                 token: token.generateToken(user._uuid),
@@ -134,7 +148,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
             last_name : user.last_name,
             isAdmin: user.isAdmin,
             orders: user.orders,
-            role:user.roles.map((role) => role.name),
+            roles:user.roles,
         })
     } else {
         res.status(404)
@@ -178,7 +192,7 @@ exports.updateUserProfile = [
                     first_name: updateUser.first_name,
                     last_name: updateUser.last_name,
                     orders:user.orders,
-                    role:user.roles.map((role) => role.name),
+                    role:user.roles,
                     token: token
                 })
             } else {
@@ -189,5 +203,8 @@ exports.updateUserProfile = [
         
     })
 ]
+
+
+
 
 

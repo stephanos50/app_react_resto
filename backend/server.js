@@ -3,8 +3,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan')
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const cookieParser = require('cookie-parser');
 
 
+// Route files
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes')
@@ -15,18 +17,29 @@ const cityRoutes = require('./routes/cityRoutes')
 const uploadRoutes = require('./routes/uploadRoutes')
 const rolesRoutes = require('./routes/roleRoutes')
 const addressRoutes = require('./routes/addressRoutes')
+const authRoutes = require('./routes/authentification');
+
+
+const app = express();
+
+// Body parser
+app.use(express.json());
+
+// Cookie parser
+app.use(cookieParser());
+
 
 
 dotenv.config();
 
-const app = express();
+
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
   }
 
-app.use(express.json())
 
+// Mount routers
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
@@ -37,6 +50,8 @@ app.use('/api/cities',cityRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/address', addressRoutes),
+app.use('/api/address', addressRoutes),
+app.use('/api/authentification', authRoutes);
 
 
 app.get('/api/config/paypal', (req, res) =>

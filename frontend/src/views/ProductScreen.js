@@ -42,7 +42,6 @@ const Product = ({history, match}) => {
         // eslint-disable-next-line
     }, [dispatch, match, successProductReview])
    
-    console.log(product)
 
     
     if (!product.price ) return null;

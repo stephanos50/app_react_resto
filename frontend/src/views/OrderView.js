@@ -13,6 +13,9 @@ import OrderItem from '../composants/OrderItem'
 
 const OrderScreen = ({match, history}) => {
 
+    let admin = {};
+    let livreur = {};
+
     const orderId  = match.params.id
 
     const [sdkReady, setSdkReady] = useState(false)
@@ -39,7 +42,11 @@ const OrderScreen = ({match, history}) => {
         if (!userInfo) {
             history.push('/login')
         }
-       
+        
+        admin = userInfo.roles.find(element => element.name === 'admin');
+        livreur = userInfo.roles.find(element => element.name === 'livreur');
+        console.log(admin)
+        console.log(livreur)
         const addPayPalScript = async () => {
             const { data: clientId } = await axios.get('/api/config/paypal')
             const script = document.createElement('script')
@@ -161,8 +168,8 @@ const OrderScreen = ({match, history}) => {
                             )}
                         {loadingDeliver && <Loader />}
 
-                        {userInfo && 
-                            (userInfo.isAdmin || userInfo.role[0] === 'livreur') &&
+                        {userInfo && (admin || livreur) && 
+                             
                             order.payment && 
                             !order.isDelivered && (
                             <ListGroup.Item>

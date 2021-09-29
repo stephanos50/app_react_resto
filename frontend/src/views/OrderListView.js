@@ -18,8 +18,15 @@ const OrderListView = ({history}) => {
   const { userInfo } = userLogin
 
   useEffect(() => {
-        if(userInfo && ( (Object.values(userInfo.role).indexOf('admin') > -1) ||  (Object.values(userInfo.role).indexOf('livreur') > -1))){ 
-            dispatch(listOrders())
+     
+        if(userInfo){ 
+            const admin = userInfo.roles.find(element => element.name === 'admin');
+            const livreur = userInfo.roles.find(element => element.name === 'livreur');
+            
+            if(admin || livreur ){
+                dispatch(listOrders())
+            }
+           
         } else {
             history.push('/')
         }

@@ -70,8 +70,6 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
-   
-
     const order = await Order.findByPk(req.params.id, {
         include: [User,Payment, {model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
       
@@ -88,8 +86,10 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 // @route Get /api/orders/
 // @access Private/Admin
 exports.getOrders = asyncHandler(async (req, res) => {
-    
-    if(req.user.roles[0].name === 'admin' || req.user.roles[0].name === 'livreur'){
+    const admin = req.user.roles.find(element => element.name === 'admin');
+    const livreur = req.user.roles.find(element => element.name === 'livreur');
+   
+    if( admin || livreur){
         const orders = await Order.findAll({
             include: [User, {model:Payment, where:{status:'COMPLETED'}}],
          
@@ -112,10 +112,9 @@ exports.getOrders = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id/pay
 // @access Private
 exports.updateOrderToPaid = asyncHandler(async (req, res) => {
-   
     const order = await Order.findByPk(req.params.id,{
         include: [Payment]
-    })
+    }) 
     if(order) {
         order.isPaid = true,
         order.paidAt = DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-dd`)
@@ -169,6 +168,8 @@ exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
         throw new Error('Order not found')
     }
 })
+
+
 
 
 

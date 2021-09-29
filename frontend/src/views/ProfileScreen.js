@@ -33,7 +33,6 @@ const ProfileScreem = ({ location, history}) => {
     const { error:errorUpdate, success } = userUpdateProfile
 
    
-   
     useEffect(() => {
       
         if(!userInfo){

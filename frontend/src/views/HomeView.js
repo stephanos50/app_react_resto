@@ -21,7 +21,6 @@ const HomeScreem = () => {
 
    
     const [value, setValue] = useState(1)
-    console.log(products)
     useEffect(()=>{
         dispatch(listProducts())
         dispatch(listCategory())

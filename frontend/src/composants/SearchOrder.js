@@ -17,7 +17,6 @@ const SearchOrder = (props) => {
     const updateQuery = (query) => {
         setQuery(query.trim())
     }
-    console.log(orders)
    
     return (
       <>
