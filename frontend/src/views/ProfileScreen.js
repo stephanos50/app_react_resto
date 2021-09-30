@@ -39,7 +39,7 @@ const ProfileScreem = ({ location, history}) => {
             history.push('/login')
         } else{
             
-            if( !user || !user.first_name || success || !errorUpdate ){
+            if( !user || !user.first_name || success  ){
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
             } else {
@@ -48,7 +48,7 @@ const ProfileScreem = ({ location, history}) => {
                 setEmail(user.email)
             }
         }
-    }, [dispatch, history, userInfo, user, success, errorUpdate])
+    }, [dispatch, history, userInfo, user, success])
 
     const submitHandler = (e) => { 
         e.preventDefault()
@@ -68,7 +68,7 @@ const ProfileScreem = ({ location, history}) => {
             <Col md={3}>
                 <h2>Votre profile</h2>
                 {message && <Message variant="danger">{message}</Message>}
-                {}
+                {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
                 {messageUpdate && <Message variant='success'>{messageUpdate}</Message>}
                 {loading ? ( 
                     <Loader />
