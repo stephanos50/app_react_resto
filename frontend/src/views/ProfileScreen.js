@@ -39,7 +39,7 @@ const ProfileScreem = ({ location, history}) => {
             history.push('/login')
         } else{
             
-            if( !user || !user.first_name || success ){
+            if( !user || !user.first_name || success || !errorUpdate ){
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
             } else {
@@ -48,8 +48,7 @@ const ProfileScreem = ({ location, history}) => {
                 setEmail(user.email)
             }
         }
-    }, [dispatch, history, userInfo, user, success])
-    console.log( userInfo.orders.length)
+    }, [dispatch, history, userInfo, user, success, errorUpdate])
 
     const submitHandler = (e) => { 
         e.preventDefault()

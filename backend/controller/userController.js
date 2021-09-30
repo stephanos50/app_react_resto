@@ -111,8 +111,6 @@ exports.registerUser = [
             include:[Role,Order]
         })
 
-        console.log()
-        
         if(user){
            
             res.status(201).json({
@@ -166,6 +164,7 @@ exports.updateUserProfile = [
     body('last_name').notEmpty(),
    
     asyncHandler(async (req, res) => {
+       
         let token
         if(req.headers.authorization.startsWith('Bearer')){
            token = req.headers.authorization.split(' ')[1]

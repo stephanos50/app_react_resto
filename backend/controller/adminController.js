@@ -52,13 +52,13 @@ exports.getUserById = asyncHandler(async (req, res) => {
 // @route  PUT /api/admin/:email
 // @access Private/Admin
 exports.updateUserById = asyncHandler(async (req, res) => {
-    
+   
     const user = await User.findByPk(req.params.email)
     if (user) {
         user.email = req.body.email || user.email
         user.first_name = req.body.first_name || user.first_name
         user.last_name = req.body.last_name || user.last_name
-        user.isAdmin = req.body.isAdmin 
+        user.roleId = req.body.role
         
         const updatedUser = await user.save()
 

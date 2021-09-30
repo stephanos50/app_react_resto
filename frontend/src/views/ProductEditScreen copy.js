@@ -9,7 +9,6 @@ import FormContainer from '../composants/FormContainer'
 import { listProductDetails, updateProduct} from '../actions/productAction'
 import { listCategory } from '../actions/categoryAction'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import { listAllergen } from '../utilis/allergens'
 
 
 
@@ -19,7 +18,7 @@ const ProductEditScreem = ({match, history}) => {
     
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
+    const [price, setPrice] = useState()
     const [category, setCategory] = useState('')
     const [allergensList, setAllergensList] = useState([]) // AXIOS
     const [allergens, setAllergens] = useState({}) // PRODUCT
@@ -39,7 +38,19 @@ const ProductEditScreem = ({match, history}) => {
     const categoryList = useSelector((state) => state.categoryList)
     const { categories } = categoryList
 
-   
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+    const fetchLisAllergen = async () => {
+        const { data } = await axios.get('/api/allergens', config)
+        setAllergensList(data)
+    }
 
     useEffect(() => {
         dispatch(listCategory())
@@ -57,8 +68,7 @@ const ProductEditScreem = ({match, history}) => {
             setPrice(product.price)
             setCategory(product.categoryId)
             setAllergens(product.allergens)
-            setAllergensList(listAllergen)
-           
+            fetchLisAllergen()
         }
        
       }, [dispatch, history, productId, product, successUpdate])
@@ -80,7 +90,7 @@ const ProductEditScreem = ({match, history}) => {
                 },
             }
     
-            await axios.post('/api/upload',formData , config)
+            const { data } = await axios.post('/api/upload',formData , config)
             setUploading(false)
         } catch (error) {
             setUploading(false)

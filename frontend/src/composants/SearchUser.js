@@ -5,7 +5,6 @@ import { Button, Table, Form, Col, Row } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
  const SearchUser = (props) => {
-    console.log(props)
     const [query, setQuery] = useState('')
     const { users } = props
     const { deleteHandler} = props

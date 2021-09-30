@@ -7,6 +7,8 @@ import FormContainer from '../composants/FormContainer'
 import { getUserDetails , updateUser} from '../actions/adminActions'
 import { Form, Button} from 'react-bootstrap'
 import { USER_UPDATE_RESET } from '../constants/adminConstants'
+import { roles } from '../utilis/roles'
+
 
 
 
@@ -16,7 +18,12 @@ const UserEditScreem = ({match, history}) => {
     const [email, setEmail] = useState('')
     const [first_name, setFirstName] = useState('')
     const [last_name, setLastName] = useState('')
-    const [isAdmin, setIsAdmin] = useState('')
+    const [role, setRole] = useState('')
+    let [handle, handleOnChange] = useState('')
+    const [checkedState, setCheckedState] = useState(
+        new Array(roles.length).fill(false)
+    );
+    
     
     const dispatch = useDispatch()
 
@@ -27,29 +34,48 @@ const UserEditScreem = ({match, history}) => {
     const { loading: loadingUpdate, error:errorUpdate, success:successUpdate } = userUpdate
 
    
+   
     useEffect(()=> {
             // If success update you resest the update state  and redirect to userList
             if(successUpdate){
                 dispatch({type: USER_UPDATE_RESET})
                 history.push('/admin/userlist')
             }else{
-                if(!user.first_name || user.email !== userId  ){
+                if(!user.role || !user.first_name || user.email !== userId  ){
                     dispatch(getUserDetails(userId))
                 }else {
                     setEmail(user.email)
                     setFirstName(user.first_name)
                     setLastName(user.last_name)
-                    setIsAdmin(user.isAdmin)
+                    handleOnChange(user.role.id -1)
                 }
             }
        
-    }, [dispatch,userId,user, successUpdate,history])
+    }, [dispatch,userId,user, successUpdate,history,handle])
 
     const submitHandler = (e) => { 
         e.preventDefault()
-        dispatch(updateUser({email:userId,first_name, last_name, isAdmin}))
+        dispatch(updateUser({email:userId,first_name, last_name, role}))
         
     }
+
+     handleOnChange = (position) => {
+        
+        const updatedCheckedState = checkedState.map((item, index) => {
+            if (index === position ) {
+                return !item;
+            } else if (index !== position && item === true) {
+                return !item;
+            } else {
+                return item
+            }
+          });
+        setCheckedState(updatedCheckedState);
+        setRole(position+1)
+       
+    }
+    
+
     return ( 
         <>
             <Link to='/admin/userlist' className='btn btn-light my-3'>Go Back</Link>
@@ -91,19 +117,22 @@ const UserEditScreem = ({match, history}) => {
                             onChange={(e) => setLastName(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
-
-                    <Form.Group className="mb-3" controlId='isAdmin'>
-                        <Form.Check 
-                            type='checkbox'
-                            label='isAdmin'
-                            checked={isAdmin}
-                            onChange={(e) => setIsAdmin(e.target.checked)}
-                        >
-                        </Form.Check>
-                    
+                    <fieldset>
+                    <Form.Group>
+                        { roles.map((role) => 
+                            <Form.Check key={role.id}
+                                inline
+                                type="checkbox"
+                                label={role.name}
+                                name={role.name}
+                                value={role.id}
+                                checked={checkedState[role.id-1]}
+                                onChange={() => handleOnChange(role.id-1)}
+                              
+                            />
+                        )}
                     </Form.Group>
-
-                   
+                    </fieldset>
                     <Button type='submit' variant='primary'>Update</Button>
             </Form>
             )}
