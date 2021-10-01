@@ -17,23 +17,9 @@ const sequelize = new Sequelize(
         require: true,
         rejectUnauthorized: false // 
       }
-    }
+    },
+    
   }
 );
 
 module.exports = sequelize;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

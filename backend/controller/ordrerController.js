@@ -25,10 +25,11 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
        
     } else {
         const address = await Address.findOne({ where: { userEmail: user } })
+       
         const detailsOrder = {
             number: 'number',
             time: 'time',
-            createAt: DateTime.now(),
+            createAt: new Date(),
             total: 0,
         }
         const order = await Order.create(detailsOrder)
@@ -116,7 +117,7 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
     }) 
     if(order) {
         order.isPaid = true,
-        order.paidAt = DateTime.fromISO(new Date().toISOString()).toFormat(`yyyy-MM-dd`)
+        order.paidAt = new Date()
         await order.save()
     } else {
         res.status(404)
@@ -154,11 +155,12 @@ exports.getMyOrders = asyncHandler(async (req, res) => {
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
+    
     const order = await Order.findByPk(req.params.id)
     
     if (order) {
         order.isDelivered = true
-        order.deliveredAt = Date.now()
+        order.deliveredAt = new Date()
         const updatedOrder = await order.save()
         res.json(updatedOrder)
     } else {

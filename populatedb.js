@@ -18,8 +18,12 @@ const Payment = require('./backend/models/Payment')
 const Invoice = require('./backend/models/Invoice')
 const PaymentMethod = require('./backend/models/PaymentMethode')
 const bcrypt = require("bcrypt");
+const luxon = require("luxon");
+const DateTime = luxon.DateTime;
 
-const {DateTime} = require("luxon");
+const date = new Date()
+
+
 
 let number = 0;
 
@@ -88,11 +92,11 @@ async function productOrderCreate(qty, price, orderId,productId){
 
 
 async function createProductOrder01(){
-  
+  console.log(date)
   const datailsOrder = {
     number: 'number',
     time: 'time',
-    createAt: DateTime.now(),
+    createAt:new Date()
   }
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);
@@ -108,10 +112,11 @@ async function createProductOrder01(){
 };
 
 async function createProductOrder02(){
+  console.log(date)
   const datailsOrder = {
     number: 'number',
     time: 'time',
-    createAt: DateTime.now(),
+    createAt: new Date()
   }
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);
@@ -128,11 +133,11 @@ async function createProductOrder02(){
 };
 
 async function createProductOrder03(){
-
+  console.log(date)
   const datailsOrder = {
     number: 'number',
     time: 'time',
-    createAt: DateTime.now(),
+    createAt: new Date()
   }
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);

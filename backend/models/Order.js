@@ -5,6 +5,8 @@ const Address = require('./Address');
 const User = require('./User');
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
+const date = DateTime.fromISO(new Date().toISOString());
+
 const total = 0;
 
 class Order extends Model{
@@ -33,7 +35,7 @@ Order.init(
         },
         createAt: {
             type: DataTypes.DATE,
-           
+            allowNull:false,
         },
         total: {
             type: DataTypes.DOUBLE,
@@ -67,14 +69,15 @@ Order.init(
                         break;
                 }
                 
-                return DateTime.fromObject(this.createAt).toFormat(`yyyy-MM-${i}${this.id}`)
+                return date.toFormat(`yyyy-MM-${i}${this.id}`)
+                        
             },
         },
 
         date_time: {
             type: DataTypes.VIRTUAL,
             get() {
-                return DateTime.fromObject(this.createAt).toLocaleString(DateTime.TIME_24_SIMPLE)
+                return date.toLocaleString(DateTime.TIME_24_SIMPLE)
             },
         },
         
