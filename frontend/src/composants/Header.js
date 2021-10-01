@@ -73,16 +73,16 @@ const Header = () => {
                   {userInfo   && (userInfo.role === 'admin') && (
                       <NavDropdown title='Admin' id='adminmenu'>
                         <LinkContainer to='/admin/userlist'>
-                          <NavDropdown.Item>Users</NavDropdown.Item>
+                          <NavDropdown.Item>Utilisateurs</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/productlist'>
-                          <NavDropdown.Item>Products</NavDropdown.Item>
+                          <NavDropdown.Item>La carte</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/orderlist'>
-                          <NavDropdown.Item>Orders</NavDropdown.Item>
+                          <NavDropdown.Item>Les commandes</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/categorylist'>
-                          <NavDropdown.Item>Category</NavDropdown.Item>
+                          <NavDropdown.Item>Les categories</NavDropdown.Item>
                         </LinkContainer>
                        
                       </NavDropdown>
