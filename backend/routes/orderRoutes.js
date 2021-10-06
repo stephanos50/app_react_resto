@@ -9,7 +9,7 @@ const orderController = require('../controller/ordrerController');
 
 routes.route('/').post(protect, orderController.addOrderItems).get(protect,orderController.getOrders)
 routes.get('/:id', protect,  orderController.getOrderById)
-routes.get('/myorders',protect, orderController.getMyOrders)
+// routes.get('/myorders',protect, orderController.getMyOrders)
 routes.put('/:id/pay', protect, orderController.updateOrderToPaid)
 routes.route('/:id/deliver').put(protect,orderController.updateOrderToDelivered)
 

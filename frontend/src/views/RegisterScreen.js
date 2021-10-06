@@ -124,7 +124,7 @@ const RegisterScreem = ({location, history}) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <Form.Control.Feedback type='invalid' >Longeur > 8</Form.Control.Feedback>
+                        <Form.Control.Feedback type='invalid' >Longeur du mot de passe </Form.Control.Feedback>
                         <Form.Control.Feedback >{message && <Message variant="danger">{message}</Message>}</Form.Control.Feedback>
 
                     </Form.Group>
@@ -137,11 +137,13 @@ const RegisterScreem = ({location, history}) => {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                        <Form.Control.Feedback type='invalid' >Longeur > 8 </Form.Control.Feedback>
+                        <Form.Control.Feedback type='invalid' >Longeur du mot de passe </Form.Control.Feedback>
                     </Form.Group>
 
 
                     <Button type='submit' variant='primary'>Inscrivez-vous</Button>
+                    <Link to='/' className='m-3'> <Button> Retour </Button></Link>                         
+
                 </Form>
 
                 <Row className='py-3'>

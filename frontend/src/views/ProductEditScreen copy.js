@@ -154,7 +154,7 @@ const ProductEditScreem = ({match, history}) => {
             Go Back
             </Link>
             <FormContainer>
-            <h1>Edit PRODUCT</h1>
+            <h1>Ajouter un nouveau produit</h1>
             {loadingUpdate && <Loader />}
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {loading ? ( <Loader /> ) : error ? ( <Message variant="danger">{error}</Message> ) : (

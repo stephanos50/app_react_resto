@@ -7,10 +7,13 @@ import './index.css';
 import App from './App';
 import './styles/App.css'
 import reportWebVitals from './reportWebVitals';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify'
 ReactDOM.render(
   <Provider store={store}>
     <App />
+    <ToastContainer position={toast.POSITION.BOTTOM_LEFT}/>
   </Provider>,
   document.getElementById('root')
 );

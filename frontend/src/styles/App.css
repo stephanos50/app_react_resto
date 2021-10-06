@@ -147,6 +147,13 @@
     color: #212B5C;
     font-family: 'Architects Daughter', cursive;
   }
+
+  hr {
+    color:#AF1025;
+    background-color: '#000000';
+    width:  10em ;
+    border-color: '#000000';
+  }
   
 
   

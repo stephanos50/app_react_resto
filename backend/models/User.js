@@ -19,13 +19,9 @@ class User extends Model {
     async getResetPasswordToken () {
         // Generate token
         const resetToken = crypto.randomBytes(20).toString('hex');
-  
+       
         // Hash token and set to resetPasswordToken field
-        this.resetPasswordToken = crypto
-        .createHash('sha256')
-        .update(resetToken)
-        .digest('hex');
-    
+        this.resetPasswordToken = resetToken;
         // Set expire
         this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
     
@@ -62,13 +58,6 @@ User.init(
             type: DataTypes.STRING, 
             allowNull: false,
         },
-        isAdmin: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            require: true,
-            defaultValue: false
-        },
-       
         passwordHash: DataTypes.STRING,  
         resetPasswordToken: DataTypes.STRING,
         resetPasswordExpire: DataTypes.DATE,
@@ -82,8 +71,9 @@ User.init(
     }
 );
 
-Role.hasMany(User);
-User.belongsTo(Role);
+
+User.belongsToMany(Role, {through: 'user_roles'});
+Role.belongsToMany(User,{through: 'user_roles'});
 
 User.hasOne(Address)
 Address.belongsTo(User)

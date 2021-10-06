@@ -18,6 +18,7 @@ PaymentMethod.init({
     sequelize,
     modelName:'payment_methode'
 })
+
 PaymentMethod.hasMany(Payment)
 Payment.belongsTo(PaymentMethod)
 

@@ -8,6 +8,8 @@ import { getUserDetails , updateUser} from '../actions/adminActions'
 import { Form, Button} from 'react-bootstrap'
 import { USER_UPDATE_RESET } from '../constants/adminConstants'
 import { roles } from '../utilis/roles'
+import {toast} from 'react-toastify'
+
 
 
 
@@ -39,15 +41,19 @@ const UserEditScreem = ({match, history}) => {
             // If success update you resest the update state  and redirect to userList
             if(successUpdate){
                 dispatch({type: USER_UPDATE_RESET})
+                toast.success(`Role de ${user.first_name} modifié`)
                 history.push('/admin/userlist')
             }else{
-                if(!user.role || !user.first_name || user.email !== userId  ){
+                if(!user||!user.roles ||  !user.first_name || user.email !== userId  ){
                     dispatch(getUserDetails(userId))
                 }else {
                     setEmail(user.email)
                     setFirstName(user.first_name)
                     setLastName(user.last_name)
-                    handleOnChange(user.role.id -1)
+                    const role = user.roles.map((role) => {
+                        handleOnChange(role.id -1)
+                    })
+                   
                 }
             }
        
@@ -81,7 +87,7 @@ const UserEditScreem = ({match, history}) => {
             <Link to='/admin/userlist' className='btn btn-light my-3'>Go Back</Link>
             <FormContainer>
             
-            <h1>Edit User</h1>
+            <h1>Modifier l'utilisateur</h1>
             {loadingUpdate && <Loader />} 
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (

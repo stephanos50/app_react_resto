@@ -17,6 +17,15 @@ import {
     USER_LIST_SUCCESS,
     USER_LIST_FAIL,
     USER_LIST_RESET,
+    USER_PASSWORD_REQUEST, 
+    USER_PASSWORD_SUCCESS, 
+    USER_PASSWORD_FAIL, 
+    USER_RESETPASSWORD_REQUEST,
+    USER_RESETPASSWORD_SUCCESS,
+    USER_RESETPASSWORD_FAIL,
+ 
+
+
 } from '../constants/userConstants'
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 import axios from 'axios'
@@ -225,4 +234,70 @@ export const listUsers = () => async (dispatch, getState) => {
       })
     }
   }
+
+  export const changePassword = (email)=> async(dispatch) => {
+     
+    try {
+        dispatch({
+            type: USER_PASSWORD_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const { data } = await axios.post('api/authentification/forgotpassword', {email}, config)
+       
+        dispatch({
+            type: USER_PASSWORD_SUCCESS,
+            payload: data.success
+        })
+       
+    } catch (error) {
+        
+        dispatch({
+            type: USER_PASSWORD_FAIL,
+            payload: 
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        })
+    }
+}
+
+export const userResetPassword = (resetoken, password)=> async(dispatch) => {
+    console.log(resetoken)
+    try {
+        dispatch({
+            type: USER_RESETPASSWORD_REQUEST,
+        })
+  
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const {data} = await axios.post('api/authentification/resetpassword',{resetoken, password},config)
+      
+        dispatch({
+            type: USER_RESETPASSWORD_SUCCESS,
+            payload: data.success
+           
+        })
+       
+    } catch (error) {
+        
+        dispatch({
+            type: USER_RESETPASSWORD_FAIL,
+            payload: 
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        })
+    }
+  }
+  
+  
   

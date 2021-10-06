@@ -92,7 +92,7 @@ async function productOrderCreate(qty, price, orderId,productId){
 
 
 async function createProductOrder01(){
-  console.log(date)
+  
   const datailsOrder = {
     number: 'number',
     time: 'time',
@@ -106,13 +106,13 @@ async function createProductOrder01(){
   return Promise.all([
     productOrderCreate( 2, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
-    productOrderCreate( 2, (8.50) ,order.id, 3),
+    productOrderCreate( 1, (8.00) ,order.id, 3),
     
   ]);
 };
 
 async function createProductOrder02(){
-  console.log(date)
+  
   const datailsOrder = {
     number: 'number',
     time: 'time',
@@ -125,15 +125,15 @@ async function createProductOrder02(){
 
  
   return Promise.all([
-    productOrderCreate( 1, (7.50) ,order.id, 5),
-    productOrderCreate( 1, (7.50) ,order.id, 4),
-    productOrderCreate( 6, (8.50) ,order.id, 1),
+    productOrderCreate( 1, (8.50) ,order.id, 5),
+    productOrderCreate( 1, (8.50) ,order.id, 4),
+    productOrderCreate( 1, (7.50) ,order.id, 1),
     
   ]);
 };
 
 async function createProductOrder03(){
-  console.log(date)
+  
   const datailsOrder = {
     number: 'number',
     time: 'time',
@@ -144,9 +144,28 @@ async function createProductOrder03(){
   order.setDataValue('time', order.date_time);
   await order.save();
   return Promise.all([
-    productOrderCreate( 2, (12.50) ,order.id, 3),
-    productOrderCreate( 2, (12.50) ,order.id, 4),
-    productOrderCreate( 2, (8.50) ,order.id, 5),
+    productOrderCreate( 1, (8.00) ,order.id, 3),
+    productOrderCreate( 1, (8.50) ,order.id, 4),
+    productOrderCreate( 1, (8.50) ,order.id, 5),
+    
+  ]);
+};
+
+async function createProductOrder04(){
+  
+  const datailsOrder = {
+    number: 'number',
+    time: 'time',
+    createAt: new Date()
+  }
+  const order = await Order.create(datailsOrder);
+  order.setDataValue('number', order.date_number);
+  order.setDataValue('time', order.date_time);
+  await order.save();
+  return Promise.all([
+    productOrderCreate( 1, (7.50) ,order.id, 1),
+    productOrderCreate( 2, (7.50) ,order.id, 2),
+    productOrderCreate( 9, (12.50) ,order.id, 5),
     
   ]);
 };
@@ -226,70 +245,54 @@ async function categoryCreate(name){
   return category;
 };
 
-async function createRole(){
+async function createUsers(){
+
+  const root_password = await bcrypt.hash('password',10)
+  const stefan_password = await bcrypt.hash('password',10)
+  const alpha_password = await bcrypt.hash('password',10)
+
+  
   const [admin, client, livreur] = await Role.bulkCreate([
     { name: "admin" },
     { name: "client" },
     { name: "livreur" },
     
   ]);
-}
 
-async function createUsersAdmin(){
-    const root_password = await bcrypt.hash('password',10)
-    const adminDetai = {
-        email: 'root@exemple.be',
-        _uuid: uuidv4(),
-        first_name: 'root',
-        last_name: 'root',
-        isAdmin: true,
-        passwordHash: root_password 
-
-    }
-    const user = await User.create(adminDetai);
-    user.setDataValue('roleId', 1)
-    await user.save();
-    console.log("Nouvelle utilisateur " + user.first_name);
-    users.push(user);
-    return user;
-};
-
-async function createUsersClient(){
-  const stefan_password = await bcrypt.hash('password',10)
-  const adminDetai = {
-    email: 'stefan@exemple.be',
-    _uuid: uuidv4(),
-    first_name: 'stefan',
-    last_name: 'stefan',
-    isAdmin: false,
-    passwordHash: stefan_password
-
-  }
-  const user = await User.create(adminDetai);
-  user.setDataValue('roleId', 2)
-  await user.save();
-  console.log("Nouvelle utilisateur " + user.first_name);
-  users.push(user);
-  return user;
-};
-
-async function createUsersLivreur(){
-  const alpha_password = await bcrypt.hash('password',10)
-  const adminDetai = {
-      email: 'alpha@exemple.be',
+  const [root,stefan,alpha] =  await User.bulkCreate([
+    {
+      _uuid: uuidv4(),
+      first_name: 'root',
+      last_name: 'roots',
+      email: 'root@exemple.be',
+      passwordHash: root_password
+    },
+    {
+      _uuid: uuidv4(),
+      first_name: 'stefan',
+      last_name: 'stefans',
+      email: 'stefan@exemple.be',
+      passwordHash: stefan_password
+    },
+    {
       _uuid: uuidv4(),
       first_name: 'alpha',
-      last_name: 'alpha',
-      isAdmin: false,
+      last_name: 'alphas',
+      email: 'alpha@exemple.be',
       passwordHash: alpha_password
-  }
-  const user = await User.create(adminDetai);
-  user.setDataValue('roleId', 3)
-  await user.save();
-  console.log("Nouvelle utilisateur " + user.first_name);
-  users.push(user);
-  return user;
+    }
+  ]);
+
+  await Promise.all([
+    root.setRoles([admin]),
+    stefan.setRoles([client]),
+    alpha.setRoles([livreur]),
+    
+  ]);
 };
+
+
+
 
 async function createProducts(){
 
@@ -519,8 +522,18 @@ async function reviewCreate(name,rating,comment,productId, email){
   }
 }
 
-async function addRole(){
-
+async function createMethodePayment(){
+    const detailMethode = {
+        name:"PayPal"
+    }
+    try{
+      const methode = await PaymentMethod.create(detailMethode)
+      console.log('Nouvelle methode de paiement ' + methode.name)
+      await methode.save()
+    } catch(error){
+      console.log(error)
+    }
+   
 }
 
 async function createReviews(){
@@ -547,10 +560,7 @@ async function createReviewsOther(){
 (async () => {
   try {
     await sequelize.sync({ force: true });
-    await createRole();
-    await createUsersAdmin();
-    await createUsersClient();
-    await createUsersLivreur();
+    const users = await createUsers()
     const cities = await createCities();    
     const address = await createAddresses();
     const categories = await createCategories();
@@ -567,9 +577,12 @@ async function createReviewsOther(){
 
     const products_orders_03 = await createProductOrder03();
     const orders_03 = await updateOrdersRoot();
+    const orders_04 = await createProductOrder04();
+    const orders_05 = await updateOrders();
     const review = await createReviews();
-    const otehr = await createReviewsOther();
-    
+    const other = await createReviewsOther();
+
+    const methode_payement = await createMethodePayment();
    
     sequelize.close();
   } catch (error) {

@@ -4,22 +4,14 @@ const Payment = require('./Payment')
 
 
 class Invoice extends Model {
-    get url() {
-        return  `/proofpayment/${this.id}`;
-    }
+    
 }
 
 Invoice.init ({
-    number: {
+    id: {
         type:DataTypes.DATE,
-        allowNull:false
+        primaryKey:true
     },
-   
-    name: {
-        type:DataTypes.STRING,
-        allowNull:false
-    },
-    
    },
    {
     sequelize,

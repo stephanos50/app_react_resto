@@ -6,8 +6,8 @@ const cors = require('cors')
 routes.use(cors());
 
 const password = require('../controller/authentification')
-routes.post('/forgotpassword', password.forgotPassword );
-routes.put('/resetpassword/:resettoken', password.resetPassword);
 
+routes.route('/forgotpassword').post(password.forgotpassword);
+routes.route('/resetpassword').post(password.resetPassword);
 
 module.exports = routes

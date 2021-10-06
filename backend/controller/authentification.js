@@ -1,13 +1,10 @@
-const crypto = require('crypto');
+
 const ErrorResponse = require('../utils/errorResponse');
 const  asyncHandler = require ('express-async-handler')
 const sendEmail = require('../utils/sendEmail');
 const User = require('../models/User');
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
-const generate = require('../utils/generateToken')
-
-
 
 
 
@@ -15,7 +12,8 @@ const generate = require('../utils/generateToken')
 // @desc      Forgot password
 // @route     POST /api/authentification/forgotpassword
 // @access    Public
-exports.forgotPassword = asyncHandler(async (req, res, next) => {
+exports.forgotpassword = asyncHandler(async (req, res, next) => {
+   
     const user = await User.findByPk(req.body.email);
     if (!user) {
       return next(new ErrorResponse('Aucun utilisateur avec ce mail', 404));
@@ -24,7 +22,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     const reseToken = user.getResetPasswordToken();
     await user.save();
     //Create reset url
-    const restUrl = `${req.protocol}://${req.get('host')}/api/authentification/resetpassword/${ await reseToken}`
+    const restUrl = `${req.protocol}://${req.get('host')}/resetpassword/${ await reseToken}`
     
     const message = `Vous recevez cette email parceque vous désirer modifier votre motde passe. Svp faite un update to:\n\n ${restUrl}`;
 
@@ -43,67 +41,53 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Email could not be sent', 500));
      }
     
-    res.status(200).json({
-        success: true,
-        data: user
-    });
+   
 });
 
+
 // @desc      Reset password
-// @route     PUT /api/authentification/resetpassword/:resettoken
+// @route     POST /api/authentification/resetpassword
 // @access    Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
-  // Get hashed token
- 
-  const resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(req.params.resettoken)
-    .digest('hex');
-    
+    const {resetoken, password} = req.body
+    console.log(resetoken)
+    console.log(password)
     const user = await User.findOne({
       where: {
-        resetPasswordToken:resetPasswordToken,
+        resetPasswordToken:resetoken,
       }
     });
 
-  
-  if (!user) {
-    return next(new ErrorResponse('Invalid token', 400));
-  }
-  
-  // Set new password
-  user.setDataValue('passwordHash',await bcrypt.hash(req.body.password,saltRounds));
-  user.setDataValue('resetPasswordToken', null); 
-  user.setDataValue('resetPasswordExpire', null); 
-  
-  await user.save();
-  
-  sendTokenResponse(user, 200, res);
+    
+    console.log(user)
+    if (!user) {
+      
+      return next(new ErrorResponse('Invalid token', 400));
+    }
+    const hashpassword = await bcrypt.hash(req.body.password,saltRounds)
+   
+      // Set new password
+      user.passwordHash = hashpassword
+      user.resetPasswordToken = null;
+      user.resetPasswordExpire = null;
+      await user.save();
+
+      res.status(200)
+      
 });
 
 
-// Get token from model, create cookie and send response
-const sendTokenResponse = (user, statusCode, res) => {
-  // Create token
-  
-  const token = user.getSignedJwtToken();
-  const options = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    
-  };
 
-  if (process.env.NODE_ENV === 'production') {
-    options.secure = true;
-  }
 
-  res
-    .status(statusCode)
-    .cookie('token', token, options)
-    .json({
-      success: true,
-      token,
-    });
-};
+
+
+
+
+
+
+
+
+
+
+
 

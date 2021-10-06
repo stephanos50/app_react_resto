@@ -6,7 +6,7 @@ import Loader from '../composants/Loader'
 import SearchProduct from '../composants/SearchProduct'
 import { listProducts, deleteProduct, createProduct } from '../actions/productAction'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
-
+import {toast} from 'react-toastify'
 
 const ProductListScreen = ({ history }) => {
   const dispatch = useDispatch()
@@ -25,7 +25,7 @@ const ProductListScreen = ({ history }) => {
 
   useEffect(() => {
     dispatch({type: PRODUCT_CREATE_RESET})
-    if (!userInfo || !userInfo.isAdmin) {
+    if (!userInfo || !userInfo.role === 'admin') {
       history.push('/login')
     } 
     if(successCreate) {
@@ -33,7 +33,8 @@ const ProductListScreen = ({ history }) => {
       
     } else {
       dispatch(listProducts())
-    }
+    } 
+    
   },[dispatch, history, userInfo, successDelete , successCreate, createdProduct])
 
   const deleteHandler = (id) => {
@@ -44,6 +45,7 @@ const ProductListScreen = ({ history }) => {
 
   const createProductHandler = () => {
       dispatch(createProduct())
+      toast.error('Le produit a été suprimé')
   }
 
   return (

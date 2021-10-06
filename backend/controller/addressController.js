@@ -14,7 +14,6 @@ exports.getAddressById = asyncHandler(async (req, res) => {
     } catch (error) {
         
     }
-    
 });
 
 // @desc   get a address

@@ -15,6 +15,14 @@ import {
     USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_RESET,
+    USER_PASSWORD_REQUEST,
+    USER_PASSWORD_SUCCESS,
+    USER_PASSWORD_FAIL,
+    USER_RESETPASSWORD_REQUEST,
+    USER_RESETPASSWORD_SUCCESS,
+    USER_RESETPASSWORD_FAIL,
+
+
    
    
 } from '../constants/userConstants' 
@@ -80,15 +88,32 @@ export const userUpdateProfileReducer = (state = {}, action) => {
 }
 
 
-// export const userListReducer = ( state={ users: [] } , action) => {
-//     switch (action.type) {
-//       case USER_LIST_REQUEST:
-//         return { ...state, loading: true }
-//       case USER_LIST_SUCCESS:
-//         return { loading: false, users: action.payload }
-//       case USER_LIST_FAIL:
-//         return { loading: false, error: action.payload }
-//       default:
-//         return state
-//     }
-//   }
+
+export const userPasswordChangeReducer = (state = {}, action) => {
+    switch(action.type){
+        case USER_PASSWORD_REQUEST:
+            return {loading: true, }
+        case USER_PASSWORD_SUCCESS: 
+            return {loading: true, success:action.payload}
+        case USER_PASSWORD_FAIL:
+            return {loading: false, error: action.payload}
+        default:
+            return state
+    }
+}
+
+export const userPasswordResetReducer = (state = {}, action) => {
+    switch(action.type){
+        case USER_RESETPASSWORD_REQUEST:
+            return {loading: true, }
+        case USER_RESETPASSWORD_SUCCESS: 
+            return {loading: false, success:true}
+        case USER_RESETPASSWORD_FAIL:
+            return {loading: false, error: action.payload}
+        default:
+            return state
+    }
+}
+
+
+

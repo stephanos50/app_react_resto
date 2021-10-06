@@ -37,6 +37,7 @@
     "nodemailer": "^6.6.5",
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.1",
+    "react-toastify": "^8.0.3",
     "sequelize": "^6.6.5",
     "stripe": "^8.176.0",
     "uuid-by-string": "^3.0.4",

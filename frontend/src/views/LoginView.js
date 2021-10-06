@@ -6,6 +6,8 @@ import Loader from '../composants/Loader'
 import { login } from '../actions/userActions'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../composants/FormContainer'
+import {toast} from "react-toastify"
+
 
 const LoginScreem = ({location, history}) => {
 
@@ -24,10 +26,12 @@ const LoginScreem = ({location, history}) => {
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
+
     useEffect(()=> {
         if(userInfo){
+            toast.success(` Bonjour ${userInfo.first_name} !`)
             history.push(redirect)
-        }
+        } 
     }, [history, userInfo, redirect])
 
     const handleSubmit = (event) => {
@@ -90,6 +94,7 @@ const LoginScreem = ({location, history}) => {
                         </Form.Control.Feedback>
                     </Form.Group>
                     <Button type='submit' variant='primary'>Valider</Button>
+                    <Link to='/' className='m-3'> <Button> Retour </Button></Link>
                 </Form>
 
                 <Row className='py-3'>
@@ -99,13 +104,17 @@ const LoginScreem = ({location, history}) => {
                         </Link> 
                     </Col>
                 </Row>
-        </FormContainer>
+                <Row className='py-3'>
+                    <Col> 
+               
 
-       
-
-    )
-    
-        
-}
+                        <Link to='/forgotpassword'> 
+                            Mot de passe oublié ? 
+                        </Link> 
+                    </Col>
+                </Row>
+            </FormContainer>
+        )
+    }
 
 export default LoginScreem;

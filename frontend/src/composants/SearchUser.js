@@ -49,7 +49,7 @@ import { LinkContainer } from 'react-router-bootstrap'
                   <a href={`mailto:${user.email}`}>{user.email}</a>
                 </td>
                 <td>
-                  {user.role.name === 'admin' ? (
+                  {user.roles[0].name === 'admin' ? (
                     <i className='fas fa-check' style={{ color: 'green' }}></i>
                   ) : (
                     <i className='fas fa-times' style={{ color: 'red' }}></i>

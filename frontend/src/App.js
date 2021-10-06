@@ -24,6 +24,12 @@ import AllergenListView from './views/AllergenListView'
 import AllergenCreateView from './views/AllergenCreateView' 
 import RoleListView from './views/RoleListView'
 import RoleCreateView from './views/RoleCreateView'
+import PasswordLost from './views/PasswordView'
+import ResetPassword from './views/ResetPassword'
+import ContactView from './views/ContactView'
+import { InfoView } from './views/InfoView'
+
+ 
 
 
 
@@ -48,12 +54,16 @@ const  App = () => {
                 <Route path='/products/:id' component={ProductView} exact  />
                 <Route path='/cart/:id?' component={CartView} exact/>
                 <Route path='/login' component={LoginView} exact/>
+                <Route path='/forgotpassword' component={PasswordLost} exact/>
+                <Route path='/resetpassword/:resetoken' component={ResetPassword} exact/>
                 <Route path='/register' component={RegisterView}exact />
                 <Route path='/profile' component={ProfileView}exact />
                 <Route path='/shipping' component={ShippingView} exact/>
                 <Route path='/payment' component={PaymentView}exact />
                 <Route path='/placeorder' component={PlaceOrderView}exact />
                 <Route path='/order/:id' component={OrderView}exact />
+                <Route path='/contact' component={ContactView}exact />
+                <Route path='/info' component={InfoView}exact />
               </Container>
         
       

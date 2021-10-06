@@ -10,6 +10,7 @@ import { listProductDetails, updateProduct} from '../actions/productAction'
 import { listCategory } from '../actions/categoryAction'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import { listAllergen } from '../utilis/allergens'
+import {toast} from 'react-toastify'
 
 
 
@@ -45,6 +46,7 @@ const ProductEditScreem = ({match, history}) => {
         dispatch(listCategory())
         if (successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
+            toast.success(`${product.name} mit à jour`)
             history.push('/admin/productlist')
             
         } 
@@ -144,7 +146,7 @@ const ProductEditScreem = ({match, history}) => {
             Go Back
             </Link>
             <FormContainer>
-            <h1>Edit PRODUCT</h1>
+            <h1>Editer un produit</h1>
             {loadingUpdate && <Loader />}
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {loading ? ( <Loader /> ) : error ? ( <Message variant="danger">{error}</Message> ) : (

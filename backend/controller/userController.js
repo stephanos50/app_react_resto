@@ -36,15 +36,14 @@ exports.authUser =
     const user = await User.findByPk(email,{
         include: [Role,Order,{model:Address,include:{model:City}},]
     })
-
+    
     if( user && await user.validPassword(password)){
         res.json({
             email: user.email,
             _uuid: user._uuid,
             first_name: user.first_name,
             last_name: user.last_name,
-            isAdmin: user.isAdmin,
-            role: user.role.name,
+            role: user.roles[0].name,
             address: user.address,
             orders:user.orders,
             city: user.city,
@@ -60,8 +59,6 @@ exports.authUser =
 // @route POST /api/users
 // @access Public
 exports.registerUser = [ 
-    
-    
     body('first_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/),
     body('last_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/),
     body('email').isEmail(),
@@ -118,8 +115,7 @@ exports.registerUser = [
                 _uuid: user._uuid,
                 first_name: first_name,
                 last_name:last_name,
-                isAdmin: user.isAdmin,
-                role:newUser.role.name,
+                role: user.roles[0].name,
                 orders: newUser.orders,
                 address: address,
                 city: city,
@@ -144,9 +140,8 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
             _uuid : user._uuid,
             first_name : user.first_name,
             last_name : user.last_name,
-            isAdmin: user.isAdmin,
             orders: user.orders,
-            role :user.role.name,
+            role: user.roles[0].name,
         })
     } else {
         res.status(404)
@@ -191,7 +186,7 @@ exports.updateUserProfile = [
                     first_name: updateUser.first_name,
                     last_name: updateUser.last_name,
                     orders:user.orders,
-                    role :user.role.name,
+                    role: user.roles[0].name,
                     token: token
                 })
             } else {

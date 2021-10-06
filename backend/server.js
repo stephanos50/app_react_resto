@@ -18,6 +18,7 @@ const uploadRoutes = require('./routes/uploadRoutes')
 const rolesRoutes = require('./routes/roleRoutes')
 const addressRoutes = require('./routes/addressRoutes')
 const authRoutes = require('./routes/authentification');
+const contactRoutes = require('./routes/contactRoutes')
 
 
 const app = express();
@@ -41,6 +42,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/api/products', productRoutes);
+
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
@@ -52,6 +54,7 @@ app.use('/api/roles', rolesRoutes);
 app.use('/api/address', addressRoutes),
 app.use('/api/address', addressRoutes),
 app.use('/api/authentification', authRoutes);
+app.use('/api/contact', contactRoutes);
 
 
 app.get('/api/config/paypal', (req, res) =>

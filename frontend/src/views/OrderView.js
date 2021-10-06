@@ -1,7 +1,8 @@
 
+import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Row, Col, ListGroup, Card, Button} from 'react-bootstrap'
+import { Row, Col, ListGroup, Card, Button, Toast} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
@@ -9,6 +10,7 @@ import PayPal from '../composants/PayPal'
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderAction'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../constants/orderConstants'
 import OrderItem from '../composants/OrderItem'
+import { toast } from 'react-toastify'
 
 
 const OrderScreen = ({match, history}) => {
@@ -53,6 +55,7 @@ const OrderScreen = ({match, history}) => {
             document.body.appendChild(script)
         }
         if(!order ||  successPay || order.id !== Number(orderId) || successDeliver){
+            console.log(successPay + " " + successDeliver + " " + order  )
             dispatch({ type: ORDER_PAY_RESET })
             dispatch({ type: ORDER_DELIVER_RESET })
             dispatch(getOrderDetails(orderId))
@@ -69,6 +72,7 @@ const OrderScreen = ({match, history}) => {
 
     const successPaymentHandler = (paymentResult) => {
         console.log(paymentResult)
+        toast.success("Paiement a été validé")
         dispatch(payOrder(orderId, paymentResult))
        
       }
@@ -84,6 +88,9 @@ const OrderScreen = ({match, history}) => {
             <Col>
                 <h3> Numéro: {order.date_number}</h3>
                 <h3>Commande :  {order.date_createAt} heure: {order.date_time} </h3>
+            </Col>
+            <Col>
+            <Link to='/' className='m-3'> <Button> Retour </Button></Link>
             </Col>
       
         </Row>
@@ -106,10 +113,11 @@ const OrderScreen = ({match, history}) => {
                             </ListGroup>
                             <br></br>
                         </ListGroup.Item>
-                        
+                       
                         {order.payment != null && 
                             <ListGroup.Item>
                                 <h2>Livraison</h2>
+                                {order.payment !=null &&  ( <Message variant='success'> <h3>Le paiement a été validé</h3> </Message> )}
                                 {order.isDelivered ? <Message variant='success'> <h3>A été livrer</h3> </Message> : <Message variant='danger'><h3>N'est pas encore livrer</h3> </Message>}
 
                             </ListGroup.Item>

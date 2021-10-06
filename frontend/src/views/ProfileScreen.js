@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import { useDispatch, useSelector} from 'react-redux'
+import { Link } from 'react-router-dom'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
@@ -161,6 +162,7 @@ const ProfileScreem = ({ location, history}) => {
                         </tbody>
                     </Table>
                 )}
+                <Link to='/' className='m-3'> <Button> Retour </Button></Link>
             </Col>
         </Row>
         )
