@@ -154,6 +154,53 @@
     width:  10em ;
     border-color: '#000000';
   }
+
+  #adminmenu {
+    color: white;
+    font-weight: bold;
+    background-color:#984954;
+    border-radius: 2em;
+  }
+
+  #livreurmenu {
+    color: white;
+    font-weight: bold;
+    background-color:#75ac78;
+  }
+
+  #first_name {
+    color: rgb(83, 77, 120);
+    font-weight: bold;
+  }
+
+  #info {
+    color: rgb(210, 13, 13);
+    font-weight: bold;
+  }
+
+  #panier {
+    color: rgb(22, 5, 5);
+    font-weight: bold;
+  }
+
+  #contact {
+    color: rgb(208, 98, 25);
+    font-weight: bold;
+  }
+
+  #text-profile {
+    color: rgb(22, 5, 5);
+    font-weight: bold;
+
+  }
+  #text-admin {
+    font-weight: bold;
+  }
+  #text-livreur {
+    font-weight: bold;
+  }
+
+  
   
 
   

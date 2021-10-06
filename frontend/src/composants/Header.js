@@ -30,31 +30,31 @@ const Header = () => {
                 <Nav className=" ms-auto ml-auto">
 
                   <LinkContainer to="/cart"> 
-                    <Nav.Link>
+                    <Nav.Link id="panier">
                       <li className="fas fa-shopping-cart"></li> Panier
                     </Nav.Link>
                   </LinkContainer>
 
                   <LinkContainer to="/contact"> 
-                    <Nav.Link>
+                    <Nav.Link id="contact">
                       <li className="fas fa-address-card"></li> Contact
                     </Nav.Link>
                   </LinkContainer>
                  
-                  <LinkContainer to="/info"> 
-                    <Nav.Link>
+                  <LinkContainer to="/info" > 
+                    <Nav.Link id="info">
                       <li className="fas fa-info"></li> info
                     </Nav.Link>
                   </LinkContainer>
                   
                
-                  { (userInfo && userInfo.role == 'client') 
+                  { userInfo  && userInfo.role === 'client'
                   ? (
                       <NavDropdown title={userInfo.first_name} id='first_name'>
                         <LinkContainer to='/profile'>
-                          <NavDropdown.Item>Profile</NavDropdown.Item>
+                          <NavDropdown.Item id="text-profile">Profile</NavDropdown.Item>
                         </LinkContainer>
-                        <NavDropdown.Item onClick={logoutHandler}>
+                        <NavDropdown.Item onClick={logoutHandler} id="text-profile">
                           Se déconnecter
                         </NavDropdown.Item>
                       </NavDropdown>
@@ -62,7 +62,7 @@ const Header = () => {
                   ) : (userInfo && (userInfo.role == 'admin' || userInfo.role == 'livreur')) ? '' :
                   
                       <LinkContainer to="/login">
-                      <Nav.Link>
+                      <Nav.Link id="panier">
                         <li className="fas fa-user3"></li> Se connecter
                       </Nav.Link>
                       </LinkContainer>
@@ -71,34 +71,39 @@ const Header = () => {
                   }
                   {userInfo   && ( userInfo.role === 'admin' ) && (
                       <NavDropdown title='Admin' id='adminmenu'>
+                        <LinkContainer to='/profile'>
+                          <NavDropdown.Item id="text-profile">Profile</NavDropdown.Item>
+                        </LinkContainer>
                         <LinkContainer to='/admin/userlist'>
-                          <NavDropdown.Item>Utilisateurs</NavDropdown.Item>
+                          <NavDropdown.Item id="text-admin">Utilisateurs</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/productlist'>
-                          <NavDropdown.Item>La carte</NavDropdown.Item>
+                          <NavDropdown.Item id="text-admin">La carte</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/orderlist'>
-                          <NavDropdown.Item>Les commandes</NavDropdown.Item>
+                          <NavDropdown.Item id="text-admin">Les commandes</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/categorylist'>
-                          <NavDropdown.Item>Les categories</NavDropdown.Item>
+                          <NavDropdown.Item id="text-admin">Les categories</NavDropdown.Item>
                         </LinkContainer>
-                        <NavDropdown.Item onClick={logoutHandler}>
-                        <Dropdown.Divider />
+                        <NavDropdown.Item onClick={logoutHandler} id="text-admin">
+                        <Dropdown.Divider  />
                           Se déconnecter
                         </NavDropdown.Item>
                        
                       </NavDropdown>
                   )}
                    {userInfo   && (userInfo.role === 'livreur') && (
-                       <NavDropdown title='Livreur' id='livreurmenu'>
+                      <NavDropdown title='Livreur' id='livreurmenu'>
+                        <LinkContainer to='/profile'>
+                          <NavDropdown.Item id="text-profile">Profile</NavDropdown.Item>
+                        </LinkContainer>
                         <LinkContainer to='/admin/orderlist'>
-                         <NavDropdown.Item>Les commandes</NavDropdown.Item>
+                         <NavDropdown.Item id="text-livreur">Les commandes</NavDropdown.Item>
                        </LinkContainer>
-                       <NavDropdown.Item onClick={logoutHandler}>
+                       <NavDropdown.Item onClick={logoutHandler} id="text-livreur">
                         Se déconnecter
                       </NavDropdown.Item>
-                      
                       </NavDropdown>
                   )}
                   
