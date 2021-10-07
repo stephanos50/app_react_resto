@@ -17,7 +17,7 @@ const Header = () => {
     return (
       
         <header>
-         <Navbar bg="transparent" variant="light" expand="lg" collapseOnSelect>
+         <Navbar bg="transparent" variant="light" expand="lg" collapseOnSelect className="text-capitalize">
             <Container> 
              <LinkContainer to="/"> 
                 <Navbar.Brand>
@@ -50,7 +50,7 @@ const Header = () => {
                
                   { userInfo  && userInfo.role === 'client'
                   ? (
-                      <NavDropdown title={userInfo.first_name} id='first_name'>
+                      <NavDropdown title={userInfo.first_name} className="text-uppercase font-weight-bold">
                         <LinkContainer to='/profile'>
                           <NavDropdown.Item id="text-profile">Profile</NavDropdown.Item>
                         </LinkContainer>
@@ -70,21 +70,21 @@ const Header = () => {
                   
                   }
                   {userInfo   && ( userInfo.role === 'admin' ) && (
-                      <NavDropdown title='Admin' id='adminmenu'>
+                      <NavDropdown title='admin' class="font-weight-bold" >
                         <LinkContainer to='/profile'>
-                          <NavDropdown.Item id="text-profile">Profile</NavDropdown.Item>
+                          <NavDropdown.Item>profile</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/userlist'>
-                          <NavDropdown.Item id="text-admin">Utilisateurs</NavDropdown.Item>
+                          <NavDropdown.Item>Utilisateurs</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/productlist'>
-                          <NavDropdown.Item id="text-admin">La carte</NavDropdown.Item>
+                          <NavDropdown.Item >produits</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/orderlist'>
-                          <NavDropdown.Item id="text-admin">Les commandes</NavDropdown.Item>
+                          <NavDropdown.Item i>commandes</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/categorylist'>
-                          <NavDropdown.Item id="text-admin">Les categories</NavDropdown.Item>
+                          <NavDropdown.Item >categories</NavDropdown.Item>
                         </LinkContainer>
                         <NavDropdown.Item onClick={logoutHandler} id="text-admin">
                         <Dropdown.Divider  />
@@ -94,12 +94,12 @@ const Header = () => {
                       </NavDropdown>
                   )}
                    {userInfo   && (userInfo.role === 'livreur') && (
-                      <NavDropdown title='Livreur' id='livreurmenu'>
+                      <NavDropdown title='livreur'>
                         <LinkContainer to='/profile'>
-                          <NavDropdown.Item id="text-profile">Profile</NavDropdown.Item>
+                          <NavDropdown.Item id="text-profile">profile</NavDropdown.Item>
                         </LinkContainer>
                         <LinkContainer to='/admin/orderlist'>
-                         <NavDropdown.Item id="text-livreur">Les commandes</NavDropdown.Item>
+                         <NavDropdown.Item id="text-livreur">commandes</NavDropdown.Item>
                        </LinkContainer>
                        <NavDropdown.Item onClick={logoutHandler} id="text-livreur">
                         Se déconnecter

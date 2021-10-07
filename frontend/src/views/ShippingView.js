@@ -80,7 +80,7 @@ const ShippingScreem = ({ history }) => {
 
     return <FormContainer>
         <CheckoutSteps step1 step2 />
-           <h1>Shipping</h1>
+           <h1>Adresse de livraison</h1>
            <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                    

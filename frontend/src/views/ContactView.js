@@ -43,7 +43,7 @@ const ContactView = () => {
 
     return (
         <FormContainer>
-            <h1>Contactez nous</h1>
+            <h1>Contactez-nous</h1>
             <Form noValidate validated={validated}  onSubmit={handleSubmit}>
                 
                 <Form.Group>
