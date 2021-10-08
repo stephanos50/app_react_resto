@@ -43,6 +43,12 @@ Order.init(
             defaultValue:0,
             allowNull:false,
         },
+        delete: {
+            type: DataTypes.BOOLEAN,
+            defaultValue:false,
+            require: true,
+            allowNull:false,
+        },
 
         isDelivered:{
             type: DataTypes.BOOLEAN,
