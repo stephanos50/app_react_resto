@@ -12,6 +12,7 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
 
 
+
 const ProfileScreem = ({ location, history}) => {
 
     const [first_name, setFirstName] = useState('')
@@ -21,6 +22,7 @@ const ProfileScreem = ({ location, history}) => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState(null)
     const [messageUpdate, setmessageUpdate] = useState(null)
+    const [messageCommande, setMessageCommande] = useState('')
 
     const dispatch = useDispatch()
 
@@ -33,7 +35,7 @@ const ProfileScreem = ({ location, history}) => {
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
     const { error:errorUpdate, success } = userUpdateProfile
 
-   
+    
     useEffect(() => {
       
         if(!userInfo){
@@ -44,9 +46,14 @@ const ProfileScreem = ({ location, history}) => {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
             } else {
+                
                 setFirstName(user.first_name)
                 setLastName(user.last_name)
                 setEmail(user.email)
+               
+            }
+            if(!user.orders){
+                setMessageCommande('Aucune commande')
             }
         }
     }, [dispatch, history, userInfo, user, success])
@@ -132,7 +139,7 @@ const ProfileScreem = ({ location, history}) => {
             </Col>
             <Col md={9}>
                 <h2>Mes commandes</h2>
-                { (userInfo.orders.length === 0) ? <Message variant='danger'>Auncune commande</Message> : (
+                { !user.orders ? <Message variant='danger'>{message}</Message> : (
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
@@ -140,20 +147,22 @@ const ProfileScreem = ({ location, history}) => {
                                 <th>Heure</th>
                                 <th>Date</th>
                                 <th>Total</th>
-                                <th>Délivrer</th>
+                                
+                                <th>Livrée</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {userInfo.orders.map(order => (
+                            {user.orders.map(order => (
                                 <tr key={order.id}>
-                                    <td>{order.date_number}</td>
-                                    <td>{order.date_time}</td>
+                                    <td>{order.number}</td>
+                                    <td>{order.time}</td>
                                     <td>{order.date_createAt}</td>
                                     <td>{order.total} €</td>
-                                    <td>{order.isDelivered ? order.isDeliveredAt : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>)}</td>
+                                    <td>{order.isDelivered ?  ( <i className='' style={{color:'#B52036'}}>Livrée</i>) : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>) }</td>
                                     <td>
                                         <LinkContainer to={`/order/${order.id}`}>
+                                        
                                             <Button className='btn-sm' variant='primary'>Details</Button>
                                         </LinkContainer>
                                     </td>

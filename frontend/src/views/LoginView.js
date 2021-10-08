@@ -6,7 +6,6 @@ import Loader from '../composants/Loader'
 import { login } from '../actions/userActions'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../composants/FormContainer'
-import {toast} from "react-toastify"
 
 
 const LoginScreem = ({location, history}) => {
@@ -29,7 +28,7 @@ const LoginScreem = ({location, history}) => {
 
     useEffect(()=> {
         if(userInfo){
-            toast.success(` Bonjour ${userInfo.first_name} !`)
+           
             history.push(redirect)
         } 
     }, [history, userInfo, redirect])

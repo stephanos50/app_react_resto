@@ -7,7 +7,7 @@ import CheckoutSteps  from '../composants/CheckoutSteps'
 
 
 const PaymentScreem = ({ history }) => {
-
+   
     const cart = useSelector((state) => state.cart)
     const {shippingAddress} = cart
 

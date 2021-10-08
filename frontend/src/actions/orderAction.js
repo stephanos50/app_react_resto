@@ -39,13 +39,14 @@ export const createOrder = (order) =>  async (dispatch, getSate) => {
         }
         
         const { data } = await axios.post(`/api/orders`, order, config)
+        localStorage.removeItem('cartItems') 
         
         dispatch({ 
             type: ORDER_CREATE_SUCCESS,
             payload: data,
         })
 
-        // localStorage.removeItem('cartItems') 
+       
 
 
     } catch (error) {
@@ -113,8 +114,10 @@ export const getOrderDetails = (id) =>  async (dispatch, getSate) => {
             type: ORDER_PAY_SUCCESS,
             payload: data,
         })
+        
         localStorage.removeItem('__paypal_storage__')
         localStorage.removeItem('__belter_experiment_storage__')
+       
        
         
     } catch (error) {

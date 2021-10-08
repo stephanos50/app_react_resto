@@ -21,7 +21,7 @@ const bcrypt = require("bcrypt");
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
 
-const date = new Date()
+
 
 
 
@@ -92,11 +92,11 @@ async function productOrderCreate(qty, price, orderId,productId){
 
 
 async function createProductOrder01(){
-  
+  const date = new Date()
   const datailsOrder = {
     number: 'number',
     time: 'time',
-    createAt:new Date()
+    createAt:date
   }
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);
@@ -112,11 +112,11 @@ async function createProductOrder01(){
 };
 
 async function createProductOrder02(){
-  
+  const date = new Date()
   const datailsOrder = {
     number: 'number',
     time: 'time',
-    createAt: new Date()
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);
@@ -133,11 +133,11 @@ async function createProductOrder02(){
 };
 
 async function createProductOrder03(){
-  
+  const date = new Date()
   const datailsOrder = {
     number: 'number',
     time: 'time',
-    createAt: new Date()
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);
@@ -152,11 +152,11 @@ async function createProductOrder03(){
 };
 
 async function createProductOrder04(){
-  
+  const date = new Date()
   const datailsOrder = {
     number: 'number',
     time: 'time',
-    createAt: new Date()
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);
@@ -171,6 +171,7 @@ async function createProductOrder04(){
 };
 
 async function updateOrders(){
+  const date = new Date()
     const order = await Order.findOne({
       where: {
         total: 0
@@ -187,7 +188,7 @@ async function updateOrders(){
       subTotal = subTotal + item.price
     })
     order.setDataValue('total', subTotal)
-    order.setDataValue('date', new Date())
+    order.setDataValue('date', date)
     order.setDataValue('addressId', 1)
     order.setDataValue('userEmail', 'stefan@exemple.be')
     await order.save()
@@ -195,6 +196,7 @@ async function updateOrders(){
 };
 
 async function updateOrdersRoot(){
+  const date = new Date()
   const order = await Order.findOne({
     where: {
       total: 0
@@ -211,7 +213,7 @@ async function updateOrdersRoot(){
     subTotal = subTotal + item.price
   })
   order.setDataValue('total', subTotal)
-  order.setDataValue('date', new Date())
+  order.setDataValue('date', date)
   order.setDataValue('addressId', 2)
   order.setDataValue('userEmail', 'root@exemple.be')
   await order.save()

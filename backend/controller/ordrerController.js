@@ -116,6 +116,7 @@ exports.getOrders = asyncHandler(async (req, res) => {
 // @route PUT /api/orders/:id/pay
 // @access Private
 exports.updateOrderToPaid = asyncHandler(async (req, res) => {
+
     const date = new Date()
     const order = await Order.findByPk(req.params.id,{
         include: [Payment, User]
@@ -133,18 +134,17 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
     const payementDetal = {
         status: req.body.status,
         date: date,
-        update_time: req.body.update_time,
-        email: req.body.payer.email_address,
         orderId: order.id,
         paymentMethodeId:methode.id
     }
     const payment = await Payment.create(payementDetal)
     await payment.save()
 
-    const invoice = await Invoice.create({
-        number: date,
-        paymentId:payment.id,
-    })
+    const invoiceDetails = {
+        paymentId:payment.id
+    }
+
+    const invoice = await Invoice.create(invoiceDetails)
     await invoice.save()
     try {
         await sendEmail({

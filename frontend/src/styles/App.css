@@ -155,6 +155,16 @@
     border-color: '#000000';
   }
 
+  #name {
+    color:black;
+    font-weight: bold;
+  }
+
+  #user {
+    color:rgb(223, 80, 27);
+    font-weight: bold;
+  }
+
 
 
   

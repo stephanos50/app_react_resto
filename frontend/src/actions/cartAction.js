@@ -36,6 +36,7 @@ export const removeFromCart = (id) =>  (dispatch, getState) => {
 
 
 export const saveShippingAddress = (data) =>  async (dispatch, getState) => {
+    
     dispatch({
         type: CART_SAVE_SHIPPING_ADDRESS,
         payload: data
@@ -50,9 +51,13 @@ export const saveShippingAddress = (data) =>  async (dispatch, getState) => {
             Authorization: `Bearer ${userInfo.token}`,
         },
       }
-    await axios.put(`/api/address/shipping`,data, config )
+   
+    
+    const address = await axios.put(`/api/address/shipping`,data, config )
 
-    localStorage.setItem('shippingAddress', JSON.stringify(data))
+    localStorage.setItem('shippingAddress', JSON.stringify(address))
+    
+    
    
 }
 

@@ -28,6 +28,7 @@ import PasswordLost from './views/PasswordView'
 import ResetPassword from './views/ResetPassword'
 import ContactView from './views/ContactView'
 import { InfoView } from './views/InfoView'
+import AdminOrderView from './views/AdminOrderView'
 
  
 
@@ -41,6 +42,7 @@ const  App = () => {
              <Container>
                 <Route path='/' component={Home} exact />
                 <Route path='/admin/orderList' component={OrderListView} exact  />
+                <Route path='/admin/order/:id' component={AdminOrderView} exact  />
                 <Route path='/admin/userlist' component={UserListView} exact  />
                 <Route path='/admin/productlist' component={ProductListView} exact  />
                 <Route path='/admin/categorylist' component={CategoryListView} exact  />

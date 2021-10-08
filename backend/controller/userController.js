@@ -38,12 +38,14 @@ exports.authUser =
     })
     
     if( user && await user.validPassword(password)){
+        const names = user.roles.map((role) => role.name)
+        const [name] = names
         res.json({
             email: user.email,
             _uuid: user._uuid,
             first_name: user.first_name,
             last_name: user.last_name,
-            role: user.roles[0].name,
+            role: name,
             address: user.address,
             orders:user.orders,
             city: user.city,
@@ -88,7 +90,8 @@ exports.registerUser = [
             passwordHash: await bcrypt.hash(password,saltRounds),
             
         })  
-        user.setDataValue('roleId', 2)
+        
+        await user.setRoles(2),
         await user.save()
        
         const address = await Address.create({
@@ -109,13 +112,16 @@ exports.registerUser = [
         })
 
         if(user){
-           
+            console.log(address)
+            console.log(city)
+            const names = newUser.roles.map((role) => role.name)
+            const [name] = names
             res.status(201).json({
                 email: email,
                 _uuid: user._uuid,
                 first_name: first_name,
                 last_name:last_name,
-                role: user.roles[0].name,
+                role: name,
                 orders: newUser.orders,
                 address: address,
                 city: city,
@@ -133,15 +139,20 @@ exports.registerUser = [
 // @access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
     
-    const user = await User.findByPk(req.user.email,{include: [Order, Role]})
+    const user = await User.findByPk(req.user.email,{include: [Order, Role,Address]})
     if (user) {
+        const city = await City.findOne({where: {id: user.address.id}})
+        const names = user.roles.map((role) => role.name)
+        const [name] = names
         res.json({
             email: user.email,
             _uuid : user._uuid,
             first_name : user.first_name,
             last_name : user.last_name,
             orders: user.orders,
-            role: user.roles[0].name,
+            role: name,
+            address: user.address,
+            city: city,
         })
     } else {
         res.status(404)
@@ -171,9 +182,12 @@ exports.updateUserProfile = [
             throw new Error('Invlide input')
         } else {
             const user = await User.findByPk(req.body.id, {
-                include: [Order, Role]
+                include: [Order, Role, Address]
             })
             if (user) {
+                const city = await City.findOne({where: {id: user.address.id}})
+                const names = user.roles.map((role) => role.name)
+                const [name] = names
                 user.first_name = req.body.first_name || user.first_name
                 user.last_name = req.body.last_name || user.last_name
                 if(req.body.password){
@@ -186,8 +200,10 @@ exports.updateUserProfile = [
                     first_name: updateUser.first_name,
                     last_name: updateUser.last_name,
                     orders:user.orders,
-                    role: user.roles[0].name,
-                    token: token
+                    role: name,
+                    token: token,
+                    address: user.address,
+                    city: city,
                 })
             } else {
                 res.status(404)

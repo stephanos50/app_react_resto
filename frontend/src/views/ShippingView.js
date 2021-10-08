@@ -33,6 +33,7 @@ const ShippingScreem = ({ history }) => {
             history.push('/login')
         } 
         if(Object.values(shippingAddress).length === 0){
+            console.log("userInfo")
                 setAddress(userInfo.address.name )
                 setNumber(userInfo.address.number)
                 setFloor(userInfo.address.floor)
@@ -65,7 +66,7 @@ const ShippingScreem = ({ history }) => {
     const sumbitHandler = (e) => {
         e.preventDefault()
         dispatch(saveShippingAddress({name, number, floor, city, email:userInfo.email }))
-        history.push('/placeorder')
+        history.push('/payment')
     }
 
     const setCityName = (city) => {
@@ -152,14 +153,13 @@ const ShippingScreem = ({ history }) => {
                         <Form.Group className="mb-3" controlId='city'> 
                             <Form.Label>Commune</Form.Label>
                             <Form.Select aria-label="" onChange={(e) => setCityName(e.target.value)  }>
+                            <option key={city.id}>{city.name}</option>
                                 { cities !== undefined ? 
-                                    
                                     cities.map((item) => (
-                                        
-                                     <option key={item.id}  value={item.name}>
-                                         {item.name}
-                                     </option>
-                                 ))
+                                        <option key={item.id}  value={item.name}>
+                                            {item.name}
+                                        </option>
+                                    ))
                                    
                              :  <Redirect to='/cart' /> }
                                 

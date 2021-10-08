@@ -26,6 +26,7 @@ Order.init(
     {
         number: {
             type: DataTypes.STRING,
+            unique: true,
             allowNull:false,
         },
         time: {

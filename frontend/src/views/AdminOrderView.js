@@ -11,12 +11,10 @@ import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderAction'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../constants/orderConstants'
 import OrderItem from '../composants/OrderItem'
 import { toast } from 'react-toastify'
-import {browserHistory} from 'react-router'
 
 
+const AdminOrderView = ({match, history}) => {
 
-const OrderScreen = ({match, history}) => {
-    console.log(history)
     const orderId  = match.params.id
 
     const [sdkReady, setSdkReady] = useState(false)
@@ -36,15 +34,13 @@ const OrderScreen = ({match, history}) => {
     const { userInfo } = userLogin
 
     
-    
+
    
 
     useEffect(() => {
         if (!userInfo) {
             history.push('/login')
         } 
-
-        
         
         const addPayPalScript = async () => {
             const { data: clientId } = await axios.get('/api/config/paypal')
@@ -58,14 +54,11 @@ const OrderScreen = ({match, history}) => {
             console.log(script)
             document.body.appendChild(script)
         }
-        if(successPay){
-            toast.success("Paiement validé")
-        }
         if(!order ||  successPay || order.id !== Number(orderId) || successDeliver){
+            console.log(successPay + " " + successDeliver + " " + order  )
             dispatch({ type: ORDER_PAY_RESET })
             dispatch({ type: ORDER_DELIVER_RESET })
             dispatch(getOrderDetails(orderId))
-          
             
             
         } else if(!order.payment){
@@ -79,9 +72,10 @@ const OrderScreen = ({match, history}) => {
 
     const successPaymentHandler = (paymentResult) => {
         console.log(paymentResult)
+        toast.success("Paiement a été validé")
         dispatch(payOrder(orderId, paymentResult))
        
-    }
+      }
     
     const deliverHandler = () => {
         dispatch(deliverOrder(order))
@@ -92,11 +86,11 @@ const OrderScreen = ({match, history}) => {
     return loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : <>
         <Row className='p-3'>
             <Col>
-                <h3> Numéro: {order.number}</h3>
-                <h3>Commande :  {order.date_createAt} heure: {order.time} </h3>
+                <h3> Numéro: {order.date_number}</h3>
+                <h3>Commande :  {order.date_createAt} heure: {order.date_time} </h3>
             </Col>
             <Col>
-            <Link to='/profile' className='m-3'> <Button> Retour </Button></Link>
+            <Link to='/admin/orderlist' className='m-3'> <Button> Retour </Button></Link>
             </Col>
       
         </Row>
@@ -199,4 +193,4 @@ const OrderScreen = ({match, history}) => {
 
 }
 
-export default OrderScreen
+export default AdminOrderView

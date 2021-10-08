@@ -4,18 +4,20 @@ const Payment = require('./Payment')
 
 
 class Invoice extends Model {
-    
+  
 }
 
-Invoice.init ({
-    id: {
-        type:DataTypes.DATE,
-        primaryKey:true
+Invoice.init (
+    {
+        uid: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true // Automatically gets converted to SERIAL for postgres
+          }
     },
-   },
-   {
-    sequelize,
-    modelName:'invoice'
+    {
+        sequelize,
+        modelName:'invoice'
     },
 )
 
