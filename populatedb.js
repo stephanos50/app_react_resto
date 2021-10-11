@@ -258,16 +258,7 @@ async function createCity(){
 
 
 
-async function categoryCreate(name){
-  categorieDetail = {
-    name : name
-  }  
-  const category = await Category.create(categorieDetail);
-  await category.save();
-  console.log("Nouvelle categorie " + category.name);
-  categories.push(category);
-  return category;
-};
+
 
 async function createUsers(){
 
@@ -458,14 +449,25 @@ async function createProducts(){
    
  ])
 }
-async function createCategories(){
-  return Promise.all([
-    categoryCreate('Entrée'),
-    categoryCreate('Plats'),
-    categoryCreate('Suggestions'),
-   
-  ]);
+
+
+
+async function categoryCreate(name){
+  categorieDetail = {
+    name : name
+  }  
+  const category = await Category.create(categorieDetail);
+  await category.save();
+  console.log("Nouvelle categorie " + category.name);
+  categories.push(category);
+  return category;
 };
+
+
+
+
+
+
 
 
 async function createCities(){
@@ -580,6 +582,9 @@ async function createReviewsOther(){
 (async () => {
   try {
     await sequelize.sync({ force: true });
+    const enter = categoryCreate('Entrée'),
+    const plat = categoryCreate('Plats'),
+    const suggestions = categoryCreate('Suggestions'),
     const cty = await createCity()
     const users = await createUsers()
     const cities = await createCities();    
