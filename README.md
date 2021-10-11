@@ -1,24 +1,39 @@
 # web-app-projet API
 
-> Backend API from directory website
-web_app_coeurbleu
-## Usage
-
-Rename "config/congfig.env.env" to 
+> Backend API from directory website web_app_coeurbleu
 
 ## Install Depenencies
-```
-npm install
-```
 
-## Run App
-```
+`web_app_coeurbleu\ npm install`
 
-# Run in dev mode
-npm run dev
+## Run App Sever
 
-# Run in prod mode
-npm start
-```
+`web_app_coeurbleu\ npm run dev`
 
-- Version: 1.0.0
+
+> FrontEnd API from directory website web_app_coeurbleu\frontend
+
+## Install Depenencies
+
+`web_app_coeurbleu\frontend  npm install`
+
+## Run App Client
+
+`web_app_coeurbleu\frontend  npm start`
+
+## Builds the app for production 
+
+> Production API 
+
+`web_app_coeurbleu\frontend npm run build`
+
+## Run the app for production 
+
+`web_app_coeurbleu\ npm start`
+
+
+
+
+
+
+

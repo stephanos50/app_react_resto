@@ -2,13 +2,28 @@
 @hostname = http://localhost:5000
 @resettoken = "c64974aac6f9ea2edd4fb61a401c0e19b3205f7d"
 
-@password = "1234"
+@password = "password"
+
+
+### 
+GET {{hostname}}/api/address/1
+Content-Type: application/json
+
+
+###
+POST {{hostname}}/api/users/login
+Content-Type: application/json
+
+{
+    "email": "stefan@exemple.be",
+    "password": "password"
+}
 
 ###
 GET {{hostname}}/api/products 
 
 ###
-GET {{hostname}}/api/products/1 
+GET {{hostname}}/api/products/2
 
 ###
 GET {{hostname}}/api/categories
@@ -16,8 +31,23 @@ GET {{hostname}}/api/categories
 ###
 GET {{hostname}}/api/roles
 
-###
+### 
+DELETE {{hostname}}/api/orders/1
+
+### ALLERGENS
 GET {{hostname}}/api/allergens
+
+
+### INVOICES
+GET {{hostname}}/api/invoices
+Content-Type: application/json 
+
+### INVOICES BY ID
+GET {{hostname}}/api/invoices/2
+
+
+### DELETE INVOICE
+DELETE {{hostname}}/api/invoices/4
 
 ###
 GET {{hostname}}/api/authentification
@@ -35,6 +65,7 @@ Content-Type: application/json
     "token": "c64974aac6f9ea2edd4fb61a401c0e19b3205f7d",
     "password":123
 }
+
 
 
 

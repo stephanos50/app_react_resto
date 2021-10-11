@@ -13,7 +13,13 @@ Invoice.init (
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true // Automatically gets converted to SERIAL for postgres
-          }
+        },
+        delete: {
+            type: DataTypes.BOOLEAN,
+            defaultValue:false,
+            require: true,
+            allowNull:false,
+        },
     },
     {
         sequelize,

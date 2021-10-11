@@ -29,6 +29,10 @@ import ResetPassword from './views/ResetPassword'
 import ContactView from './views/ContactView'
 import { InfoView } from './views/InfoView'
 import AdminOrderView from './views/AdminOrderView'
+import  ReviewListView  from './views/ReviewListView'
+import UserReview from './views/UserReview'
+import UserInvoicesView from './views/UserInvoicesView'
+import InvoiceUserListView from './views/InvoiceUserListView'
 
  
 
@@ -52,7 +56,16 @@ const  App = () => {
                 <Route path='/admin/rolelist' component={RoleListView} exact  />
                 <Route path='/admin/rolecreate' component={RoleCreateView} exact  /> 
                 <Route path='/admin/product/:id/edit' component={ProductEditView} exact  />
-                <Route path='/admin/:email/edit' component={UserEditView} exact  />
+                <Route path='/admin/:id/edit' component={UserEditView} exact  />
+                <Route path='/admin/reviewsuserlist' component={ReviewListView} exact  /> 
+                <Route path='/admin/userreview/:id' component={UserReview} exact  /> 
+                <Route path='/admin/invoicesuserlist' component={InvoiceUserListView} exact  /> 
+                <Route path='/admin/userinvoices/:id' component={UserInvoicesView} exact  /> 
+                <Route path='/admin/userinvoices/orders/:id' component={AdminOrderView} exact  /> 
+
+                
+
+
                 <Route path='/products/:id' component={ProductView} exact  />
                 <Route path='/cart/:id?' component={CartView} exact/>
                 <Route path='/login' component={LoginView} exact/>

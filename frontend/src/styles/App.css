@@ -155,7 +155,7 @@
     border-color: '#000000';
   }
 
-  #name {
+  #role {
     color:black;
     font-weight: bold;
   }
@@ -164,6 +164,14 @@
     color:rgb(223, 80, 27);
     font-weight: bold;
   }
+
+
+.visible {
+  visibility: visible;
+}
+.invisible {
+  visibility: hidden;
+}
 
 
 

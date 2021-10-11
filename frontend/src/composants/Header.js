@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, Container, NavDropdown,Dropdown, Row, Col } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector} from 'react-redux'
 import { logout } from '../actions/userActions'
@@ -68,7 +68,7 @@ const Header = () => {
                   
                   )}
                   {userInfo   && ( userInfo.role === 'admin' ) && (
-                      <NavDropdown title="admin" className="text-capitalize" id="name">
+                      <NavDropdown title="admin" className="text-capitalize" id="role">
                         
                         <LinkContainer to='/admin/userlist'>
                           <NavDropdown.Item>utilisateurs</NavDropdown.Item>
@@ -82,6 +82,13 @@ const Header = () => {
                         <LinkContainer to='/admin/categorylist'>
                           <NavDropdown.Item >categories</NavDropdown.Item>
                         </LinkContainer>
+                        <LinkContainer to='/admin/reviewsuserlist'>
+                          <NavDropdown.Item >commentaires</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to='/admin/invoicesuserlist'>
+                          <NavDropdown.Item >factures</NavDropdown.Item>
+                        </LinkContainer>
+                        
                         <NavDropdown.Item onClick={logoutHandler}>
                        
                         </NavDropdown.Item>
@@ -89,7 +96,7 @@ const Header = () => {
                       </NavDropdown>
                   )}
                    {userInfo   && (userInfo.role === 'livreur') && (
-                      <NavDropdown title="livreur" className="text-capitalize" id="name">
+                      <NavDropdown title="livreur" className="text-capitalize" id="role">
                           <LinkContainer to='/admin/orderlist'>
                             <NavDropdown.Item id="text-livreur">commandes</NavDropdown.Item>
                           </LinkContainer>

@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Row, Col, ListGroup, Card, Button, Toast} from 'react-bootstrap'
+import { Row, Col, ListGroup, Card, Button} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
@@ -11,7 +11,6 @@ import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderAction'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../constants/orderConstants'
 import OrderItem from '../composants/OrderItem'
 import { toast } from 'react-toastify'
-import {browserHistory} from 'react-router'
 
 
 

@@ -25,7 +25,8 @@ import {
     orderPayReducer, 
     orderListMyReducer,
     orderListReducer,
-    orderDeliverReducer
+    orderDeliverReducer,
+    viewOrderDeleteReducer,
 } from './reducers/orderReducers'
 import {userListReducer, userDeleteReducer, userAdminDetailsReducer, userUpdateReducer} from './reducers/adminReducers'
 import {
@@ -40,6 +41,9 @@ import {cityListReducer} from './reducers/cityReducer'
 import {rolesListReducer, roleCreateReducer, roleDeleteReducer} from './reducers/roleReducers'
 
 import { messageContactReducer } from "./reducers/contactReducer"
+
+import { listreviewReducer, listusersReducer, reviewsDeleteReducer } from './reducers/reviewReducer'
+import { listinvoicesusersReducer, listordersusersReducer, invoiceDeleteReducer } from "./reducers/invoiceReducer"
 
 const reducer = combineReducers({
     productList: productListReducer,
@@ -62,6 +66,7 @@ const reducer = combineReducers({
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
     orderListMy: orderListMyReducer,
+    viewOrderDelete:viewOrderDeleteReducer,
     cityList:cityListReducer,
     categoryList:categoryListReducer,
     categoryCreate:categoryCreateReducer,
@@ -76,6 +81,12 @@ const reducer = combineReducers({
     orderDeliver:orderDeliverReducer,
     productReviewCreate:productReviewCreateReducer,
     messageContact:messageContactReducer,
+    listusers:listusersReducer,
+    listreview:listreviewReducer,
+    reviewsDelete:reviewsDeleteReducer,
+    listinvoicesusers:listinvoicesusersReducer, 
+    listordersusers:listordersusersReducer, 
+    invoiceDelete:invoiceDeleteReducer
 })
 
 

@@ -8,6 +8,7 @@ import Loader from '../composants/Loader'
 import Message from '../composants/Message'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 import Allergen from '../composants/Allergen'
+import Review from '../composants/Review'
 
 
 const Product = ({history, match}) => {
@@ -28,7 +29,9 @@ const Product = ({history, match}) => {
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo} = userLogin
-
+    
+    
+   
 
     useEffect(() => {
         if(successProductReview){
@@ -45,6 +48,7 @@ const Product = ({history, match}) => {
 
     
     if (!product.price ) return null;
+    
 
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`)
@@ -138,18 +142,9 @@ const Product = ({history, match}) => {
                     <Row>
                         <Col md={6}>
                             <h4 className='desctiprion-allergene'>Commentaires</h4>
-                            {Object.keys(product.reviews).length === 0 && <Message><h4 className='desctiprion-allergene'>Aucun commentaires</h4></Message>}
-                            <ListGroup variant='flush' className='price-product p-2'>
-                                {product.reviews.map((review) => (
-                                    <ListGroup.Item key={review.id}>
-                                        <strong>{review.userEmail}</strong>
-                                        <Assess value={review.rating}/>
-                                        {review.createdAt.substring(0, 10)}
-                                        <br></br>
-                                        {review.comment}
-                                    </ListGroup.Item>    
-                                ))}
-                            </ListGroup>
+                            
+                            <Review review={product.reviews} />
+                           
                             <ListGroup>
                                 {successProductReview && (
                                     <Message variant='success'>

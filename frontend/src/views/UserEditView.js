@@ -16,7 +16,7 @@ import {toast} from 'react-toastify'
 
 const UserEditScreem = ({match, history}) => {
     
-    const userId = match.params.email
+    const userId = match.params.id
     const [email, setEmail] = useState('')
     const [first_name, setFirstName] = useState('')
     const [last_name, setLastName] = useState('')
@@ -44,7 +44,9 @@ const UserEditScreem = ({match, history}) => {
                 toast.success(`Role de ${user.first_name} modifié`)
                 history.push('/admin/userlist')
             }else{
-                if(!user||!user.roles ||  !user.first_name || user.email !== userId  ){
+                
+                console.log(typeof Number(userId) )
+                if(!user||!user.roles ||  !user.first_name || user.id !== Number(userId)  ){
                     dispatch(getUserDetails(userId))
                 }else {
                     setEmail(user.email)
@@ -53,7 +55,7 @@ const UserEditScreem = ({match, history}) => {
                     const role = user.roles.map((role) => {
                         handleOnChange(role.id -1)
                     })
-                   
+                    
                 }
             }
        

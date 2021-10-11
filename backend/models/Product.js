@@ -37,6 +37,7 @@ Product.init(
             type: DataTypes.TEXT,
             validate: {
                 is: /^[a-zA-Zéèà, ']+$/i, 
+                max:200
             },
         },
         price: {
@@ -57,6 +58,7 @@ Product.init(
             type:DataTypes.INTEGER,
             defaultValue:0,
             allowNull:false,
+           
             
         },
     }, {

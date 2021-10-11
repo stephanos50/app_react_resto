@@ -79,8 +79,8 @@ export const deleteUser = (email) => async (dispatch, getState) => {
   }
 }
 
-export const getUserDetails = (email) => async (dispatch, getState) => {
-  
+export const getUserDetails = (id) => async (dispatch, getState) => {
+    
     try {
       dispatch({
         type: USER_DETAILS_REQUEST,
@@ -95,7 +95,7 @@ export const getUserDetails = (email) => async (dispatch, getState) => {
             Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { data } = await axios.get(`/api/admin/${email}`, config)
+      const { data } = await axios.get(`/api/admin/${id}`, config)
 
       dispatch({
         type: USER_DETAILS_SUCCESS,

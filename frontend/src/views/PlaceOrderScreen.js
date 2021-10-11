@@ -1,13 +1,12 @@
 
 import { useEffect } from 'react'
-import { Button, Row, Col, ListGroup, Card, Toast} from 'react-bootstrap'
+import { Button, Row, Col, ListGroup, Card} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import CheckoutSteps from  '../composants/CheckoutSteps'
 import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 import { USER_DETAILS_RESET } from '../constants/userConstants'
 import { createOrder } from '../actions/orderAction'
-import { toast } from 'react-toastify'
 
 const PlaceOrderScreen = ({history}) => {
 
@@ -22,6 +21,7 @@ const PlaceOrderScreen = ({history}) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
+    
 
     cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0))
     
@@ -49,7 +49,7 @@ const PlaceOrderScreen = ({history}) => {
             user: userInfo.email
         }))
     }
-   
+    console.log(cart.shippingAddress)
     return (
         <>
             <CheckoutSteps step1 step2 step3 step4 />
@@ -64,20 +64,20 @@ const PlaceOrderScreen = ({history}) => {
                                 étage:  { cart.shippingAddress.floor }
                             </h6>
                             <h6>
-                               <p>{cart.shippingAddress.city.zip} {cart.shippingAddress.city.name} </p>
+                               <p>{cart.shippingAddress.city.zip} - {cart.shippingAddress.city.name} </p>
                                
                             </h6>
                             <h6>{userInfo.email}</h6>
                         </ListGroup.Item>
                        
                         <ListGroup.Item>
-                            <h2>Order Items</h2>
-                            {cart.cartItems.length === 0 ? <Message>Your cart is empty</Message> : (
+                            <h2>Votre commande</h2>
+                            {cart.cartItems.length === 0 ? <Message>Votre panier est vide</Message> : (
                                 <ListGroup variant='flush'>
                                     {cart.cartItems.map((item, index) => (
                                         <ListGroup.Item key={index}>
                                             <Row>
-                                                <Col><h6>{item.name}</h6></Col>
+                                                <Col><h6><strong>{item.name}</strong></h6></Col>
                                                 <Col md={4}><h6>{item.qty} x {item.price} € = {item.qty * item.price} €</h6></Col>
                                             </Row>
                                         </ListGroup.Item>

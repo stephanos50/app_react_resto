@@ -53,9 +53,10 @@ export const saveShippingAddress = (data) =>  async (dispatch, getState) => {
       }
    
     
-    const address = await axios.put(`/api/address/shipping`,data, config )
-
-    localStorage.setItem('shippingAddress', JSON.stringify(address))
+    const address = await axios.post(`/api/address/shipping`,data, config )
+    
+   
+    localStorage.setItem('shippingAddress', JSON.stringify(address.data))
     
     
    

@@ -7,6 +7,9 @@ import { LinkContainer } from 'react-router-bootstrap'
  const SearchUser = (props) => {
     const [query, setQuery] = useState('')
     const { users } = props
+
+    console.log(users)
+
     const { deleteHandler} = props
     const showingUsers = query === ''
         ? users
@@ -56,7 +59,7 @@ import { LinkContainer } from 'react-router-bootstrap'
                   )}
                 </td>
                 <td>
-                  <LinkContainer to={`/admin/${user.email}/edit`}>
+                  <LinkContainer to={`/admin/${user.id}/edit`}>
                     <Button variant='light' className='btn-sm'>
                       <i className='fas fa-edit'></i>
                     </Button>
@@ -64,7 +67,7 @@ import { LinkContainer } from 'react-router-bootstrap'
                   <Button
                     variant='danger'
                     className='btn-sm'
-                    onClick={() => deleteHandler(`${user.email}`)}
+                    onClick={() => deleteHandler(`${user.id}`)}
                   >
                     <i className='fas fa-trash'></i>
                   </Button>

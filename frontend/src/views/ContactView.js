@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {sendMessage} from '../actions/contactActions'
-import Message from '../composants/Message'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 import FormContainer from '../composants/FormContainer'
 import { Link } from 'react-router-dom'
 import { toast} from 'react-toastify'
@@ -17,8 +16,7 @@ const ContactView = () => {
     const [textarea, setTextarea] = useState('')
 
     const messageContact = useSelector((state) => state.messageContact)
-    const {loading, error, success} = messageContact
-    console.log(success)
+    const {success} = messageContact
 
     useEffect(()=> {
       

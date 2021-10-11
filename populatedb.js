@@ -53,18 +53,18 @@ async function pictureCreate(path, productId){
 
 
 
-async function addressCreate(nom,numero,etage,cityId,userEmail){
+async function addressCreate(nom,numero,etage,cityId,userAdress){
   adresseDetail = {
     name: nom,
     number: numero,
     floor: etage,
+    cityId: cityId
    
   }
-
   const address = await Address.create(adresseDetail);
   console.log('Nouvelle Adresse' + address.id);
-        address.setDataValue('cityId', cityId);
-        address.setDataValue('userEmail', userEmail);
+        
+        
   await address.save();
   addresses.push(address);
   return address;
@@ -190,10 +190,14 @@ async function updateOrders(){
     order.setDataValue('total', subTotal)
     order.setDataValue('date', date)
     order.setDataValue('addressId', 1)
-    order.setDataValue('userEmail', 'stefan@exemple.be')
+    order.setDataValue('userId', 2)
     await order.save()
+
+    
     
 };
+
+
 
 async function updateOrdersRoot(){
   const date = new Date()
@@ -215,7 +219,7 @@ async function updateOrdersRoot(){
   order.setDataValue('total', subTotal)
   order.setDataValue('date', date)
   order.setDataValue('addressId', 2)
-  order.setDataValue('userEmail', 'root@exemple.be')
+  order.setDataValue('userId',1)
   await order.save()
   
 };
@@ -233,6 +237,24 @@ async function cityCreate(nom, codepostal){
   cities.push(city);
   return city;
 };
+
+async function createCity(){
+  const cityDetails = {
+    name:"Linkebeek",
+    zip:"1630"
+  };
+  const city = await City.create(cityDetails);
+  await city.save();
+
+  const addressDetail = {
+      name: "Chaussée d'Alsemberg",
+      number: 4,
+      floor:0,
+      cityId:city.id
+  };
+  const address = await Address.create(addressDetail);
+  await address.save();
+}
 
 
 
@@ -291,7 +313,30 @@ async function createUsers(){
     alpha.setRoles([livreur]),
     
   ]);
+ 
 };
+
+
+async function  user_address(id, address){
+     
+    const user = await User.findByPk(id,{
+      include: Address
+    })
+
+    user.setAddresses(address)
+    await user.save()
+}
+
+async function create_user_address(){
+  await Promise.all([
+    user_address(1,1),
+    user_address(2,2),
+    user_address(3,3),
+    
+  ])
+}
+
+
 
 
 
@@ -317,7 +362,7 @@ async function createProducts(){
   ]);
   const [tarama, tzadziki, feta, gambas,calamars,meze ] = await Product.bulkCreate([
     {
-      url: '/uploads/tarama.jpg',
+      url: 'http://localhost:5000/uploads/tarama.jpg',
       name: 'Tarama',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
@@ -327,7 +372,7 @@ async function createProducts(){
       
     }, 
     {
-      url: '/uploads/tzadziki.jpg',
+      url: 'http://localhost:5000/uploads/tzadziki.jpg',
       name: 'Tzadziki',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:7.50,
@@ -336,7 +381,7 @@ async function createProducts(){
       categoryId: 1
     },
     {
-      url: '/uploads/feta.jpg',
+      url: 'http://localhost:5000/uploads/feta.jpg',
       name: 'Feta',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.00,
@@ -347,7 +392,7 @@ async function createProducts(){
     
    
     {
-      url: '/uploads/gambas.jpg',
+      url: 'http://localhost:5000/uploads/gambas.jpg',
       name: 'Gambas grillés',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
@@ -357,7 +402,7 @@ async function createProducts(){
       
     }, 
     {
-      url: '/uploads/calamars.jpg',
+      url: 'http://localhost:5000/uploads/calamars.jpg',
       name: 'Calamars frits',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
@@ -366,7 +411,7 @@ async function createProducts(){
       categoryId: 1
     }, 
     {
-      url: '/uploads/meze.jpg',
+      url: 'http://localhost:5000/uploads/meze.jpg',
       name: 'Meze ',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:8.50,
@@ -375,7 +420,7 @@ async function createProducts(){
       categoryId: 1
     }, 
     {
-      url: '/uploads/brochette-agneau.jpg',
+      url: 'http://localhost:5000/uploads/brochette-agneau.jpg',
       name: "Brochette d Agneau",
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:14.50,
@@ -384,7 +429,7 @@ async function createProducts(){
       categoryId: 2
     }, 
     {
-      url: '/uploads/entrecote.jpg',
+      url: 'http://localhost:5000/uploads/entrecote.jpg',
       name: "Entre côte",
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:15.50,
@@ -393,7 +438,7 @@ async function createProducts(){
       categoryId: 2
     }, 
     {
-      url: '/uploads/to-eliniko.jpg',
+      url: 'http://localhost:5000/uploads/to-eliniko.jpg',
       name: 'To Elliniko',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
       price:12.50,
@@ -427,7 +472,6 @@ async function createCities(){
   return Promise.all([
     cityCreate('Audergem', 1160),
     cityCreate('Bruxelles', 1000),
-    cityCreate('Drogenbos', 1620),
     cityCreate('Ixelles', 1050),
   ]);
 };
@@ -436,27 +480,14 @@ async function createCities(){
 
 async function createAddresses(){
   return Promise.all([
-    addressCreate("Rue d'Anvers",154,5,1, 'root@exemple.be'),
-    addressCreate("Chaussée de Louvain",8,2,2, 'stefan@exemple.be'),
-    addressCreate("Rue de la madelaine ",4,2,3, 'alpha@exemple.be'),
+    addressCreate("Rue d'Anvers",154,5,1, 1),
+    addressCreate("Chaussée de Louvain",8,2,2,2),
+    addressCreate("Rue de la madelaine ",4,2,3,2),
     
    ]);
 };
 
-async function createPictures(){
-  return Promise.all([
-    pictureCreate('/uploads/tarama.jpg',1),
-    pictureCreate('/uploads/tzadziki.jpg',2),
-    pictureCreate('/uploads/feta.jpg',3),
-    pictureCreate('/uploads/gambas.jpg',4),
-    pictureCreate('/uploads/calamars.jpg',5),
-    pictureCreate('/uploads/meze.jpg',6),
-    pictureCreate('/uploads/brochette-agneau.jpg',7),
-    pictureCreate('/uploads/entrecote.jpg',8),
-    pictureCreate('/uploads/to-eliniko.jpg',9),
-   
-  ]);
-}
+
 
 async function addCategories(){
     try {
@@ -473,22 +504,7 @@ async function addCategories(){
     }
 }
 
-async function addPictures(){
-  
-  try {
-    const pictures = await Picture.findAll();
-    
-    pictures.forEach((element, index) =>{
-      if(element.productId === null){
-        element.setDataValue('productId', index+1);
-        element.save();
-        } 
-      });
-    
-    } catch (error) {
-      console.log(error)
-  } 
-}
+
 
 async function productRate(productId, rate){
   const result = await Review.findAndCountAll({
@@ -504,19 +520,21 @@ async function productRate(productId, rate){
   await product.save()
 }
 
-async function reviewCreate(name,rating,comment,productId, email){
-  
+async function reviewCreate(name,rating,comment,productId, id){
+  const date = new Date()
   await productRate(productId,rating)
   try {
     const reviewDetails = {
       name:name,
       rating:rating,
       comment:comment,
+      date: date,
+      productId:productId,
+     
     }
     const review = await Review.create(reviewDetails);
+    review.setDataValue('userId', id)
     console.log('Nouvelle review ' + review.id )
-    review.setDataValue('productId', productId)
-    review.setDataValue('userEmail', email)
     await review.save()
     
   } catch (error) {
@@ -530,7 +548,7 @@ async function createMethodePayment(){
     }
     try{
       const methode = await PaymentMethod.create(detailMethode)
-      console.log('Nouvelle methode de paiement ' + methode.name)
+      
       await methode.save()
     } catch(error){
       console.log(error)
@@ -540,21 +558,21 @@ async function createMethodePayment(){
 
 async function createReviews(){
   return Promise.all([
-    reviewCreate('stefan',1,'this food is delicious',1, 'stefan@exemple.be'),
-    reviewCreate('stefan',4,'this food is delicious',2, 'stefan@exemple.be'),
-    reviewCreate('stefan',4,'this food is delicious',3, 'stefan@exemple.be'),
-    reviewCreate('stefan',4,'this food is delicious',4, 'stefan@exemple.be'),
-    reviewCreate('stefan',5,'this food is delicious',5, 'stefan@exemple.be'),
+    reviewCreate('stefan',5,'this food is delicious',1, 2),
+    reviewCreate('stefan',5,'this food is delicious',2, 2),
+    reviewCreate('stefan',5,'this food is delicious',3, 2),
+    reviewCreate('stefan',5,'this food is delicious',4, 2),
+    reviewCreate('stefan',5,'this food is delicious',5, 2),
   ]);
 }
 
 async function createReviewsOther(){
   return Promise.all([
-    reviewCreate('alpha',4,'this food is good',1, 'alpha@exemple.be'),
-    reviewCreate('alpha',4,'this food is good',2, 'alpha@exemple.be'),
-    reviewCreate('alpha',3,'this food is good',3, 'alpha@exemple.be'),
-    reviewCreate('alpha',2,'this food is good',4, 'alpha@exemple.be'),
-    reviewCreate('alpha',1,'this food is good',5, 'alpha@exemple.be'),
+    reviewCreate('alpha',3,'this food is good',1, 3),
+    reviewCreate('alpha',3,'this food is good',2, 3),
+    reviewCreate('alpha',3,'this food is good',3, 3),
+    reviewCreate('alpha',3,'this food is good',4, 3),
+    reviewCreate('alpha',3,'this food is good',5, 3),
   ])
 }
 
@@ -562,9 +580,11 @@ async function createReviewsOther(){
 (async () => {
   try {
     await sequelize.sync({ force: true });
+    const cty = await createCity()
     const users = await createUsers()
     const cities = await createCities();    
     const address = await createAddresses();
+    const user_address = await create_user_address()
     const categories = await createCategories();
     const products = await createProducts();
     const product_category = await addCategories();

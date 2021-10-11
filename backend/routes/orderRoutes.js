@@ -12,6 +12,7 @@ routes.get('/:id', protect,  orderController.getOrderById)
 // routes.get('/myorders',protect, orderController.getMyOrders)
 routes.put('/:id/pay', protect, orderController.updateOrderToPaid)
 routes.route('/:id/deliver').put(protect,orderController.updateOrderToDelivered)
+routes.route('/:id').delete(protect,orderController.deleteViewOrder)
 
 
 

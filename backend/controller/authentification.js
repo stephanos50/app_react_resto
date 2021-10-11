@@ -13,8 +13,8 @@ const saltRounds = 10;
 // @route     POST /api/authentification/forgotpassword
 // @access    Public
 exports.forgotpassword = asyncHandler(async (req, res, next) => {
-   
-    const user = await User.findByPk(req.body.email);
+    
+    const user = await User.findOne( { where: { email:req.body.email}});
     if (!user) {
       return next(new ErrorResponse('Aucun utilisateur avec ce mail', 404));
     }

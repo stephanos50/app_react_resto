@@ -18,7 +18,7 @@ const PasswordLost = () => {
 
     const userPasswordChange = useSelector((state) => state.userPasswordChange)
     const { error, success} = userPasswordChange;
-    console.log(success)
+    
     useEffect(()=> {
        
     },[dispatch])

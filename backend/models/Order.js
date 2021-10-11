@@ -2,7 +2,6 @@ const { Model, DataTypes } = require("sequelize");
 
 const sequelize = require('./sequelize');
 const Address = require('./Address');
-const User = require('./User');
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
 const date = DateTime.fromISO(new Date().toISOString());
@@ -19,7 +18,6 @@ class Order extends Model{
         this.total = this.total + price;
         return ( this.total)
     }
-  
 }
 
 Order.init(
@@ -58,6 +56,7 @@ Order.init(
         },
         deliveredAt: {
             type: DataTypes.DATE,
+            
             
         },
 
@@ -116,8 +115,7 @@ Order.init(
 Order.belongsTo(Address);
 Address.hasMany(Order);
 
-Order.belongsTo(User);
-User.hasMany(Order);
+
 
 
 module.exports = Order;

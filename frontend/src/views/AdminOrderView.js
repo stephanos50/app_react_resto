@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Row, Col, ListGroup, Card, Button, Toast} from 'react-bootstrap'
+import { Row, Col, ListGroup, Card, Button} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
@@ -55,7 +55,6 @@ const AdminOrderView = ({match, history}) => {
             document.body.appendChild(script)
         }
         if(!order ||  successPay || order.id !== Number(orderId) || successDeliver){
-            console.log(successPay + " " + successDeliver + " " + order  )
             dispatch({ type: ORDER_PAY_RESET })
             dispatch({ type: ORDER_DELIVER_RESET })
             dispatch(getOrderDetails(orderId))

@@ -1,8 +1,9 @@
 const Category = require('../models/Category');
 const Product = require('../models/Product');
-const Picture = require('../models/Picture');
 const Allergen = require('../models/Allergen');
 const Review = require('../models/Review');
+const Order = require('../models/Order');
+const ProductOrder = require('../models/ProductOrder')
 const User = require('../models/User')
 const  asyncHandler = require ('express-async-handler')
 const { body, validationResult } = require("express-validator");
@@ -38,9 +39,9 @@ exports.getProducts = asyncHandler(async (req, res) => {
 exports.getProductById = asyncHandler(async function(req, res){
     res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
-        include: [Category,Allergen,Review]
+        include: [Category,Allergen,{model:Review,include:[{model:User}]}]
+        
     });
-
     if(product){
         res.json(product);
     } else {
@@ -77,17 +78,23 @@ exports.updateProduct =  [
     body('name').notEmpty(),
     body('price').notEmpty().isNumeric(),
     body('category').notEmpty().trim(),
+    body('description').isLength({max : 6}).withMessage(' Longueur de la description 200 caractères'),
+   
     
     asyncHandler( async function (req,res){
-
+        console.log("updateProduct")
         const errors = validationResult(req);
+        console.log(errors)
 
         if (!errors.isEmpty()) {
             res.status(400)
-            throw new Error('Invalid input')
+            throw new Error('Vérifiez vos champs ! Longueur de la description 200 caractères')
         }
     
         const {name,description,price,category,allergen} = req.body
+
+        console.log(req.body.description)
+       
 
         const product = await  Product.findByPk(req.body.id,{
           include: [Category, Allergen]
@@ -113,16 +120,23 @@ exports.updateProduct =  [
 // @route DELETE /api/products/:name
 // @access Private/Admin
 exports.deleteProduct = asyncHandler(async function(req,res){
-    
     const product = await Product.findByPk(req.params.id, {
-        include: [Allergen,Category]
+        include: [Allergen,Category,ProductOrder]
     })
-    if(product){
+
+    const food = await ProductOrder.findOne({
+        where:{
+            productId: req.params.id
+        }
+    })
+   
+
+    if(product && !food){
         await product.destroy()
         res.json({message: 'Product remove'})
     } else {
         res.status(400)
-        throw new Error('Product not found')
+        throw new Error('Product exist in Order ')
     }
 })
 
@@ -133,20 +147,20 @@ exports.deleteProduct = asyncHandler(async function(req,res){
 exports.createProductReviews = [ 
     
     body('rating').not().notEmpty().matches(/[0-9]/),
-    body('comment').not().notEmpty().matches(/^[0-9a-zA-Z !?'éàéç ]/),
+    body('comment').not().notEmpty().matches(/^[0-9a-zA-Z !?'éàéç ]/).isLength({ max: 50 }),
 
     asyncHandler( async function (req,res){
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(400)
-            throw new Error('Le champ ne peut-être vide')
+            throw new Error('Longueur maximum 50 caractères')
         }
        
         const {rating, comment} = req.body
         const review = await Review.findAll( {
             where: { 
                 productId: req.params.id,
-                userEmail: req.user.email
+                userId: req.user.id
             }
         })
         
@@ -165,20 +179,20 @@ exports.createProductReviews = [
               product.setDataValue('comment', int_comment)
               await product.save()
 
-           
+            const date = new Date()
             const reviewsDetails = {
-                name:req.user.first_name,
                 rating: rating,
-                comment:comment
+                comment:comment,
+                date:date
             }
             const rewiew = await Review.create(reviewsDetails)
             rewiew.setDataValue('productId', req.params.id)
-            rewiew.setDataValue('userEmail', req.user.email)
+            rewiew.setDataValue('userId', req.user.id)
             const createReviews = await rewiew.save()
             res.status(201).json(createReviews)
         } else  { 
             res.status(404)
-            throw new Error('Vous avez déja posté une annonce.')
+            throw new Error('Vous avez déja posté cette annonce.')
            
         }
     })

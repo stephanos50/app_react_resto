@@ -3,13 +3,14 @@ const sequelize = require('./sequelize');
 const bcrypt = require("bcrypt");
 const Role = require('./Role');
 const Address = require('./Address');
+const Order = require('./Order');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 
 class User extends Model {
     get url() {
-        return `/user/${this.email}`;
+        return `/user/${this.id}`;
     };
 
     async validPassword(passwordToTest) {
@@ -26,7 +27,19 @@ class User extends Model {
         this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
     
         return resetToken;
-  };
+    };
+
+    async deleteOrder (order) {
+        order.delete = true;
+        order.save();
+        return order.delete;
+    };
+
+    async deleteInvoice (invoice) {
+        invoice.delete = true;
+        invoice.save();
+        return invoice.delete;
+    };
 
   // Sign JWT and return
     async getSignedJwtToken () {
@@ -41,7 +54,6 @@ User.init(
     {
         email: { 
             type: DataTypes.STRING, 
-            primaryKey: true,
             allowNull: false,
         },
         _uuid: { 
@@ -75,7 +87,10 @@ User.init(
 User.belongsToMany(Role, {through: 'user_roles'});
 Role.belongsToMany(User,{through: 'user_roles'});
 
-User.hasOne(Address)
-Address.belongsTo(User)
+User.belongsToMany(Address, {through: 'user_address'})
+Address.belongsToMany(User,  {through: 'user_address'})
+
+Order.belongsTo(User);
+User.hasMany(Order);
 
 module.exports = User;

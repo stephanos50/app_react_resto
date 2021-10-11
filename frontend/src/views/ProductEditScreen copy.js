@@ -154,13 +154,13 @@ const ProductEditScreem = ({match, history}) => {
             Go Back
             </Link>
             <FormContainer>
-            <h1>Ajouter un nouveau produit</h1>
+            <h1>Ajoutez un nouveau produit</h1>
             {loadingUpdate && <Loader />}
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {loading ? ( <Loader /> ) : error ? ( <Message variant="danger">{error}</Message> ) : (
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId="form-file" className="mb-3">
-                        <Form.Label>Séléctionné une image</Form.Label>
+                        <Form.Label>Séléctionnez une image</Form.Label>
                         <Form.Control type="file" onChange={uploadFileHandler} />
                     </Form.Group>
                     <Form.Group>

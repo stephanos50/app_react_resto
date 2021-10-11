@@ -1,0 +1,11 @@
+import React from 'react'
+
+const Address = (props) => {
+    const { name, zip } = props 
+    return (
+        <div>
+            <h1>{name}</h1>
+        </div>
+    )
+}
+export default Address

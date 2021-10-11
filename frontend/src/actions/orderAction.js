@@ -17,6 +17,9 @@ import {
     ORDER_DELIVER_REQUEST,
     ORDER_DELIVER_SUCCESS,
     ORDER_DELIVER_FAIL,
+    ORDER_VIEW_REQUEST,
+    ORDER_VIEW_SUCCESS,
+    ORDER_VIEW_FAIL
 } from '../constants/orderConstants'
 
 
@@ -232,3 +235,39 @@ export const deliverOrder = (order) => async(dispatch, getSate) => {
         
     }
  }
+
+
+ export const deleteViewOrder = (id) => async(dispatch, getState) => {
+    
+    try {    
+        dispatch({ 
+            type:ORDER_VIEW_REQUEST,
+        })
+    
+        const { 
+            userLogin : {userInfo},
+        } = getState()
+    
+        const config = {
+            headers: {
+             'Content-Type': 'application/json',
+              Authorization: `Bearer ${userInfo.token}`,
+            },
+        }
+    
+        await axios.delete(`/api/orders/${id}`, config)
+    
+        dispatch({ 
+            type: ORDER_VIEW_SUCCESS,
+        })
+        
+       } catch (error) {
+            dispatch({ 
+                type: ORDER_VIEW_FAIL,
+                payload: error.response  && error.response.data.message
+                ? error.response.data.message
+                : error.message,
+            
+            })
+       }
+    }

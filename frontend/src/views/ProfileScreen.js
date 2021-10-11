@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
+import {deleteViewOrder } from '../actions/orderAction'
 
 import { Table, Form, Button, Row, Col } from 'react-bootstrap'
 import { LinkContainer} from 'react-router-bootstrap'
 
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import { toast } from 'react-toastify'
 
 
 
@@ -17,6 +19,7 @@ const ProfileScreem = ({ location, history}) => {
 
     const [first_name, setFirstName] = useState('')
     const [last_name, setLastName] = useState('')
+    
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -35,6 +38,11 @@ const ProfileScreem = ({ location, history}) => {
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
     const { error:errorUpdate, success } = userUpdateProfile
 
+    const viewOrderDelete = useSelector((state) => state.viewOrderDelete)
+
+    const {success: successDelete} =viewOrderDelete
+    
+    
     
     useEffect(() => {
       
@@ -46,17 +54,16 @@ const ProfileScreem = ({ location, history}) => {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
             } else {
-                
+               
                 setFirstName(user.first_name)
                 setLastName(user.last_name)
                 setEmail(user.email)
-               
             }
             if(!user.orders){
                 setMessageCommande('Aucune commande')
             }
         }
-    }, [dispatch, history, userInfo, user, success])
+    }, [dispatch, history, userInfo, user, success, successDelete])
 
     const submitHandler = (e) => { 
         e.preventDefault()
@@ -66,15 +73,27 @@ const ProfileScreem = ({ location, history}) => {
         }else {
             setMessage('')
             setmessageUpdate('Profile mit à jour')
-            dispatch(updateUserProfile({id: email, first_name, last_name,  password}))
+            dispatch(updateUserProfile({ email, first_name, last_name,  password}))
            
+        }
+        if(successDelete){
+            dispatch(getUserDetails('profile'))
+        }
+    }
+
+    const deleteHandler = (id) => {
+        if (window.confirm('Are you sure')) {
+          dispatch(deleteViewOrder(id))
+         
+          toast.success('Votre commande a été supprimé')
+         
         }
     }
     
     return ( 
         <Row>
             <Col md={3}>
-                <h2>Votre profile</h2>
+                <h2>Votre profil</h2>
                 {message && <Message variant="danger">{message}</Message>}
                 {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
                 {messageUpdate && <Message variant='success'>{messageUpdate}</Message>}
@@ -84,6 +103,7 @@ const ProfileScreem = ({ location, history}) => {
                     <Message variant="danger">{error}</Message>
                 ) : ( 
                     <Form onSubmit={submitHandler}>
+                        
                         <Form.Group className="mb-3" controlId='first_name'>
                             <Form.Label>Votre prénom</Form.Label>
                             <Form.Control 
@@ -153,8 +173,8 @@ const ProfileScreem = ({ location, history}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {user.orders.map(order => (
-                                <tr key={order.id}>
+                            {user.orders.map(order => 
+                                !order.delete ? (    <tr key={order.id}>
                                     <td>{order.number}</td>
                                     <td>{order.time}</td>
                                     <td>{order.date_createAt}</td>
@@ -162,12 +182,22 @@ const ProfileScreem = ({ location, history}) => {
                                     <td>{order.isDelivered ?  ( <i className='' style={{color:'#B52036'}}>Livrée</i>) : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>) }</td>
                                     <td>
                                         <LinkContainer to={`/order/${order.id}`}>
-                                        
-                                            <Button className='btn-sm' variant='primary'>Details</Button>
+                                            <Button variant='light' className='btn-sm'> 
+                                                <i className='fas fa-eye'></i>
+                                            </Button>
                                         </LinkContainer>
+
+                                        <Button
+                                            variant='danger'
+                                            className='btn-sm'
+                                            onClick={() => deleteHandler(order.id)}
+                                            >
+                                            <i className='fas fa-trash'></i>
+                                            </Button>
                                     </td>
-                                </tr>
-                            ))}
+                                </tr>) : (<h1></h1>)
+                            
+                            )}
                         </tbody>
                     </Table>
                 )}

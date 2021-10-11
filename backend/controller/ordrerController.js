@@ -20,15 +20,23 @@ const sendEmail = require('../utils/sendEmail');
 // @route POST /api/orders
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
-    const { cartItems,  user } = req.body
-    
-    if(cartItems && cartItems.lenght === 0){
+    const { cartItems, user } = req.body
+   
+   if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
        
     } else {
-        const address = await Address.findOne({ where: { userEmail: user } })
-       
+       const user = await User.findOne(
+        {
+            where: {
+                id:req.user.id,
+            },include:Address,
+       } ,
+        {order: [ [ 'id', 'DESC' ]]}
+        )
+        const lastValue = Array.from(user.addresses).pop();
+        
         const detailsOrder = {
             number: 'number',
             time: 'time',
@@ -38,8 +46,8 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const order = await Order.create(detailsOrder)
         order.setDataValue('number', order.date_number)
         order.setDataValue('time', order.date_time)
-        order.setDataValue('addressId', address.id);
-        order.setDataValue('userEmail', user);
+        order.setDataValue('addressId', lastValue.id);
+        order.setDataValue('userId', req.user.id);
         await order.save()
         
         
@@ -77,7 +85,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 // @route Get /api/orders/:id
 // @access Private
 exports.getOrderById = asyncHandler(async (req, res) => {
-    console.log(req.params)
+   
     const order = await Order.findByPk(req.params.id, {
         include: [User,Payment, {model:ProductOrder,include:{model:Product}}, {model:Address,include:[{model:City}]}] 
       
@@ -195,10 +203,40 @@ exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
     const order = await Order.findByPk(req.params.id)
     
     if (order) {
-        order.isDelivered = true
-        order.deliveredAt = date
+        order.setDataValue("isDelivered", true)
+        order.setDataValue("deliveredAt",date)
         const updatedOrder = await order.save()
         res.json(updatedOrder)
+    } else {
+        res.status(404)
+        throw new Error('Order not found')
+    }
+})
+
+
+
+// @desc    Delete order 
+// @route   delete /api/orders/:id
+// @access  Private 
+exports.deleteViewOrder = asyncHandler(async (req, res) => {
+    const order = await Order.findByPk(req.params.id, {
+        include: [Payment,User]
+    })
+   
+    if (order) {
+        if(order.payment === null){
+            const orderdelete =  order.destroy()
+            if(orderdelete){
+                res.status(201).json({message: 'delete'})
+            }
+
+        } else {
+            if(await order.user.deleteOrder(order)){
+                res.json(deleteView)
+            }
+        }
+       
+       
     } else {
         res.status(404)
         throw new Error('Order not found')

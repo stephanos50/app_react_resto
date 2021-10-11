@@ -68,7 +68,7 @@ const RegisterScreem = ({location, history}) => {
                         <Form.Control 
                             required
                             type='first_name'
-                            placeholder='Insérer votre prénom' 
+                            placeholder='Insérer votre prénom longueur max 20 caractères' 
                             value={first_name}
                             onChange={(e) =>  
                                 {
@@ -85,7 +85,7 @@ const RegisterScreem = ({location, history}) => {
                         <Form.Control 
                             required
                             type='last_name'
-                            placeholder='Insérer votre nom' 
+                            placeholder='Insérer votre nom longueur max 20 caractères' 
                             value={last_name}
                             onChange={(e) =>  
                                 {

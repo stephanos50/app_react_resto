@@ -6,6 +6,7 @@ import FormContainer  from '../composants/FormContainer'
 import { saveShippingAddress} from '../actions/cartAction'
 import CheckoutSteps  from '../composants/CheckoutSteps'
 import {listCities } from '../actions/cityAction'
+import Address from '../composants/Address'
 
 
 const ShippingScreem = ({ history }) => {
@@ -25,6 +26,7 @@ const ShippingScreem = ({ history }) => {
     const [number, setNumber] = useState(shippingAddress.number || '')
     const [floor, setFloor] = useState(shippingAddress.floor || '')
     const [city, setCity] = useState(shippingAddress.city || '')
+    const [zip, setZip] = useState(shippingAddress.zip || '')
    
     const dispatch = useDispatch()
 
@@ -37,8 +39,10 @@ const ShippingScreem = ({ history }) => {
                 setAddress(userInfo.address.name )
                 setNumber(userInfo.address.number)
                 setFloor(userInfo.address.floor)
-                setCity(userInfo.address.city)
+                setCity(userInfo.address.city.name)
+                setZip(userInfo.address.city.zip)
         }
+        
         dispatch(listCities())
         setCity({
             id:1,
@@ -47,6 +51,8 @@ const ShippingScreem = ({ history }) => {
         })
        
     }, [dispatch, history, shippingAddress, userInfo])
+
+    console.log(city)
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -94,7 +100,7 @@ const ShippingScreem = ({ history }) => {
                                 required
                                 onChange={(e) =>  
                                     {
-                                        if(e.target.value.match("^[a-zA-Z ]*$") != null){
+                                        if(e.target.value.match("^[a-zA-Z 'éàéç ]*$") != null){
                                             setAddress(e.target.value)
                                         }
                                     }

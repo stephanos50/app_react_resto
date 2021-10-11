@@ -5,7 +5,6 @@ import FormContainer from '../composants/FormContainer'
 import Message from '../composants/Message'
 import { userResetPassword } from '../actions/userActions'
 import { Redirect } from "react-router-dom"
-import toast from 'react-toastify'
 
 const ResetPassword = ({match}) => {
     const resetoken = match.params.resetoken;
@@ -17,7 +16,6 @@ const ResetPassword = ({match}) => {
 
     const userPasswordReset = useSelector((state) => state.userPasswordReset)
 
-    console.log(userPasswordReset)
 
     const { loading} = userPasswordReset
    
@@ -28,7 +26,6 @@ const ResetPassword = ({match}) => {
        
     },[dispatch, loading])
     
-   console.log(typeof resetoken )
 
     const submitHandler = (e) => { 
         const form = e.currentTarget;
