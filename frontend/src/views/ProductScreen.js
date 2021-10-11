@@ -177,6 +177,7 @@ const Product = ({history, match}) => {
                                                 <Form.Control 
                                                     as='textarea' 
                                                     row='3' 
+                                                    placeholder=" max 30 caractères"
                                                     value={comment}
                                                     onChange={(e) => setComment(e.target.value)}>
                                                 </Form.Control>
