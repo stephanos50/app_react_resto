@@ -5,6 +5,7 @@ import Message from '../composants/Message'
 import { Table } from 'react-bootstrap'
 import Loader from '../composants/Loader'
 import { Link } from 'react-router-dom'
+import NbrFacture from '../composants/NbrFacture'
 
 
 
@@ -45,6 +46,7 @@ const ReviewListView = ({history}) => {
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Couriel</th>
+                            <th>Facture</th>
                             <th>#</th>
                         </tr>
                     </thead>
@@ -55,6 +57,7 @@ const ReviewListView = ({history}) => {
                                 <td>{item.first_name}</td>
                                 <td>{item.last_name}</td>
                                 <td>{item.email}</td>
+                                <td ><NbrFacture orders={item.orders}/></td>
                                 <td>
                                    
                                     <Link to={`userinvoices/${item.id}`}>facture</Link>

@@ -170,6 +170,64 @@ async function createProductOrder04(){
   ]);
 };
 
+
+async function createProductOrder05(){
+  const date = new Date()
+  const datailsOrder = {
+    number: 'number',
+    time: 'time',
+    createAt: date
+  }
+  const order = await Order.create(datailsOrder);
+  order.setDataValue('number', order.date_number);
+  order.setDataValue('time', order.date_time);
+  await order.save();
+  return Promise.all([
+    productOrderCreate( 1, (7.50) ,order.id, 1),
+    productOrderCreate( 2, (7.50) ,order.id, 2),
+    productOrderCreate( 9, (12.50) ,order.id, 5),
+    
+  ]);
+};
+
+async function createProductOrder06(){
+  const date = new Date()
+  const datailsOrder = {
+    number: 'number',
+    time: 'time',
+    createAt: date
+  }
+  const order = await Order.create(datailsOrder);
+  order.setDataValue('number', order.date_number);
+  order.setDataValue('time', order.date_time);
+  await order.save();
+  return Promise.all([
+    productOrderCreate( 1, (7.50) ,order.id, 1),
+    productOrderCreate( 2, (7.50) ,order.id, 2),
+    productOrderCreate( 9, (12.50) ,order.id, 5),
+    
+  ]);
+};
+
+async function createProductOrder07(){
+  const date = new Date()
+  const datailsOrder = {
+    number: 'number',
+    time: 'time',
+    createAt: date
+  }
+  const order = await Order.create(datailsOrder);
+  order.setDataValue('number', order.date_number);
+  order.setDataValue('time', order.date_time);
+  await order.save();
+  return Promise.all([
+    productOrderCreate( 1, (7.50) ,order.id, 1),
+    productOrderCreate( 2, (7.50) ,order.id, 2),
+    productOrderCreate( 9, (12.50) ,order.id, 5),
+    
+  ]);
+};
+
 async function updateOrders(){
   const date = new Date()
     const order = await Order.findOne({
@@ -192,10 +250,79 @@ async function updateOrders(){
     order.setDataValue('addressId', 1)
     order.setDataValue('userId', 2)
     await order.save()
+  };
 
-    
-    
-};
+  async function updateOrdersBeta(){
+    const date = new Date()
+      const order = await Order.findOne({
+        where: {
+          total: 0
+        }
+      })
+     
+      let subTotal = 0;
+      const order_product = await ProductOrder.findAll({
+          where: {
+            orderId: order.id,
+          }
+      });
+      order_product.map( (item) =>  {
+        subTotal = subTotal + item.price
+      })
+      order.setDataValue('total', subTotal)
+      order.setDataValue('date', date)
+      order.setDataValue('addressId', 1)
+      order.setDataValue('userId', 4)
+      await order.save()
+    };
+
+    async function updateOrdersGama(){
+      const date = new Date()
+        const order = await Order.findOne({
+          where: {
+            total: 0
+          }
+        })
+       
+        let subTotal = 0;
+        const order_product = await ProductOrder.findAll({
+            where: {
+              orderId: order.id,
+            }
+        });
+        order_product.map( (item) =>  {
+          subTotal = subTotal + item.price
+        })
+        order.setDataValue('total', subTotal)
+        order.setDataValue('date', date)
+        order.setDataValue('addressId', 1)
+        order.setDataValue('userId', 5)
+        await order.save()
+  };
+
+  async function updateOrdersDelta(){
+    const date = new Date()
+      const order = await Order.findOne({
+        where: {
+          total: 0
+        }
+      })
+     
+      let subTotal = 0;
+      const order_product = await ProductOrder.findAll({
+          where: {
+            orderId: order.id,
+          }
+      });
+      order_product.map( (item) =>  {
+        subTotal = subTotal + item.price
+      })
+      order.setDataValue('total', subTotal)
+      order.setDataValue('date', date)
+      order.setDataValue('addressId', 1)
+      order.setDataValue('userId', 6)
+      await order.save()
+    };
 
 
 
@@ -265,6 +392,10 @@ async function createUsers(){
   const root_password = await bcrypt.hash('password',10)
   const stefan_password = await bcrypt.hash('password',10)
   const alpha_password = await bcrypt.hash('password',10)
+  const beta_password = await bcrypt.hash('password',10)
+  const gama_password = await bcrypt.hash('password',10)
+  const delta_password = await bcrypt.hash('password',10)
+
 
   
   const [admin, client, livreur] = await Role.bulkCreate([
@@ -274,7 +405,7 @@ async function createUsers(){
     
   ]);
 
-  const [root,stefan,alpha] =  await User.bulkCreate([
+  const [root,stefan,alpha,beta,gama,delta] =  await User.bulkCreate([
     {
       _uuid: uuidv4(),
       first_name: 'root',
@@ -295,13 +426,38 @@ async function createUsers(){
       last_name: 'alphas',
       email: 'alpha@exemple.be',
       passwordHash: alpha_password
-    }
+    },
+    {
+      _uuid: uuidv4(),
+      first_name: 'beta',
+      last_name: 'betas',
+      email: 'beta@exemple.be',
+      passwordHash: beta_password
+    },
+    {
+      _uuid: uuidv4(),
+      first_name: 'gama',
+      last_name: 'gamas',
+      email: 'gama@exemple.be',
+      passwordHash: gama_password
+    },
+    {
+      _uuid: uuidv4(),
+      first_name: 'delta',
+      last_name: 'deltas',
+      email: 'delta@exemple.be',
+      passwordHash: delta_password
+    },
   ]);
 
   await Promise.all([
     root.setRoles([admin]),
     stefan.setRoles([client]),
+    beta.setRoles([client]),
+    gama.setRoles([client]),
+    delta.setRoles([client]),
     alpha.setRoles([livreur]),
+   
     
   ]);
  
@@ -323,6 +479,9 @@ async function create_user_address(){
     user_address(1,1),
     user_address(2,2),
     user_address(3,3),
+    user_address(4,4),
+    user_address(5,5),
+    user_address(6,6),
     
   ])
 }
@@ -485,6 +644,10 @@ async function createAddresses(){
     addressCreate("Rue d'Anvers",154,5,1, 1),
     addressCreate("Chaussée de Louvain",8,2,2,2),
     addressCreate("Rue de la madelaine ",4,2,3,2),
+    addressCreate("Rue beta ",4,2,3,2),
+    addressCreate("Rue gama ",4,2,3,2),
+    addressCreate("Rue delta ",4,2,3,2),
+   
     
    ]);
 };
@@ -577,37 +740,77 @@ async function createReviewsOther(){
     reviewCreate('alpha',3,'this food is good',5, 3),
   ])
 }
+async function createReviewsBeta(){
+  return Promise.all([
+    reviewCreate('beta',3,'this food is good',1, 4),
+    reviewCreate('beta',3,'this food is good',2, 4),
+    reviewCreate('beta',3,'this food is good',3, 4),
+    reviewCreate('beta',3,'this food is good',4, 4),
+    reviewCreate('beta',3,'this food is good',5, 4),
+  ])
+}
+async function createReviewsGama(){
+  return Promise.all([
+    reviewCreate('gama',2,'this food not good',1, 5),
+    reviewCreate('gama',2,'this food not good',2, 5),
+    reviewCreate('gama',2,'this food not good',3, 5),
+    reviewCreate('gama',2,'this food not good',4, 5),
+    reviewCreate('gama',2,'this food not good',5, 5),
+  ])
+}
+async function createReviewsDelta(){
+  return Promise.all([
+    reviewCreate('delta',1,'this food not good',1, 6),
+    reviewCreate('delta',1,'this food not good',2, 6),
+    reviewCreate('delta',1,'this food not good',3, 6),
+    reviewCreate('delta',1,'this food not good',4, 6),
+    reviewCreate('delta',1,'this food not good',5, 6),
+  ])
+}
 
 
 (async () => {
   try {
     await sequelize.sync({ force: true });
-    const enter = categoryCreate('Entrée'),
-    const plat = categoryCreate('Plats'),
-    const suggestions = categoryCreate('Suggestions'),
+    const enter = categoryCreate('Entrée');
+    const plat = categoryCreate('Plats');
+    const suggestions = categoryCreate('Suggestions');
     const cty = await createCity()
     const users = await createUsers()
     const cities = await createCities();    
     const address = await createAddresses();
     const user_address = await create_user_address()
-    const categories = await createCategories();
     const products = await createProducts();
-    const product_category = await addCategories();
-    //const pictures = await createPictures();
-    //const product_image = await addPictures();
+   
    
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();
-    //const totalOrder = await addTotal()
+  
     const products_orders_02 = await createProductOrder02();
     const orders_02 = await updateOrders();
 
     const products_orders_03 = await createProductOrder03();
     const orders_03 = await updateOrdersRoot();
+       
+    
     const orders_04 = await createProductOrder04();
     const orders_05 = await updateOrders();
+
+    const products_orders_04 = await createProductOrder05();
+    const orders_beta = await  updateOrdersBeta();
+
+    const products_orders_05 = await createProductOrder06();
+    const orders_gama = await  updateOrdersGama();
+
+    const products_orders_06 = await createProductOrder07();
+    const orders_delta = await updateOrdersDelta();
+
     const review = await createReviews();
     const other = await createReviewsOther();
+    const beta = await createReviewsBeta();
+    const gama = await createReviewsGama();
+    const delta = await createReviewsDelta();
+
 
     const methode_payement = await createMethodePayment();
    

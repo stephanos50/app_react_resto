@@ -1,4 +1,4 @@
-import React ,{ useEffect } from 'react'
+import React ,{ useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { usersList} from '../actions/reviewActions'
 import Message from '../composants/Message'
@@ -19,7 +19,7 @@ const ReviewListView = ({history}) => {
     const listusers = useSelector((state) => state.listusers)
     const {loading, error, users }  = listusers
    
-
+    console.log(users)
     
    
     
@@ -47,28 +47,19 @@ const ReviewListView = ({history}) => {
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Couriel</th>
+                            <th>Commentaire</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map((item) => (
+                            
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.first_name}</td>
                                 <td>{item.last_name}</td>
                                 <td>{item.email}</td>
-                                <td>
-                                    
-                                    <Link to={`userreview/${item.id}`}>commentaires</Link>
-                                   {/* <Link to={{
-                                       pathname:`userreview/${item.id}`,
-                                       aboutProps:{
-                                        reviews:item.reviews,
-                                        name:item.first_name
-                                       },
-                                       
-                                   }}>commentaires</Link> */}
-                                   
-                                </td>
+                                <td >{Object.keys(item.reviews).length}</td>
+                               <td><Link to={`userreview/${item.id}`}>commentaires</Link></td>
                             </tr>
                         ))}
                     </tbody>
@@ -79,3 +70,15 @@ const ReviewListView = ({history}) => {
 }
 
 export default ReviewListView
+
+
+
+
+ {/* <Link to={{
+    pathname:`userreview/${item.id}`,
+    aboutProps:{
+        reviews:item.reviews,
+        name:item.first_name
+    },
+    }}>commentaires</Link> 
+*/}
