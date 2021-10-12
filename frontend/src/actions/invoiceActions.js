@@ -32,7 +32,7 @@ export const usersInvoiceList = () => async (dispatch, getState) => {
       }
   
       const { data } = await axios.get(`/api/invoices`, config)
-      console.log(data)
+      
       dispatch({
         type: ADMIN_USERINVOICESLIST_SUCCESS,
         payload: data,

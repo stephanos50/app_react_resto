@@ -22,7 +22,7 @@ const UserReview = ({match, history}) => {
     const invoiceDelete = useSelector((state) => state.invoiceDelete)
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = invoiceDelete
 
-    console.log(invoices)
+    
 
     useEffect(() => {
         if(!userInfo && !userInfo.role === "admin"){
