@@ -62,7 +62,7 @@ const UserReview = ({match, history}) => {
                              <tr key={item.id}>
                                     <td>{item.date_number}</td>
                                     <td>{item.date_createAt}</td>
-                                    <td>{item.total}</td>
+                                    <td>{item.total} €</td>
                                     <td>{item.isDelivered}</td>
                                     <td> <Link to={{
                                         pathname:`orders/${item.id}`,
