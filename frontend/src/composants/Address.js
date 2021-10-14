@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Address = (props) => {
-    const { name, zip } = props 
+    const { name } = props 
     return (
         <div>
             <h1>{name}</h1>

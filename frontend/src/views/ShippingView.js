@@ -6,7 +6,6 @@ import FormContainer  from '../composants/FormContainer'
 import { saveShippingAddress} from '../actions/cartAction'
 import CheckoutSteps  from '../composants/CheckoutSteps'
 import {listCities } from '../actions/cityAction'
-import Address from '../composants/Address'
 
 
 const ShippingScreem = ({ history }) => {
@@ -71,7 +70,7 @@ const ShippingScreem = ({ history }) => {
 
     const sumbitHandler = (e) => {
         e.preventDefault()
-        dispatch(saveShippingAddress({name, number, floor, city, email:userInfo.email }))
+        dispatch(saveShippingAddress({name, number, floor, city,zip, email:userInfo.email }))
         history.push('/payment')
     }
 

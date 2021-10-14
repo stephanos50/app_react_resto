@@ -3,16 +3,16 @@ import  PropTypes from 'prop-types'
 
 const UserName = (props) => {
     const { name } = props
-    console.log(props)
+     console.log(props)
     return (
         <div>
-            {name.first_name}
+           {name && name.email}
         </div>
     )
 }
 
 UserName.propTypes = {
-    users: PropTypes.array.isRequired,
+    users: PropTypes.object.isRequired,
 }
 
 export default UserName

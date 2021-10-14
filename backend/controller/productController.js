@@ -37,6 +37,7 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products/:id
 // @access Public
 exports.getProductById = asyncHandler(async function(req, res){
+    
     res.header("Access-Control-Allow-Origin", "*");
     const product = await Product.findByPk(req.params.id,{
         include: [Category,Allergen,{model:Review,include:[{model:User}]}]
@@ -78,7 +79,7 @@ exports.updateProduct =  [
     body('name').notEmpty(),
     body('price').notEmpty().isNumeric(),
     body('category').notEmpty().trim(),
-    body('description').isLength({max : 6}).withMessage(' Longueur de la description 200 caractères'),
+    body('description').isLength({max : 200}).withMessage(' Longueur de la description 200 caractères'),
    
     
     asyncHandler( async function (req,res){
@@ -123,7 +124,6 @@ exports.deleteProduct = asyncHandler(async function(req,res){
     const product = await Product.findByPk(req.params.id, {
         include: [Allergen,Category,ProductOrder]
     })
-
     const food = await ProductOrder.findOne({
         where:{
             productId: req.params.id
@@ -133,7 +133,7 @@ exports.deleteProduct = asyncHandler(async function(req,res){
 
     if(product && !food){
         await product.destroy()
-        res.json({message: 'Product remove'})
+        res.status(201).json({message: 'Product remove'})
     } else {
         res.status(400)
         throw new Error('Product exist in Order ')
@@ -147,7 +147,7 @@ exports.deleteProduct = asyncHandler(async function(req,res){
 exports.createProductReviews = [ 
     
     body('rating').not().notEmpty().matches(/[0-9]/),
-    body('comment').not().notEmpty().matches(/^[0-9a-zA-Z !?'éàéç ]/).isLength({ max: 50 }),
+    body('comment').not().notEmpty().matches(/^[0-9a-zA-Z !?'éàéç ]/).isLength({  max: 50 }),
 
     asyncHandler( async function (req,res){
         const errors = validationResult(req);

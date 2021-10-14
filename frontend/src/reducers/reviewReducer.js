@@ -8,7 +8,8 @@ import {
   ADMIN_USERREVIEW_FAIL,
   ADMIN_DELETEREVIEW_REQUEST,
   ADMIN_DELETEREVIEW_SUCCESS,
-  ADMIN_DELETEREVIEW_FAIL
+  ADMIN_DELETEREVIEW_FAIL,
+  ADMIN_DELETEREVIEW_RESET
 
 
 } from '../constants/reviewContstants'
@@ -53,6 +54,8 @@ export const reviewsDeleteReducer = (state= {} , action) => {
           return {loading: false, success: true}
       case ADMIN_DELETEREVIEW_FAIL:
           return {loading: false, error: action.payload}
+      case ADMIN_DELETEREVIEW_RESET:
+          return {}
       default:
           return state;
   }

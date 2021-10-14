@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { invoiceListByUser, deleteInvoice} from '../actions/invoiceActions'
 import { Link } from 'react-router-dom'
 import {Table, Button} from 'react-bootstrap'
-
+import { toast } from 'react-toastify'
+import Message from '../composants/Message'
+import Loader from '../composants/Loader'
 
 const UserReview = ({match, history}) => {
     const id = match.params.id;
@@ -11,7 +13,6 @@ const UserReview = ({match, history}) => {
     const dispatch = useDispatch()
 
 
-    const [mesage, setMessage] = useState('Aucunes factures')
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -29,6 +30,9 @@ const UserReview = ({match, history}) => {
             history.push('/login')
         }
         dispatch(invoiceListByUser(id))
+        if(loadingDelete){
+            toast.success("Utilisateur supprimer")
+        }
     
         
     }, [dispatch,history,match,userInfo,successDelete])
@@ -45,39 +49,43 @@ const UserReview = ({match, history}) => {
         <div>
             <h1>Facture des utilisateurs <strong className="text-capitalize"></strong></h1>
              <Link to='/admin/invoicesuserlist' className='m-3'> <Button> Retour </Button></Link>
-             { invoices && ( 
 
-             
-             <Table>
-                    <thead>
-                        <tr>
+             { loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : (
+                <Table>
+                     <thead>
+                         <tr>
                             <th>Numéro</th>
                             <th>Date</th>
                             <th>Total</th>
                             <th></th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        { invoices.map((item) =>  ( item.payment.invoice.delete ? <div></div> : (
-                             <tr key={item.id}>
-                                    <td>{item.date_number}</td>
-                                    <td>{item.date_createAt}</td>
-                                    <td>{item.total} €</td>
-                                    <td>{item.isDelivered}</td>
-                                    <td> <Link to={{
-                                        pathname:`orders/${item.id}`,
-                                        }}><i className="fa fa-eye p-2"></i></Link>
-                                        <i className='fa fa-trash'
-                                            onClick={() => deleteInvoiceHandler(item.id)}
-                                        ></i>
-                                    </td>
-                                </tr>
-                        )
+                     </thead>
+                     <tbody>
+                     { invoices.map((item,key) =>  ( item.payment.invoice.delete &&  (
+                          <tr key={key}>
+                                 <td>{item.date_number}</td>
+                                 <td>{item.date_createAt}</td>
+                                 <td>{item.total} €</td>
+                                 <td>{item.isDelivered}</td>
+                                 <td> <Link  key={item.id} to={{
+                                     pathname:`orders/${item.id}`,
+                                     }}><i className="fa fa-eye p-2"></i></Link>
+                                     <i className='fa fa-trash'
+                                         onClick={() => deleteInvoiceHandler(item.id)}
+                                     ></i>
+                                 </td>
+                             </tr>
                             )
-                        )}
-                    </tbody>
-                </Table>
+                         )
+                     )}
+                 </tbody>
+             </Table>
              )}
+              
+
+             
+            
+             
         </div>
     )
 }

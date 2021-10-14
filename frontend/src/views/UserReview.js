@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { reviewListByUser, deleteReview} from '../actions/reviewActions'
 import { Link } from 'react-router-dom'
 import {Table, Button} from 'react-bootstrap'
 
 import ProductReviews from '../composants/ProductReviews'
+import { ADMIN_DELETEREVIEW_RESET } from '../constants/reviewContstants'
+import { toast } from 'react-toastify'
 
 const UserReview = ({match, history}) => {
     const id = match.params.id;
@@ -25,8 +27,12 @@ const UserReview = ({match, history}) => {
             history.push('/login')
         }
         dispatch(reviewListByUser(id))
+        if(successDelete){
+            dispatch({type: ADMIN_DELETEREVIEW_RESET})
+            toast.success('Commentaire supprimé')
+        }
         
-    }, [dispatch,history,match,userInfo,successDelete])
+    }, [dispatch,history,match,userInfo,successDelete,id])
 
     const deleteReviewHandler = (id) => {
         if (window.confirm('Are you sure')) {
@@ -50,8 +56,8 @@ const UserReview = ({match, history}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {reviews.map((item) => (
-                            <tr key={item.id} >
+                        {reviews.map((item,key) => (
+                            <tr key={key}>
                                 <td>{item.comment}</td>
                                 <td>{item.date_reviews}</td>
                                 <td><ProductReviews product={item.product}/></td>

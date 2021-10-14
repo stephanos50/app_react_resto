@@ -14,6 +14,7 @@ import {
     USER_UPDATE_SUCCESS,
     USER_UPDATE_FAIL,
     USER_UPDATE_RESET,
+    USER_DELETE_RESET
    
 } from '../constants/adminConstants'
 
@@ -60,6 +61,8 @@ export const userListReducer = ( state = { users: [] }  , action) => {
           loading: false, 
           error: action.payload,
       }
+      case USER_DELETE_RESET:
+        return {}
       default:
           return state;
       }

@@ -24,21 +24,27 @@ import {
     ORDER_DELIVER_RESET,
     ORDER_VIEW_REQUEST,
     ORDER_VIEW_SUCCESS,
-    ORDER_VIEW_FAIL
+    ORDER_VIEW_FAIL,
+    ORDER_VIEW_RESET
 } from '../constants/orderConstants'
 
 export const orderCreateReducer = (state = {}, action) => {
     switch(action.type) {
         case ORDER_CREATE_REQUEST:
-            return { loading: true}
+            return { 
+                loading: true,
+            }
         case ORDER_CREATE_SUCCESS:
             return { 
                 loading: false, 
                 success:true, 
-                order: action.payload
+                order: action.payload,
             }
         case ORDER_CREATE_FAIL:
-            return { loading: false, error: action.payload}
+            return { 
+                loading: false, 
+                error: action.payload,
+            }
         case ORDER_CREATE_RESET:
             return {}
         default: 
@@ -54,23 +60,22 @@ export const orderDetailsReducer = (
             return {  
                 ...state,
                 loading: true,
-            };
+            }
         case ORDER_DETAILS_SUCCESS:
             return { 
                 loading: false,  
-                order: action.payload
-            };
+                order: action.payload,
+            }
         case ORDER_DETAILS_FAIL:
             return { 
                 loading: false, 
-                error: action.payload
-            };
+                error: action.payload,
+            }
         default: 
             return state;
     }
 
 }
-
 
 export const orderPayReducer = (state = {}, action) => {
     switch (action.type) {
@@ -86,7 +91,7 @@ export const orderPayReducer = (state = {}, action) => {
         case ORDER_PAY_FAIL:
             return {
                 loading: false,
-                error: action.payload
+                error: action.payload,
             }
         case ORDER_PAY_RESET:
             return {}
@@ -95,6 +100,35 @@ export const orderPayReducer = (state = {}, action) => {
             return state
     }
 }
+
+
+export const orderDeliverReducer = (state = {}, action) => {
+    switch (action.type) {
+        case ORDER_DELIVER_REQUEST:
+            return {
+                loading: true,
+            }
+        case ORDER_DELIVER_SUCCESS:
+            return {
+                loading: false,
+                success: true,
+            }
+        case ORDER_DELIVER_FAIL:
+            return {
+                loading: false,
+                error: action.payload,
+            }
+        case ORDER_DELIVER_RESET:
+            return {}
+        default:
+            return state
+    }
+}
+
+
+
+
+
 
 export const orderListMyReducer = (state = {orders: [] }, action) => {
 
@@ -137,35 +171,11 @@ export const orderListReducer = (state = { orders: []}, action) => {
                 loading: false,
                 error: action.payload,
              }
-        case ORDER_LIST_RESET:
-             return { orders: [] }
         default:
             return state
     }
 }
 
-export const orderDeliverReducer = (state = {}, action) => {
-    switch (action.type) {
-        case ORDER_DELIVER_REQUEST:
-            return {
-                loading: true,
-            }
-        case ORDER_DELIVER_SUCCESS:
-            return {
-                loading: false,
-                success: true,
-            }
-        case ORDER_DELIVER_FAIL:
-            return {
-                loading: false,
-                error: action.payload
-            }
-        case ORDER_DELIVER_RESET:
-            return {}
-        default:
-            return state
-    }
-}
 
 
 
@@ -174,9 +184,11 @@ export const viewOrderDeleteReducer = (state= {} , action) => {
         case ORDER_VIEW_REQUEST:
             return {loading: true}
         case ORDER_VIEW_SUCCESS:
-            return {loading: false, success: true}
+            return {loading: false, success: true,}
         case ORDER_VIEW_FAIL:
-            return {loading: false, error: action.payload}
+            return {loading: false, error: action.payload,}
+        case ORDER_VIEW_RESET:
+            return {}
         default:
             return state;
     }

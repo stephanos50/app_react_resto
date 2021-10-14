@@ -1,6 +1,5 @@
 
 import React, { useState,useEffect } from 'react'
-
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { deleteUser } from '../actions/adminActions'
@@ -29,6 +28,7 @@ const UserListScreem = ({history}) => {
             }
             const fetchListUsers = async () => {
               const { data } = await axios.get(`/api/admin`, config)
+              console.log(data)
               setUsers(data)
             }
             fetchListUsers()

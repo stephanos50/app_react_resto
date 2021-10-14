@@ -5,7 +5,7 @@ import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import SearchProduct from '../composants/SearchProduct'
 import { listProducts, deleteProduct, createProduct } from '../actions/productAction'
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstants'
 import {toast} from 'react-toastify'
 
 const ProductListScreen = ({ history }) => {
@@ -34,18 +34,23 @@ const ProductListScreen = ({ history }) => {
     } else {
       dispatch(listProducts())
     } 
+    if(successDelete){
+      dispatch({type:PRODUCT_DELETE_RESET})
+      toast.error('Le produit a été suprimé')
+    }
     
   },[dispatch, history, userInfo, successDelete , successCreate, createdProduct])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
       dispatch(deleteProduct(id))
+      
     }
   }
 
   const createProductHandler = () => {
       dispatch(createProduct())
-      toast.error('Le produit a été suprimé')
+      
   }
 
   return (

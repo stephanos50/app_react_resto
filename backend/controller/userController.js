@@ -111,19 +111,6 @@ exports.registerUser = [
         await user.setRoles(2),
         await user.save()
        
-        // const address = await Address.create({
-        //     name: 'rue, avenue, chaussée',
-        //     number: 0,
-        //     floor: 0,
-        // }) 
-        // address.setDataValue('cityId', 1)
-        // address.setDataValue('userEmail', email)
-        // await address.save()
-        
-        // const city = await City.findOne({where: {
-        //     id: 1
-        // }})
-
         const newUser = await User.findByPk(user.id, {
             include:[Role,Order,Address]
         })

@@ -5,8 +5,9 @@ import { Row,Button,Col,Table } from 'react-bootstrap'
 import { deleteCategory, listCategory} from '../actions/categoryAction'
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
-import { CATEGORY_CREATE_RESET } from '../constants/categoryConstants'
+import { CATEGORY_DELETE_RESET } from '../constants/categoryConstants'
 import { LinkContainer } from 'react-router-bootstrap'
+import { toast } from 'react-toastify'
 
 
 
@@ -26,12 +27,19 @@ const CategoryListScreem = ({history}) => {
     const {loading: loadingDelete, error: errorDelete, success: successDelete } = categoryDelete
 
     useEffect(() => {
-        dispatch({type: CATEGORY_CREATE_RESET})
         if(!userInfo && !userInfo.isAdmin){
             history.push('/login')
         }
         dispatch(listCategory())
-    }, [dispatch,history,userInfo,successDelete,successCreate])
+        if(successDelete) {
+            dispatch({type:CATEGORY_DELETE_RESET})
+            toast.success('La catégorie a été supprimé')
+        }
+        if(errorDelete){
+            dispatch({type:CATEGORY_DELETE_RESET})
+            toast.error('La catégorie contient des produits')
+        }
+    }, [dispatch,history,userInfo,successDelete,successCreate,errorDelete])
 
     const deleteCategoryHandler = (id) => {
         if (window.confirm('Are you sure')) {

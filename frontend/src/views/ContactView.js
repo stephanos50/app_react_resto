@@ -5,6 +5,8 @@ import { Form, Button } from 'react-bootstrap'
 import FormContainer from '../composants/FormContainer'
 import { Link } from 'react-router-dom'
 import { toast} from 'react-toastify'
+import { USER_MESSAGE_RESET } from '../constants/contactConstants'
+
 
 
 const ContactView = () => {
@@ -19,8 +21,12 @@ const ContactView = () => {
     const {success} = messageContact
 
     useEffect(()=> {
-      
-    },[dispatch])
+        if(success){
+            toast.success('Le mail a bien été envoyé') 
+            dispatch({type: USER_MESSAGE_RESET})
+            
+        }
+    },[dispatch, success])
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -33,11 +39,9 @@ const ContactView = () => {
         } else {
             event.preventDefault()
             dispatch(sendMessage(email,textarea))
-            toast.success('Le mail a bien été envoyé') 
+           
         }
-        
-        
-      };
+    };
 
     return (
         <FormContainer>

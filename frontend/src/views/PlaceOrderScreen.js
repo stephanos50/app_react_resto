@@ -21,8 +21,6 @@ const PlaceOrderScreen = ({history}) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
-    
-
     cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0))
     
     cart.totalPrice = cart.itemsPrice
@@ -32,13 +30,13 @@ const PlaceOrderScreen = ({history}) => {
    
     
     useEffect(() => {
-       
+       console.log(success)
         if(success){
             history.push(`/order/${order.id}`)
             dispatch({ type: USER_DETAILS_RESET })
             dispatch({ type: ORDER_CREATE_RESET })
-            
         }// eslint-disable-next-line
+       
     },[history, success])
 
     const placeOrderHandler = () => {

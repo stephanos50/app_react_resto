@@ -1,4 +1,4 @@
-import React ,{ useEffect, useState } from 'react'
+import React ,{ useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { usersList} from '../actions/reviewActions'
 import Message from '../composants/Message'
@@ -19,8 +19,7 @@ const ReviewListView = ({history}) => {
     const listusers = useSelector((state) => state.listusers)
     const {loading, error, users }  = listusers
    
-    console.log(users)
-    
+ 
    
     
     useEffect(() => {
@@ -29,7 +28,7 @@ const ReviewListView = ({history}) => {
         } 
         dispatch(usersList())
        
-    }, [dispatch,history])
+    }, [dispatch,history,userInfo])
 
   
     return (
@@ -73,12 +72,3 @@ export default ReviewListView
 
 
 
-
- {/* <Link to={{
-    pathname:`userreview/${item.id}`,
-    aboutProps:{
-        reviews:item.reviews,
-        name:item.first_name
-    },
-    }}>commentaires</Link> 
-*/}

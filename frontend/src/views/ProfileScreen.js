@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector} from 'react-redux'
 import { Link } from 'react-router-dom'
 import Message from '../composants/Message'
@@ -11,11 +11,12 @@ import { LinkContainer} from 'react-router-bootstrap'
 
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { toast } from 'react-toastify'
+import {ORDER_VIEW_RESET } from '../constants/orderConstants'
 
 
 
 
-const ProfileScreem = ({ location, history}) => {
+const ProfileScreem = ({history}) => {
 
     const [first_name, setFirstName] = useState('')
     const [last_name, setLastName] = useState('')
@@ -62,6 +63,16 @@ const ProfileScreem = ({ location, history}) => {
             if(!user.orders){
                 setMessageCommande('Aucune commande')
             }
+            if(successDelete){
+                
+                dispatch({type:ORDER_VIEW_RESET})
+                dispatch({ type: USER_UPDATE_PROFILE_RESET })
+                dispatch(getUserDetails('profile'))
+               
+                toast.success('Votre commande a été supprimé')
+                
+               
+            }
         }
     }, [dispatch, history, userInfo, user, success, successDelete])
 
@@ -76,17 +87,14 @@ const ProfileScreem = ({ location, history}) => {
             dispatch(updateUserProfile({ email, first_name, last_name,  password}))
            
         }
-        if(successDelete){
-            dispatch(getUserDetails('profile'))
-        }
+      
     }
 
     const deleteHandler = (id) => {
+      
         if (window.confirm('Are you sure')) {
-          dispatch(deleteViewOrder(id))
-         
-          toast.success('Votre commande a été supprimé')
-         
+            dispatch(deleteViewOrder(id))
+           
         }
     }
     
@@ -159,7 +167,7 @@ const ProfileScreem = ({ location, history}) => {
             </Col>
             <Col md={9}>
                 <h2>Mes commandes</h2>
-                { !user.orders ? <Message variant='danger'>{message}</Message> : (
+                { !user.orders ? <Message variant='danger'>{messageCommande}</Message> : (
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
@@ -174,7 +182,7 @@ const ProfileScreem = ({ location, history}) => {
                         </thead>
                         <tbody>
                             {user.orders.map(order => 
-                                !order.delete ? (    <tr key={order.id}>
+                                !order.delete && (    <tr key={order.id}>
                                     <td>{order.number}</td>
                                     <td>{order.time}</td>
                                     <td>{order.date_createAt}</td>
@@ -190,12 +198,12 @@ const ProfileScreem = ({ location, history}) => {
                                         <Button
                                             variant='danger'
                                             className='btn-sm'
-                                            onClick={() => deleteHandler(order.id)}
+                                            onClick={(e) => deleteHandler(order.id)}
                                             >
                                             <i className='fas fa-trash'></i>
                                             </Button>
                                     </td>
-                                </tr>) : (<h1></h1>)
+                                </tr>) 
                             
                             )}
                         </tbody>

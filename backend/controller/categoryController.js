@@ -24,10 +24,14 @@ exports.getCategories =  asyncHandler(async (req,res) => {
 // @access Private/Admin
 exports.deleteCategory = asyncHandler(async (req,res) =>{
     const category = await Category.findByPk(req.params.id, {include: Product})
-    const deleteCategory = await category.destroy()
-    if(deleteCategory){
-        res.json({message: 'Categogy remove'})
-    } else {
+    
+    
+    if(Object.keys(category.products).length === 0){
+        await category.destroy()
+        res.status(202).json({message: 'Categogy remove'})
+    } else if (Object.keys(category.products).length > 0){
+        res.status(400).json({message: 'Categogy not remove'})
+    }else {
         res.status(404)
         throw new Error('Category not found')
     }

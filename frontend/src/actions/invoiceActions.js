@@ -65,7 +65,6 @@ export const invoiceListByUser = (id) => async (dispatch, getState) => {
 
     const { data } = await axios.get(`/api/invoices/${id}`, config)
     
-    console.log(data)
     
     
     dispatch({

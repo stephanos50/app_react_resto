@@ -1,10 +1,10 @@
 import React from 'react'
-import  PropTypes from 'prop-types'
 const ProductReviews = (props) => {
-    const { product } = props
+    const { product} = props
+    console.log(props)
     return (
         <div>
-            {product.name}
+            <strong key={product.id}> {product.name}</strong>
         </div>
     )
 }

@@ -28,7 +28,7 @@ const ReviewListView = ({history}) => {
         } 
         dispatch(usersInvoiceList())
        
-    }, [dispatch,history])
+    }, [dispatch,history,userInfo])
 
   
     return (
