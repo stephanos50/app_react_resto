@@ -13,13 +13,16 @@ const Invoice = require('../models/Invoice')
 // @route  GET /admin/invoices
 // @access Private Admin
 exports.userinvoiceList = asyncHandler(async (req,res)=> {
-   
     const users = await User.findAll({
-       include:[{model:Order,include:[{model:Payment,include:[{model:Invoice},{model:PaymentMethode}] }]}]
+       include:[{model:Order,include:[{model:Payment,include:[{model:Invoice},{model:PaymentMethode}],where:{
+        status: 'COMPLETED'
+       }}]}]
+       
     });
+    console.log(users)
     if (!users) {
         res.status(404)
-        throw new Error("Liste des commentaires n'existe pas")
+        throw new Error("Liste des factures n'existe pas")
         
     } else {
         return res.json(users)
@@ -30,7 +33,7 @@ exports.userinvoiceList = asyncHandler(async (req,res)=> {
 // @route  GET /admin/invoice/:id
 // @access Private Admin
 exports.invoiceListById = asyncHandler(async (req,res)=> {
-   
+   console.log("invoiceListById")
     const invoices = await Order.findAll({
          include: [
              User,

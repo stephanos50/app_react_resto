@@ -1,13 +1,16 @@
 
 import React, {useEffect}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row,Button,Col,Table } from 'react-bootstrap'
-import { deleteCategory, listCategory} from '../actions/categoryAction'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
-import { CATEGORY_DELETE_RESET } from '../constants/categoryConstants'
+import { Row, Button, Col, Table } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
+
+import { deleteCategory, listCategory} from '../../../actions/categoryAction'
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
+import { CATEGORY_DELETE_RESET } from '../../../constants/categoryConstants'
+import DashboardHeader from '../../../composants/DashboardHeader' 
 
 
 
@@ -48,7 +51,9 @@ const CategoryListScreem = ({history}) => {
     };
    
     return (
+        
         <>
+         <DashboardHeader />
         <Row>
             {loadingCreate ? (
                 <Loader />
@@ -59,21 +64,8 @@ const CategoryListScreem = ({history}) => {
             ) 
         }
         </Row>
-        <Row>
-            
-        </Row>
-        <Row className='align-items-center'>
-            <Col>
-                <h1>Categories</h1>
-            </Col>
-            <Col className='text-right'>
-                <LinkContainer to={`/admin/categorycreate`}>
-                    <Button className='my-3'>
-                        <i className='fas fa-plus'></i> Ajouter une categorie
-                    </Button>
-                </LinkContainer>
-            </Col>
-        </Row>
+       
+      
         {loadingDelete && <Loader />}
         {errorDelete && <Message variant='dander'>{errorDelete}</Message>}
 
@@ -87,30 +79,40 @@ const CategoryListScreem = ({history}) => {
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>#</th>
                     </tr>
                 </thead>
                 <tbody>
                 {categories.map((category) => (
-                
-                <tr key={category.id}>
-                    <td>{category.id}</td>
-                    <td>{category.name}</td>
-                    <td>
+                    <tr key={category.id}>
+                        <td>{category.id}</td>
+                        <td>{category.name}</td>
+                        <td>
                     
-                    <Button
-                        variant='danger'
-                        className='btn-sm'
-                        onClick={() => deleteCategoryHandler(category.id)}
-                    >
-                        <i className='fas fa-trash'></i>
-                    </Button>
-                    </td>
-                </tr>
-                ))}
-            </tbody>
+                        <Link
+                            variant='danger'
+                            className='btn-sm'
+                            onClick={() => deleteCategoryHandler(category.id)}
+                        >
+                            <i className='fas fa-trash'></i>
+                        </Link>
+                        </td>
+                    </tr>
+                    ))}
+                </tbody>
                 
             </Table>
         )}
+          <Row className='align-items-center'>
+           
+           <Col className='text-right'>
+               <LinkContainer to={`/admin/categorycreate`}>
+                   <Button className='my-3'>
+                       <i className='fas fa-plus'></i> Ajouter une categorie
+                   </Button>
+               </LinkContainer>
+           </Col>
+       </Row>
 
            
     

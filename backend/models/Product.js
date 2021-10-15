@@ -36,8 +36,8 @@ Product.init(
         description: { 
             type: DataTypes.TEXT,
             validate: {
-                is: /^[a-zA-Zéèà, ']+$/i, 
-                max:200
+                is: /^[a-zA-Zéèà,'. œ]+$/i, 
+                max:250
             },
         },
         price: {

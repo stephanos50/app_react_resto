@@ -2,11 +2,12 @@
 import { useEffect } from 'react'
 import { Button, Row, Col, ListGroup, Card} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../composants/Message'
-import CheckoutSteps from  '../composants/CheckoutSteps'
-import { ORDER_CREATE_RESET } from '../constants/orderConstants'
-import { USER_DETAILS_RESET } from '../constants/userConstants'
-import { createOrder } from '../actions/orderAction'
+
+import Message from '../../../composants/Message'
+import CheckoutSteps from  '../../../composants/CheckoutSteps'
+import { ORDER_CREATE_RESET } from '../../../constants/orderConstants'
+import { USER_DETAILS_RESET } from '../../../constants/userConstants'
+import { createOrder } from '../../../actions/orderAction'
 
 const PlaceOrderScreen = ({history}) => {
 

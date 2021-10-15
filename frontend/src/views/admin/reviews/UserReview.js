@@ -1,12 +1,15 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { reviewListByUser, deleteReview} from '../actions/reviewActions'
+import { reviewListByUser, deleteReview} from '../../../actions/reviewActions'
 import { Link } from 'react-router-dom'
 import {Table, Button} from 'react-bootstrap'
 
-import ProductReviews from '../composants/ProductReviews'
-import { ADMIN_DELETEREVIEW_RESET } from '../constants/reviewContstants'
+import ProductReviews from '../../../composants/ProductReviews'
+import { ADMIN_DELETEREVIEW_RESET } from '../../../constants/reviewContstants'
 import { toast } from 'react-toastify'
+
+import DashboardHeader from '../../../composants/DashboardHeader' 
+
 
 const UserReview = ({match, history}) => {
     const id = match.params.id;
@@ -43,8 +46,8 @@ const UserReview = ({match, history}) => {
 
     return (
         <div>
-            <h1>Commentaire de <strong className="text-capitalize"></strong></h1>
-             <Link to='/admin/reviewsuserlist' className='m-3'> <Button> Retour </Button></Link>
+            <DashboardHeader />
+          
              <Table>
                     <thead>
                         <tr>

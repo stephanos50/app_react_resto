@@ -1,10 +1,12 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector} from 'react-redux'
-import { createCategory} from '../actions/categoryAction'
-import { Form, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-import FormContainer from '../composants/FormContainer'
+import { Form, Button} from 'react-bootstrap'
+
+import FormContainer from '../../../composants/FormContainer'
+import { createCategory} from '../../../actions/categoryAction'
+import DashboardHeader from '../../../composants/DashboardHeader' 
+
 
 const CategoryCreateScreem = ({history}) => {
 
@@ -42,7 +44,9 @@ const CategoryCreateScreem = ({history}) => {
     };
 
     return (
+       
         <FormContainer>
+             <DashboardHeader />
             <Link to='/admin/categoryList' className='btn btn-light my-3'>
                 Retour à la liste
             </Link>

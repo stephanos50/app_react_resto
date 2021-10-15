@@ -1,10 +1,11 @@
 
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listOrders } from '../actions/orderAction'
-import Loader from '../composants/Loader'
-import Message from '../composants/Message'
-import  SearchOrder  from '../composants/SearchOrder'
+import { listOrders } from '../../../actions/orderAction'
+import Loader from '../../../composants/Loader'
+import Message from '../../../composants/Message'
+import  SearchOrder  from '../../../composants/SearchOrder'
+import DashboardHeader from '../../../composants/DashboardHeader' 
 
 
 const OrderListView = ({history}) => {
@@ -30,7 +31,7 @@ const OrderListView = ({history}) => {
 
   return (
       <>
-      <h1>Orders</h1>
+      <DashboardHeader />
       { loading ? (<Loader />) : error ? (
             <Message></Message>
         ) : (

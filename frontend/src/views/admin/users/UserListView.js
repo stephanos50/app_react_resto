@@ -3,11 +3,12 @@ import React, { useState,useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import { deleteUser } from '../actions/adminActions'
-import SearchUser from '../composants/SearchUser'
-import { USER_DELETE_RESET} from '../constants/adminConstants'
+import { deleteUser } from '../../../actions/adminActions'
+import SearchUser from '../../../composants/SearchUser'
+import { USER_DELETE_RESET} from '../../../constants/adminConstants'
 
 import { toast } from 'react-toastify'
+import DashboardHeader from '../../../composants/DashboardHeader' 
 
 
 
@@ -54,7 +55,7 @@ const UserListScreem = ({history}) => {
 
     return (
       <>
-      <h1>Users</h1>
+      <DashboardHeader />
       <SearchUser 
         users={users}
         deleteHandler={deleteHandler}

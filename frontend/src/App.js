@@ -4,35 +4,39 @@ import Header from './composants/Header'
 import Footer from './composants/Footer'
 import {Container} from 'react-bootstrap'
 import Home from './views/HomeView'
-import ProductView from './views/ProductScreen'
+import ProductView from './views/users/product/ProductScreen'
 import CartView from './views/CartView'
 import LoginView from './views/LoginView'
-import RegisterView from './views/RegisterScreen'
+import RegisterView from './views/users/register/RegisterScreen'
 import ProfileView from './views/ProfileScreen'
 import ShippingView from './views/ShippingView'
 import PaymentView from './views/PaymentScreen'
-import PlaceOrderView from './views/PlaceOrderScreen'
-import OrderView from './views/OrderView'
-import UserListView from './views/UserListView'
-import UserEditView from './views/UserEditView'
-import ProductListView from './views/ProductListScreen'
-import ProductEditView from './views/ProductEditScreen'
-import OrderListView from './views/OrderListView'
-import CategoryListView  from './views/CategoryListView'
-import CategoryCreateView from './views/CategoryCreateView'
+import PlaceOrderView from './views/users/order/PlaceOrderScreen'
+import OrderView from './views/users/order/OrderView'
+import UserEditView from './views/admin/users/UserEditView'
+
+import ProductListView from './views/admin/products/ProductListScreen'
+
+import OrderListView from './views/admin/orders/OrderListView'
+
+import CategoryListView  from './views/admin/categories/CategoryListView'
+import CategoryCreateView from './views/admin/categories/CategoryCreateView'
 import AllergenListView from './views/AllergenListView'
-import AllergenCreateView from './views/AllergenCreateView' 
-import RoleListView from './views/RoleListView'
-import RoleCreateView from './views/RoleCreateView'
 import PasswordLost from './views/PasswordView'
 import ResetPassword from './views/ResetPassword'
 import ContactView from './views/ContactView'
 import { InfoView } from './views/InfoView'
-import AdminOrderView from './views/AdminOrderView'
-import  ReviewListView  from './views/ReviewListView'
-import UserReview from './views/UserReview'
-import UserInvoicesView from './views/UserInvoicesView'
-import InvoiceUserListView from './views/InvoiceUserListView'
+import AdminOrderView from './views/admin/orders/orderView'
+import  ReviewListView  from './views/admin/reviews/ReviewListView'
+import UserReview from './views/admin/reviews/UserReview'
+import UserInvoicesView from './views/admin/invoices/UserInvoicesView'
+import InvoiceUserListView from './views/admin/invoices/InvoiceUserListView'
+import ProductEditView from './views/admin/products/ProductEditScreen'
+import UserListView from './views/admin/users/UserListView'
+
+import DashboardView from './views/admin/dashboad/DashboadView'
+
+
 
  
 
@@ -52,9 +56,6 @@ const  App = () => {
                 <Route path='/admin/categorylist' component={CategoryListView} exact  />
                 <Route path='/admin/categorycreate' component={CategoryCreateView} exact  />
                 <Route path='/admin/allergenlist' component={AllergenListView} exact  />
-                <Route path='/admin/allergencreate' component={AllergenCreateView} exact  />
-                <Route path='/admin/rolelist' component={RoleListView} exact  />
-                <Route path='/admin/rolecreate' component={RoleCreateView} exact  /> 
                 <Route path='/admin/product/:id/edit' component={ProductEditView} exact  />
                 <Route path='/admin/:id/edit' component={UserEditView} exact  />
                 <Route path='/admin/reviewsuserlist' component={ReviewListView} exact  /> 
@@ -64,7 +65,7 @@ const  App = () => {
                 <Route path='/admin/userinvoices/orders/:id' component={AdminOrderView} exact  /> 
 
                 
-
+                <Route path='/admin/dashboard' component={DashboardView} exact />
 
                 <Route path='/products/:id' component={ProductView} exact  />
                 <Route path='/cart/:id?' component={CartView} exact/>

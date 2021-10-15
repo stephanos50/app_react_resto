@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
-import SearchProduct from '../composants/SearchProduct'
-import { listProducts, deleteProduct, createProduct } from '../actions/productAction'
-import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstants'
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
+import SearchProduct from '../../../composants/SearchProduct'
+import { listProducts, deleteProduct, createProduct } from '../../../actions/productAction'
+import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../../../constants/productConstants'
 import {toast} from 'react-toastify'
+import DashboardHeader from '../../../composants/DashboardHeader' 
 
 const ProductListScreen = ({ history }) => {
   const dispatch = useDispatch()
@@ -55,10 +56,9 @@ const ProductListScreen = ({ history }) => {
 
   return (
     <>
+    <DashboardHeader />
       <Row className='align-items-center'>
-        <Col>
-          <h1>Products</h1>
-        </Col>
+        
         <Col className='text-right'>
           <Button className='my-3' onClick={createProductHandler}>
             <i className='fas fa-plus'></i> Create Product

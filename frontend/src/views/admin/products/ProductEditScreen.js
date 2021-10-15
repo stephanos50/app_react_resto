@@ -3,12 +3,18 @@ import {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector} from 'react-redux'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
-import FormContainer from '../composants/FormContainer'
-import { listProductDetails, updateProduct} from '../actions/productAction'
-import { listCategory } from '../actions/categoryAction'
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import {toast} from 'react-toastify'
+
+
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
+import FormContainer from '../../../composants/FormContainer'
+import { listProductDetails, updateProduct} from '../../../actions/productAction'
+import { listCategory } from '../../../actions/categoryAction'
+import { PRODUCT_UPDATE_RESET } from '../../../constants/productConstants'
+import { listAllergen } from '../../../utilis/allergens'
+import DashboardHeader from '../../../composants/DashboardHeader' 
+
 
 
 
@@ -18,7 +24,7 @@ const ProductEditScreem = ({match, history}) => {
     
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [price, setPrice] = useState()
+    const [price, setPrice] = useState('')
     const [category, setCategory] = useState('')
     const [allergensList, setAllergensList] = useState([]) // AXIOS
     const [allergens, setAllergens] = useState({}) // PRODUCT
@@ -38,24 +44,13 @@ const ProductEditScreem = ({match, history}) => {
     const categoryList = useSelector((state) => state.categoryList)
     const { categories } = categoryList
 
-    const userLogin = useSelector((state) => state.userLogin)
-    const { userInfo } = userLogin
-
-    const config = {
-        headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-        },
-      }
-
-    const fetchLisAllergen = async () => {
-        const { data } = await axios.get('/api/allergens', config)
-        setAllergensList(data)
-    }
+   
 
     useEffect(() => {
         dispatch(listCategory())
         if (successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
+            toast.success(`${product.name} mit à jour`)
             history.push('/admin/productlist')
             
         } 
@@ -68,7 +63,8 @@ const ProductEditScreem = ({match, history}) => {
             setPrice(product.price)
             setCategory(product.categoryId)
             setAllergens(product.allergens)
-            fetchLisAllergen()
+            setAllergensList(listAllergen)
+           
         }
        
       }, [dispatch, history, productId, product, successUpdate])
@@ -79,7 +75,7 @@ const ProductEditScreem = ({match, history}) => {
         const formData = new FormData()
         formData.append('image',file)
         formData.append('id',product.id)
-        formData.append('url',"/uploads")
+        formData.append('url',"http://localhost:5000/uploads")
         // formData.append('url',"http://localhost:5000/uploads")
         setUploading(true)
     
@@ -90,7 +86,7 @@ const ProductEditScreem = ({match, history}) => {
                 },
             }
     
-            const { data } = await axios.post('/api/upload',formData , config)
+            await axios.post('/api/upload',formData , config)
             setUploading(false)
         } catch (error) {
             setUploading(false)
@@ -150,17 +146,18 @@ const ProductEditScreem = ({match, history}) => {
   
     return ( 
         <>
+            <DashboardHeader />
             <Link to='/admin/productList' className='btn btn-light my-3'>
             Go Back
             </Link>
             <FormContainer>
-            <h1>Ajoutez un nouveau produit</h1>
+            <h1>Editer un produit</h1>
             {loadingUpdate && <Loader />}
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {loading ? ( <Loader /> ) : error ? ( <Message variant="danger">{error}</Message> ) : (
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId="form-file" className="mb-3">
-                        <Form.Label>Séléctionnez une image</Form.Label>
+                        <Form.Label>Séléctionné une image</Form.Label>
                         <Form.Control type="file" onChange={uploadFileHandler} />
                     </Form.Group>
                     <Form.Group>

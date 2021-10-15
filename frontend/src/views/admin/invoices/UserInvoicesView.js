@@ -1,11 +1,15 @@
 import React, { useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { invoiceListByUser, deleteInvoice} from '../actions/invoiceActions'
 import { Link } from 'react-router-dom'
 import {Table, Button} from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
+
+
+
+import { invoiceListByUser, deleteInvoice} from '../../../actions/invoiceActions'
+import DashboardHeader from '../../../composants/DashboardHeader' 
+
+
 
 const UserReview = ({match, history}) => {
     const id = match.params.id;
@@ -43,14 +47,13 @@ const UserReview = ({match, history}) => {
         }
     };
 
-  
+    console.log(invoices)
 
     return (
         <div>
-            <h1>Facture des utilisateurs <strong className="text-capitalize"></strong></h1>
-             <Link to='/admin/invoicesuserlist' className='m-3'> <Button> Retour </Button></Link>
-
-             { loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : (
+            <DashboardHeader />
+           
+            
                 <Table>
                      <thead>
                          <tr>
@@ -61,8 +64,9 @@ const UserReview = ({match, history}) => {
                         </tr>
                      </thead>
                      <tbody>
-                     { invoices.map((item,key) =>  ( item.payment.invoice.delete &&  (
-                          <tr key={key}>
+              
+                     { invoices.map((item) =>  
+                          <tr key={item.id}>
                                  <td>{item.date_number}</td>
                                  <td>{item.date_createAt}</td>
                                  <td>{item.total} €</td>
@@ -75,12 +79,13 @@ const UserReview = ({match, history}) => {
                                      ></i>
                                  </td>
                              </tr>
-                            )
-                         )
+                            
+                         
                      )}
+                     
                  </tbody>
              </Table>
-             )}
+             
               
 
              

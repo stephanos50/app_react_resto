@@ -1,11 +1,13 @@
 import {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector} from 'react-redux'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
-import FormContainer from '../composants/FormContainer'
-import { register } from '../actions/userActions'
 import { Form, Button, Row, Col } from 'react-bootstrap'
+
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
+import FormContainer from '../../../composants/FormContainer'
+import { register } from '../../../actions/userActions'
+
 
 
 

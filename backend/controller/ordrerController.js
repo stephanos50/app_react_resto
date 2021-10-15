@@ -227,7 +227,8 @@ exports.deleteViewOrder = asyncHandler(async (req, res) => {
    
     if (order) {
         if(order.payment === null){
-            const orderdelete =  order.destroy()
+            
+            const orderdelete =  await order.destroy()
             if(orderdelete){
                 res.status(201).json({message: 'delete'})
             }
@@ -235,8 +236,7 @@ exports.deleteViewOrder = asyncHandler(async (req, res) => {
         } else {
             console.log("delete")
            if(await order.user.deleteOrder(order)){
-               
-                res.status(201).json({message: 'deleteView'})
+               res.status(201).json({message: 'deleteView'})
             }
         }
        

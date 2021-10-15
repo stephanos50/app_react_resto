@@ -1,14 +1,17 @@
 import {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector} from 'react-redux'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
-import FormContainer from '../composants/FormContainer'
-import { getUserDetails , updateUser} from '../actions/adminActions'
 import { Form, Button} from 'react-bootstrap'
-import { USER_UPDATE_RESET } from '../constants/adminConstants'
-import { roles } from '../utilis/roles'
 import {toast} from 'react-toastify'
+
+
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
+import FormContainer from '../../../composants/FormContainer'
+import { getUserDetails , updateUser} from '../../../actions/adminActions'
+import { USER_UPDATE_RESET } from '../../../constants/adminConstants'
+import { roles } from '../../../utilis/roles'
+
 
 
 

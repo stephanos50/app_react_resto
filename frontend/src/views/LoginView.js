@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector} from 'react-redux'
+import { Form, Button, Row, Col } from 'react-bootstrap'
+
 import Message from '../composants/Message'
 import Loader from '../composants/Loader'
 import { login } from '../actions/userActions'
-import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../composants/FormContainer'
 
 
@@ -24,12 +25,16 @@ const LoginScreem = ({location, history}) => {
     
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
-
+   
 
     useEffect(()=> {
         if(userInfo){
-           
-            history.push(redirect)
+            if(userInfo.role === 'admin'){
+                history.push('/admin/dashboard')
+            }else {
+                history.push(redirect)
+            }
+          
         } 
     }, [history, userInfo, redirect])
 

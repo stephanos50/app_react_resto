@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom' 
 import { useDispatch, useSelector} from 'react-redux'
 import { Row, Col, ListGroup, Card, Button, Form, Image } from 'react-bootstrap'
-import Assess from '../composants/Assess'
-import { listProductDetails, createProductReview } from '../actions/productAction'
-import Loader from '../composants/Loader'
-import Message from '../composants/Message'
-import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
-import Allergen from '../composants/Allergen'
-import Review from '../composants/Review'
+
+import Assess from '../../../composants/Assess'
+import { listProductDetails, createProductReview } from '../../../actions/productAction'
+import Loader from '../../../composants/Loader'
+import Message from '../../../composants/Message'
+import { PRODUCT_CREATE_REVIEW_RESET } from '../../../constants/productConstants'
+import Allergen from '../../../composants/Allergen'
+import Review from '../../../composants/Review'
 
 
 const Product = ({history, match}) => {

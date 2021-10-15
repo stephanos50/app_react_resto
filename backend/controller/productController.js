@@ -79,7 +79,7 @@ exports.updateProduct =  [
     body('name').notEmpty(),
     body('price').notEmpty().isNumeric(),
     body('category').notEmpty().trim(),
-    body('description').isLength({max : 200}).withMessage(' Longueur de la description 200 caractères'),
+    body('description').isLength({max : 250}).withMessage(' Longueur de la description 500 caractères'),
    
     
     asyncHandler( async function (req,res){
