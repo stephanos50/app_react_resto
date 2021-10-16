@@ -37,8 +37,7 @@ class User extends Model {
 
     async deleteInvoice (invoice) {
         invoice.delete = true;
-        invoice.save();
-        return invoice.delete;
+        return true;
     };
 
   // Sign JWT and return

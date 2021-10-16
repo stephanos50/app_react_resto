@@ -11,7 +11,7 @@ import Message from '../../../composants/Message'
 import Loader from '../../../composants/Loader'
 import { CATEGORY_DELETE_RESET } from '../../../constants/categoryConstants'
 import DashboardHeader from '../../../composants/DashboardHeader' 
-
+import SearchCategory from '../../../composants/SearchCategory'
 
 
 const CategoryListScreem = ({history}) => {
@@ -53,7 +53,7 @@ const CategoryListScreem = ({history}) => {
     return (
         
         <>
-         <DashboardHeader />
+         <DashboardHeader role={userInfo.role}/>
         <Row>
             {loadingCreate ? (
                 <Loader />
@@ -74,34 +74,10 @@ const CategoryListScreem = ({history}) => {
         ) : error ? (
             <Message variant='danger'>{error}</Message>
         ) : (
-            <Table striped bordered hover responsive className='table-sm'>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>#</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {categories.map((category) => (
-                    <tr key={category.id}>
-                        <td>{category.id}</td>
-                        <td>{category.name}</td>
-                        <td>
-                    
-                        <Link
-                            variant='danger'
-                            className='btn-sm'
-                            onClick={() => deleteCategoryHandler(category.id)}
-                        >
-                            <i className='fas fa-trash'></i>
-                        </Link>
-                        </td>
-                    </tr>
-                    ))}
-                </tbody>
-                
-            </Table>
+           <SearchCategory 
+                categories={categories}
+                deleteCategoryHandler={deleteCategoryHandler}
+            />
         )}
           <Row className='align-items-center'>
            

@@ -8,7 +8,6 @@ import { LinkContainer } from 'react-router-bootstrap'
     const [query, setQuery] = useState('')
     const { users } = props
 
-    console.log(users)
 
     const { deleteHandler} = props
     const showingUsers = query === ''
@@ -22,21 +21,21 @@ import { LinkContainer } from 'react-router-bootstrap'
     }
     return (
         <div>
-             <Form.Group  as={Row} className="mb-3" controlId="name">
-            <Form.Label><h5>Search by name : </h5></Form.Label>
-            <Col sm='3'>
-                <Form.Control 
-                  type="text" 
-                  placeholder="Search user by name ..."  
-                  value={query}
-                  onChange={(event) => updateQuery(event.target.value)}
-                />
+          <Form.Group  as={Row} className="mb-3" controlId="name">
+            
+              <Col sm='3'>
+                  <Form.Control 
+                    type="text" 
+                    placeholder="Recherche par nom ..."  
+                    value={query}
+                    onChange={(event) => updateQuery(event.target.value)}
+                  />
                 </Col>
-        </Form.Group>
-            <Table striped bordered hover responsive className='table-sm'>
+           </Form.Group>
+          <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
-              <th>ID</th>
+              
               <th>NAME</th>
               <th>EMAIL</th>
               <th>ADMIN</th>
@@ -46,7 +45,7 @@ import { LinkContainer } from 'react-router-bootstrap'
           <tbody>
             {showingUsers.map((user) => (
               <tr key={user._uuid}>
-                <td>{user._uuid}</td>
+                
                 <td>{user.first_name}</td>
                 <td>
                   <a href={`mailto:${user.email}`}>{user.email}</a>

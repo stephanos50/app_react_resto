@@ -55,7 +55,7 @@ const UserListScreem = ({history}) => {
 
     return (
       <>
-      <DashboardHeader />
+       <DashboardHeader role={userInfo.role}/>
       <SearchUser 
         users={users}
         deleteHandler={deleteHandler}

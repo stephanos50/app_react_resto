@@ -14,12 +14,14 @@ const Invoice = require('../models/Invoice')
 // @access Private Admin
 exports.userinvoiceList = asyncHandler(async (req,res)=> {
     const users = await User.findAll({
-       include:[{model:Order,include:[{model:Payment,include:[{model:Invoice},{model:PaymentMethode}],where:{
+       include:[{model:Order,include:[{model:Payment,include:[{model:Invoice, where:{
+           delete:false
+       }},{model:PaymentMethode}],where:{
         status: 'COMPLETED'
        }}]}]
        
     });
-    console.log(users)
+    
     if (!users) {
         res.status(404)
         throw new Error("Liste des factures n'existe pas")
@@ -29,18 +31,20 @@ exports.userinvoiceList = asyncHandler(async (req,res)=> {
     }
 });
 
-// @desc   Get a reviws 
+// @desc   Get a invoice 
 // @route  GET /admin/invoice/:id
 // @access Private Admin
 exports.invoiceListById = asyncHandler(async (req,res)=> {
-   console.log("invoiceListById")
+  
     const invoices = await Order.findAll({
          include: [
              User,
              {model:Payment,where: {
                 status: 'COMPLETED'
             },
-            include:[{model:Invoice},{model:PaymentMethode}]}],
+            include:[{model:Invoice, where:{
+                delete:false
+            }},{model:PaymentMethode}]}],
             where: {
                 userId: req.params.id, 
             },
@@ -48,7 +52,7 @@ exports.invoiceListById = asyncHandler(async (req,res)=> {
    
     if (!invoices) {
         res.status(404)
-        throw new Error("Liste des commentaires n'existe pas")
+        throw new Error("Liste des factures n'existe pas")
         
     } else {
         
@@ -61,7 +65,8 @@ exports.invoiceListById = asyncHandler(async (req,res)=> {
 // @route  DELETE /admin/invoices/:id
 // @access Private Admin
 exports.deleteInvoice  = asyncHandler(async (req,res) => {
-    
+   
+    console.log(req.params)
     const invoice = await Invoice.findOne({
         include: [{
             model:Payment, where:{
@@ -71,9 +76,17 @@ exports.deleteInvoice  = asyncHandler(async (req,res) => {
         }]
     })
 
-    
-    await invoice.payment.order.user.deleteInvoice(invoice)
+   
+    const deleted =  await invoice.payment.order.user.deleteInvoice(invoice);
+    if(deleted){
+        invoice.save();
+        res.status(201).json(invoice)
+    } else {
+        res.status(404)
+        throw new Error("La facture n'est pas supprimée")
+    }
+   
 
     
-    res.status(201).json(invoice)
+    
 })

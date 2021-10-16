@@ -146,7 +146,7 @@ const ProductEditScreem = ({match, history}) => {
   
     return ( 
         <>
-            <DashboardHeader />
+            
             <Link to='/admin/productList' className='btn btn-light my-3'>
             Go Back
             </Link>

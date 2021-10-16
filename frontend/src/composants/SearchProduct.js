@@ -8,7 +8,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 const SearchProduct = (props) => {
     const [query, setQuery] = useState('')
     const { products } = props
-    const showingContacts = query === ''
+
+    const showingProducts = query === ''
         ? products
         : products.filter((c) => (
             c.name.toLowerCase().includes(query.toLowerCase())
@@ -22,11 +23,11 @@ const SearchProduct = (props) => {
     return (
       <>
         <Form.Group  as={Row} className="mb-3" controlId="name">
-            <Form.Label><h5>Search by name : </h5></Form.Label>
+            
             <Col sm='3'>
                 <Form.Control 
                   type="text" 
-                  placeholder="Search orders by name ..."  
+                  placeholder="Recherche par nom ..."  
                   value={query}
                   onChange={(event) => updateQuery(event.target.value)}
                 />
@@ -45,7 +46,7 @@ const SearchProduct = (props) => {
               </tr>
             </thead>
             <tbody>
-              {showingContacts.map((product) => (
+              {showingProducts.map((product) => (
               
                 <tr key={product.id}>
                   <td>{product.id}</td>

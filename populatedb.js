@@ -34,22 +34,12 @@ let cities = [];
 let supplements = [];
 let orders = [];
 let addresses = [];
-let pictures = [];
 let products_orders = [];
 let users = [];
+let payments = [];
+let invoices = [];
 
 
-async function pictureCreate(path, productId){
-  imageDetail = {
-    path: path
-  }
-  const picture = await Picture.create(imageDetail);
-  console.log('Nouvelle image' + picture.id);
-        picture.setDataValue('productId', productId);
-  await picture.save();
-  pictures.push(picture);
-  return picture;
-}
 
 
 
@@ -102,6 +92,7 @@ async function createProductOrder01(){
   order.setDataValue('number', order.date_number);
   order.setDataValue('time', order.date_time);
   await order.save();
+  orders.push(order)
  
   return Promise.all([
     productOrderCreate( 2, (7.50) ,order.id, 1),
@@ -118,10 +109,12 @@ async function createProductOrder02(){
     time: 'time',
     createAt: date
   }
+  
   const order = await Order.create(datailsOrder);
   order.setDataValue('number', order.date_number);
   order.setDataValue('time', order.date_time);
   await order.save();
+  orders.push(order)
 
  
   return Promise.all([
@@ -143,6 +136,7 @@ async function createProductOrder03(){
   order.setDataValue('number', order.date_number);
   order.setDataValue('time', order.date_time);
   await order.save();
+  orders.push(order)
   return Promise.all([
     productOrderCreate( 1, (8.00) ,order.id, 3),
     productOrderCreate( 1, (8.50) ,order.id, 4),
@@ -162,6 +156,7 @@ async function createProductOrder04(){
   order.setDataValue('number', order.date_number);
   order.setDataValue('time', order.date_time);
   await order.save();
+  orders.push(order)
   return Promise.all([
     productOrderCreate( 1, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
@@ -182,6 +177,7 @@ async function createProductOrder05(){
   order.setDataValue('number', order.date_number);
   order.setDataValue('time', order.date_time);
   await order.save();
+  orders.push(order)
   return Promise.all([
     productOrderCreate( 1, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
@@ -201,6 +197,7 @@ async function createProductOrder06(){
   order.setDataValue('number', order.date_number);
   order.setDataValue('time', order.date_time);
   await order.save();
+  orders.push(order)
   return Promise.all([
     productOrderCreate( 1, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
@@ -220,6 +217,7 @@ async function createProductOrder07(){
   order.setDataValue('number', order.date_number);
   order.setDataValue('time', order.date_time);
   await order.save();
+  orders.push(order)
   return Promise.all([
     productOrderCreate( 1, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
@@ -670,6 +668,48 @@ async function addCategories(){
 }
 
 
+async function createPayment(){
+  const date = new Date();
+  let payment
+    const detaitlsPayment = {
+        status:'COMPLETED',
+        date:date
+    };
+    orders.map(async (item) => {
+      payment =  await Payment.create(detaitlsPayment),
+      payment.setDataValue('orderId', item.id)
+      payment.setDataValue('paymentMethodeId',1)
+      await payment.save()
+      payments.push(payment),
+      console.log('create payment' + ' ' + item.id)
+      return payment;
+    })
+  
+}
+
+
+async function createInvoice(){
+    
+    let invoice
+    const detailsInvoice = {
+        
+        delete:false,
+    }
+    payments.map(async (item) => {
+     
+      invoice =  await Invoice.create(detailsInvoice);
+      
+      invoice.setDataValue('paymentId',invoice.uid);
+      await invoice.save();
+      invoices.push(invoice);
+      console.log('create invoices');
+      return invoice;
+    })
+     
+      
+};
+
+
 
 async function productRate(productId, rate){
   const result = await Review.findAndCountAll({
@@ -769,9 +809,12 @@ async function createReviewsDelta(){
 }
 
 
+
+
 (async () => {
   try {
     await sequelize.sync({ force: true });
+
     const enter = categoryCreate('Entrée');
     const plat = categoryCreate('Plats');
     const suggestions = categoryCreate('Suggestions');
@@ -782,7 +825,8 @@ async function createReviewsDelta(){
     const user_address = await create_user_address()
     const products = await createProducts();
    
-   
+    const methode_payement = await createMethodePayment();
+
     const products_orders_01 = await createProductOrder01();
     const orders_01 = await updateOrders();
   
@@ -805,16 +849,27 @@ async function createReviewsDelta(){
     const products_orders_06 = await createProductOrder07();
     const orders_delta = await updateOrdersDelta();
 
+    const payements = await createPayment();
+
+
+    
+    
     const review = await createReviews();
     const other = await createReviewsOther();
     const beta = await createReviewsBeta();
     const gama = await createReviewsGama();
+    const invoices = await createInvoice();
     const delta = await createReviewsDelta();
+    
 
 
-    const methode_payement = await createMethodePayment();
+    
+
+  
+    
    
     sequelize.close();
+
   } catch (error) {
     console.error('Error while populating DB: ', error);
   }

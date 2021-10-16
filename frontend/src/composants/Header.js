@@ -69,36 +69,15 @@ const Header = () => {
                   )}
                   {userInfo   && ( userInfo.role === 'admin' ) && (
                       <NavDropdown title="admin" className="text-capitalize" id="role">
-                        
-                        <LinkContainer to='/admin/userlist'>
-                          <NavDropdown.Item>utilisateurs</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to='/admin/productlist'>
-                          <NavDropdown.Item >produits</NavDropdown.Item>
-                        </LinkContainer>
                         <LinkContainer to='/admin/orderlist'>
-                          <NavDropdown.Item>commandes</NavDropdown.Item>
+                          <NavDropdown.Item>Dashboard</NavDropdown.Item>
                         </LinkContainer>
-                        <LinkContainer to='/admin/categorylist'>
-                          <NavDropdown.Item >categories</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to='/admin/reviewsuserlist'>
-                          <NavDropdown.Item >commentaires</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to='/admin/invoicesuserlist'>
-                          <NavDropdown.Item >factures</NavDropdown.Item>
-                        </LinkContainer>
-                        
-                        <NavDropdown.Item onClick={logoutHandler}>
-                       
-                        </NavDropdown.Item>
-                       
-                      </NavDropdown>
+                  </NavDropdown>
                   )}
                    {userInfo   && (userInfo.role === 'livreur') && (
                       <NavDropdown title="livreur" className="text-capitalize" id="role">
                           <LinkContainer to='/admin/orderlist'>
-                            <NavDropdown.Item id="text-livreur">commandes</NavDropdown.Item>
+                            <NavDropdown.Item id="text-livreur">Dashboard</NavDropdown.Item>
                           </LinkContainer>
                       </NavDropdown>
                   )}

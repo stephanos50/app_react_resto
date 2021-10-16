@@ -13,7 +13,7 @@ const SearchOrder = (props) => {
     const showingContacts = query === ''
         ? orders
         : orders.filter((c) => (
-            c.user.first_name.toLowerCase().includes(query.toLowerCase())
+            c.date_number.toLowerCase().includes(query.toLowerCase())
         ))
 
     const updateQuery = (query) => {
@@ -23,11 +23,11 @@ const SearchOrder = (props) => {
     return (
       <>
         <Form.Group  as={Row} className="mb-3" controlId="name">
-            <Form.Label><h5>Search by name : </h5></Form.Label>
+            
             <Col sm='3'>
                 <Form.Control 
                   type="text" 
-                  placeholder="Search orders by name ..."  
+                  placeholder="Numéro de commande ..."  
                   value={query}
                   onChange={(event) => updateQuery(event.target.value)}
                 />

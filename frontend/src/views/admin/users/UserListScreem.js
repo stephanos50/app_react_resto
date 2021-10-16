@@ -49,7 +49,7 @@ const UserListScreem = ({history}) => {
 
     return (
       <>
-      <DashboardHeader />
+       <DashboardHeader role={userInfo.role}/>
       <h1>Users</h1>
       <SearchUser 
         users={users}

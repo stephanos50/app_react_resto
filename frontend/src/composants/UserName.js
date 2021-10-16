@@ -3,7 +3,7 @@ import  PropTypes from 'prop-types'
 
 const UserName = (props) => {
     const { name } = props
-     console.log(props)
+    
     return (
         <div>
            {name && name.email}

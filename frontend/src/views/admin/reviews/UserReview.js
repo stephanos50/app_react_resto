@@ -1,15 +1,12 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { reviewListByUser, deleteReview} from '../../../actions/reviewActions'
-import { Link } from 'react-router-dom'
-import {Table, Button} from 'react-bootstrap'
 
-import ProductReviews from '../../../composants/ProductReviews'
 import { ADMIN_DELETEREVIEW_RESET } from '../../../constants/reviewContstants'
 import { toast } from 'react-toastify'
 
 import DashboardHeader from '../../../composants/DashboardHeader' 
-
+import SearchUserReviews from '../../../composants/SearchUserReviews'
 
 const UserReview = ({match, history}) => {
     const id = match.params.id;
@@ -46,39 +43,9 @@ const UserReview = ({match, history}) => {
 
     return (
         <div>
-            <DashboardHeader />
+            <DashboardHeader role={userInfo.role}/>
           
-             <Table>
-                    <thead>
-                        <tr>
-                            <th>Commentaire</th>
-                            <th>Date</th>
-                            <th>Produit</th>
-                            <th>Cote</th>
-                            <th>Supprimer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reviews.map((item,key) => (
-                            <tr key={key}>
-                                <td>{item.comment}</td>
-                                <td>{item.date_reviews}</td>
-                                <td><ProductReviews product={item.product}/></td>
-                                <td>{item.rating}</td>
-                                <td>
-                                <Button
-                                    variant='danger'
-                                    className='btn-sm'
-                                    onClick={() => deleteReviewHandler(item.id)}
-                                    >
-                                    <i className='fas fa-trash'></i>
-                                </Button>
-                               
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+            <SearchUserReviews reviews={reviews} deleteReviewHandler={deleteReviewHandler}/>
         </div>
     )
 }

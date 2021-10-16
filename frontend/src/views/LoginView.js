@@ -30,8 +30,8 @@ const LoginScreem = ({location, history}) => {
     useEffect(()=> {
         if(userInfo){
             if(userInfo.role === 'admin'){
-                history.push('/admin/dashboard')
-            }else {
+                history.push('/admin/orderlist')
+            } else {
                 history.push(redirect)
             }
           

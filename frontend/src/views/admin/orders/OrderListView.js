@@ -31,7 +31,7 @@ const OrderListView = ({history}) => {
 
   return (
       <>
-      <DashboardHeader />
+       <DashboardHeader role={userInfo.role}/>
       { loading ? (<Loader />) : error ? (
             <Message></Message>
         ) : (
