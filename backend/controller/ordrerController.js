@@ -36,11 +36,11 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         {order: [ [ 'id', 'DESC' ]]}
         )
         const lastValue = Array.from(user.addresses).pop();
-        
+        const date = new Date()
         const detailsOrder = {
             number: 'number',
             time: 'time',
-            createAt: new Date(),
+            createAt:date,
             total: 0,
         }
         const order = await Order.create(detailsOrder)
