@@ -184,7 +184,7 @@ const ProfileScreem = ({history}) => {
                             {user.orders.map(order => 
                                 !order.delete && (    <tr key={order.id}>
                                     <td>{order.number}</td>
-                                    <td>{order.time}</td>
+                                    <td>{order.date_time}</td>
                                     <td>{order.date_createAt}</td>
                                     <td>{order.total} €</td>
                                     <td>{order.isDelivered ?  ( <i className='' style={{color:'#B52036'}}>Livrée</i>) : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>) }</td>
