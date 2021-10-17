@@ -26,7 +26,7 @@ const sendEmail = require('../utils/sendEmail');
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
    const { cartItems } = req.body
-   
+  
    if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
@@ -36,27 +36,28 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
             where: {
                 email:req.body.user,
             },include:Address,
-       }, { order: [ [ 'id', 'DESC' ]]}
-        )
+            }, { order: [ [ 'id', 'DESC' ]]
+        });
        
         const lastValue = Array.from(user.addresses).pop();
-        const date = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
+        const date = new Date();
         const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
         const numero = format.toFormat('yyyy-MM-');        
         const detailsOrder = {
-            number: 'number',
-            time: 'time',
+            number: '000-00-00',
+            time: '00:00',
             createAt: date,
-            total: 0,
+            total: 0
         }
-        const order = await Order.create(detailsOrder)
-        order.setDataValue('number',`${numero}${index(order.id)}${order.id}`)
-        order.setDataValue('time', order.date_time)
-        order.setDataValue('createAt', order.date_createAt)
+        console.log(detailsOrder)
+        const order = await Order.create(detailsOrder);
+        
+        order.setDataValue('number',`${numero}${index(order.id)}${order.id}`);
+        order.setDataValue('time', order.date_time);
         order.setDataValue('addressId', lastValue.id);
         order.setDataValue('userId', user.id);
-        await order.save()
-        console.log(order)
+        await order.save();
+       
         
        
         cartItems.map( async (element) => {
