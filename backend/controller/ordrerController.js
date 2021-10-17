@@ -52,6 +52,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const order = await Order.create(detailsOrder)
         order.setDataValue('number',`${numero}${index(order.id)}${order.id}`)
         order.setDataValue('time', order.date_time)
+        order.setDataValue('createAt', order.date_createAt)
         order.setDataValue('addressId', lastValue.id);
         order.setDataValue('userId', user.id);
         await order.save()
