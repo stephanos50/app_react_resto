@@ -4,7 +4,7 @@ const sequelize = require('./sequelize');
 const Address = require('./Address');
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
-const date = DateTime.fromISO(new Date().toISOString());
+const date = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
 
 const total = 0;
 
