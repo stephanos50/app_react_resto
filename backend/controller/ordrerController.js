@@ -44,7 +44,6 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
 
         const date = new Date();
         const numero = format.toFormat('yyyy-MM-');        
-        const time = format.toLocaleString(DateTime.TIME_24_SIMPLE);
         const detailsOrder = {
             number: 'number',
             time: 'time',
@@ -53,7 +52,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         }
         const order = await Order.create(detailsOrder)
         order.setDataValue('number',`${numero}${index(order.id)}${order.id}`)
-        order.setDataValue('time',time)
+        order.setDataValue('time', order.date_time)
         order.setDataValue('addressId', lastValue.id);
         order.setDataValue('userId', user.id);
         await order.save()

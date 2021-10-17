@@ -4,12 +4,12 @@ const sequelize = require('./sequelize');
 const Address = require('./Address');
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
-const date = DateTime.fromISO(new Date().toISOString());
+ 
 
 const total = 0;
 
 class Order extends Model{
-   
+    date = DateTime.fromISO(new Date().toISOString());
     get url(){
         return `/order/${this.id}`;
        
@@ -61,6 +61,13 @@ Order.init(
             
             
         },
+        date_time: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return this.date.toLocaleString(DateTime.TIME_24_SIMPLE)
+            },
+        },
+        
       
 
         date_createAt: {
