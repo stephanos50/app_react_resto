@@ -85,8 +85,8 @@ const AdminOrderView = ({match, history}) => {
     return loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : <>
         <Row className='p-3'>
             <Col>
-                <h3> Numéro: {order.date_number}</h3>
-                <h3>Commande :  {order.date_createAt} heure: {order.date_time} </h3>
+                <h3> Numéro: {order.number}</h3>
+                <h3>Commande :  {order.date_createAt} heure: {order.time} </h3>
             </Col>
             <Col>
             <Link to='/admin/orderlist' className='m-3'> <Button> Retour </Button></Link>

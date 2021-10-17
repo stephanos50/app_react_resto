@@ -18,14 +18,17 @@ const Payment = require('./backend/models/Payment')
 const Invoice = require('./backend/models/Invoice')
 const PaymentMethod = require('./backend/models/PaymentMethode')
 const bcrypt = require("bcrypt");
+
+
+
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
+const date = DateTime.fromISO(new Date().toISOString());
+const heure = date.toLocaleString(DateTime.TIME_24_SIMPLE);
+const numero = date.toFormat('yyyy-MM-')
 
 
-
-
-
-let number = 0;
+let sequence = 0;
 
 
 
@@ -40,7 +43,18 @@ let payments = [];
 let invoices = [];
 
 
-
+ function index(number){
+  let index
+  if(number < 10 ){
+    index = "00"
+  } else if(number > 10) {
+    index = "0"
+  } else {
+    index = 0
+  }
+   
+  return index
+}
 
 
 async function addressCreate(nom,numero,etage,cityId,userAdress){
@@ -61,10 +75,11 @@ async function addressCreate(nom,numero,etage,cityId,userAdress){
 };
 
 async function productOrderCreate(qty, price, orderId,productId){
- 
+  const prix = parseFloat(price)
+  
   detailProductOrder = {
     quantity: qty,
-    price: (price*qty),
+    price: (prix*qty),
   }
   const product_order = await ProductOrder.create(detailProductOrder);
  
@@ -82,18 +97,18 @@ async function productOrderCreate(qty, price, orderId,productId){
 
 
 async function createProductOrder01(){
-  const date = new Date()
+  
   const datailsOrder = {
-    number: 'number',
-    time: 'time',
+    number: 0,
+    time: heure,
     createAt:date
   }
   const order = await Order.create(datailsOrder);
-  order.setDataValue('number', order.date_number);
-  order.setDataValue('time', order.date_time);
+  const nouveau = (`${numero}${index(order.id)}${order.id}`)
+  order.setDataValue('number', nouveau)
   await order.save();
   orders.push(order)
- 
+  
   return Promise.all([
     productOrderCreate( 2, (7.50) ,order.id, 1),
     productOrderCreate( 2, (7.50) ,order.id, 2),
@@ -103,16 +118,16 @@ async function createProductOrder01(){
 };
 
 async function createProductOrder02(){
-  const date = new Date()
+  
   const datailsOrder = {
-    number: 'number',
-    time: 'time',
-    createAt: date
+    number: numero,
+    time: heure,
+    createAt:date
   }
   
   const order = await Order.create(datailsOrder);
-  order.setDataValue('number', order.date_number);
-  order.setDataValue('time', order.date_time);
+  const nouveau = (`${numero}${index(order.id)}${order.id}`)
+  order.setDataValue('number', nouveau)
   await order.save();
   orders.push(order)
 
@@ -126,15 +141,14 @@ async function createProductOrder02(){
 };
 
 async function createProductOrder03(){
-  const date = new Date()
   const datailsOrder = {
-    number: 'number',
-    time: 'time',
-    createAt: date
+    number: numero,
+    time: heure,
+    createAt:date
   }
   const order = await Order.create(datailsOrder);
-  order.setDataValue('number', order.date_number);
-  order.setDataValue('time', order.date_time);
+  const nouveau = `${numero}${index(order.id)}${order.id}`
+  order.setDataValue('number', nouveau)
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -146,15 +160,15 @@ async function createProductOrder03(){
 };
 
 async function createProductOrder04(){
-  const date = new Date()
   const datailsOrder = {
-    number: 'number',
-    time: 'time',
-    createAt: date
+    number: numero,
+    time: heure,
+    createAt:date
   }
   const order = await Order.create(datailsOrder);
-  order.setDataValue('number', order.date_number);
-  order.setDataValue('time', order.date_time);
+  const nouveau = (`${numero}${index(order.id)}${order.id}`)
+  order.setDataValue('number', nouveau)
+  order.setDataValue()
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -167,15 +181,14 @@ async function createProductOrder04(){
 
 
 async function createProductOrder05(){
-  const date = new Date()
   const datailsOrder = {
-    number: 'number',
-    time: 'time',
-    createAt: date
+    number: numero,
+    time: heure,
+    createAt:date
   }
   const order = await Order.create(datailsOrder);
-  order.setDataValue('number', order.date_number);
-  order.setDataValue('time', order.date_time);
+  const nouveau = (`${numero}${index(order.id)}${order.id}`)
+  order.setDataValue('number', nouveau)
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -187,15 +200,15 @@ async function createProductOrder05(){
 };
 
 async function createProductOrder06(){
-  const date = new Date()
   const datailsOrder = {
-    number: 'number',
-    time: 'time',
-    createAt: date
+    number: numero,
+    time: heure,
+    createAt:date
   }
   const order = await Order.create(datailsOrder);
-  order.setDataValue('number', order.date_number);
-  order.setDataValue('time', order.date_time);
+  const nouveau = (`${numero}${index(order.id)}${order.id}`)
+  order.setDataValue('number', nouveau)
+  
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -207,15 +220,15 @@ async function createProductOrder06(){
 };
 
 async function createProductOrder07(){
-  const date = new Date()
+  
   const datailsOrder = {
-    number: 'number',
-    time: 'time',
+    number: numero,
+    time: heure,
     createAt: date
   }
   const order = await Order.create(datailsOrder);
-  order.setDataValue('number', order.date_number);
-  order.setDataValue('time', order.date_time);
+  const nouveau = (`${numero}${index(order.id)}${order.id}`)
+  order.setDataValue('number', nouveau)
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -508,12 +521,14 @@ async function createProducts(){
     { name: "Mollusques"},
     
   ]);
+ 
   const [tarama, tzadziki, feta, gambas,calamars,meze ] = await Product.bulkCreate([
+   
     {
       url: 'http://localhost:5000/uploads/tarama.jpg',
       name: 'Tarama',
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. ",
-      price:7.50,
+      price:parseFloat(7.5),
       rate: 0,
       comment:0,
       categoryId: 1
@@ -808,7 +823,17 @@ async function createReviewsDelta(){
   ])
 }
 
-
+async function changePrice(){
+  const product = await Product.findAll()
+  const produit = product.map(async (item) => {
+      let productByPrice = await Product.findByPk(item.id)
+      const price = parseFloat(item.price)
+      productByPrice.setDataValue('price', price)
+      await productByPrice.save()
+  })
+     
+ 
+}
 
 
 (async () => {
@@ -853,13 +878,15 @@ async function createReviewsDelta(){
 
 
     
-    
+    const price = await changePrice()
     const review = await createReviews();
     const other = await createReviewsOther();
     const beta = await createReviewsBeta();
     const gama = await createReviewsGama();
     const invoices = await createInvoice();
     const delta = await createReviewsDelta();
+
+    
     
 
 

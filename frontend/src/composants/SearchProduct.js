@@ -37,10 +37,10 @@ const SearchProduct = (props) => {
         <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
+                <th>Numéro</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Catégorie</th>
                
                 <th></th>
               </tr>

@@ -9,7 +9,13 @@ const Payment = require('../models/Payment')
 const PaymentMethode =require('../models/PaymentMethode')
 const Invoice = require('../models/Invoice')
 
-let id = "000";
+const luxon = require("luxon");
+const DateTime = luxon.DateTime;
+const date = DateTime.fromISO(new Date().toISOString());
+const heure = date.toLocaleString(DateTime.TIME_24_SIMPLE);
+const numero = date.toFormat('yyyy-MM-')
+
+
 const admin = 'admin'
 const livreur = 'livreur'
 const sendEmail = require('../utils/sendEmail');
@@ -38,14 +44,13 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const lastValue = Array.from(user.addresses).pop();
         const date = new Date()
         const detailsOrder = {
-            number: 'number',
-            time: 'time',
+            number: numero,
+            time: heure,
             createAt:date,
             total: 0,
         }
         const order = await Order.create(detailsOrder)
-        order.setDataValue('number', order.date_number)
-        order.setDataValue('time', order.date_time)
+        order.setDataValue('number',`${numero}${index(order.id)}${order.id}`)
         order.setDataValue('addressId', lastValue.id);
         order.setDataValue('userId', req.user.id);
         await order.save()
@@ -246,6 +251,19 @@ exports.deleteViewOrder = asyncHandler(async (req, res) => {
         throw new Error('Order not found')
     }
 })
+
+function index(number){
+    let index
+    if(number < 10 ){
+      index = "00"
+    } else if(number > 10) {
+      index = "0"
+    } else {
+      index = 0
+    }
+     
+    return index
+  }
 
 
 

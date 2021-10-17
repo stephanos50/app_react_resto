@@ -13,7 +13,7 @@ const OrderItem = (props) => {
                     <ListGroup.Item key={index}>
                         <Row>
                             <Col><h6>{item.product.name}</h6></Col>
-                            <Col md={4}><h6>{item.quantity} x {item.product.price} € = {item.price} €</h6></Col>
+                            <Col md={4}><h6>{item.quantity} x {item.price/item.quantity} € = {item.price} €</h6></Col>
                         </Row>
                     </ListGroup.Item>
                 ))}

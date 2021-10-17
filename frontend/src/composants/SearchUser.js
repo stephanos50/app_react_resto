@@ -36,9 +36,9 @@ import { LinkContainer } from 'react-router-bootstrap'
           <thead>
             <tr>
               
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>ADMIN</th>
+              <th>Nom</th>
+              <th>Couriel</th>
+              <th>Administrateur</th>
               <th></th>
             </tr>
           </thead>

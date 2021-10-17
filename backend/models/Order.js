@@ -18,6 +18,8 @@ class Order extends Model{
         this.total = this.total + price;
         return ( this.total)
     }
+
+   
 }
 
 Order.init(
@@ -60,34 +62,6 @@ Order.init(
             
         },
 
-        date_number: {
-            type: DataTypes.VIRTUAL,
-            get() {
-                let i = "000"
-                switch (i) {
-                    case (this.id >=10 && this.id <= 99 ):
-                        i="00";
-                        break;
-                    case (this.id >=100 && this.id <= 999 ):
-                        i="0";
-                        break;
-                    default:
-                        break;
-                }
-                
-                return date.toFormat(`yyyy-MM-${i}${this.id}`)
-                        
-            },
-        },
-
-        date_time: {
-            type: DataTypes.VIRTUAL,
-            get() {
-                return date.toLocaleString(DateTime.TIME_24_SIMPLE)
-            },
-        },
-        
-       
         date_createAt: {
             type: DataTypes.VIRTUAL,
               get() {

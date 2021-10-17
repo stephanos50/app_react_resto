@@ -37,7 +37,7 @@ import { Link } from 'react-router-dom'
             <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Numéro</th>
               <th>Nom</th>
               <th>Prénom</th>
               <th>Couriel</th>

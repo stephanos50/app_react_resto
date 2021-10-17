@@ -13,7 +13,7 @@ const SearchOrder = (props) => {
     const showingContacts = query === ''
         ? orders
         : orders.filter((c) => (
-            c.date_number.toLowerCase().includes(query.toLowerCase())
+            c.number.toLowerCase().includes(query.toLowerCase())
         ))
 
     const updateQuery = (query) => {
@@ -37,12 +37,12 @@ const SearchOrder = (props) => {
                <Table striped bordered hover responsive className='table-sm'>
                <thead>
                  <tr>
-                   <th>ID</th>
-                   <th>USER</th>
-                   <th>DATE</th>
-                   <th>TOTAL</th>
-                   <th>PAID</th>
-                   <th>DELIVERED</th>
+                   <th>Numéro</th>
+                   <th>Client</th>
+                   <th>Date</th>
+                   <th>Total</th>
+                   <th>Payer</th>
+                   <th>Livrer</th>
                    <th></th>
                  </tr>
                </thead>
@@ -51,7 +51,7 @@ const SearchOrder = (props) => {
               
                  {showingContacts.map((order) => (
                   <tr key={order.id}>
-                    <td>{order.date_number}</td>
+                    <td>{order.number}</td>
                     <td>{order.user.first_name}</td>
                     <td>{order.date_createAt}</td>
                     <td>{order.total} €</td>

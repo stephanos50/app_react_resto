@@ -52,7 +52,7 @@ const SearchInvoice = (props) => {
               
                      { showingInvoice.map((item) =>  
                           <tr key={item.id}>
-                                 <td>{item.date_number}</td>
+                                 <td>{item.number}</td>
                                  <td>{item.date_createAt}</td>
                                  <td>{item.total} €</td>
                                  <td>{item.isDelivered}</td>
