@@ -73,7 +73,7 @@ Order.init(
         date_createAt: {
             type: DataTypes.VIRTUAL,
               get() {
-                return DateTime.fromObject(this.createAt).toFormat('dd-MM-yyyy')
+                return DateTime.fromObject(this.createAt).toFormat('dd-MM-yyyy',{zone: 'Europe/Brussels'})
                 
               },
         },
