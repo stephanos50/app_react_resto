@@ -11,9 +11,7 @@ const Invoice = require('../models/Invoice')
 
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
-const date = DateTime.fromISO(new Date().toISOString());
-const heure = date.toLocaleString(DateTime.TIME_24_SIMPLE);
-const numero = date.toFormat('yyyy-MM-')
+
 
 
 const admin = 'admin'
@@ -42,6 +40,9 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         {order: [ [ 'id', 'DESC' ]]}
         )
         const lastValue = Array.from(user.addresses).pop();
+        const date = DateTime.fromISO(new Date().toISOString());
+        const heure = date.toLocaleString(DateTime.TIME_24_SIMPLE);
+        const numero = date.toFormat('yyyy-MM-')        
         const date = new Date()
         const detailsOrder = {
             number: numero,
