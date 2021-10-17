@@ -42,7 +42,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const lastValue = Array.from(user.addresses).pop();
 
         const date = new Date();
-        const format = DateTime.fromISO(new Date().toISOString());
+        const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
         const numero = format.toFormat('yyyy-MM-');        
         const detailsOrder = {
             number: 'number',
