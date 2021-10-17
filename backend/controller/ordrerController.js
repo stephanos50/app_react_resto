@@ -10,7 +10,6 @@ const PaymentMethode =require('../models/PaymentMethode')
 const Invoice = require('../models/Invoice')
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
-const format = DateTime.fromISO(new Date().toISOString());
 
 
 
@@ -43,6 +42,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const lastValue = Array.from(user.addresses).pop();
 
         const date = new Date();
+        const format = DateTime.fromISO(new Date().toISOString());
         const numero = format.toFormat('yyyy-MM-');        
         const detailsOrder = {
             number: 'number',
