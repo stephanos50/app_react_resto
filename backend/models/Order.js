@@ -61,6 +61,7 @@ Order.init(
             
             
         },
+      
 
         date_createAt: {
             type: DataTypes.VIRTUAL,

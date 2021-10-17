@@ -11,6 +11,8 @@ const Invoice = require('../models/Invoice')
 
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
+const date = DateTime.fromISO(new Date().toISOString());
+
 
 
 
@@ -24,39 +26,43 @@ const sendEmail = require('../utils/sendEmail');
 // @route POST /api/orders
 // @access Private
 exports.addOrderItems = asyncHandler(async (req, res) => {
-    const { cartItems, user } = req.body
+   const { cartItems } = req.body
    
    if(cartItems && cartItems.lenght === 0){
         res.status(400)
         throw new Error('No order items')
        
     } else {
-       const user = await User.findOne(
-        {
+       const user = await User.findOne({
             where: {
-                id:req.user.id,
+                email:req.body.user,
             },include:Address,
-       } ,
-        {order: [ [ 'id', 'DESC' ]]}
+       }, { order: [ [ 'id', 'DESC' ]]}
         )
+       
         const lastValue = Array.from(user.addresses).pop();
-        const date = DateTime.fromISO(new Date().toISOString());
-        const heure = date.toLocaleString(DateTime.TIME_24_SIMPLE);
+
+        
+        
         const numero = date.toFormat('yyyy-MM-')        
-        const date = new Date()
+        
         const detailsOrder = {
-            number: numero,
-            time: heure,
+            number: 'number',
+            time: date.toLocaleString(DateTime.TIME_24_SIMPLE),
             createAt:date,
             total: 0,
         }
+        date.toLocaleString(DateTime.TIME_24_SIMPLE)
         const order = await Order.create(detailsOrder)
+       
         order.setDataValue('number',`${numero}${index(order.id)}${order.id}`)
+       
         order.setDataValue('addressId', lastValue.id);
-        order.setDataValue('userId', req.user.id);
+        order.setDataValue('userId', user.id);
         await order.save()
+        console.log(order)
         
-        
+       
         cartItems.map( async (element) => {
             const product =  await Product.findByPk(element.id)
             if(product !== null){

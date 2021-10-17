@@ -29,13 +29,10 @@ const LoginScreem = ({location, history}) => {
 
     useEffect(()=> {
         if(userInfo){
-            if(userInfo.role === 'admin'){
-                history.push('/admin/orderlist')
-            } else {
-                history.push(redirect)
-            }
-          
-        } 
+            history.push(redirect)
+        }
+       
+       
     }, [history, userInfo, redirect])
 
     const handleSubmit = (event) => {

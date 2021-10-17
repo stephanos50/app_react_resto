@@ -75,7 +75,7 @@ const ProductEditScreem = ({match, history}) => {
         const formData = new FormData()
         formData.append('image',file)
         formData.append('id',product.id)
-        formData.append('url',"http://localhost:5000/uploads")
+        formData.append('url',"/uploads")
         // formData.append('url',"http://localhost:5000/uploads")
         setUploading(true)
     
