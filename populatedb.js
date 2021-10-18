@@ -232,6 +232,7 @@ async function createProductOrder05(){
 
 async function createProductOrder06(){
   const date = new Date();
+  
   const datetime = DateTime.fromISO(new Date().toISOString())
   const time = datetime.toLocaleString(DateTime.TIME_24_SIMPLE)
   
