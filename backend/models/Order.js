@@ -6,6 +6,7 @@ const luxon = require("luxon");
 const DateTime = luxon.DateTime;
 const date = DateTime.fromISO(new Date().toISOString())
 
+
 const total = 0;
 
 class Order extends Model{

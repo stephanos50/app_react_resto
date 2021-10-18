@@ -44,10 +44,11 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const lastValue = Array.from(user.addresses).pop();
 
         const date = new Date();
-            
+        const datetime = DateTime.fromISO(new Date().toISOString())
+        const time = datetime.toLocaleString(DateTime.TIME_24_SIMPLE)
         const detailsOrder = {
             number: '000-00-00',
-            time: '00:00',
+            time: time,
             createAt: date,
             total: 0
         }
@@ -59,7 +60,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const nouveau = (`${numero}${index(order.id)}${order.id}`)
   
         order.setDataValue('number', nouveau)
-        order.setDataValue('time', order.date_time)
+        order.setDataValue('time', time)
 
         order.setDataValue('addressId', lastValue.id);
         order.setDataValue('userId', user.id);

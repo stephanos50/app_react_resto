@@ -108,7 +108,6 @@ async function createProductOrder01(){
   const format = DateTime.fromISO(order.createAt.toISOString());
   const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
-  console.log(order.date_time)
   order.setDataValue('number', nouveau)
   order.setDataValue('time', order.date_time)
   await order.save();
@@ -233,10 +232,12 @@ async function createProductOrder05(){
 
 async function createProductOrder06(){
   const date = new Date();
- 
+  const datetime = DateTime.fromISO(new Date().toISOString())
+  const time = datetime.toLocaleString(DateTime.TIME_24_SIMPLE)
+  
   const datailsOrder = {
     number: 'number',
-    time: 'time',
+    time: time,
     createAt: date
   }
   const order = await Order.create(datailsOrder);
@@ -246,7 +247,7 @@ async function createProductOrder06(){
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
 
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)  
+ 
   await order.save();
   orders.push(order)
   return Promise.all([
