@@ -26,6 +26,7 @@ const DateTime = luxon.DateTime;
 
 
 
+
 let sequence = 0;
 
 
@@ -95,18 +96,22 @@ async function productOrderCreate(qty, price, orderId,productId){
 
 
 async function createProductOrder01(){
-  const date = new Date();
-  const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-  const numero = format.toFormat('yyyy-MM-');     
+  const date = new Date()
+  
   const datailsOrder = {
     number: '0000-00-00',
     time: '00:00',
-    createAt:date
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
+
+  const format = DateTime.fromISO(order.createAt.toISOString());
+  const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
+
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)
+  order.setDataValue('time', `${format.hour}:${format.minute}`)
+
   await order.save();
   orders.push(order)
   
@@ -120,9 +125,7 @@ async function createProductOrder01(){
 
 async function createProductOrder02(){
   const date = new Date();
-  const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-  const numero = format.toFormat('yyyy-MM-');  
-  
+
   const datailsOrder = {
     number: '0000-00-00',
     time: '00:00',
@@ -130,9 +133,15 @@ async function createProductOrder02(){
   }
   
   const order = await Order.create(datailsOrder);
+
+  const format = DateTime.fromISO(order.createAt.toISOString());
+  const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
+
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)
+  order.setDataValue('time', `${format.hour}:${format.minute}`)
+
+
   await order.save();
   orders.push(order)
 
@@ -146,18 +155,22 @@ async function createProductOrder02(){
 };
 
 async function createProductOrder03(){
-    const date = new Date();
-    const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-    const numero = format.toFormat('yyyy-MM-');  
+  const date = new Date();
+   
   const datailsOrder = {
     number: '0000-00-00',
     time: '00:00',
     createAt:date
   }
   const order = await Order.create(datailsOrder);
-  const nouveau = `${numero}${index(order.id)}${order.id}`
+
+  const format = DateTime.fromISO(order.createAt.toISOString());
+  const numero = format.toFormat('yyyy-MM-');     
+  const nouveau = (`${numero}${index(order.id)}${order.id}`)
+
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)
+  order.setDataValue('time', `${format.hour}:${format.minute}`)
+
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -170,18 +183,20 @@ async function createProductOrder03(){
 
 async function createProductOrder04(){
   const date = new Date();
-  const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-  const numero = format.toFormat('yyyy-MM-');  
+ 
   const datailsOrder = {
     number: '0000-00-00',
     time: '00:00',
     createAt:date
   }
   const order = await Order.create(datailsOrder);
+
+  const format = DateTime.fromISO(order.createAt.toISOString());
+  const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
+
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)
-  order.setDataValue()
+  order.setDataValue('time', `${format.hour}:${format.minute}`)
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -195,17 +210,21 @@ async function createProductOrder04(){
 
 async function createProductOrder05(){
   const date = new Date();
-  const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-  const numero = format.toFormat('yyyy-MM-');  
+ 
   const datailsOrder = {
     number: '0000-00-00',
     time: '00:00',
     createAt:date
   }
   const order = await Order.create(datailsOrder);
+
+  const format = DateTime.fromISO(order.createAt.toISOString());
+  const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
+
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)
+  order.setDataValue('time', `${format.hour}:${format.minute}`)
+
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -218,17 +237,20 @@ async function createProductOrder05(){
 
 async function createProductOrder06(){
   const date = new Date();
-  const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-  const numero = format.toFormat('yyyy-MM-');  
+ 
   const datailsOrder = {
     number: '0000-00-00',
     time: '00:00',
     createAt:date
   }
   const order = await Order.create(datailsOrder);
+
+  const format = DateTime.fromISO(order.createAt.toISOString());
+  const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
+
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)
+  order.setDataValue('time', `${format.hour}:${format.minute}`)
   
   await order.save();
   orders.push(order)
@@ -242,8 +264,6 @@ async function createProductOrder06(){
 
 async function createProductOrder07(){
   const date = new Date();
-  const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-  const numero = format.toFormat('yyyy-MM-');  
   
   const datailsOrder = {
     number: '0000-00-00',
@@ -251,9 +271,15 @@ async function createProductOrder07(){
     createAt: date
   }
   const order = await Order.create(datailsOrder);
+
+  const format = DateTime.fromISO(order.createAt.toISOString());
+  const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
+
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', order.date_time)
+  order.setDataValue('time', `${format.hour}:${format.minute}`)
+  
+  
   await order.save();
   orders.push(order)
   return Promise.all([

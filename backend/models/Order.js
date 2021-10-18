@@ -4,7 +4,6 @@ const sequelize = require('./sequelize');
 const Address = require('./Address');
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
-const date = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
 
 const total = 0;
 
@@ -61,13 +60,7 @@ Order.init(
             
             
         },
-        date_time: {
-            type: DataTypes.VIRTUAL,
-            get() {
-                return date.toLocaleString(DateTime.TIME_24_SIMPLE)
-            },
-        },
-        
+       
       
 
         date_createAt: {

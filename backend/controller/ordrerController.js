@@ -8,6 +8,8 @@ const User = require('../models/User')
 const Payment = require('../models/Payment')
 const PaymentMethode =require('../models/PaymentMethode')
 const Invoice = require('../models/Invoice')
+
+
 const luxon = require("luxon");
 const DateTime = luxon.DateTime;
 
@@ -40,22 +42,28 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         });
        
         const lastValue = Array.from(user.addresses).pop();
+
         const date = new Date();
-        const format = DateTime.fromISO(new Date().toISOString(),{zone: 'Europe/Brussels'});
-        const numero = format.toFormat('yyyy-MM-');        
+            
         const detailsOrder = {
             number: '000-00-00',
             time: '00:00',
             createAt: date,
             total: 0
         }
-        console.log(detailsOrder)
         const order = await Order.create(detailsOrder);
+
+        const format = DateTime.fromISO(order.createAt.toISOString());
+        const numero = format.toFormat('yyyy-MM-');    
         
-        order.setDataValue('number',`${numero}${index(order.id)}${order.id}`);
-        order.setDataValue('time', order.date_time);
+        const nouveau = (`${numero}${index(order.id)}${order.id}`)
+  
+        order.setDataValue('number', nouveau)
+        order.setDataValue('time', `${format.hour}:${format.minute}`)
+
         order.setDataValue('addressId', lastValue.id);
         order.setDataValue('userId', user.id);
+        
         await order.save();
        
         
