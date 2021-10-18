@@ -59,7 +59,7 @@ exports.addOrderItems = asyncHandler(async (req, res) => {
         const nouveau = (`${numero}${index(order.id)}${order.id}`)
   
         order.setDataValue('number', nouveau)
-        order.setDataValue('time', `${format.hour}:${format.minute}`)
+        order.setDataValue('time', order.date_time)
 
         order.setDataValue('addressId', lastValue.id);
         order.setDataValue('userId', user.id);

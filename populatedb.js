@@ -99,8 +99,8 @@ async function createProductOrder01(){
   const date = new Date()
   
   const datailsOrder = {
-    number: '0000-00-00',
-    time: '00:00',
+    number: 'number',
+    time: 'time',
     createAt: date
   }
   const order = await Order.create(datailsOrder);
@@ -108,10 +108,9 @@ async function createProductOrder01(){
   const format = DateTime.fromISO(order.createAt.toISOString());
   const numero = format.toFormat('yyyy-MM-');     
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
-
+  console.log(order.date_time)
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', `${format.hour}:${format.minute}`)
-
+  order.setDataValue('time', order.date_time)
   await order.save();
   orders.push(order)
   
@@ -127,9 +126,9 @@ async function createProductOrder02(){
   const date = new Date();
 
   const datailsOrder = {
-    number: '0000-00-00',
-    time: '00:00',
-    createAt:date
+    number: 'number',
+    time: 'time',
+    createAt: date
   }
   
   const order = await Order.create(datailsOrder);
@@ -139,8 +138,7 @@ async function createProductOrder02(){
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
 
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', `${format.hour}:${format.minute}`)
-
+  order.setDataValue('time', order.date_time)
 
   await order.save();
   orders.push(order)
@@ -158,9 +156,9 @@ async function createProductOrder03(){
   const date = new Date();
    
   const datailsOrder = {
-    number: '0000-00-00',
-    time: '00:00',
-    createAt:date
+    number: 'number',
+    time: 'time',
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
 
@@ -169,8 +167,7 @@ async function createProductOrder03(){
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
 
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', `${format.hour}:${format.minute}`)
-
+  order.setDataValue('time', order.date_time)
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -185,9 +182,9 @@ async function createProductOrder04(){
   const date = new Date();
  
   const datailsOrder = {
-    number: '0000-00-00',
-    time: '00:00',
-    createAt:date
+    number: 'number',
+    time: 'time',
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
 
@@ -196,7 +193,7 @@ async function createProductOrder04(){
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
 
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', `${format.hour}:${format.minute}`)
+  order.setDataValue('time', order.date_time)
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -212,9 +209,9 @@ async function createProductOrder05(){
   const date = new Date();
  
   const datailsOrder = {
-    number: '0000-00-00',
-    time: '00:00',
-    createAt:date
+    number: 'number',
+    time: 'time',
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
 
@@ -223,8 +220,7 @@ async function createProductOrder05(){
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
 
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', `${format.hour}:${format.minute}`)
-
+  order.setDataValue('time', order.date_time)
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -239,9 +235,9 @@ async function createProductOrder06(){
   const date = new Date();
  
   const datailsOrder = {
-    number: '0000-00-00',
-    time: '00:00',
-    createAt:date
+    number: 'number',
+    time: 'time',
+    createAt: date
   }
   const order = await Order.create(datailsOrder);
 
@@ -250,8 +246,7 @@ async function createProductOrder06(){
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
 
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', `${format.hour}:${format.minute}`)
-  
+  order.setDataValue('time', order.date_time)  
   await order.save();
   orders.push(order)
   return Promise.all([
@@ -266,8 +261,8 @@ async function createProductOrder07(){
   const date = new Date();
   
   const datailsOrder = {
-    number: '0000-00-00',
-    time: '00:00',
+    number: 'number',
+    time: 'time',
     createAt: date
   }
   const order = await Order.create(datailsOrder);
@@ -277,8 +272,7 @@ async function createProductOrder07(){
   const nouveau = (`${numero}${index(order.id)}${order.id}`)
 
   order.setDataValue('number', nouveau)
-  order.setDataValue('time', `${format.hour}:${format.minute}`)
-  
+  order.setDataValue('time', order.date_time)  
   
   await order.save();
   orders.push(order)
