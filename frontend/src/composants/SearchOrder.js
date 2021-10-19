@@ -53,7 +53,7 @@ const SearchOrder = (props) => {
                   <tr key={order.id}>
                     <td>{order.number}</td>
                     <td>{order.user.first_name}</td>
-                    <td>{order.date_createAt}</td>
+                    <td>{order.date_createAt.split(',')[0]}</td>
                     <td>{order.total} €</td>
                     <td>
                      {order.payment  ? (

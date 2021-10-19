@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import  PropTypes from 'prop-types'
-import { Table, Form, Col, Row } from 'react-bootstrap'
+import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { Col, Form, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 
@@ -53,7 +53,7 @@ const SearchInvoice = (props) => {
                      { showingInvoice.map((item) =>  
                           <tr key={item.id}>
                                  <td>{item.number}</td>
-                                 <td>{item.date_createAt}</td>
+                                 <td>{item.date_createAt.split(',')[0]}</td>
                                  <td>{item.total} €</td>
                                  <td>{item.isDelivered}</td>
                                  <td> <Link  key={item.id} to={{

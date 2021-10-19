@@ -11,6 +11,8 @@ import { getOrderDetails, payOrder, deliverOrder } from '../../../actions/orderA
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../../../constants/orderConstants'
 import OrderItem from '../../../composants/OrderItem'
 import { toast } from 'react-toastify'
+import { Preview, print } from 'react-html2pdf';
+
 
 
 const AdminOrderView = ({match, history}) => {
@@ -86,14 +88,15 @@ const AdminOrderView = ({match, history}) => {
         <Row className='p-3'>
             <Col>
                 <h3> Numéro: {order.number}</h3>
-                <h3>Commande du :  {order.date_createAt} heure: {order.time} </h3>
+                <h3>Commande du :  {order.date_createAt.split(',')[0]} heure: {order.time} </h3>
             </Col>
             <Col>
             <Link to='/admin/orderlist' className='m-3'> <Button> Retour </Button></Link>
+            <Button onClick={()=>print('a', 'jsx-template')}> Imprimer</Button>
             </Col>
-      
+            
         </Row>
-        
+        <Preview id={'jsx-template'} >
         <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
@@ -186,6 +189,7 @@ const AdminOrderView = ({match, history}) => {
                     </Card>
                 </Col>
             </Row>
+            </Preview>
     
     </>
        

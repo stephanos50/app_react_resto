@@ -74,7 +74,7 @@ Order.init(
         date_createAt: {
             type: DataTypes.VIRTUAL,
               get() {
-                return DateTime.fromObject(this.createAt).toFormat('dd-MM-yyyy')
+                return this.createAt.toLocaleString(DateTime.DATE_HUGE)
                 
               },
         },
