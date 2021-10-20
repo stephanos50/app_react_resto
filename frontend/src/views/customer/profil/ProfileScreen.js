@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector} from 'react-redux'
 import { Link } from 'react-router-dom'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
-import { getUserDetails, updateUserProfile } from '../actions/userActions'
-import {deleteViewOrder } from '../actions/orderAction'
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
+import { getUserDetails, updateUserProfile } from '../../../actions/userActions'
+import {deleteViewOrder } from '../../../actions/orderAction'
 
 import { Table, Form, Button, Row, Col } from 'react-bootstrap'
 import { LinkContainer} from 'react-router-bootstrap'
 
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import { USER_UPDATE_PROFILE_RESET } from '../../../constants/userConstants'
 import { toast } from 'react-toastify'
-import {ORDER_VIEW_RESET } from '../constants/orderConstants'
+import {ORDER_VIEW_RESET } from '../../../constants/orderConstants'
 
 
 

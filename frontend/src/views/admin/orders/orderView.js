@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Row, Col, ListGroup, Card, Button} from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
+
 import Message from '../../../composants/Message'
 import Loader from '../../../composants/Loader'
 import PayPal from '../../../composants/PayPal'
 import { getOrderDetails, payOrder, deliverOrder } from '../../../actions/orderAction'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../../../constants/orderConstants'
 import OrderItem from '../../../composants/OrderItem'
-import { toast } from 'react-toastify'
-import { Preview, print } from 'react-html2pdf';
+
 
 
 
@@ -92,11 +93,11 @@ const AdminOrderView = ({match, history}) => {
             </Col>
             <Col>
             <Link to='/admin/orderlist' className='m-3'> <Button> Retour </Button></Link>
-            <Button onClick={()=>print('a', 'jsx-template')}> Imprimer</Button>
+           
             </Col>
             
         </Row>
-        <Preview id={'jsx-template'} >
+        
         <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
@@ -189,7 +190,7 @@ const AdminOrderView = ({match, history}) => {
                     </Card>
                 </Col>
             </Row>
-            </Preview>
+           
     
     </>
        

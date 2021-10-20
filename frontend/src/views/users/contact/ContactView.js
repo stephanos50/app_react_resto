@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import {sendMessage} from '../actions/contactActions'
+import {sendMessage} from '../../../actions/contactActions'
 import { Form, Button } from 'react-bootstrap'
-import FormContainer from '../composants/FormContainer'
+import FormContainer from '../../../composants/FormContainer'
 import { Link } from 'react-router-dom'
 import { toast} from 'react-toastify'
-import { USER_MESSAGE_RESET } from '../constants/contactConstants'
+import { USER_MESSAGE_RESET } from '../../../constants/contactConstants'
 
 
 

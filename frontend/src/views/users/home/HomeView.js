@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
 import {Row, Col, Nav, Card} from 'react-bootstrap'
-import Loader from '../composants/Loader'
-import Message from '../composants/Message'
-import { listProducts } from '../actions/productAction'
-import { listCategory } from '../actions/categoryAction'
+import Loader from '../../../composants/Loader'
+import Message from '../../../composants/Message'
+import { listProducts } from '../../../actions/productAction'
+import { listCategory } from '../../../actions/categoryAction'
 import { Link } from 'react-router-dom'
-import Assess from '../composants/Assess'
+import Assess from '../../../composants/Assess'
 
 
 

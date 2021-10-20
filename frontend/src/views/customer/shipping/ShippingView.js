@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Form, Button, Col , Row} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import FormContainer  from '../composants/FormContainer'
-import { saveShippingAddress} from '../actions/cartAction'
-import CheckoutSteps  from '../composants/CheckoutSteps'
-import {listCities } from '../actions/cityAction'
+import FormContainer  from '../../../composants/FormContainer'
+import { saveShippingAddress} from '../../../actions/cartAction'
+import CheckoutSteps  from '../../../composants/CheckoutSteps'
+import {listCities } from '../../../actions/cityAction'
 
 
 const ShippingScreem = ({ history }) => {

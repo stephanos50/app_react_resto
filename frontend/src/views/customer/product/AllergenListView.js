@@ -1,10 +1,11 @@
 import React, {useEffect}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Button, Col, Table } from 'react-bootstrap'
-import { deleteAllergen, listAllergen} from '../actions/allergenActions'
-import Message from '../composants/Message'
-import Loader from '../composants/Loader'
 import { LinkContainer } from 'react-router-bootstrap'
+
+import { deleteAllergen, listAllergen} from '../../../actions/allergenActions'
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
 
 const AllergenListScreen =({history}) => {
 

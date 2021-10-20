@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Form, Button, Col , Row} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import FormContainer  from '../composants/FormContainer'
-import { savePaymentMethod} from '../actions/cartAction'
-import CheckoutSteps  from '../composants/CheckoutSteps'
+
+
+import FormContainer  from '../../../composants/FormContainer'
+import { savePaymentMethod} from '../../../actions/cartAction'
+import CheckoutSteps  from '../../../composants/CheckoutSteps'
 
 
 const PaymentScreem = ({ history }) => {

@@ -57,7 +57,7 @@ const SearchInvoice = (props) => {
                                  <td>{item.total} €</td>
                                  <td>{item.isDelivered}</td>
                                  <td> <Link  key={item.id} to={{
-                                     pathname:`orders/${item.id}`,
+                                     pathname:`invoice/${item.id}`,
                                      }}><i className="fa fa-eye p-2"></i></Link>
                                      <i className='fa fa-trash'
                                          onClick={() => deleteInvoiceHandler(item.id)}

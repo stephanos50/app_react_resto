@@ -3,37 +3,40 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Header from './composants/Header'
 import Footer from './composants/Footer'
 import {Container} from 'react-bootstrap'
-import Home from './views/HomeView'
-import ProductView from './views/users/product/ProductScreen'
-import CartView from './views/CartView'
-import LoginView from './views/LoginView'
+import Home from './views/users/home/HomeView'
+
+import ProductView from './views/customer/product/ProductScreen'
+import AllergenListView from './views/customer/product/AllergenListView'
+import PlaceOrderView from './views/customer/order/PlaceOrderScreen'
+import OrderView from './views/customer/order/OrderView'
+import PaymentView from './views/customer/payment/PaymentScreen'
+import ProfileView from './views/customer/profil/ProfileScreen'
+
+import CartView from './views/users/cart/CartView'
+import LoginView from './views/users/login/LoginView'
 import RegisterView from './views/users/register/RegisterScreen'
-import ProfileView from './views/ProfileScreen'
-import ShippingView from './views/ShippingView'
-import PaymentView from './views/PaymentScreen'
-import PlaceOrderView from './views/users/order/PlaceOrderScreen'
-import OrderView from './views/users/order/OrderView'
+import ShippingView from './views/customer/shipping/ShippingView'
+
+import PasswordLost from './views/users/password/PasswordView'
+import ResetPassword from './views/users/password/ResetPassword'
+import ContactView from './views/users/contact/ContactView'
+import { InfoView } from './views/users/InfoView'
+
 import UserEditView from './views/admin/users/UserEditView'
-
 import ProductListView from './views/admin/products/ProductListScreen'
-
 import OrderListView from './views/admin/orders/OrderListView'
-
 import CategoryListView  from './views/admin/categories/CategoryListView'
 import CategoryCreateView from './views/admin/categories/CategoryCreateView'
-import AllergenListView from './views/AllergenListView'
-import PasswordLost from './views/PasswordView'
-import ResetPassword from './views/ResetPassword'
-import ContactView from './views/ContactView'
-import { InfoView } from './views/InfoView'
 import AdminOrderView from './views/admin/orders/orderView'
-import  ReviewListView  from './views/admin/reviews/ReviewListView'
+import AdminInvoicesView from './views/admin/invoices/InvoiceViews'
+import ReviewListView  from './views/admin/reviews/ReviewListView'
 import UserReview from './views/admin/reviews/UserReview'
 import UserInvoicesView from './views/admin/invoices/UserInvoicesView'
+import InvoiceView from './views/admin/invoices/InvoiceViews'
+
 import InvoiceUserListView from './views/admin/invoices/InvoiceUserListView'
 import ProductEditView from './views/admin/products/ProductEditScreen'
 import UserListView from './views/admin/users/UserListView'
-
 import DashboardView from './views/admin/dashboad/DashboadView'
 
 
@@ -51,6 +54,7 @@ const  App = () => {
                 <Route path='/' component={Home} exact />
                 <Route path='/admin/orderList' component={OrderListView} exact  />
                 <Route path='/admin/order/:id' component={AdminOrderView} exact  />
+
                 <Route path='/admin/userlist' component={UserListView} exact  />
                 <Route path='/admin/productlist' component={ProductListView} exact  />
                 <Route path='/admin/categorylist' component={CategoryListView} exact  />
@@ -62,7 +66,7 @@ const  App = () => {
                 <Route path='/admin/userreview/:id' component={UserReview} exact  /> 
                 <Route path='/admin/invoicesuserlist' component={InvoiceUserListView} exact  /> 
                 <Route path='/admin/userinvoices/:id' component={UserInvoicesView} exact  /> 
-                <Route path='/admin/userinvoices/orders/:id' component={AdminOrderView} exact  /> 
+                <Route path='/admin/userinvoices/invoice/:id' component={InvoiceView} exact  /> 
 
                 
                 <Route path='/admin/dashboard' component={DashboardView} exact />

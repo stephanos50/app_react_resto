@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {Form, Button} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import FormContainer from '../composants/FormContainer'
-import Message from '../composants/Message'
-import { userResetPassword } from '../actions/userActions'
+import FormContainer from '../../../composants/FormContainer'
+import Message from '../../../composants/Message'
+import { userResetPassword } from '../../../actions/userActions'
 import { Redirect } from "react-router-dom"
 
 const ResetPassword = ({match}) => {

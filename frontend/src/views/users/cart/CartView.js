@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Form, Button, Card } from 'react-bootstrap'
-import Message from '../composants/Message'
-import { addToCart, removeFromCart } from '../actions/cartAction'
-import PictureCart from '../composants/PictureCart'
+import Message from '../../../composants/Message'
+import { addToCart, removeFromCart } from '../../../actions/cartAction'
+import PictureCart from '../../../composants/PictureCart'
 
 
 const CartScreem = ({match, location, history}) => {

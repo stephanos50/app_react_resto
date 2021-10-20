@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import {changePassword} from '../actions/userActions'
-import Message from '../composants/Message'
+import {changePassword} from '../../../actions/userActions'
+import Message from '../../../composants/Message'
 import { Form, Button } from 'react-bootstrap'
-import FormContainer from '../composants/FormContainer'
+import FormContainer from '../../../composants/FormContainer'
 import { Link } from 'react-router-dom' 
 
 
