@@ -8,6 +8,7 @@ const User = require('../models/User')
 const  asyncHandler = require ('express-async-handler')
 const { body, validationResult } = require("express-validator");
 const sequelize = require('../models/sequelize');
+const jwt = require('jsonwebtoken')
 
 
 
@@ -155,15 +156,26 @@ exports.createProductReviews = [
             res.status(400)
             throw new Error('Longueur maximum 50 caractères')
         }
+        const token = req.headers.authorization.split(' ')[1]
+            
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        console.log(decoded.id)
+
+        const user = await User.findOne({
+            where: { _uuid : decoded.id},
+            
+        })
        
         const {rating, comment} = req.body
+     
         const review = await Review.findAll( {
             where: { 
                 productId: req.params.id,
-                userId: req.user.id
+                userId: user.id
+                
             }
         })
-        
+       
     
         if (!review || Object.keys(review).length === 0){
             const product = await Product.findByPk(req.params.id);
