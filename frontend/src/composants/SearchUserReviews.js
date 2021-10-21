@@ -1,7 +1,7 @@
 
 import React, {useState} from 'react'
 import  PropTypes from 'prop-types'
-import {Table, Form, Col, Row } from 'react-bootstrap'
+import {Table, Form, Col, Row, Button } from 'react-bootstrap'
 import ProductReviews from '../composants/ProductReviews'
 import { Link } from 'react-router-dom'
 
@@ -35,13 +35,31 @@ import { Link } from 'react-router-dom'
                 </Col>
            </Form.Group>
          
-           <Table>
+           <Table striped bordered hover responsive className='table-sm'>
                     <thead>
                         <tr>
                             <th>Commentaire</th>
                             <th>Date</th>
-                            <th>Produit</th>
-                            <th>Cote</th>
+                            <th>
+                            <a
+                                type="button"
+                                style={{color: "#AF1025"}}
+                                onClick={() => props.requestSort('name')}
+                                className={props.getClassNamesFor('name')}
+                                >
+                                Nom
+                            </a>
+                            </th>
+                            <th>
+                            <a
+                                type="button"
+                                style={{color: "#AF1025"}}
+                                onClick={() => props.requestSort('rating')}
+                                className={props.getClassNamesFor('rating')}
+                                >
+                                Cote
+                            </a>
+                            </th>
                             <th>Supprimer</th>
                         </tr>
                     </thead>
@@ -53,14 +71,7 @@ import { Link } from 'react-router-dom'
                                 <td><ProductReviews product={item.product}/></td>
                                 <td>{item.rating}</td>
                                 <td>
-                                <Link
-                                    variant='danger'
-                                    className='btn-sm'
-                                    onClick={() => deleteReviewHandler(item.id)}
-                                    >
-                                    <i className='fas fa-trash'></i>
-                                </Link>
-                               
+                                    <Button variant='danger'  onClick={() => deleteReviewHandler(item.id)}> <i className='fas fa-trash'></i></Button>
                                 </td>
                             </tr>
                         ))}

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { Col, Form, Row, Table } from 'react-bootstrap'
+import { Col, Form, Row, Table, Button} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 
@@ -43,9 +43,26 @@ const SearchInvoice = (props) => {
                      <thead>
                          <tr>
                             <th>Numéro</th>
-                            <th>Date</th>
-                            <th>Total</th>
-                            <th></th>
+                            <th>
+                            <a
+                                type="button"
+                                style={{color: "#AF1025"}}
+                                onClick={() => props.requestSort('date_createAt')}
+                                className={props.getClassNamesFor('date_createAt')}
+                                >
+                                Date
+                            </a>
+
+                            </th>
+                            <th><a
+                                type="button"
+                                style={{color: "#AF1025"}}
+                                onClick={() => props.requestSort('total')}
+                                className={props.getClassNamesFor('total')}
+                                >
+                                Total
+                            </a></th>
+                            <th>###</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -55,13 +72,13 @@ const SearchInvoice = (props) => {
                                  <td>{item.number}</td>
                                  <td>{item.date_createAt.split(',')[0]}</td>
                                  <td>{item.total} €</td>
-                                 <td>{item.isDelivered}</td>
-                                 <td> <Link  key={item.id} to={{
+                                 
+                                 <td> <Link   key={item.id} to={{
                                      pathname:`invoice/${item.id}`,
-                                     }}><i className="fa fa-eye p-2"></i></Link>
-                                     <i className='fa fa-trash'
+                                     }}><Button className='btn-sm'><i className="fa fa-eye"></i></Button></Link>
+                                     <Button variant="danger" className='btn-sm'><i className='fa fa-trash'
                                          onClick={() => deleteInvoiceHandler(item.id)}
-                                     ></i>
+                                     ></i></Button>
                                  </td>
                              </tr>
                             

@@ -38,8 +38,23 @@ const SearchProduct = (props) => {
             <thead>
               <tr>
                 <th>Numéro</th>
-                <th>Nom</th>
-                <th>Prix</th>
+                <th><a
+                    type="button"
+                    style={{color: "#AF1025"}}
+                    onClick={() => props.requestSort('name')}
+                    className={props.getClassNamesFor('name')}
+                  >
+                    Nom
+                  </a>
+                  </th>
+                <th><a
+                    type="button"
+                    style={{color: "#AF1025"}}
+                    onClick={() => props.requestSort('price')}
+                    className={props.getClassNamesFor('price')}
+                  >
+                    Prix
+                  </a></th>
                 <th>Catégorie</th>
                
                 <th></th>
@@ -57,7 +72,7 @@ const SearchProduct = (props) => {
                   
                   <td>
                     <LinkContainer to={`/admin/product/${product.id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
+                      <Button variant='primary' className='btn-sm'>
                         <i className='fas fa-edit'></i>
                       </Button>
                     </LinkContainer>

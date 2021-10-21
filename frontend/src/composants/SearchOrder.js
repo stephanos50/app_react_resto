@@ -39,8 +39,28 @@ const SearchOrder = (props) => {
                  <tr>
                    <th>Numéro</th>
                    <th>Client</th>
-                   <th>Date</th>
-                   <th>Total</th>
+                   <th> 
+                      <a
+                        type="button"
+                        style={{color: "#AF1025"}}
+                        onClick={() => props.requestSort('createAt')}
+                        className={props.getClassNamesFor('createAt')}
+                      >
+                      Date
+                      </a>
+                    </th>
+                   <th>
+                   <a
+                        type="button"
+                        style={{color: "#AF1025"}}
+                        onClick={() => props.requestSort('total')}
+                        className={props.getClassNamesFor('total')}
+                      >
+                      Total
+                      </a>
+
+
+                   </th>
                    <th>Payer</th>
                    <th>Livrer</th>
                    <th></th>
@@ -70,12 +90,25 @@ const SearchOrder = (props) => {
                        )}
                      </td>
                      <td>
+                       
                        <LinkContainer to={`/admin/order/${order.id}`}>
-                         <Button variant='light' className='btn-sm'>
-                           Details
+                         <Button variant='primary' className='btn-sm'>
+                           
+                         <i className='fas fa-edit'></i>
                          </Button>
                        </LinkContainer>
+                       { order.isDelivered && (
+                            <LinkContainer to={`/admin/order/${order.id}`}>
+                            <Button variant='danger' className='btn-sm'>
+                            <i className='fas fa-trash'></i>
+                            </Button>
+                          </LinkContainer>
+                       )
+
+                       }
                      </td>
+                   
+                    
                   </tr>
                 ))}
                </tbody>

@@ -1,3 +1,4 @@
+import {React } from 'react-dom'
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
@@ -13,7 +14,8 @@ import { listProductDetails, updateProduct} from '../../../actions/productAction
 import { listCategory } from '../../../actions/categoryAction'
 import { PRODUCT_UPDATE_RESET } from '../../../constants/productConstants'
 import { listAllergen } from '../../../utilis/allergens'
-import DashboardHeader from '../../../composants/DashboardHeader' 
+
+
 
 
 

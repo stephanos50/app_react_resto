@@ -1,8 +1,9 @@
 
 import React, {useState} from 'react'
 import  PropTypes from 'prop-types'
-import {Table, Form, Col, Row } from 'react-bootstrap'
+import {Table, Form, Col, Row, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+
 
  const SearchCategory = (props) => {
 
@@ -38,7 +39,14 @@ import { Link } from 'react-router-dom'
                 <thead>
                     <tr>
                         <th>Numéro</th>
-                        <th>Nom</th>
+                        <th> <a
+                            type="button"
+                            style={{color: "#AF1025"}}
+                            onClick={() => props.requestSort('name')}
+                            className={props.getClassNamesFor('name')}
+                        >
+                        Nom
+                        </a></th>
                         <th>Supprimer</th>
                     </tr>
                 </thead>
@@ -48,13 +56,15 @@ import { Link } from 'react-router-dom'
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>
-                    
-                        <Link
-                            variant='danger'
-                            className='btn-sm'
-                            onClick={() => deleteCategoryHandler(item.id)}
-                        >
-                            <i className='fas fa-trash'></i>
+                      
+                        <Link> <Button variant='danger' className='btn-sm' onClick={() => deleteCategoryHandler(item.id)}>
+                          <i className='fas fa-trash'></i>
+                         </Button>
+                         
+                            
+                           
+                        
+                           
                         </Link>
                         </td>
                     </tr>

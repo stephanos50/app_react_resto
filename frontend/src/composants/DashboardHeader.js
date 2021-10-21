@@ -8,11 +8,12 @@ const DashboardHeader = ( props) => {
     const { role } = props;
   
    
+   
     
 
 
     return (
-        <Navbar bg="transparent" variant="light" expand="lg" collapseOnSelect className="text-capitalize" >
+        <Navbar bg="transparent" variant="light" expand="lg" collapseOnSelect className="text-capitalize flex-column" >
             { role === 'admin' ? <>
                 <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>utilisateurs</NavDropdown.Item>

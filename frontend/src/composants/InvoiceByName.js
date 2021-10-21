@@ -38,10 +38,22 @@ import { Link } from 'react-router-dom'
           <thead>
             <tr>
               <th>Numéro</th>
-              <th>Nom</th>
+              <th>
+                <a
+                  type="button"
+                  style={{color: "#AF1025"}}
+                  onClick={() => props.requestSort('first_name')}
+                  className={props.getClassNamesFor('first_name')}
+                > Nom </a>
+              </th>
               <th>Prénom</th>
               <th>Couriel</th>
-              <th>Facture</th>
+              <th> <a
+                  type="button"
+                  style={{color: "#AF1025"}}
+                  onClick={() => props.requestSort('first_name')}
+                  className={props.getClassNamesFor('first_name')}
+                > Facture </a></th>
               <th>Lecture</th>
             </tr>
           </thead>
@@ -57,7 +69,7 @@ import { Link } from 'react-router-dom'
                 
                 
                 <td>
-                <Link to={`userinvoices/${item.id}`}> <i className="fa fa-eye"></i></Link>
+                <Link to={`userinvoices/${item.id}`}><Button variant="primary" className="btn-sm"><i className="fa fa-eye"></i></Button></Link>
               
                 </td>
               </tr>

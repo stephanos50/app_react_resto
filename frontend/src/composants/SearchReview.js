@@ -1,7 +1,7 @@
 
 import React, {useState} from 'react'
 import  PropTypes from 'prop-types'
-import {Table, Form, Col, Row } from 'react-bootstrap'
+import {Table, Form, Col, Row, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
  const SearchReview = (props) => {
@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom'
         setQuery(query.trim())
     }
     return (
-        <div>
+        <>
           <Form.Group  as={Row} className="mb-3" controlId="name">
             
               <Col sm='3'>
@@ -38,10 +38,26 @@ import { Link } from 'react-router-dom'
                     <thead>
                         <tr>
                             <th>Numéro</th>
-                            <th>Nom</th>
+                            <th><a
+                                type="button"
+                                style={{color: "#AF1025"}}
+                                onClick={() => props.requestSort('first_name')}
+                                className={props.getClassNamesFor('first_name')}
+                                >
+                                 Nom
+                                </a>
+                            </th>
                             <th>Prénom</th>
-                            <th>Couriel</th>
-                            <th>Commentaire</th>
+                            <th>Courriel</th>
+                            <th><a
+                                type="button"
+                                style={{color: "#AF1025"}}
+                                onClick={() => props.requestSort('reviews')}
+                                className={props.getClassNamesFor('reviews')}
+                                >
+                                 Commentaire
+                                </a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,12 +69,15 @@ import { Link } from 'react-router-dom'
                                 <td>{item.last_name}</td>
                                 <td>{item.email}</td>
                                 <td >{Object.keys(item.reviews).length}</td>
-                               <td><Link to={`userreview/${item.id}`}>commentaires</Link></td>
+                                <td><Link to={`userreview/${item.id}`}>
+                                        <Button variant='primary' className='btn-sm'><i className='fas fa-eye'></i></Button>
+                                    </Link>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
-        </div>
+        </>
     )
 }
 

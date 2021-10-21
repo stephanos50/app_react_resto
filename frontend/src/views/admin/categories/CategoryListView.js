@@ -1,10 +1,9 @@
 
 import React, {useEffect}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Button, Col, Table } from 'react-bootstrap'
+import { Row, Button, Col } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
 
 import { deleteCategory, listCategory} from '../../../actions/categoryAction'
 import Message from '../../../composants/Message'
@@ -13,6 +12,42 @@ import { CATEGORY_DELETE_RESET } from '../../../constants/categoryConstants'
 import DashboardHeader from '../../../composants/DashboardHeader' 
 import SearchCategory from '../../../composants/SearchCategory'
 
+
+const useSortableData = (items, config = null) => {
+  
+    const [sortConfig, setSortConfig] = React.useState(config);
+  
+    const sortedItems = React.useMemo(() => {
+      let sortableItems = items;
+      if (sortConfig !== null) {
+        sortableItems.sort((a, b) => {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+      return sortableItems;
+    }, [items, sortConfig]);
+  
+    const requestSort = (key) => {
+      let direction = 'ascending';
+      if (
+        sortConfig &&
+        sortConfig.key === key &&
+        sortConfig.direction === 'ascending'
+      ) {
+        direction = 'descending';
+      }
+      setSortConfig({ key, direction });
+    };
+  
+    return { items: sortedItems, requestSort, sortConfig };
+  };
+  
 
 const CategoryListScreem = ({history}) => {
     const dispatch = useDispatch()
@@ -28,6 +63,15 @@ const CategoryListScreem = ({history}) => {
 
    const categoryDelete = useSelector((state) => state.categoryDelete)
     const {loading: loadingDelete, error: errorDelete, success: successDelete } = categoryDelete
+
+    const { items, requestSort, sortConfig } = useSortableData(categories);
+    
+    const getClassNamesFor = (name) => {
+      if (!sortConfig) {
+        return;
+      }
+      return sortConfig.key === name ? sortConfig.direction : undefined;
+    };
 
     useEffect(() => {
         if(!userInfo && !userInfo.isAdmin){
@@ -53,8 +97,9 @@ const CategoryListScreem = ({history}) => {
     return (
         
         <>
-         <DashboardHeader role={userInfo.role}/>
         <Row>
+            <Col md={2}> <DashboardHeader role={userInfo.role}/></Col>
+            <Col>
             {loadingCreate ? (
                 <Loader />
             ) : errorCreate ? (
@@ -62,8 +107,9 @@ const CategoryListScreem = ({history}) => {
             ) :( 
                 <Message>{successCreate}</Message>
             ) 
-        }
-        </Row>
+            }
+          
+        
        
       
         {loadingDelete && <Loader />}
@@ -77,6 +123,8 @@ const CategoryListScreem = ({history}) => {
            <SearchCategory 
                 categories={categories}
                 deleteCategoryHandler={deleteCategoryHandler}
+                requestSort={requestSort}
+                getClassNamesFor={getClassNamesFor}
             />
         )}
           <Row className='align-items-center'>
@@ -92,7 +140,8 @@ const CategoryListScreem = ({history}) => {
 
            
     
-            
+       </Col>
+       </Row>
         </>
     )
 }

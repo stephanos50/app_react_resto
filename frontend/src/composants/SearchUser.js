@@ -36,8 +36,16 @@ import { LinkContainer } from 'react-router-bootstrap'
           <thead>
             <tr>
               
-              <th>Nom</th>
-              <th>Couriel</th>
+              <th><a
+                        type="button"
+                        style={{color: "#AF1025"}}
+                        onClick={() => props.requestSort('first_name')}
+                        className={props.getClassNamesFor('first_name')}
+                      >
+                      Nom
+                      </a>
+              </th>
+              <th>Courriel</th>
               <th>Administrateur</th>
               <th></th>
             </tr>
@@ -59,7 +67,7 @@ import { LinkContainer } from 'react-router-bootstrap'
                 </td>
                 <td>
                   <LinkContainer to={`/admin/${user.id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
+                    <Button variant='primary' className='btn-sm'>
                       <i className='fas fa-edit'></i>
                     </Button>
                   </LinkContainer>
