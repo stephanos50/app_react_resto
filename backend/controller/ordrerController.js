@@ -183,7 +183,7 @@ exports.updateOrderToPaid = asyncHandler(async (req, res) => {
                 ------------------------------------------------
                 Votre nom: ${order.user.first_name}
                 Votre prénom: ${order.user.last_name}
-                Votre email: ${order.userEmail}
+                Votre email: ${order.user.email}
                 Numéro de commande: ${order.number}
                 Commandé le ${order.date_createAt} à ${order.time}
                 Montant total: ${order.total}

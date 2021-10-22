@@ -13,12 +13,12 @@ const { body, validationResult } = require("express-validator");
 exports.postMessage = [
 
     body('email').not().notEmpty().matches(/^[a-zA-Z '.@éàéç!]/), 
-    body('text').not().notEmpty().matches(/^[a-zA-Z '.éàéç!]/),
+    body('text').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/).isLength({ max: 50 }),
     
     
     asyncHandler(async (req,res) => {
-        const errors = validationResult(req);
-
+        const errors = validationResult(req.body);
+        console.log(req.body)
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Caractère non valide')

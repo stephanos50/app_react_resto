@@ -13,7 +13,7 @@ const ContactView = () => {
 
     const dispatch = useDispatch()
 
-    const [validated, setValidated] = useState();
+    const [validated, setValidated] = useState()
     const [email, setEmail] = useState('')
     const [textarea, setTextarea] = useState('')
 
@@ -66,7 +66,7 @@ const ContactView = () => {
                     />
 
                 </Form.Group>
-                <Form.Control.Feedback type="invalid"> Email incorrecte </Form.Control.Feedback>   
+                <Form.Control.Feedback type="invalid"> Message incorrecte </Form.Control.Feedback>   
                 <Form.Group>
                     <Form.Label>Message</Form.Label>
                     <Form.Control 
@@ -76,7 +76,7 @@ const ContactView = () => {
                         required
                         onChange={(e) =>  
                             {
-                                if(e.target.value.match("^[a-zA-Z@.]*$") != null){
+                                if(e.target.value.match("^[a-zA-Z 'éàéç]*$") != null){
                                     setTextarea(e.target.value)
                                 }
                             }

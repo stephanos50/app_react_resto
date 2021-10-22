@@ -173,8 +173,9 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 exports.updateUserProfile = [
    
     body('email').notEmpty(),
-    body('first_name').notEmpty(),
-    body('last_name').notEmpty(),
+    body('first_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/).isLength({min:5,max: 20, }),
+    body('last_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/).isLength({ min:5,max: 20 }),
+
    
     asyncHandler(async (req, res) => {
         let token

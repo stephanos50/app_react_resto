@@ -69,8 +69,8 @@ exports.getUserById = asyncHandler(async (req, res) => {
 // @access Private/Admin
 exports.updateUserById = [
 
-    body('first_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/).isLength({ max: 20, min:5 }),
-    body('last_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/).isLength({ max: 20, min:5 }),
+    body('first_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/).isLength({min:5,max: 20, }),
+    body('last_name').not().notEmpty().matches(/^[a-zA-Z 'éàéç]/).isLength({ min:5,max: 20 }),
 
     asyncHandler(async (req, res) => {
 
