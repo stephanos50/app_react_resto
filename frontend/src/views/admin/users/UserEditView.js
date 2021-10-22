@@ -48,7 +48,7 @@ const UserEditScreem = ({match, history}) => {
                 history.push('/admin/userlist')
             }else{
                 
-                console.log(typeof Number(userId) )
+                
                 if(!user||!user.roles ||  !user.first_name || user.id !== Number(userId)  ){
                     dispatch(getUserDetails(userId))
                 }else {

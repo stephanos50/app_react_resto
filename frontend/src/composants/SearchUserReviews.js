@@ -3,7 +3,6 @@ import React, {useState} from 'react'
 import  PropTypes from 'prop-types'
 import {Table, Form, Col, Row, Button } from 'react-bootstrap'
 import ProductReviews from '../composants/ProductReviews'
-import { Link } from 'react-router-dom'
 
  const SearchUserReviews = (props) => {
 
@@ -41,24 +40,24 @@ import { Link } from 'react-router-dom'
                             <th>Commentaire</th>
                             <th>Date</th>
                             <th>
-                            <a
+                            <strong
                                 type="button"
                                 style={{color: "#AF1025"}}
                                 onClick={() => props.requestSort('name')}
                                 className={props.getClassNamesFor('name')}
                                 >
                                 Nom
-                            </a>
+                            </strong>
                             </th>
                             <th>
-                            <a
+                            <strong
                                 type="button"
                                 style={{color: "#AF1025"}}
                                 onClick={() => props.requestSort('rating')}
                                 className={props.getClassNamesFor('rating')}
                                 >
                                 Cote
-                            </a>
+                            </strong>
                             </th>
                             <th>Supprimer</th>
                         </tr>

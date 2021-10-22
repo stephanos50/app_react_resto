@@ -6,7 +6,7 @@ import { Row, Col, ListGroup,Button, Table} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../../../composants/Message'
 import Loader from '../../../composants/Loader'
-import { getOrderDetails,deliverOrder } from '../../../actions/orderAction'
+import { getOrderDetails } from '../../../actions/orderAction'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../../../constants/orderConstants'
 
 
@@ -20,10 +20,10 @@ const AdminOrderView = ({match, history}) => {
     const { order, loading, error } = orderDetails
     
     const orderPay = useSelector((state) => state.orderPay)
-    const { loading: loadingPay, success: successPay } = orderPay
+    const { success: successPay } = orderPay
 
     const orderDeliver = useSelector((state) => state.orderDeliver)
-    const { loading: loadingDeliver, success: successDeliver } = orderDeliver
+    const { success: successDeliver } = orderDeliver
 
     const userLogin = useSelector((state) => state.userLogin) 
     const { userInfo } = userLogin

@@ -28,7 +28,7 @@ import OrderListView from './views/admin/orders/OrderListView'
 import CategoryListView  from './views/admin/categories/CategoryListView'
 import CategoryCreateView from './views/admin/categories/CategoryCreateView'
 import AdminOrderView from './views/admin/orders/orderView'
-import AdminInvoicesView from './views/admin/invoices/InvoiceViews'
+import FacturesView from './views/admin/invoices/FacturesView'
 import ReviewListView  from './views/admin/reviews/ReviewListView'
 import UserReview from './views/admin/reviews/UserReview'
 import UserInvoicesView from './views/admin/invoices/UserInvoicesView'
@@ -65,6 +65,8 @@ const  App = () => {
                 <Route path='/admin/reviewsuserlist' component={ReviewListView} exact  /> 
                 <Route path='/admin/userreview/:id' component={UserReview} exact  /> 
                 <Route path='/admin/invoicesuserlist' component={InvoiceUserListView} exact  /> 
+                <Route path='/admin/factures' component={FacturesView} exact  /> 
+
                 <Route path='/admin/userinvoices/:id' component={UserInvoicesView} exact  /> 
                 <Route path='/admin/userinvoices/invoice/:id' component={InvoiceView} exact  /> 
 

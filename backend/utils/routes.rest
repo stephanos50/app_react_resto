@@ -9,6 +9,10 @@
 GET {{hostname}}/api/address/1
 Content-Type: application/json
 
+### 
+GET {{hostname}}/api/factures
+Content-Type: application/json
+
 
 ###
 POST {{hostname}}/api/users/login

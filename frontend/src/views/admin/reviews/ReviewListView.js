@@ -56,7 +56,7 @@ const ReviewListView = ({history}) => {
     const listusers = useSelector((state) => state.listusers)
     const {loading, error, users }  = listusers
 
-    const { items, requestSort, sortConfig } = useSortableData(users);
+    const { requestSort, sortConfig } = useSortableData(users);
     
     const getClassNamesFor = (name) => {
       if (!sortConfig) {

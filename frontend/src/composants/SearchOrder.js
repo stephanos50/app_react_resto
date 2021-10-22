@@ -40,24 +40,24 @@ const SearchOrder = (props) => {
                    <th>Numéro</th>
                    <th>Client</th>
                    <th> 
-                      <a
+                      <strong
                         type="button"
                         style={{color: "#AF1025"}}
                         onClick={() => props.requestSort('createAt')}
                         className={props.getClassNamesFor('createAt')}
                       >
                       Date
-                      </a>
+                      </strong>
                     </th>
                    <th>
-                   <a
+                   <strong
                         type="button"
                         style={{color: "#AF1025"}}
                         onClick={() => props.requestSort('total')}
                         className={props.getClassNamesFor('total')}
                       >
                       Total
-                      </a>
+                      </strong>
 
 
                    </th>

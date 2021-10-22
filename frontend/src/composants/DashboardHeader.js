@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
-import { Redirect } from 'react-router';
+import React from 'react'
+import { Navbar, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 
@@ -36,6 +35,9 @@ const DashboardHeader = ( props) => {
                 </LinkContainer>
 
                  <LinkContainer to='/admin/invoicesuserlist'>
+                    <NavDropdown.Item >facture</NavDropdown.Item>
+                 </LinkContainer>
+                 <LinkContainer to='/admin/factures'>
                     <NavDropdown.Item >factures</NavDropdown.Item>
                  </LinkContainer>
              </>: (

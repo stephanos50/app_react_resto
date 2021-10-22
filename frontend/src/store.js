@@ -44,6 +44,7 @@ import { messageContactReducer } from "./reducers/contactReducer"
 
 import { listreviewReducer, listusersReducer, reviewsDeleteReducer } from './reducers/reviewReducer'
 import { listinvoicesusersReducer, listordersusersReducer, invoiceDeleteReducer } from "./reducers/invoiceReducer"
+import {listFactureReducer} from "./reducers/factureReducer"
 
 const reducer = combineReducers({
     productList: productListReducer,
@@ -86,7 +87,8 @@ const reducer = combineReducers({
     reviewsDelete:reviewsDeleteReducer,
     listinvoicesusers:listinvoicesusersReducer, 
     listordersusers:listordersusersReducer, 
-    invoiceDelete:invoiceDeleteReducer
+    invoiceDelete:invoiceDeleteReducer,
+    listFacture:listFactureReducer
 })
 
 

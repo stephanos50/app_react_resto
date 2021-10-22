@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
     const [query, setQuery] = useState('')
     
     const { categories } = props
-    const { deleteCategoryHandler} = props
+   
 
     const showingCategories = query === ''
         ? categories
@@ -39,14 +39,14 @@ import { Link } from 'react-router-dom'
                 <thead>
                     <tr>
                         <th>Numéro</th>
-                        <th> <a
+                        <th> <strong
                             type="button"
                             style={{color: "#AF1025"}}
                             onClick={() => props.requestSort('name')}
                             className={props.getClassNamesFor('name')}
                         >
                         Nom
-                        </a></th>
+                        </strong></th>
                         <th>Supprimer</th>
                     </tr>
                 </thead>
@@ -57,15 +57,10 @@ import { Link } from 'react-router-dom'
                         <td>{item.name}</td>
                         <td>
                       
-                        <Link> <Button variant='danger' className='btn-sm' onClick={() => deleteCategoryHandler(item.id)}>
+                         <Button variant='danger' className='btn-sm' onClick={() => props.deleteCategoryHandler(item.id)}>
                           <i className='fas fa-trash'></i>
                          </Button>
-                         
-                            
-                           
                         
-                           
-                        </Link>
                         </td>
                     </tr>
                     ))}

@@ -38,23 +38,23 @@ const SearchProduct = (props) => {
             <thead>
               <tr>
                 <th>Numéro</th>
-                <th><a
+                <th><strong
                     type="button"
                     style={{color: "#AF1025"}}
                     onClick={() => props.requestSort('name')}
                     className={props.getClassNamesFor('name')}
                   >
                     Nom
-                  </a>
+                  </strong>
                   </th>
-                <th><a
+                <th><strong
                     type="button"
                     style={{color: "#AF1025"}}
                     onClick={() => props.requestSort('price')}
                     className={props.getClassNamesFor('price')}
                   >
                     Prix
-                  </a></th>
+                  </strong></th>
                 <th>Catégorie</th>
                
                 <th></th>

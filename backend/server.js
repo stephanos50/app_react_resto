@@ -21,6 +21,7 @@ const authRoutes = require('./routes/authentification');
 const contactRoutes = require('./routes/contactRoutes')
 const reviewRoutes = require('./routes/reviewRoutes')
 const invoiceRoutes = require('./routes/invoiceRoutes')
+const facturesRoutes =require('./routes/facturesRoutes')
 
 
 const app = express();
@@ -59,6 +60,7 @@ app.use('/api/authentification', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/invoices', invoiceRoutes);
+app.use('/api/factures', facturesRoutes);
 
 
 app.get('/api/config/paypal', (req, res) =>

@@ -61,10 +61,10 @@ const CategoryListScreem = ({history}) => {
     const categoryCreate = useSelector((state) => state.categoryCreate)
     const { loading: loadingCreate, error:errorCreate, success:successCreate} = categoryCreate
 
-   const categoryDelete = useSelector((state) => state.categoryDelete)
+    const categoryDelete = useSelector((state) => state.categoryDelete)
     const {loading: loadingDelete, error: errorDelete, success: successDelete } = categoryDelete
 
-    const { items, requestSort, sortConfig } = useSortableData(categories);
+    const { requestSort, sortConfig } = useSortableData(categories);
     
     const getClassNamesFor = (name) => {
       if (!sortConfig) {

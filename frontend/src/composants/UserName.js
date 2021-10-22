@@ -12,7 +12,7 @@ const UserName = (props) => {
 }
 
 UserName.propTypes = {
-    users: PropTypes.object.isRequired,
+    name: PropTypes.object.isRequired,
 }
 
 export default UserName

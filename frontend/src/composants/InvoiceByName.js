@@ -9,9 +9,9 @@ import { Link } from 'react-router-dom'
     const [query, setQuery] = useState('')
     const { users } = props
 
-    console.log(users)
+    
 
-    const { deleteHandler} = props
+    
     const showingUsers = query === ''
         ? users
         : users.filter((c) => (
@@ -39,21 +39,21 @@ import { Link } from 'react-router-dom'
             <tr>
               <th>Numéro</th>
               <th>
-                <a
+                <strong
                   type="button"
                   style={{color: "#AF1025"}}
                   onClick={() => props.requestSort('first_name')}
                   className={props.getClassNamesFor('first_name')}
-                > Nom </a>
+                > Nom </strong>
               </th>
               <th>Prénom</th>
               <th>Couriel</th>
-              <th> <a
+              <th> <strong
                   type="button"
                   style={{color: "#AF1025"}}
                   onClick={() => props.requestSort('first_name')}
                   className={props.getClassNamesFor('first_name')}
-                > Facture </a></th>
+                > Facture </strong></th>
               <th>Lecture</th>
             </tr>
           </thead>

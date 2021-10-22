@@ -44,24 +44,24 @@ const SearchInvoice = (props) => {
                          <tr>
                             <th>Numéro</th>
                             <th>
-                            <a
+                            <strong
                                 type="button"
                                 style={{color: "#AF1025"}}
                                 onClick={() => props.requestSort('date_createAt')}
                                 className={props.getClassNamesFor('date_createAt')}
                                 >
                                 Date
-                            </a>
+                            </strong>
 
                             </th>
-                            <th><a
+                            <th><strong
                                 type="button"
                                 style={{color: "#AF1025"}}
                                 onClick={() => props.requestSort('total')}
                                 className={props.getClassNamesFor('total')}
                                 >
                                 Total
-                            </a></th>
+                            </strong></th>
                             <th>###</th>
                         </tr>
                      </thead>

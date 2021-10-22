@@ -3,6 +3,9 @@ import {useDispatch, useSelector} from 'react-redux'
 import { toast } from 'react-toastify'
 import { Row, Col } from 'react-bootstrap'
 
+
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
 import { reviewListByUser, deleteReview} from '../../../actions/reviewActions'
 import { ADMIN_DELETEREVIEW_RESET } from '../../../constants/reviewContstants'
 import DashboardHeader from '../../../composants/DashboardHeader' 
@@ -57,7 +60,7 @@ const UserReview = ({match, history}) => {
     const {loading, error, reviews} = listreview
    
     const reviewsDelete = useSelector((state) => state.reviewsDelete)
-    const { loading: loadingDelete, error: errorDelete, success: successDelete } = reviewsDelete
+    const { success: successDelete } = reviewsDelete
 
     const { items, requestSort, sortConfig } = useSortableData(reviews);
     console.log(items)
@@ -89,7 +92,7 @@ const UserReview = ({match, history}) => {
 
 
 
-    return (
+    return (loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> :
         <div>
             <Row>
                 <Col md={2}> <DashboardHeader role={userInfo.role}/></Col>

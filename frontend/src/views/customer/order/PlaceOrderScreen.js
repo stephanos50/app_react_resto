@@ -31,14 +31,14 @@ const PlaceOrderScreen = ({history}) => {
    
     
     useEffect(() => {
-       console.log(success)
+       
         if(success){
             history.push(`/order/${order.id}`)
             dispatch({ type: USER_DETAILS_RESET })
             dispatch({ type: ORDER_CREATE_RESET })
         }// eslint-disable-next-line
        
-    },[history, success])
+    },[history, success,dispatch ])
 
     const placeOrderHandler = () => {
         dispatch(createOrder({
@@ -48,7 +48,6 @@ const PlaceOrderScreen = ({history}) => {
             user: userInfo.email
         }))
     }
-    console.log(cart.shippingAddress)
     return (
         <>
             <CheckoutSteps step1 step2 step3 step4 />

@@ -36,14 +36,14 @@ import { LinkContainer } from 'react-router-bootstrap'
           <thead>
             <tr>
               
-              <th><a
+              <th><strong
                         type="button"
                         style={{color: "#AF1025"}}
                         onClick={() => props.requestSort('first_name')}
                         className={props.getClassNamesFor('first_name')}
                       >
                       Nom
-                      </a>
+                      </strong>
               </th>
               <th>Courriel</th>
               <th>Administrateur</th>

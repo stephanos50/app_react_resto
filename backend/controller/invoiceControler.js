@@ -85,8 +85,24 @@ exports.deleteInvoice  = asyncHandler(async (req,res) => {
         res.status(404)
         throw new Error("La facture n'est pas supprimée")
     }
-   
-
-    
-    
 })
+
+// @desc   Get all invoices 
+// @route  GET /admin/factures
+// @access Private Admin
+exports.invoicesList = asyncHandler(async (req,res)=> {
+    const invoices = await Invoice.findAll({
+        where: {delete:false},
+        include:[{model:Payment, include:[{model:Order, include:{model:User}}]}]
+    });
+   
+    if (!invoices) {
+        res.status(404)
+        
+        throw new Error("Aucune factures")
+        
+    } else {
+        
+        return res.status(200).json(invoices)
+    }
+});

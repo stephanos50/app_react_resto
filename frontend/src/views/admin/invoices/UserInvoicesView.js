@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from 'react-redux'
 import { toast } from 'react-toastify'
 import {Row, Col} from 'react-bootstrap'
 
-
+import Message from '../../../composants/Message'
+import Loader from '../../../composants/Loader'
 import { invoiceListByUser, deleteInvoice} from '../../../actions/invoiceActions'
 import DashboardHeader from '../../../composants/DashboardHeader' 
 import SearchInvoice from '../../../composants/SeachInvoice'
@@ -59,9 +60,9 @@ const UserReview = ({match, history}) => {
     const {loading, error, invoices} = listordersusers
    
     const invoiceDelete = useSelector((state) => state.invoiceDelete)
-    const { loading: loadingDelete, error: errorDelete, success: successDelete } = invoiceDelete
+    const { loading: loadingDelete, success: successDelete } = invoiceDelete
 
-    const { items, requestSort, sortConfig } = useSortableData(invoices);
+    const { requestSort, sortConfig } = useSortableData(invoices);
   
     const getClassNamesFor = (name) => {
         if (!sortConfig) {
@@ -82,7 +83,7 @@ const UserReview = ({match, history}) => {
         }
     
         
-    }, [dispatch,history,match,userInfo,successDelete])
+    }, [dispatch,history,match,userInfo,successDelete,id])
 
     const deleteInvoiceHandler = (id) => {
         if (window.confirm('Are you sure')) {
@@ -90,9 +91,9 @@ const UserReview = ({match, history}) => {
         }
     };
 
-    console.log(invoices)
+    
 
-    return (
+    return (loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : 
         <div>
             <Row>
                 <Col md={2}> <DashboardHeader role={userInfo.role}/></Col>
