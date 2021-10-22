@@ -15,7 +15,7 @@ const Facture = (props) => {
             <tr>
               <th>Numéro</th>
               <th> Date</th>
-              <th>Couriel</th>
+              <th>Courriel</th>
             </tr>
           </thead>
           <tbody>

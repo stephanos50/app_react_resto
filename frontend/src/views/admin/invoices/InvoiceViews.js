@@ -8,6 +8,7 @@ import Message from '../../../composants/Message'
 import Loader from '../../../composants/Loader'
 import { getOrderDetails } from '../../../actions/orderAction'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../../../constants/orderConstants'
+import { format } from 'date-fns';
 
 
 const AdminOrderView = ({match, history}) => {
@@ -54,7 +55,6 @@ const AdminOrderView = ({match, history}) => {
 
     return loading ? <Loader /> : error ?  <Message variant='error'>{error}</Message> : <>
        
-       
         <Preview id={'jsx-template'}>
         <Row> <Col md={{ span: 4, offset: 4 }}><img src="/images/logo/logo.jpg" className="d-inline-block align-top" alt="Coeur Bleu Logo" /></Col> </Row>
         <Row><Col  md={{ span: 6, offset: 4 }}><p>Chaussée d'Alsemberg 4, 1630 Linkebeek</p></Col></Row>
@@ -83,7 +83,7 @@ const AdminOrderView = ({match, history}) => {
             </Col>
             <Col  md={4}>
             
-                <h6>Date:  {order.date_createAt.split(',')[0]}  </h6>
+                <h6>Date:  {format(new Date(order.createAt),'dd-MM-yyyy')}  </h6>
                 <h6> Facture Numéro: {order.number}</h6>
                 
             </Col>
