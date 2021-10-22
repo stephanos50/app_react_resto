@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 
 import { facturesList} from '../../../actions/facturesActions'
-import Facture from '../../../composants/Facture'
+import Invoice from '../../../composants/Invoice'
 import DashboardHeader from '../../../composants/DashboardHeader'
 
 
@@ -37,7 +37,7 @@ const FacturesView = ({history}) => {
             {error}
             <Col md={2}><DashboardHeader role={userInfo.role}/></Col>
             
-            <Col> <Facture invoices= {invoices}/></Col>
+            <Col> <Invoice invoices= {invoices}/></Col>
         </Row>
         
        

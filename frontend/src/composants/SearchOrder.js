@@ -3,6 +3,8 @@ import  PropTypes from 'prop-types'
 import { Button, Table, Form, Col, Row } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import Message from '../composants/Message'
+import { format } from 'date-fns';
+
 
 
 
@@ -73,7 +75,8 @@ const SearchOrder = (props) => {
                   <tr key={order.id}>
                     <td>{order.number}</td>
                     <td>{order.user.first_name}</td>
-                    <td>{order.date_createAt.split(',')[0]}</td>
+                    <td>{format(new Date(order.createAt),'dd-MM-yyyy')
+}</td>
                     <td>{order.total} €</td>
                     <td>
                      {order.payment  ? (

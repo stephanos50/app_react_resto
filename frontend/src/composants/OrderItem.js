@@ -4,7 +4,7 @@ import { ListGroup, Col, Row } from 'react-bootstrap'
 
 const OrderItem = (props) => {
     const { order } = props
-    console.log(order)
+    
     return (
       <>
       

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Col, Form, Row, Table, Button} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
+import { format } from 'date-fns';
 
 
 
@@ -70,7 +71,7 @@ const SearchInvoice = (props) => {
                      { showingInvoice.map((item) =>  
                           <tr key={item.id}>
                                  <td>{item.number}</td>
-                                 <td>{item.date_createAt.split(',')[0]}</td>
+                                 <td>{format(new Date(item.createAt),'dd-MM-yyyy')}</td>
                                  <td>{item.total} €</td>
                                  
                                  <td> <Link   key={item.id} to={{

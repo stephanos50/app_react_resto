@@ -12,6 +12,8 @@ import { LinkContainer} from 'react-router-bootstrap'
 import { USER_UPDATE_PROFILE_RESET } from '../../../constants/userConstants'
 import { toast } from 'react-toastify'
 import {ORDER_VIEW_RESET } from '../../../constants/orderConstants'
+import { format } from 'date-fns';
+
 
 
 
@@ -43,7 +45,9 @@ const ProfileScreem = ({history}) => {
 
     const {success: successDelete} =viewOrderDelete
     
-    
+    console.log(new Intl.DateTimeFormat('en-US', {day: '2-digit',month: '2-digit'}).format(Date.now()));
+    console.log(format(new Date(), 'dd/MM/yyyy '))
+
     
     useEffect(() => {
       
@@ -185,7 +189,8 @@ const ProfileScreem = ({history}) => {
                                 !order.delete && (    <tr key={order.id}>
                                     <td>{order.number}</td>
                                     <td>{order.time}</td>
-                                    <td>{order.date_createAt.split(',')[0]}</td>
+                                   
+                                    <td>{format(new Date(order.createAt),'dd-MM-yyyy')}</td>
                                     <td>{order.total} €</td>
                                     <td>{order.isDelivered ?  ( <i className='' style={{color:'#B52036'}}>Livrée</i>) : ( <i className='' style={{color:'#B52036'}}>Not Delivered</i>) }</td>
                                     <td>

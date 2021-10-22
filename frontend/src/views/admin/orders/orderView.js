@@ -12,6 +12,7 @@ import PayPal from '../../../composants/PayPal'
 import { getOrderDetails, payOrder, deliverOrder } from '../../../actions/orderAction'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../../../constants/orderConstants'
 import OrderItem from '../../../composants/OrderItem'
+import { format } from 'date-fns';
 
 
 
@@ -89,7 +90,7 @@ const AdminOrderView = ({match, history}) => {
         <Row className='p-3'>
             <Col>
                 <h3> Numéro: {order.number}</h3>
-                <h3>Commande du :  {order.date_createAt.split(',')[0]} heure: {order.time} </h3>
+                <h3>Commande du :  {format(new Date(order.createAt),'dd-MM-yyyy')} heure: {order.time} </h3>
             </Col>
             <Col>
             <Link to='/admin/orderlist' className='m-3'> <Button> Retour </Button></Link>
