@@ -67,7 +67,6 @@ exports.invoiceListById = asyncHandler(async (req,res)=> {
 // @access Private Admin
 exports.deleteInvoice  = asyncHandler(async (req,res) => {
    
-    console.log(req.params)
     const invoice = await Invoice.findOne({
         include: [{
             model:Payment, where:{
@@ -92,7 +91,7 @@ exports.deleteInvoice  = asyncHandler(async (req,res) => {
 // @route  GET /admin/factures
 // @access Private Admin
 exports.invoicesList = asyncHandler(async (req,res)=> {
-    console.log("invoicesList")
+  
     const invoices = await Invoice.findAll({
         where: {delete:false},
         order: [["createdAt", "DESC"]],

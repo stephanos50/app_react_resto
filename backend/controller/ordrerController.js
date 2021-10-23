@@ -238,7 +238,6 @@ exports.updateOrderToDelivered = asyncHandler(async (req, res) => {
 // @route   delete /api/orders/:id
 // @access  Private 
 exports.deleteViewOrder = asyncHandler(async (req, res) => {
-    console.log("deleteViewOrder")
     const order = await Order.findByPk(req.params.id, {
         include: [Payment,User]
     })
@@ -253,7 +252,6 @@ exports.deleteViewOrder = asyncHandler(async (req, res) => {
             }
 
         } else {
-            console.log("delete")
            if(await order.user.deleteOrder(order)){
                res.status(201).json({message: 'deleteView'})
             }

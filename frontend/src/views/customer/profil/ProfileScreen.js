@@ -45,8 +45,7 @@ const ProfileScreem = ({history}) => {
 
     const {success: successDelete} =viewOrderDelete
     
-    console.log(new Intl.DateTimeFormat('en-US', {day: '2-digit',month: '2-digit'}).format(Date.now()));
-    console.log(format(new Date(), 'dd/MM/yyyy '))
+  
 
     
     useEffect(() => {

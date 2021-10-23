@@ -34,7 +34,7 @@ exports.forgotpassword = asyncHandler(async (req, res, next) => {
         })
         res.status(200).json({ success: true, data: 'Email Sent'})
      } catch (error) {
-        // console.log(err)
+       
         user.resetPasswordToken = undefined;
         user.resetPasswordExpire= undefined;
         await user.save();
@@ -50,8 +50,7 @@ exports.forgotpassword = asyncHandler(async (req, res, next) => {
 // @access    Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
     const {resetoken, password} = req.body
-    console.log(resetoken)
-    console.log(password)
+    
     const user = await User.findOne({
       where: {
         resetPasswordToken:resetoken,
@@ -59,7 +58,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     });
 
     
-    console.log(user)
+  
     if (!user) {
       
       return next(new ErrorResponse('Invalid token', 400));

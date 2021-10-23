@@ -270,7 +270,6 @@ export const deliverOrder = (order) => async(dispatch, getSate) => {
 
 
  export const deleteViewOrder = (id) => async(dispatch, getState) => {
-    console.log(id)
     try {    
         dispatch({ 
             type:ORDER_VIEW_REQUEST,

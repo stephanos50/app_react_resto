@@ -34,7 +34,6 @@ const ShippingScreem = ({ history }) => {
             history.push('/login')
         } 
         if(Object.values(shippingAddress).length === 0){
-            console.log("userInfo")
                 setAddress(userInfo.address.name )
                 setNumber(userInfo.address.number)
                 setFloor(userInfo.address.floor)
@@ -51,7 +50,6 @@ const ShippingScreem = ({ history }) => {
        
     }, [dispatch, history, shippingAddress, userInfo])
 
-    console.log(city)
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;

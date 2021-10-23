@@ -18,7 +18,7 @@ exports.postMessage = [
     
     asyncHandler(async (req,res) => {
         const errors = validationResult(req.body);
-        console.log(req.body)
+       
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Caractère non valide')

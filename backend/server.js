@@ -31,12 +31,14 @@ const app = express();
 // Body parser
 app.use(express.json());
 
+app.use(helmet(
+  { contentSecurityPolicy: false,}
+));
+
 // Cookie parser
 app.use(cookieParser());
 
 app.use(cors());
-
-app.use(helmet());
 
 dotenv.config();
 

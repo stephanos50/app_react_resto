@@ -55,7 +55,6 @@ const AdminOrderView = ({match, history}) => {
             script.onload = () => {
               setSdkReady(true)
             }
-            console.log(script)
             document.body.appendChild(script)
         }
         if(!order ||  successPay || order.id !== Number(orderId) || successDeliver){
@@ -74,7 +73,6 @@ const AdminOrderView = ({match, history}) => {
      },[dispatch, history, userInfo, orderId, successPay, successDeliver,order])
 
     const successPaymentHandler = (paymentResult) => {
-        console.log(paymentResult)
         toast.success("Paiement a été validé")
         dispatch(payOrder(orderId, paymentResult))
        

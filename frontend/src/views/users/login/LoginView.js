@@ -28,7 +28,6 @@ const LoginScreem = ({location, history}) => {
    
 
     useEffect(()=> {
-        console.log(userInfo)
         if(userInfo && userInfo.role == 'admin'){
             history.push('/admin/userlist')
 

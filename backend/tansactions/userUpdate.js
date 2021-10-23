@@ -35,7 +35,6 @@ class userUpdate {
           
             // If the execution reaches this line, an error was thrown.
             // We rollback the transaction.
-            console.log(error)
             
           
           }

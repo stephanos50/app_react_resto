@@ -63,7 +63,6 @@ const UserReview = ({match, history}) => {
     const { success: successDelete } = reviewsDelete
 
     const { items, requestSort, sortConfig } = useSortableData(reviews);
-    console.log(items)
     const getClassNamesFor = (name) => {
       if (!sortConfig) {
         return;

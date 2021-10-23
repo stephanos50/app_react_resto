@@ -84,9 +84,7 @@ exports.updateProduct =  [
    
     
     asyncHandler( async function (req,res){
-        console.log("updateProduct")
         const errors = validationResult(req);
-        console.log(errors)
 
         if (!errors.isEmpty()) {
             res.status(400)
@@ -95,7 +93,6 @@ exports.updateProduct =  [
     
         const {name,description,price,category,allergen} = req.body
 
-        console.log(req.body.description)
        
 
         const product = await  Product.findByPk(req.body.id,{
@@ -159,7 +156,6 @@ exports.createProductReviews = [
         const token = req.headers.authorization.split(' ')[1]
             
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        console.log(decoded.id)
 
         const user = await User.findOne({
             where: { _uuid : decoded.id},
