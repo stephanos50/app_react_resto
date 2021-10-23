@@ -23,7 +23,7 @@ const SearchInvoice = (props) => {
         ))
 
     const updateQuery = (query) => {
-        setQuery(query.trim())
+        setQuery(query)
     }
    
    
@@ -50,8 +50,8 @@ const SearchInvoice = (props) => {
                             <strong
                                 type="button"
                                 style={{color: "#AF1025"}}
-                                onClick={() => props.requestSort('date_createAt')}
-                                className={props.getClassNamesFor('date_createAt')}
+                                onClick={() => props.requestSort('createAt')}
+                                className={props.getClassNamesFor('createAt')}
                                 >
                                 Date
                             </strong>

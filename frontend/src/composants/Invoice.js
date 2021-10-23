@@ -7,9 +7,10 @@ import { format } from 'date-fns';
 
 const Facture = (props) => {
    
-    const { invoices } = props
-    
+    const { orders } = props
+   
     let total = 0;
+   
     
    
     return (
@@ -18,18 +19,30 @@ const Facture = (props) => {
           <thead>
             <tr>
               <th>Numéro</th>
-              <th> Date</th>
-              <th>Nom</th>
+              <th><strong
+                    type="button"
+                    style={{color: "#AF1025"}}
+                    onClick={() => props.requestSort('createAt')}
+                    className={props.getClassNamesFor('createAt')}
+                  >
+                    Date</strong></th>
+              <th><strong
+                    type="button"
+                    style={{color: "#AF1025"}}
+                    onClick={() => props.requestSort('userId')}
+                    className={props.getClassNamesFor('userId')}
+                  >
+                    Nom</strong></th>
               <th>Total</th>
             </tr>
           </thead>
           <tbody>
-              {invoices.map((item) => 
+              {orders.map((item) => 
                 <tr key={item.uid}>
-                  <td>{item.payment.order.number}</td> 
-                  <td>{format(new Date(item.payment.order.createAt),'dd-MM-yyyy')}</td>
-                  <td>{item.payment.order.user.first_name}</td> 
-                  <td>{item.payment.order.total}{props.setstate(total += item.payment.order.total)}</td> 
+                  <td>{item.number}</td> 
+                  <td>{format(new Date(item.createAt),'dd-MM-yyyy')}</td>
+                  <td>{item.user.first_name}</td> 
+                  <td>{item.total}{props.setstate(total += item.total)}</td> 
                   
                 </tr>
               )}
@@ -57,7 +70,7 @@ const Facture = (props) => {
 
 
 Facture.propTypes = {
-  invoices: PropTypes.array.isRequired,
+  orders: PropTypes.array.isRequired,
 }
 
 export default Facture;

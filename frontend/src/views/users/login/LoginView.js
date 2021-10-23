@@ -28,10 +28,13 @@ const LoginScreem = ({location, history}) => {
    
 
     useEffect(()=> {
-        if(userInfo && userInfo.role == 'admin'){
+        if(userInfo && userInfo.role === 'admin'){
             history.push('/admin/userlist')
 
-        } else  if(userInfo){
+        } else  if( userInfo && userInfo.role === 'livreur'){
+            history.push('/admin/orderlist')
+           
+        }else if (userInfo){
             history.push(redirect)
         }
        
