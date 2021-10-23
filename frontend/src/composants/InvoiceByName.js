@@ -6,10 +6,10 @@ import NbrFacture from './NbrFacture'
 import { Link } from 'react-router-dom'
 
  const InvoiceByName = (props) => {
+   
     const [query, setQuery] = useState('')
     const { users } = props
 
-    
 
     
     const showingUsers = query === ''
@@ -47,12 +47,12 @@ import { Link } from 'react-router-dom'
                 > Nom </strong>
               </th>
               <th>Prénom</th>
-              <th>Couriel</th>
+              <th>Courriel</th>
               <th> <strong
                   type="button"
                   style={{color: "#AF1025"}}
-                  onClick={() => props.requestSort('first_name')}
-                  className={props.getClassNamesFor('first_name')}
+                  onClick={() => props.requestSort('orders')}
+                  className={props.getClassNamesFor('orders')}
                 > Facture </strong></th>
               <th>Lecture</th>
             </tr>
@@ -64,7 +64,7 @@ import { Link } from 'react-router-dom'
                     <td>{item.first_name}</td>
                     <td>{item.last_name}</td>
                     <td> <a href={`mailto:${item.email}`}>{item.email}</a></td>
-                    <td ><NbrFacture orders={item.orders}/></td>
+                    <td ><NbrFacture orders={item.orders} /></td>
                    
                 
                 

@@ -126,7 +126,8 @@ exports.getOrders = asyncHandler(async (req, res) => {
         
         if( role === admin || role === livreur){
             const orders = await Order.findAll({
-                include: [User, {model:Payment, where:{status:'COMPLETED'}}],
+                order: [["createdAt", "DESC"]],
+                include: [User, {model:Payment, where:{status:'COMPLETED'}}]
             })
             if(orders){
                 res.json(orders)

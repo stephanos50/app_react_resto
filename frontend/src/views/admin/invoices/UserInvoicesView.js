@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect,useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { toast } from 'react-toastify'
 import {Row, Col} from 'react-bootstrap'
@@ -47,10 +47,12 @@ const useSortableData = (items, config = null) => {
   
 
 const UserReview = ({match, history}) => {
+
     const id = match.params.id;
     
     const dispatch = useDispatch()
 
+    const [state, setstate] = useState('')
 
 
     const userLogin = useSelector((state) => state.userLogin)
@@ -58,7 +60,7 @@ const UserReview = ({match, history}) => {
 
     const listordersusers = useSelector((state) => state.listordersusers)
     const {loading, error, invoices} = listordersusers
-   
+
     const invoiceDelete = useSelector((state) => state.invoiceDelete)
     const { loading: loadingDelete, success: successDelete } = invoiceDelete
 
@@ -102,6 +104,8 @@ const UserReview = ({match, history}) => {
                         deleteInvoiceHandler={deleteInvoiceHandler} 
                         requestSort={requestSort}
                         getClassNamesFor={getClassNamesFor}
+                        state={state}
+                        setstate={setstate}
                         />
                     </Col>
             </Row>

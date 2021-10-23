@@ -7,13 +7,6 @@ const {protect} = require('../middleware/authMiddleware')
 const Picture = require('../models/Picture');
 
 
-const cors = require('cors')
-routes.use(cors());
-
-
-
-
-
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {

@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const morgan = require('morgan')
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
+const helmet = require("helmet");
 
 
 // Route files
@@ -32,7 +34,9 @@ app.use(express.json());
 // Cookie parser
 app.use(cookieParser());
 
+app.use(cors());
 
+app.use(helmet());
 
 dotenv.config();
 

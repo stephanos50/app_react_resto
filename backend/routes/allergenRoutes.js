@@ -3,10 +3,6 @@ const routes = express.Router();
 const {protect, admin} = require('../middleware/authMiddleware')
 
 
-const cors = require('cors')
-routes.use(cors());
-
-
 const allergenController = require('../controller/allergenController')
 
 routes.route('/').get(protect,admin,allergenController.getAllergens)

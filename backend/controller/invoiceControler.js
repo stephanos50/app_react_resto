@@ -6,6 +6,7 @@ const Order = require('../models/Order')
 const Payment = require('../models/Payment');
 const PaymentMethode = require('../models/PaymentMethode')
 const Invoice = require('../models/Invoice')
+const sequelize = require('../models/sequelize')
 
 
 
@@ -47,7 +48,7 @@ exports.invoiceListById = asyncHandler(async (req,res)=> {
             }},{model:PaymentMethode}]}],
             where: {
                 userId: req.params.id, 
-            },
+            },order: [["createdAt", "DESC"]],
     });
    
     if (!invoices) {
@@ -91,9 +92,11 @@ exports.deleteInvoice  = asyncHandler(async (req,res) => {
 // @route  GET /admin/factures
 // @access Private Admin
 exports.invoicesList = asyncHandler(async (req,res)=> {
+    console.log("invoicesList")
     const invoices = await Invoice.findAll({
         where: {delete:false},
-        include:[{model:Payment, include:[{model:Order, include:{model:User}}]}]
+        order: [["createdAt", "DESC"]],
+        include:[{model:Payment, include:[{model:Order,include:{model:User}}]}]
     });
    
     if (!invoices) {

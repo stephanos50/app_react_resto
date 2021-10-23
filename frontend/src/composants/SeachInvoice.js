@@ -9,10 +9,12 @@ import { format } from 'date-fns';
 
 
 const SearchInvoice = (props) => {
-
+    
     const [query, setQuery] = useState('')
     const { invoices } = props
     const { deleteInvoiceHandler} = props
+    
+    let total = 0
     
     const showingInvoice = query === ''
         ? invoices
@@ -72,7 +74,7 @@ const SearchInvoice = (props) => {
                           <tr key={item.id}>
                                  <td>{item.number}</td>
                                  <td>{format(new Date(item.createAt),'dd-MM-yyyy')}</td>
-                                 <td>{item.total} €</td>
+                                 <td>{item.total} €{props.setstate(total += item.total)}</td>
                                  
                                  <td> <Link   key={item.id} to={{
                                      pathname:`invoice/${item.id}`,
@@ -85,6 +87,12 @@ const SearchInvoice = (props) => {
                             
                          
                      )}
+                     <tr>
+                         <td></td>
+                         <td><strong>Total</strong></td>
+                         <td><strong>{total}</strong></td>
+                         <td></td>
+                     </tr>
                      
                  </tbody>
              </Table>

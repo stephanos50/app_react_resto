@@ -1,8 +1,7 @@
 const express = require("express");
 const routes = express.Router();
 
-const cors = require('cors')
-routes.use(cors());
+
 
 const {protect, admin} = require('../middleware/authMiddleware')
 const orderController = require('../controller/ordrerController');

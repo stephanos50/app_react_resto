@@ -5,12 +5,6 @@ const {protect, admin} = require('../middleware/authMiddleware')
 const productController = require('../controller/productController');
 
 
-const cors = require('cors')
-routes.use(cors());
-
-
-
-
 routes.route('/').get(productController.getProducts).post(protect,admin,productController.createProduct);
 
 
