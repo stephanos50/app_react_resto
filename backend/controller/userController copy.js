@@ -47,11 +47,11 @@ exports.authUser =
     }
    
     const address = await Address.findOne({
-        include:[City,{model:User,where:{id:user.id}}],
-        order: [ [ 'id', 'DESC' ]]
+        where:{
+            id: user.id
+        },include:City
     })
-    
-    
+   
     
     if( user && await user.validPassword(password)){
         const names = user.roles.map((role) => role.name)
@@ -83,92 +83,67 @@ exports.registerUser = [
     body('password').isLength({ min: 8 }),
     
     asyncHandler(async (req, res) => {
-
-        const errors = validationResult(req)
-
+        const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(400)
             throw new Error('Vérifier votre nom, prénom et email')
         }
-
         const { first_name,last_name, email, password } = req.body
-
-        const user = await User.findOne({
+        const userExists = await User.findOne({
             where: { email:email },
             include: Role
         })
 
-        if(user){
+        const address = await Address.findByPk(1,{include:City})
+        
+    
+       if(userExists){
             res.status(400)
             throw new Error('User already exist')
         }
-        // BEGIN TRANSACTION
-        const transaction = await sequelize.transaction();
 
-        try {
-
-            await User.create({
-                email: email,
-                _uuid: uuidv4(),
-                first_name: first_name,
-                last_name: last_name,
-                passwordHash: await bcrypt.hash(password,saltRounds),
-                   
-            },{ transaction });
-
-            await Address.create({
-                name: 'Une adresse',
-                number: 1,
-                floor: 1,
-                cityId:1
-            }, { transaction });
-
-            await transaction.commit(); 
+        
+        const user = await User.create({
+             email: email,
+            _uuid: uuidv4(),
+            first_name: first_name,
+            last_name: last_name,
+            passwordHash: await bcrypt.hash(password,saltRounds),
             
-              
-        } catch (error) {
+        })  
+        
+        await user.setAddresses(address.id)
+        await user.setRoles(2),
+        await user.save()
+       
+        const newUser = await User.findByPk(user.id, {
+            include:[Role,Order,Address]
+        })
 
-            await transaction.rollback();
+      
 
-        } finally {
-
-            const user = await User.findOne({
-                order: [ [ 'id', 'DESC' ]],
-                include:[Role,Order,Address]
-            });
-            const address = await Address.findOne({
-                order: [ [ 'id', 'DESC' ]],
-                include:City
-            });
-
-            const transaction = await sequelize.transaction();
-
-            try {
-
-                await user.setAddresses(address.id),{ transaction };
-                await user.setRoles(2),{ transaction };
-                await transaction.commit(); 
-
-            } catch (error) {
-                await transaction.rollback();
-            }
-          
-
-            const names = user.roles.map((role) => role.name)
+        if(user){
+            
+            const names = newUser.roles.map((role) => role.name)
             const [name] = names
             res.status(201).json({
+               
                 email: email,
                 _uuid: user._uuid,
                 first_name: first_name,
                 last_name:last_name,
                 role: name,
-                orders: user.orders,
+                orders: newUser.orders,
                 address: address,
+                // city: city,
                 token: token.generateToken(user._uuid),
             })
-           
+            } else {
+            res.status(400)
+            throw new Error('Invalide user data')
         }
-    })]; 
+    })
+]; 
 
 // @desc   Get user profile
 // @route  Get /api/users/profile

@@ -7,6 +7,11 @@ import Loader from '../../../composants/Loader'
 import Message from '../../../composants/Message'
 import  SearchOrder  from '../../../composants/SearchOrder'
 import DashboardHeader from '../../../composants/DashboardHeader' 
+import {deleteViewOrder } from '../../../actions/orderAction'
+import {ORDER_VIEW_RESET } from '../../../constants/orderConstants'
+import { toast } from 'react-toastify'
+
+
 
 
 const useSortableData = (items, config = null) => {
@@ -46,6 +51,7 @@ const useSortableData = (items, config = null) => {
 
 
 
+
 const OrderListView = ({history}) => {
   
   const dispatch = useDispatch()
@@ -55,6 +61,10 @@ const OrderListView = ({history}) => {
   
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+
+  const viewOrderDelete = useSelector((state) => state.viewOrderDelete)
+
+  const {success: successDelete} =viewOrderDelete
 
   const { requestSort, sortConfig } = useSortableData(orders);
   const getClassNamesFor = (name) => {
@@ -73,7 +83,28 @@ const OrderListView = ({history}) => {
         } else {
             history.push('/')
         }
-  }, [dispatch, history, userInfo])
+
+        if(successDelete){
+                
+          dispatch({type:ORDER_VIEW_RESET})
+         
+          dispatch(listOrders())
+         
+          toast.success('Votre commande a été supprimé')
+          
+         
+      }
+  }, [dispatch, history, userInfo,successDelete])
+
+  const deleteHandler = (id) => {
+      
+    if (window.confirm('Are you sure')) {
+        dispatch(deleteViewOrder(id))
+       
+       
+    }
+  }
+  
 
   return (
       <>
@@ -90,6 +121,7 @@ const OrderListView = ({history}) => {
             orders={orders}
             requestSort={requestSort}
             getClassNamesFor={getClassNamesFor}
+            deleteHandler={deleteHandler}
           
           />
         )}

@@ -57,7 +57,7 @@ const Facture = (props) => {
                 <td></td>
                 <td></td>
                 <td><strong>TVA 6%</strong></td>
-                <td><strong>{props.state/100*6}</strong></td>
+                <td><strong>{Math.round(((props.state/100*6) + Number.EPSILON) * 100) / 100}</strong></td>
               </tr>
               
           </tbody>

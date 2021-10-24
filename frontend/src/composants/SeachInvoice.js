@@ -90,7 +90,7 @@ const SearchInvoice = (props) => {
                      <tr>
                          <td></td>
                          <td><strong>Total</strong></td>
-                         <td><strong>{total}</strong></td>
+                         <td><strong>{Math.round((total + Number.EPSILON) * 100) / 100}</strong></td>
                          <td></td>
                      </tr>
                      

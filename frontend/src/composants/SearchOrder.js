@@ -12,10 +12,12 @@ import { format } from 'date-fns';
 const SearchOrder = (props) => {
     const [query, setQuery] = useState('')
     const { orders } = props
+    const date = format(new Date(),'yyyy-MM-dd')
+  
     const showingContacts = query === ''
         ? orders
         : orders.filter((c) => (
-            c.number.toLowerCase().includes(query.toLowerCase())
+          c.number.toLowerCase().includes(query.toLowerCase())
         ))
 
     const updateQuery = (query) => {
@@ -72,11 +74,11 @@ const SearchOrder = (props) => {
                <tbody>
               
                  {showingContacts.map((order) => (
-                  <tr key={order.id}>
+                   format(new Date(order.createAt),'yyyy-MM-dd') === date && 
+                    <tr key={order.id}>
                     <td>{order.number}</td>
                     <td>{order.user.first_name}</td>
-                    <td>{format(new Date(order.createAt),'dd-MM-yyyy')
-}</td>
+                    <td>{format(new Date(order.createAt),'dd-MM-yyyy')}</td>
                     <td>{order.total} €</td>
                     <td>
                      {order.payment  ? (
@@ -100,19 +102,14 @@ const SearchOrder = (props) => {
                          <i className='fas fa-edit'></i>
                          </Button>
                        </LinkContainer>
-                       { order.isDelivered && (
-                            <LinkContainer to={`/admin/order/${order.id}`}>
-                            <Button variant='danger' className='btn-sm'>
-                            <i className='fas fa-trash'></i>
-                            </Button>
-                          </LinkContainer>
-                       )
-
-                       }
+                      
                      </td>
                    
                     
                   </tr>
+                    
+                  
+                 
                 ))}
                </tbody>
            </Table>      

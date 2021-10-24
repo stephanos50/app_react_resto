@@ -93,8 +93,11 @@ exports.updateProduct =  [
     
         const {name,description,price,category,allergen} = req.body
 
+        
+        
+        const cast = Number(price)
+        const prix = (Math.round((cast + Number.EPSILON) * 100) / 100);
        
-
         const product = await  Product.findByPk(req.body.id,{
           include: [Category, Allergen]
         })
@@ -102,7 +105,7 @@ exports.updateProduct =  [
         if (product) {
             product.name = name,
             product.description = description,
-            product.price = price,
+            product.price = prix,
             product.categoryId = category,
             await product.save()
             const allergie = allergen.map((item) =>  (item.id))

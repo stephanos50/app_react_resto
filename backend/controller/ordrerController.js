@@ -8,6 +8,7 @@ const User = require('../models/User')
 const Payment = require('../models/Payment')
 const PaymentMethode =require('../models/PaymentMethode')
 const Invoice = require('../models/Invoice')
+const sequelize = require('../models/sequelize')
 
 
 const luxon = require("luxon");
