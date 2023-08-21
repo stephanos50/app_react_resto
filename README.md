@@ -1,39 +1,41 @@
-# app_react_resto 
+# Nom de Votre Application
 
-> Backend API from directory website app_react_resto
+## Description
+[Description de votre application]
 
-## Install Depenencies
+## Technologies Utilisées
+- [React.js](https://reactjs.org/): Bibliothèque JavaScript pour la construction d'interfaces utilisateur réactives.
+- [Redux](https://redux.js.org/): Gestionnaire d'état prévisible pour les applications JavaScript.
+- [Sequelize](https://sequelize.org/): Bibliothèque JavaScript ORM pour l'interaction avec les bases de données relationnelles.
+- [Heroku](https://www.heroku.com/): Plateforme en tant que service (PaaS) pour le déploiement et la gestion d'applications en ligne.
+- Cryptage des mots de passe : Utilisé pour sécuriser les mots de passe des utilisateurs.
+- PayPal : Intégré pour les transactions de paiement sécurisées.
 
-`app_react_resto\ npm install`
+## Fonctionnalités Principales
+- [Énumérez ici les principales fonctionnalités de votre application]
 
-## Run App Sever
+## Prérequis
+- [Listez ici tout ce dont les utilisateurs ont besoin pour exécuter votre application localement]
 
-`app_react_resto\ npm run dev`
+## Installation
+1. Clonez ce dépôt : `git clone [lien du dépôt]`
+2. Accédez au répertoire : `cd [nom du répertoire]`
+3. Installez les dépendances : `npm install`
 
+## Configuration
+- [Expliquez ici comment configurer votre application, par exemple, les fichiers de configuration, les variables d'environnement, etc.]
 
-> FrontEnd API from directory website app_react_resto\frontend
+## Utilisation
+- [Fournissez des instructions sur la manière d'utiliser votre application, par exemple, comment la lancer, comment naviguer dans l'interface, etc.]
 
-## Install Depenencies
+## Déploiement
+- [Expliquez comment déployer votre application sur Heroku ou toute autre plateforme]
 
-`app_react_resto\frontend  npm install`
+## Auteurs
+- [Votre nom et éventuellement d'autres contributeurs]
 
-## Run App Client
+## Licence
+Ce projet est sous licence [insérez la licence que vous avez choisie, par exemple MIT, GNU, etc.]
 
-`app_react_resto\frontend  npm start`
-
-## Builds the app for production 
-
-> Production API 
-
-`app_react_resto\frontend npm run build`
-
-## Run the app for production 
-
-`app_react_resto\ npm start`
-
-
-
-
-
-
-
+---
+Pour toute question ou assistance, veuillez nous contacter à [votre adresse e-mail de contact].
