@@ -1,5 +1,5 @@
 {
-  "name": "web_app_coeurbleu",
+  "name": "app_react_resto",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -17,9 +17,9 @@
   "author": "Stefan Arvanitis",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/stephanos50/web_app_coeurbleu/issues"
+    "url": "https://github.com/stephanos50/app_react_resto/issues"
   },
-  "homepage": "https://github.com/stephanos50/web_app_coeurbleu#readme",
+  "homepage": "https://github.com/stephanos50/app_react_resto#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
