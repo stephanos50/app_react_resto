@@ -1,35 +1,35 @@
 # web-app-projet API
 
-> Backend API from directory website web_app_coeurbleu
+> Backend API from directory website WebAppResto
 
 ## Install Depenencies
 
-`web_app_coeurbleu\ npm install`
+`WebAppResto\ npm install`
 
 ## Run App Sever
 
-`web_app_coeurbleu\ npm run dev`
+`WebAppResto\ npm run dev`
 
 
-> FrontEnd API from directory website web_app_coeurbleu\frontend
+> FrontEnd API from directory website WebAppResto\frontend
 
 ## Install Depenencies
 
-`web_app_coeurbleu\frontend  npm install`
+`WebAppResto\frontend  npm install`
 
 ## Run App Client
 
-`web_app_coeurbleu\frontend  npm start`
+`WebAppResto\frontend  npm start`
 
 ## Builds the app for production 
 
 > Production API 
 
-`web_app_coeurbleu\frontend npm run build`
+`WebAppResto\frontend npm run build`
 
 ## Run the app for production 
 
-`web_app_coeurbleu\ npm start`
+`WebAppResto\ npm start`
 
 
 
