@@ -1,35 +1,35 @@
-# web-app-projet API
+# app_react_resto 
 
-> Backend API from directory website WebAppResto
+> Backend API from directory website app_react_resto
 
 ## Install Depenencies
 
-`WebAppResto\ npm install`
+`app_react_resto\ npm install`
 
 ## Run App Sever
 
-`WebAppResto\ npm run dev`
+`app_react_resto\ npm run dev`
 
 
-> FrontEnd API from directory website WebAppResto\frontend
+> FrontEnd API from directory website app_react_resto\frontend
 
 ## Install Depenencies
 
-`WebAppResto\frontend  npm install`
+`app_react_resto\frontend  npm install`
 
 ## Run App Client
 
-`WebAppResto\frontend  npm start`
+`app_react_resto\frontend  npm start`
 
 ## Builds the app for production 
 
 > Production API 
 
-`WebAppResto\frontend npm run build`
+`app_react_resto\frontend npm run build`
 
 ## Run the app for production 
 
-`WebAppResto\ npm start`
+`app_react_resto\ npm start`
 
 
 
