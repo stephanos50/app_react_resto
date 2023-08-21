@@ -18,16 +18,14 @@ L'application  offre la possibilité de commande de repas en ligne facile et pra
 - Livraison à domicile : Les plats commandés seront livrés à l'adresse indiquée par l'utilisateur.
 
 ## Installation
-1. Clonez ce dépôt : `git clone [lien du dépôt]`
-2. Accédez au répertoire : `cd [nom du répertoire]`
+1. Clonez ce dépôt : git clone https://github.com/stephanos50/app_react_resto.git
+2. Accédez au répertoire : `cd app_react_resto`
 3. Installez les dépendances : `npm install`
 
 
-## Déploiement
-- [Expliquez comment déployer votre application sur Heroku ou toute autre plateforme]
 
 ## Auteurs
-- [Votre nom et éventuellement d'autres contributeurs]
+- Stefan Arvanitis
 
 ## Licence
 Ce projet est sous licence [insérez la licence que vous avez choisie, par exemple MIT, GNU, etc.]
